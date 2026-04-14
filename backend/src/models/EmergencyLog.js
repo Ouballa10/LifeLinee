@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const emergencyLogSchema = new mongoose.Schema(
   {
-    shareId: {
+    qrToken: {
       type: String,
       required: true,
+      trim: true,
     },
     responder: {
       type: String,

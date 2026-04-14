@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
@@ -19,6 +19,17 @@ export default function EditProfile() {
     bloodType: user?.bloodType || "O+",
     emergencyContact: user?.emergencyContact || "",
   });
+
+  useEffect(() => {
+    setForm({
+      fullName: user?.fullName || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      city: user?.city || "",
+      bloodType: user?.bloodType || "O+",
+      emergencyContact: user?.emergencyContact || "",
+    });
+  }, [user]);
 
   function handleChange(event) {
     const { name, value } = event.target;

@@ -8,9 +8,17 @@ const medicalProfileSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    qrToken: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      trim: true,
+    },
     bloodType: {
       type: String,
-      default: 'O+',
+      default: 'Unknown',
+      trim: true,
     },
     allergies: {
       type: [String],
@@ -25,16 +33,26 @@ const medicalProfileSchema = new mongoose.Schema(
       default: [],
     },
     emergencyContact: {
-      type: String,
-      default: '',
+      name: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      phone: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      relationship: {
+        type: String,
+        default: '',
+        trim: true,
+      },
     },
-    doctor: {
+    criticalInstructions: {
       type: String,
       default: '',
-    },
-    medicalNotes: {
-      type: String,
-      default: '',
+      trim: true,
     },
   },
   { timestamps: true }

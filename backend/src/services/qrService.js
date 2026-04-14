@@ -1,7 +1,10 @@
-function buildQrPayload(shareId) {
+function buildQrPayload(qrToken, baseUrl = '') {
+  const emergencyPath = `/emergency/${qrToken}`;
+
   return {
-    shareId,
-    url: `/api/emergency/${shareId}`,
+    qrToken,
+    emergencyPath,
+    emergencyUrl: baseUrl ? `${baseUrl}${emergencyPath}` : emergencyPath,
     status: 'ready',
   };
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
@@ -15,9 +15,19 @@ export default function MedicalForm() {
     allergies: user?.allergies || "",
     conditions: user?.conditions || "",
     medications: user?.medications || "",
-    doctor: user?.doctor || "",
-    notes: user?.notes || "",
+    emergencyContact: user?.emergencyContact || "",
+    notes: user?.criticalInstructions || user?.notes || "",
   });
+
+  useEffect(() => {
+    setForm({
+      allergies: user?.allergies || "",
+      conditions: user?.conditions || "",
+      medications: user?.medications || "",
+      emergencyContact: user?.emergencyContact || "",
+      notes: user?.criticalInstructions || user?.notes || "",
+    });
+  }, [user]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -49,7 +59,7 @@ export default function MedicalForm() {
               <Input label="Allergies" name="allergies" value={form.allergies} onChange={handleChange} />
               <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
               <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
-              <Input label="Dr. / contact medical" name="doctor" value={form.doctor} onChange={handleChange} />
+              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
               <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
               <Button type="submit" block>
                 Enregistrer

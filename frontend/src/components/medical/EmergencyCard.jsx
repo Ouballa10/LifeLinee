@@ -1,4 +1,5 @@
-import { formatList, getInitials } from "../../utils/helpers.js";
+import { buildEmergencyContactLabel } from "../../services/profileService.js";
+import { formatList } from "../../utils/helpers.js";
 
 function EmergencyRow({ tone = "red", title, value, symbol }) {
   return (
@@ -16,8 +17,11 @@ function EmergencyRow({ tone = "red", title, value, symbol }) {
 
 export default function EmergencyCard({ profile }) {
   const allergies = formatList(profile?.allergies);
-  const conditions = formatList(profile?.conditions);
+  const conditions = formatList(profile?.chronicDiseases || profile?.conditions);
   const medications = formatList(profile?.medications);
+  const emergencyContact = buildEmergencyContactLabel(profile?.emergencyContact);
+  const criticalInstructions =
+    profile?.criticalInstructions || profile?.notes || "Aucune consigne critique renseignee";
 
   return (
     <article className="emergency-card">
@@ -58,25 +62,18 @@ export default function EmergencyCard({ profile }) {
               value={medications}
             />
           ) : null}
-        </div>
-
-        <div className="emergency-doctor-block">
-          <span className="emergency-section-label">Medecin.</span>
-          <article className="emergency-doctor-card">
-            <div className="emergency-doctor-main">
-              <span className="emergency-avatar">{getInitials(profile?.doctor || "DR")}</span>
-              <div className="emergency-doctor-copy">
-                <strong>{profile?.doctor || "Medecin non renseigne"}</strong>
-                <span>{profile?.doctorSpeciality || "Medecin generaliste"}</span>
-                <span>{profile?.emergencyContact || "Contact d'urgence non renseigne"}</span>
-              </div>
-            </div>
-            <span className="emergency-doctor-arrow">{">"}</span>
-          </article>
-
-          <div className="emergency-clinic-line">
-            <span>Cabinet : {profile?.doctorPhone || profile?.phone || "Non renseigne"}</span>
-          </div>
+          <EmergencyRow
+            tone="blue"
+            symbol="tel"
+            title="Contact d'urgence"
+            value={emergencyContact}
+          />
+          <EmergencyRow
+            tone="blue"
+            symbol="!"
+            title="Consignes critiques"
+            value={criticalInstructions}
+          />
         </div>
       </div>
     </article>

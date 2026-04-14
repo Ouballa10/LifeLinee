@@ -4,9 +4,9 @@ import Loader from "../ui/Loader.jsx";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function ProtectedRoute({ children }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
-  if (isLoading && !isAuthenticated) {
+  if (isLoading && (!isAuthenticated || !user)) {
     return <Loader label="Connexion en cours..." />;
   }
 

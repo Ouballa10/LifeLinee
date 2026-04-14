@@ -21,15 +21,12 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       default: '',
+      trim: true,
     },
     city: {
       type: String,
       default: '',
-    },
-    emergencyId: {
-      type: String,
-      unique: true,
-      sparse: true,
+      trim: true,
     },
   },
   { timestamps: true }

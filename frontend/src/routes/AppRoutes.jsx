@@ -101,7 +101,7 @@ export default function AppRoutes() {
         }
       />
       <Route path={ROUTES.emergency} element={<Emergency />} />
-      <Route path={`${ROUTES.emergency}/:shareId`} element={<Emergency />} />
+      <Route path={`${ROUTES.emergency}/:token`} element={<Emergency />} />
       <Route path="*" element={<Navigate to={ROUTES.splash} replace />} />
     </Routes>
   );

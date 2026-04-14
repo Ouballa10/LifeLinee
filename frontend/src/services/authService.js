@@ -1,45 +1,28 @@
-import { simulateRequest } from "./api.js";
-import { DEFAULT_PROFILE, STORAGE_KEYS } from "../utils/constants.js";
-import { buildEmergencyId, nameFromEmail } from "../utils/helpers.js";
+import { apiRequest } from "./api.js";
+import { mapProfileFromApi } from "./profileService.js";
+import { STORAGE_KEYS } from "../utils/constants.js";
 
-function readStoredUser() {
+function readStoredSession() {
   if (typeof window === "undefined") {
     return null;
   }
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEYS.authUser);
+    const raw = window.localStorage.getItem(STORAGE_KEYS.authSession);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
   }
 }
 
-function writeStoredUser(user) {
-  if (typeof window === "undefined") {
-    return user;
-  }
-
-  window.localStorage.setItem(STORAGE_KEYS.authUser, JSON.stringify(user));
-  return user;
+export function getCurrentSession() {
+  return readStoredSession();
 }
 
-function buildProfile(overrides = {}) {
-  const fullName = overrides.fullName?.trim() || DEFAULT_PROFILE.fullName;
-  const email = overrides.email?.trim() || DEFAULT_PROFILE.email;
-  const phone = overrides.phone?.trim() || DEFAULT_PROFILE.phone;
-
-  return {
-    ...DEFAULT_PROFILE,
-    ...overrides,
-    fullName,
-    email,
-    phone,
-    emergencyId: buildEmergencyId(fullName),
-    emergencyContact:
-      overrides.emergencyContact?.trim() ||
-      `Contact principal - ${phone}`,
-  };
+export function clearCurrentSession() {
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(STORAGE_KEYS.authSession);
+  }
 }
 
 export async function loginUser({ email, password }) {
@@ -47,24 +30,18 @@ export async function loginUser({ email, password }) {
     throw new Error("Email and password are required.");
   }
 
-  return simulateRequest(() => {
-    const existingUser = readStoredUser();
-
-    if (existingUser && existingUser.email?.toLowerCase() === email.trim().toLowerCase()) {
-      return writeStoredUser({
-        ...existingUser,
-        lastLoginAt: new Date().toISOString(),
-      });
-    }
-
-    return writeStoredUser(
-      buildProfile({
-        email: email.trim(),
-        fullName: nameFromEmail(email),
-        lastLoginAt: new Date().toISOString(),
-      })
-    );
+  const response = await apiRequest("/auth/login", {
+    method: "POST",
+    body: {
+      email: email.trim(),
+      password,
+    },
   });
+
+  return {
+    token: response.token,
+    user: mapProfileFromApi(response.profile),
+  };
 }
 
 export async function registerUser(formValues) {
@@ -78,27 +55,19 @@ export async function registerUser(formValues) {
     throw new Error("Passwords do not match.");
   }
 
-  return simulateRequest(() =>
-    writeStoredUser(
-      buildProfile({
-        fullName,
-        email,
-        phone,
-        bloodType,
-        lastLoginAt: new Date().toISOString(),
-      })
-    )
-  );
-}
+  const response = await apiRequest("/auth/register", {
+    method: "POST",
+    body: {
+      fullName: fullName.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      bloodType,
+      password,
+    },
+  });
 
-export function getCurrentUser() {
-  return readStoredUser();
-}
-
-export function logoutUser() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem(STORAGE_KEYS.authUser);
+  return {
+    token: response.token,
+    user: mapProfileFromApi(response.profile),
+  };
 }
