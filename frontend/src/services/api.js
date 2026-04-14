@@ -1,7 +1,40 @@
-export async function simulateRequest(payload, delay = 220) {
-  await new Promise((resolve) => {
-    window.setTimeout(resolve, delay);
+export const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:5001/api").replace(
+  /\/+$/,
+  ""
+);
+
+function buildUrl(path = "") {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE_URL}${normalizedPath}`;
+}
+
+export async function apiRequest(path, options = {}) {
+  const { method = "GET", body, token, headers = {} } = options;
+  const response = await fetch(buildUrl(path), {
+    method,
+    headers: {
+      Accept: "application/json",
+      ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers,
+    },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  return payload instanceof Function ? payload() : payload;
+  const rawText = await response.text();
+  let data = {};
+
+  if (rawText) {
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      data = { message: rawText };
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.message || "Request failed.");
+  }
+
+  return data;
 }

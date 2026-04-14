@@ -1,5 +1,5 @@
 export const STORAGE_KEYS = {
-  authUser: "lifeline.auth.user",
+  authSession: "lifeline.auth.session",
   appState: "lifeline.app.state",
 };
 
@@ -29,11 +29,11 @@ export const DEFAULT_PROFILE = {
   conditions: "Diabete type 2",
   medications: "Metformine",
   emergencyContact: "Sofia Ghazali - 0612345678",
-  doctor: "Dr. Sara Ghazali",
-  doctorSpeciality: "Medecin generaliste",
-  doctorPhone: "03 25 47 89 01",
+  criticalInstructions:
+    "Consignes: eviter les retards de traitement et verifier la glycemie rapidement.",
   notes: "Consignes: eviter les retards de traitement et verifier la glycemie rapidement.",
-  emergencyId: "abdelmounaim-ouballa-emergency",
+  qrToken: "ll_demo_token",
+  emergencyId: "ll_demo_token",
 };
 
 export const QUICK_ACTIONS = [

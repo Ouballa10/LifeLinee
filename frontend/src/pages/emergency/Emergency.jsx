@@ -1,64 +1,80 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
-import { useAuth } from "../../hooks/useAuth.js";
-import { decodeEmergencyData, getEmergencyPreview } from "../../services/qrService.js";
-import { DEFAULT_PROFILE, ROUTES } from "../../utils/constants.js";
+import { buildEmergencyContactLabel, getEmergencyProfile } from "../../services/profileService.js";
+import { ROUTES } from "../../utils/constants.js";
 
 export default function Emergency() {
-  const { shareId } = useParams();
-  const [searchParams] = useSearchParams();
-  const { user } = useAuth();
+  const { token } = useParams();
   const [preview, setPreview] = useState(null);
-  const sharedDataParam = searchParams.get("data");
-  const sharedProfile = useMemo(() => decodeEmergencyData(sharedDataParam), [sharedDataParam]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
-    const sourceProfile = sharedProfile || user || DEFAULT_PROFILE;
+    if (!token) {
+      setError("QR token missing.");
+      return () => {
+        cancelled = true;
+      };
+    }
 
-    getEmergencyPreview({
-      ...sourceProfile,
-      emergencyId: shareId || sourceProfile.emergencyId,
-    }).then((data) => {
-      if (!cancelled) {
-        setPreview(data);
-      }
-    });
+    setPreview(null);
+    setError("");
+
+    getEmergencyProfile(token)
+      .then((data) => {
+        if (!cancelled) {
+          setPreview(data.profile);
+        }
+      })
+      .catch((nextError) => {
+        if (!cancelled) {
+          setError(nextError.message);
+        }
+      });
 
     return () => {
       cancelled = true;
     };
-  }, [shareId, sharedProfile, user]);
+  }, [token]);
 
-  if (!preview) {
+  if (!preview && !error) {
     return <Loader label="Chargement de la carte d'urgence..." />;
   }
+
+  if (error) {
+    return (
+      <main className="screen emergency-screen">
+        <section className="emergency-shell">
+          <Card className="emergency-wrapper">
+            <p className="section-copy">{error}</p>
+            <Link to={ROUTES.home} className="button button-primary">
+              Retour a l'app
+            </Link>
+          </Card>
+        </section>
+      </main>
+    );
+  }
+
+  const emergencyPhone = preview?.emergencyContact?.phone || "";
+  const emergencyContactLabel = buildEmergencyContactLabel(preview?.emergencyContact);
 
   return (
     <main className="screen emergency-screen">
       <section className="emergency-shell">
         <Card className="emergency-wrapper">
-          <EmergencyCard
-            profile={{
-              ...preview.identity,
-              allergies: preview.allergies,
-              conditions: preview.conditions,
-              medications: preview.medications,
-              emergencyContact: preview.emergencyContact,
-              doctor: preview.doctor,
-              doctorSpeciality: preview.doctorSpeciality,
-              doctorPhone: preview.doctorPhone,
-              notes: preview.notes,
-            }}
-          />
+          <EmergencyCard profile={preview} />
 
           <div className="emergency-actions">
-            <a href={`tel:${preview.identity.phone || "0612345678"}`} className="button button-emergency">
+            <a
+              href={emergencyPhone ? `tel:${emergencyPhone}` : "#"}
+              className="button button-emergency"
+            >
               Appeler
             </a>
           </div>
@@ -71,6 +87,10 @@ export default function Emergency() {
               Retour a l'app
             </Link>
           </div>
+
+          <p className="scanner-help scanner-help-inline">
+            Contact d'urgence: {emergencyContactLabel}
+          </p>
         </Card>
       </section>
     </main>

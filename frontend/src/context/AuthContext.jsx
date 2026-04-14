@@ -1,29 +1,60 @@
-import { createContext, startTransition, useMemo, useState } from "react";
+import { createContext, startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage.js";
 import {
-  getCurrentUser,
+  clearCurrentSession,
+  getCurrentSession,
   loginUser,
-  logoutUser,
   registerUser,
 } from "../services/authService.js";
-import { updateProfile as persistProfile } from "../services/profileService.js";
+import { getProfile as fetchProfile, updateProfile as persistProfile } from "../services/profileService.js";
 import { STORAGE_KEYS } from "../utils/constants.js";
 
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [storedUser, setStoredUser] = useLocalStorage(STORAGE_KEYS.authUser, getCurrentUser());
-  const [isLoading, setIsLoading] = useState(false);
+  const [storedSession, setStoredSession] = useLocalStorage(
+    STORAGE_KEYS.authSession,
+    getCurrentSession()
+  );
+  const [isLoading, setIsLoading] = useState(Boolean(storedSession?.token && !storedSession?.user));
+  const hydratedTokenRef = useRef("");
+
+  useEffect(() => {
+    const currentToken = storedSession?.token || "";
+
+    if (!currentToken || hydratedTokenRef.current === currentToken) {
+      return;
+    }
+
+    hydratedTokenRef.current = currentToken;
+    setIsLoading(true);
+
+    fetchProfile(currentToken)
+      .then((user) => {
+        startTransition(() => {
+          setStoredSession((current) => (current ? { ...current, user } : current));
+        });
+      })
+      .catch(() => {
+        clearCurrentSession();
+        startTransition(() => {
+          setStoredSession(null);
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [setStoredSession, storedSession?.token]);
 
   async function login(formValues) {
     setIsLoading(true);
 
     try {
-      const user = await loginUser(formValues);
+      const session = await loginUser(formValues);
       startTransition(() => {
-        setStoredUser(user);
+        setStoredSession(session);
       });
-      return user;
+      return session.user;
     } finally {
       setIsLoading(false);
     }
@@ -33,23 +64,34 @@ export function AuthProvider({ children }) {
     setIsLoading(true);
 
     try {
-      const user = await registerUser(formValues);
+      const session = await registerUser(formValues);
       startTransition(() => {
-        setStoredUser(user);
+        setStoredSession(session);
       });
-      return user;
+      return session.user;
     } finally {
       setIsLoading(false);
     }
   }
 
   async function updateProfile(updates) {
+    if (!storedSession?.token) {
+      throw new Error("You must be connected to update the profile.");
+    }
+
     setIsLoading(true);
 
     try {
-      const user = await persistProfile(updates);
+      const user = await persistProfile(storedSession.token, updates);
       startTransition(() => {
-        setStoredUser(user);
+        setStoredSession((current) =>
+          current
+            ? {
+                ...current,
+                user,
+              }
+            : current
+        );
       });
       return user;
     } finally {
@@ -57,22 +99,43 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function refreshProfile() {
+    if (!storedSession?.token) {
+      return null;
+    }
+
+    const user = await fetchProfile(storedSession.token);
+    startTransition(() => {
+      setStoredSession((current) =>
+        current
+          ? {
+              ...current,
+              user,
+            }
+          : current
+      );
+    });
+    return user;
+  }
+
   function logout() {
-    logoutUser();
-    setStoredUser(null);
+    clearCurrentSession();
+    setStoredSession(null);
   }
 
   const value = useMemo(
     () => ({
-      user: storedUser,
-      isAuthenticated: Boolean(storedUser),
+      user: storedSession?.user || null,
+      token: storedSession?.token || "",
+      isAuthenticated: Boolean(storedSession?.token),
       isLoading,
       login,
       register,
       updateProfile,
+      refreshProfile,
       logout,
     }),
-    [isLoading, storedUser]
+    [isLoading, storedSession]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

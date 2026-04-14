@@ -1,39 +1,166 @@
-import { simulateRequest } from "./api.js";
-import { DEFAULT_PROFILE, STORAGE_KEYS } from "../utils/constants.js";
+import { apiRequest } from "./api.js";
+import { splitList } from "../utils/helpers.js";
 
-function readStoredUser() {
-  if (typeof window === "undefined") {
-    return DEFAULT_PROFILE;
-  }
-
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEYS.authUser);
-    return raw ? JSON.parse(raw) : DEFAULT_PROFILE;
-  } catch {
-    return DEFAULT_PROFILE;
-  }
+export function buildEmergencyContactLabel(contact = {}) {
+  return [contact?.name, contact?.phone].filter(Boolean).join(" - ") || "Non renseigne";
 }
 
-function writeStoredUser(user) {
-  if (typeof window !== "undefined") {
-    window.localStorage.setItem(STORAGE_KEYS.authUser, JSON.stringify(user));
-  }
-
-  return user;
+function joinList(value) {
+  return splitList(value).join(", ");
 }
 
-export async function getProfile() {
-  return simulateRequest(() => readStoredUser(), 120);
-}
+function parseEmergencyContact(value = {}) {
+  if (typeof value === "string") {
+    const parts = value
+      .split(/\s*-\s*/)
+      .map((item) => item.trim())
+      .filter(Boolean);
 
-export async function updateProfile(updates) {
-  return simulateRequest(() => {
-    const currentUser = readStoredUser();
-    const nextUser = {
-      ...currentUser,
-      ...updates,
+    return {
+      name: parts[0] || "",
+      phone: parts[1] || "",
+      relationship: "",
     };
+  }
 
-    return writeStoredUser(nextUser);
-  }, 180);
+  return {
+    name: String(value?.name || "").trim(),
+    phone: String(value?.phone || "").trim(),
+    relationship: String(value?.relationship || "").trim(),
+  };
+}
+
+export function mapProfileFromApi(profile = {}) {
+  const allergies = splitList(profile?.allergies);
+  const chronicDiseases = splitList(profile?.chronicDiseases);
+  const medications = splitList(profile?.medications);
+  const emergencyContact = parseEmergencyContact(profile?.emergencyContact);
+  const criticalInstructions = String(profile?.criticalInstructions || "").trim();
+
+  return {
+    id: profile?.id || profile?._id || "",
+    userId: profile?.userId || "",
+    fullName: profile?.fullName || "",
+    email: profile?.email || "",
+    phone: profile?.phone || "",
+    city: profile?.city || "",
+    bloodType: profile?.bloodType || "Unknown",
+    allergies: joinList(allergies),
+    allergiesList: allergies,
+    conditions: joinList(chronicDiseases),
+    chronicDiseases,
+    medications: joinList(medications),
+    medicationsList: medications,
+    emergencyContact: buildEmergencyContactLabel(emergencyContact),
+    emergencyContactName: emergencyContact.name,
+    emergencyContactPhone: emergencyContact.phone,
+    emergencyContactRelationship: emergencyContact.relationship,
+    criticalInstructions,
+    notes: criticalInstructions,
+    qrToken: profile?.qrToken || "",
+    emergencyId: profile?.qrToken || "",
+    emergencyUrl: profile?.emergencyUrl || "",
+  };
+}
+
+export function mapEmergencyProfileFromApi(profile = {}) {
+  const allergies = splitList(profile?.allergies);
+  const chronicDiseases = splitList(profile?.chronicDiseases);
+  const medications = splitList(profile?.medications);
+  const emergencyContact = parseEmergencyContact(profile?.emergencyContact);
+
+  return {
+    fullName: profile?.fullName || "",
+    bloodType: profile?.bloodType || "Unknown",
+    allergies,
+    conditions: chronicDiseases,
+    chronicDiseases,
+    medications,
+    emergencyContact,
+    emergencyContactLabel: buildEmergencyContactLabel(emergencyContact),
+    criticalInstructions: String(profile?.criticalInstructions || "").trim(),
+  };
+}
+
+function mapProfileUpdatesToApi(updates = {}) {
+  const payload = {};
+
+  if (updates.fullName !== undefined) {
+    payload.fullName = String(updates.fullName || "").trim();
+  }
+
+  if (updates.email !== undefined) {
+    payload.email = String(updates.email || "").trim();
+  }
+
+  if (updates.phone !== undefined) {
+    payload.phone = String(updates.phone || "").trim();
+  }
+
+  if (updates.city !== undefined) {
+    payload.city = String(updates.city || "").trim();
+  }
+
+  if (updates.bloodType !== undefined) {
+    payload.bloodType = String(updates.bloodType || "").trim();
+  }
+
+  if (updates.allergies !== undefined) {
+    payload.allergies = splitList(updates.allergies);
+  }
+
+  if (updates.conditions !== undefined || updates.chronicDiseases !== undefined) {
+    payload.chronicDiseases = splitList(updates.chronicDiseases ?? updates.conditions);
+  }
+
+  if (updates.medications !== undefined) {
+    payload.medications = splitList(updates.medications);
+  }
+
+  if (
+    updates.emergencyContact !== undefined ||
+    updates.emergencyContactName !== undefined ||
+    updates.emergencyContactPhone !== undefined
+  ) {
+    payload.emergencyContact =
+      updates.emergencyContact !== undefined
+        ? parseEmergencyContact(updates.emergencyContact)
+        : parseEmergencyContact({
+            name: updates.emergencyContactName,
+            phone: updates.emergencyContactPhone,
+            relationship: updates.emergencyContactRelationship,
+          });
+  }
+
+  if (updates.criticalInstructions !== undefined || updates.notes !== undefined) {
+    payload.criticalInstructions = String(
+      updates.criticalInstructions ?? updates.notes ?? ""
+    ).trim();
+  }
+
+  return payload;
+}
+
+export async function getProfile(token) {
+  const response = await apiRequest("/users/me", { token });
+  return mapProfileFromApi(response.profile);
+}
+
+export async function updateProfile(token, updates) {
+  const response = await apiRequest("/users/me", {
+    method: "PUT",
+    token,
+    body: mapProfileUpdatesToApi(updates),
+  });
+
+  return mapProfileFromApi(response.profile);
+}
+
+export async function getEmergencyProfile(qrToken) {
+  const response = await apiRequest(`/emergency/${encodeURIComponent(qrToken)}`);
+
+  return {
+    token: response.token,
+    profile: mapEmergencyProfileFromApi(response.profile),
+  };
 }

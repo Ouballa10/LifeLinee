@@ -1,111 +1,29 @@
 import QRCode from "qrcode";
-import { simulateRequest } from "./api.js";
+import { apiRequest } from "./api.js";
 import { ROUTES } from "../utils/constants.js";
-import { buildEmergencyId, splitList } from "../utils/helpers.js";
 
-function encodeBase64Url(value) {
-  const utf8 = new TextEncoder().encode(value);
-  let binary = "";
-
-  utf8.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-}
-
-function decodeBase64Url(value) {
-  const normalized = String(value || "").replace(/-/g, "+").replace(/_/g, "/");
-  const paddingLength = (4 - (normalized.length % 4 || 4)) % 4;
-  const padded = normalized + "=".repeat(paddingLength);
-  const binary = atob(padded);
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-
-  return new TextDecoder().decode(bytes);
-}
-
-function buildSharedEmergencyPayload(profile, shareId) {
-  return {
-    shareId,
-    fullName: profile?.fullName || "",
-    email: profile?.email || "",
-    phone: profile?.phone || "",
-    bloodType: profile?.bloodType || "",
-    allergies: splitList(profile?.allergies),
-    conditions: splitList(profile?.conditions),
-    medications: splitList(profile?.medications),
-    doctor: profile?.doctor || "",
-    doctorSpeciality: profile?.doctorSpeciality || "",
-    doctorPhone: profile?.doctorPhone || "",
-    emergencyContact: profile?.emergencyContact || "",
-    notes: profile?.notes || "",
-  };
-}
-
-export function encodeEmergencyData(profile, shareId) {
-  return encodeBase64Url(JSON.stringify(buildSharedEmergencyPayload(profile, shareId)));
-}
-
-export function decodeEmergencyData(value) {
-  if (!value) {
-    return null;
+export function buildEmergencyUrl(qrToken) {
+  if (!qrToken) {
+    return "";
   }
 
-  try {
-    return JSON.parse(decodeBase64Url(value));
-  } catch {
-    return null;
-  }
-}
-
-export function buildEmergencyUrl(shareId, profile) {
   if (typeof window === "undefined") {
-    return `/emergency/${shareId}`;
+    return `${ROUTES.emergency}/${qrToken}`;
   }
 
-  const url = new URL(`/emergency/${shareId}`, window.location.origin);
-
-  if (profile) {
-    url.searchParams.set("data", encodeEmergencyData(profile, shareId));
-  }
-
-  return url.toString();
+  return new URL(`${ROUTES.emergency}/${qrToken}`, window.location.origin).toString();
 }
 
-export async function getQRCodeData(profile) {
-  return simulateRequest(() => {
-    const shareId = profile?.emergencyId || buildEmergencyId(profile?.fullName);
+export async function getQRCodeData(token) {
+  const response = await apiRequest("/qr/me", { token });
+  const qrToken = response?.qr?.qrToken || "";
 
-    return {
-      shareId,
-      shareUrl: buildEmergencyUrl(shareId, profile),
-      fullName: profile?.fullName,
-      email: profile?.email,
-      bloodType: profile?.bloodType,
-      allergies: splitList(profile?.allergies),
-      emergencyContact: profile?.emergencyContact,
-    };
-  });
-}
-
-export async function getEmergencyPreview(profile) {
-  return simulateRequest(() => ({
-    shareId: profile?.emergencyId || buildEmergencyId(profile?.fullName),
-    identity: {
-      fullName: profile?.fullName,
-      email: profile?.email,
-      bloodType: profile?.bloodType,
-      phone: profile?.phone,
-    },
-    allergies: splitList(profile?.allergies),
-    conditions: splitList(profile?.conditions),
-    medications: splitList(profile?.medications),
-    doctor: profile?.doctor,
-    doctorSpeciality: profile?.doctorSpeciality,
-    doctorPhone: profile?.doctorPhone,
-    emergencyContact: profile?.emergencyContact,
-    notes: profile?.notes,
-  }));
+  return {
+    qrToken,
+    shareId: qrToken,
+    emergencyPath: response?.qr?.emergencyPath || `${ROUTES.emergency}/${qrToken}`,
+    shareUrl: buildEmergencyUrl(qrToken),
+  };
 }
 
 export async function generateQRCodeImage(content) {
@@ -131,6 +49,18 @@ export function downloadQRCode(dataUrl, filename = "lifeline-qr.png") {
   link.click();
 }
 
+function extractTokenFromPath(pathname = "") {
+  const emergencyPrefixes = [`${ROUTES.emergency}/`, "/api/emergency/"];
+
+  for (const prefix of emergencyPrefixes) {
+    if (pathname.startsWith(prefix)) {
+      return decodeURIComponent(pathname.slice(prefix.length));
+    }
+  }
+
+  return "";
+}
+
 export function parseEmergencyQrNavigation(value) {
   const rawValue = String(value || "").trim();
 
@@ -145,42 +75,19 @@ export function parseEmergencyQrNavigation(value) {
   const fallbackBase =
     typeof window !== "undefined" ? window.location.origin : "https://lifeline.local";
 
-  const directMatch = rawValue.match(/\/emergency\/([^/?#]+)/i);
-
-  if (directMatch?.[1]) {
-    const shareId = decodeURIComponent(directMatch[1]);
-    let search = "";
-
-    try {
-      const url = new URL(rawValue, fallbackBase);
-      search = url.search;
-    } catch {
-      const [, queryString = ""] = rawValue.split("?");
-      search = queryString ? `?${queryString}` : "";
-    }
-
-    return {
-      shareId,
-      route: `${ROUTES.emergency}/${shareId}${search}`,
-      rawValue,
-    };
-  }
-
   try {
     const url = new URL(rawValue, fallbackBase);
-    const routePrefix = `${ROUTES.emergency}/`;
+    const shareId = extractTokenFromPath(url.pathname);
 
-    if (url.pathname.startsWith(routePrefix)) {
-      const shareId = decodeURIComponent(url.pathname.slice(routePrefix.length));
-
+    if (shareId) {
       return {
         shareId,
-        route: `${ROUTES.emergency}/${shareId}${url.search}`,
+        route: `${ROUTES.emergency}/${shareId}`,
         rawValue,
       };
     }
   } catch {
-    if (/^[a-z0-9-]+$/i.test(rawValue)) {
+    if (/^[a-z0-9_-]+$/i.test(rawValue)) {
       return {
         shareId: rawValue,
         route: `${ROUTES.emergency}/${rawValue}`,
@@ -195,7 +102,7 @@ export function parseEmergencyQrNavigation(value) {
     };
   }
 
-  if (/^[a-z0-9-]+$/i.test(rawValue)) {
+  if (/^[a-z0-9_-]+$/i.test(rawValue)) {
     return {
       shareId: rawValue,
       route: `${ROUTES.emergency}/${rawValue}`,

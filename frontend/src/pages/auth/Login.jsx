@@ -89,7 +89,7 @@ export default function Login() {
             />
 
             <div className="forgot-row">
-              <span className="helper-text">Mode demo local</span>
+              <span className="helper-text">Acces securise</span>
               <Link to={ROUTES.register} className="text-link">
                 Mot de passe oublie?
               </Link>

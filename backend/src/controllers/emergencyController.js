@@ -1,27 +1,50 @@
-const { normalizeMedicalProfile } = require('../utils/validators');
+const EmergencyLog = require('../models/EmergencyLog');
+const MedicalProfile = require('../models/MedicalProfile');
+const { serializeEmergencyProfile } = require('../services/profileService');
 
 exports.getEmergencyInfo = async (req, res) => {
-  return res.json({
-    shareId: req.params.id,
-    profile: normalizeMedicalProfile({
-      bloodType: 'O+',
-      allergies: 'Penicilline',
-      conditions: 'Asthme leger',
-      medications: 'Ventoline',
-      emergencyContact: 'Yassine - 06 12 34 56 78',
-      doctor: 'Dr. Ali Benomar',
-      notes: 'Demonstration payload for the LifeLine QR view.',
-    }),
-  });
+  try {
+    const medicalProfile = await MedicalProfile.findOne({ qrToken: req.params.token }).populate(
+      'userId',
+      'fullName'
+    );
+
+    if (!medicalProfile || !medicalProfile.userId) {
+      return res.status(404).json({
+        message: 'No emergency medical profile was found for this QR code.',
+      });
+    }
+
+    return res.json({
+      token: req.params.token,
+      profile: serializeEmergencyProfile(medicalProfile.userId, medicalProfile),
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || 'Unable to load the emergency profile.',
+    });
+  }
 };
 
 exports.logEmergencyAccess = async (req, res) => {
-  return res.status(201).json({
-    message: 'Emergency access log received.',
-    payload: {
-      shareId: req.params.id,
+  try {
+    await EmergencyLog.create({
+      qrToken: req.params.token,
       responder: req.body.responder || 'unknown',
       location: req.body.location || 'not provided',
-    },
-  });
+    });
+
+    return res.status(201).json({
+      message: 'Emergency access log received.',
+      payload: {
+        qrToken: req.params.token,
+        responder: req.body.responder || 'unknown',
+        location: req.body.location || 'not provided',
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || 'Unable to store the emergency access log.',
+    });
+  }
 };

@@ -15,8 +15,8 @@ export default function Profile() {
     ["Allergies", formatList(user?.allergies)],
     ["Pathologies", formatList(user?.conditions)],
     ["Medicaments", formatList(user?.medications)],
-    ["Medecin", user?.doctor || "Non renseigne"],
     ["Contact", user?.emergencyContact || "Non renseigne"],
+    ["Consignes critiques", user?.criticalInstructions || user?.notes || "Non renseigne"],
   ];
 
   return (

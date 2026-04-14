@@ -214,7 +214,7 @@ export default function Scanner() {
           {appState.lastScan ? (
             <Card className="menu-card result-card">
               <p className="section-copy">
-                QR detecte: {scannedNavigation.shareId || appState.lastScan}
+                Token detecte: {scannedNavigation.shareId || appState.lastScan}
               </p>
               {scannedNavigation.route ? (
                 <Link to={scannedNavigation.route} className="button button-primary">
@@ -222,7 +222,7 @@ export default function Scanner() {
                 </Link>
               ) : (
                 <p className="scanner-help scanner-help-inline">
-                  QR lu, mais il ne correspond pas encore a un lien LifeLine.
+                  QR lu, mais il ne contient pas un token d'urgence LifeLine valide.
                 </p>
               )}
             </Card>

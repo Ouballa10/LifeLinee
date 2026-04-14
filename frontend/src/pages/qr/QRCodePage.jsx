@@ -13,7 +13,7 @@ import {
 } from "../../services/qrService.js";
 
 export default function QRCodePage() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [qrData, setQrData] = useState(null);
   const [qrImageUrl, setQrImageUrl] = useState("");
   const [isSharing, setIsSharing] = useState(false);
@@ -22,7 +22,7 @@ export default function QRCodePage() {
     let cancelled = false;
 
     async function loadQRCode() {
-      const data = await getQRCodeData(user);
+      const data = await getQRCodeData(token);
       const imageUrl = await generateQRCodeImage(data.shareUrl);
 
       if (!cancelled) {
@@ -36,7 +36,7 @@ export default function QRCodePage() {
     return () => {
       cancelled = true;
     };
-  }, [user]);
+  }, [token]);
 
   async function handleShare() {
     if (!qrData?.shareUrl) {
@@ -73,7 +73,7 @@ export default function QRCodePage() {
         <div className="app-content">
           <Card className="qr-page-card">
             {qrData && qrImageUrl ? (
-              <QRCard profile={user} shareId={qrData.shareId} qrImageUrl={qrImageUrl} />
+              <QRCard profile={user} shareId={qrData.qrToken} qrImageUrl={qrImageUrl} />
             ) : (
               <Loader label="Generation du QR..." />
             )}
@@ -83,7 +83,7 @@ export default function QRCodePage() {
                 block
                 onClick={() =>
                   qrImageUrl
-                    ? downloadQRCode(qrImageUrl, `${qrData?.shareId || "lifeline"}-qr.png`)
+                    ? downloadQRCode(qrImageUrl, `${qrData?.qrToken || "lifeline"}-qr.png`)
                     : null
                 }
               >

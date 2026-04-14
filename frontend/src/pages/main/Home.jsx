@@ -34,7 +34,7 @@ export default function Home() {
     {
       title: "Urgence",
       subtitle: "Acces direct a la fiche secouriste",
-      route: `${ROUTES.emergency}/${user?.emergencyId}`,
+      route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.qr,
       symbol: "U",
     },
   ];
