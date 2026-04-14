@@ -1,27 +1,29 @@
 :root {
   font-family: "Poppins", "Trebuchet MS", sans-serif;
-  color: #17324d;
+  color: #243832;
   background:
-    radial-gradient(circle at top left, rgba(79, 172, 254, 0.22), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(240, 92, 92, 0.16), transparent 28%),
-    linear-gradient(180deg, #f4f9ff 0%, #e7f2ff 44%, #eef7ff 100%);
-  --color-primary: #2985f7;
-  --color-primary-strong: #1a5fbe;
-  --color-primary-soft: #d9ebff;
-  --color-accent: #f25e5e;
-  --color-accent-soft: #ffe3e2;
-  --color-text: #17324d;
-  --color-text-soft: #66809b;
-  --color-surface: rgba(255, 255, 255, 0.92);
+    radial-gradient(circle at top left, rgba(111, 195, 153, 0.2), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(233, 245, 237, 0.88), transparent 30%),
+    linear-gradient(180deg, #f2f3f5 0%, #edf2ef 100%);
+  --color-primary: #53bf87;
+  --color-primary-strong: #349a67;
+  --color-primary-deep: #267751;
+  --color-primary-soft: #e8f7ef;
+  --color-primary-faint: #f6fbf8;
+  --color-accent: #e57272;
+  --color-accent-soft: #ffefef;
+  --color-text: #243832;
+  --color-text-soft: #7a8d84;
+  --color-surface: rgba(255, 255, 255, 0.94);
   --color-surface-strong: #ffffff;
-  --color-border: rgba(22, 84, 138, 0.12);
-  --shadow-card: 0 28px 60px rgba(37, 88, 146, 0.15);
-  --shadow-soft: 0 14px 32px rgba(32, 86, 148, 0.12);
-  --radius-xl: 28px;
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-sm: 12px;
-  --app-width: min(100%, 460px);
+  --color-border: rgba(69, 110, 83, 0.12);
+  --shadow-card: 0 28px 60px rgba(74, 99, 85, 0.16);
+  --shadow-soft: 0 14px 30px rgba(65, 97, 77, 0.1);
+  --radius-xl: 30px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
+  --app-width: min(100%, 400px);
 }
 
 * {

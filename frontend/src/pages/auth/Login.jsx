@@ -39,11 +39,35 @@ export default function Login() {
   return (
     <main className="screen">
       <section className="auth-shell">
-        <Card className="auth-panel auth-panel-featured" eyebrow="Connexion" title="Bienvenue sur LifeLine">
+        <Card className="auth-panel auth-panel-featured">
+          <div className="auth-topbar">
+            <span className="soft-badge">Connexion</span>
+            <div className="menu-button" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <h1 className="auth-title">Bienvenue sur LifeLine</h1>
           <p className="section-copy">
-            Connectez-vous pour acceder a votre QR medical, vos informations
-            vitales et le mode urgence rapide.
+            Votre application medicale d'urgence.
           </p>
+
+          <div className="auth-visual">
+            <div className="illustration-stage">
+              <div className="illustration-circle"></div>
+              <div className="illustration-card illustration-card-large"></div>
+              <div className="illustration-card illustration-card-small"></div>
+              <div className="illustration-plus">+</div>
+            </div>
+
+            <div className="visual-shortcuts">
+              <span className="shortcut-pill">Generer QR</span>
+              <span className="shortcut-pill">Scanner QR</span>
+              <span className="shortcut-pill shortcut-pill-alert">Urgence rapide</span>
+            </div>
+          </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <Input
@@ -63,6 +87,14 @@ export default function Login() {
               onChange={handleChange}
               error={error}
             />
+
+            <div className="forgot-row">
+              <span className="helper-text">Mode demo local</span>
+              <Link to={ROUTES.register} className="text-link">
+                Mot de passe oublie?
+              </Link>
+            </div>
+
             <Button type="submit" block disabled={isLoading}>
               Connexion
             </Button>
@@ -79,6 +111,12 @@ export default function Login() {
           <Link to={ROUTES.splash} className="text-link text-link-subtle">
             Retour a l'accueil
           </Link>
+
+          <div className="auth-tips">
+            <span className="auth-tip">Au moins 6 caracteres</span>
+            <span className="auth-tip">Une majuscule conseillee</span>
+            <span className="auth-tip">Un symbole special utile</span>
+          </div>
         </Card>
       </section>
     </main>

@@ -8,20 +8,35 @@ export default function Navbar({ title, subtitle }) {
 
   return (
     <header className="app-navbar">
-      <div className="brand-stack">
-        <Link to={ROUTES.home} className="brand-row brand-link">
-          <span className="brand-mark">+</span>
+      <div className="app-navbar-top">
+        <Link to={ROUTES.home} className="brand-row brand-link brand-row-compact">
+          <span className="brand-mark brand-mark-compact">+</span>
           <div className="brand-copy">
             <strong>LifeLine</strong>
-            <span>{subtitle || "Vos informations medicales en cas d'urgence"}</span>
           </div>
         </Link>
-        {title ? <h1 className="page-title">{title}</h1> : null}
+
+        <div className="navbar-tools">
+          {user ? (
+            <Link to={ROUTES.profile} className="avatar-link" aria-label="Ouvrir le profil">
+              <span className="avatar-badge avatar-badge-small">{getInitials(user?.fullName || "LL")}</span>
+            </Link>
+          ) : null}
+
+          <button type="button" className="menu-button" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
 
-      <Link to={ROUTES.profile} className="avatar-link" aria-label="Ouvrir le profil">
-        <span className="avatar-badge">{getInitials(user?.fullName || "LL")}</span>
-      </Link>
+      {title ? (
+        <div className="page-heading">
+          <h1 className="page-title">{title}</h1>
+          {subtitle ? <p className="page-subtitle">{subtitle}</p> : null}
+        </div>
+      ) : null}
     </header>
   );
 }

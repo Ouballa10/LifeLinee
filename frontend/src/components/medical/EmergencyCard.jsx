@@ -1,19 +1,20 @@
-import { formatList } from "../../utils/helpers.js";
+import { formatList, getInitials } from "../../utils/helpers.js";
 
 export default function EmergencyCard({ profile }) {
   return (
     <article className="emergency-card">
       <header className="emergency-card-header">
-        <span className="emergency-dot"></span>
-        <strong>Urgence medicale</strong>
+        <div className="emergency-person">
+          <span className="emergency-avatar">{getInitials(profile?.fullName || "LL")}</span>
+          <div>
+            <strong>{profile?.fullName}</strong>
+            <span>{profile?.email || "abdel10@gmail.com"}</span>
+          </div>
+        </div>
+        <span className="emergency-blood">{profile?.bloodType}</span>
       </header>
 
       <div className="emergency-card-body">
-        <div className="emergency-identity">
-          <h2>{profile?.fullName}</h2>
-          <span>{profile?.bloodType}</span>
-        </div>
-
         <div className="emergency-stack">
           <div className="emergency-line">
             <span>Allergies</span>

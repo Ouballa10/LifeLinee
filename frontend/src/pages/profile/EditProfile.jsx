@@ -37,31 +37,24 @@ export default function EditProfile() {
   return (
     <main className="screen">
       <section className="mobile-shell">
-        <Navbar title="Modifier le profil" subtitle="Identite et contact" />
+        <Navbar title="Modifier le profil" subtitle="Informations generales" />
 
         <div className="app-content">
-          <Card eyebrow="Edition" title="Mettre a jour vos coordonnees">
+          <Card className="edit-form-card">
+            <div className="segmented-tabs" aria-hidden="true">
+              <span className="tab-pill">Groupe medical</span>
+              <span className="tab-pill is-active">Generalite</span>
+            </div>
+
             <form className="auth-form" onSubmit={handleSubmit}>
               <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
-              <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+              <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
               <Input label="Telephone" name="phone" value={form.phone} onChange={handleChange} />
               <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
-              <Input
-                label="Groupe sanguin"
-                name="bloodType"
-                as="select"
-                options={BLOOD_GROUPS}
-                value={form.bloodType}
-                onChange={handleChange}
-              />
-              <Input
-                label="Contact d'urgence"
-                name="emergencyContact"
-                value={form.emergencyContact}
-                onChange={handleChange}
-              />
+              <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
               <Button type="submit" block>
-                Enregistrer
+                Modifier le profil
               </Button>
             </form>
           </Card>

@@ -1,18 +1,18 @@
 .emergency-screen {
   background:
-    radial-gradient(circle at top, rgba(242, 94, 94, 0.12), transparent 28%),
-    linear-gradient(180deg, #fff5f5 0%, #fffafa 100%);
+    radial-gradient(circle at top, rgba(83, 191, 135, 0.12), transparent 30%),
+    linear-gradient(180deg, #f2f5f3 0%, #edf2ef 100%);
 }
 
 .emergency-wrapper {
   margin: 0 auto;
-  padding: 24px;
+  padding: 18px;
 }
 
 .emergency-card {
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(201, 50, 50, 0.12);
+  border: 1px solid var(--color-border);
   background: #ffffff;
   box-shadow: var(--shadow-soft);
 }
@@ -20,49 +20,41 @@
 .emergency-card-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, #ff6767, #d33e3e);
-  color: #ffffff;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
+  background: linear-gradient(180deg, #f2faf5, #e0f1e6);
 }
 
-.emergency-dot {
-  width: 12px;
-  height: 12px;
+.emergency-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emergency-person strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.emergency-blood {
+  min-width: 58px;
+  padding: 10px 12px;
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--color-accent-soft);
+  color: #c65a5a;
+  text-align: center;
+  font-weight: 700;
 }
 
 .emergency-card-body {
-  padding: 22px 20px;
-}
-
-.emergency-identity {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.emergency-identity h2 {
-  margin: 0;
-}
-
-.emergency-identity span {
-  min-width: 56px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: var(--color-accent-soft);
-  text-align: center;
-  font-weight: 700;
-  color: #bf2d2d;
+  padding: 18px;
 }
 
 .emergency-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .emergency-line {
@@ -71,10 +63,22 @@
   gap: 4px;
   padding: 14px 16px;
   border-radius: 16px;
-  background: #fff7f7;
+  background: #fbfcfb;
+  border: 1px solid rgba(36, 56, 50, 0.06);
 }
 
 .emergency-line span {
-  color: #8b5757;
-  font-size: 0.85rem;
+  color: var(--color-text-soft);
+  font-size: 0.82rem;
+}
+
+.emergency-note {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f6fbf8, #eff7f2);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

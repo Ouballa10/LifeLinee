@@ -1,72 +1,95 @@
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
-import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
 import InfoCard from "../../components/medical/InfoCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import { QUICK_ACTIONS, ROUTES } from "../../utils/constants.js";
+import { ROUTES } from "../../utils/constants.js";
 import { firstName, formatList } from "../../utils/helpers.js";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const actions = [
+    {
+      title: "Mon profil",
+      subtitle: "Consulter mes informations medicales",
+      route: ROUTES.profile,
+      symbol: "P",
+      primary: true,
+    },
+    {
+      title: "Mon QR Code",
+      subtitle: "Afficher et partager ma carte LifeLine",
+      route: ROUTES.qr,
+      symbol: "Q",
+    },
+    {
+      title: "Scanner QR",
+      subtitle: "Lire un code medical rapidement",
+      route: ROUTES.scanner,
+      symbol: "S",
+    },
+    {
+      title: "Urgence",
+      subtitle: "Acces direct a la fiche secouriste",
+      route: `${ROUTES.emergency}/${user?.emergencyId}`,
+      symbol: "U",
+    },
+  ];
 
   return (
     <main className="screen">
       <section className="mobile-shell">
-        <Navbar title={`Bonjour, ${firstName(user?.fullName)}`} subtitle="Accueil securise" />
+        <Navbar title="Tableau de bord" subtitle={`Bonjour, ${firstName(user?.fullName)},`} />
 
         <div className="app-content">
-          <Card className="hero-panel" eyebrow="Mode urgence" title="Votre centre de controle medical">
+          <Card className="dashboard-welcome-card">
+            <div className="card-top-row">
+              <span className="soft-badge">Profil actif</span>
+              <span className="status-chip">Secours pret</span>
+            </div>
             <p className="section-copy">
-              Retrouvez votre profil, le QR LifeLine et les informations vitales
-              a afficher en un geste.
+              Accedez en un geste a votre profil, votre QR code et vos outils
+              d'urgence.
             </p>
+          </Card>
 
-            <div className="hero-actions">
-              <Button onClick={() => navigate(ROUTES.qr)}>Generer QR</Button>
-              <Button variant="secondary" onClick={() => navigate(ROUTES.medicalForm)}>
-                Completer le dossier
-              </Button>
+          <Card className="menu-card">
+            <div className="menu-list">
+              {actions.map((action) => (
+                <button
+                  key={action.route}
+                  type="button"
+                  className={`menu-item ${action.primary ? "menu-item-primary" : ""}`}
+                  onClick={() => navigate(action.route)}
+                >
+                  <span className="menu-icon">{action.symbol}</span>
+                  <div className="menu-item-copy">
+                    <strong>{action.title}</strong>
+                    <p>{action.subtitle}</p>
+                  </div>
+                  <span className="menu-arrow">{">"}</span>
+                </button>
+              ))}
             </div>
           </Card>
 
           <div className="info-grid">
             <InfoCard label="Groupe sanguin" value={user?.bloodType || "O+"} />
             <InfoCard label="Allergies" value={formatList(user?.allergies)} tone="soft" />
-            <InfoCard label="Contact urgent" value={user?.emergencyContact || "Non renseigne"} />
           </div>
 
-          <Card eyebrow="Actions rapides" title="Raccourcis LifeLine">
-            <div className="action-list">
-              {QUICK_ACTIONS.map((action) => (
-                <button
-                  key={action.route}
-                  type="button"
-                  className="action-item"
-                  onClick={() => navigate(action.route)}
-                >
-                  <div>
-                    <strong>{action.title}</strong>
-                    <p>{action.description}</p>
-                  </div>
-                  <span className="action-arrow">{">"}</span>
-                </button>
-              ))}
-            </div>
-          </Card>
+          <Button block onClick={() => navigate(ROUTES.editProfile)}>
+            Modifier mes infos
+          </Button>
 
-          <EmergencyCard profile={user} />
-
-          <div className="split-actions">
-            <Button variant="ghost" onClick={() => navigate(ROUTES.profile)}>
-              Mon profil
-            </Button>
-            <Button variant="ghost" onClick={logout}>
-              Se deconnecter
-            </Button>
+          <div className="footer-dots" aria-hidden="true">
+            <span className="footer-dot is-active"></span>
+            <span className="footer-dot"></span>
+            <span className="footer-dot"></span>
+            <span className="footer-dot"></span>
           </div>
         </div>
 

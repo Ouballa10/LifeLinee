@@ -1,22 +1,42 @@
-import { buildQrMatrix } from "../../utils/helpers.js";
+import { getInitials } from "../../utils/helpers.js";
 
-export default function QRCard({ profile, shareId }) {
-  const matrix = buildQrMatrix(shareId || profile?.emergencyId || profile?.fullName);
-
+export default function QRCard({ profile, shareId, qrImageUrl }) {
   return (
     <article className="qr-card">
+      <div className="qr-top-row">
+        <span className="soft-badge">Code medical</span>
+        <span className="qr-blood-pill">{profile?.bloodType || "O+"}</span>
+      </div>
+
       <div className="qr-frame">
-        <div className="qr-grid" aria-hidden="true">
-          {matrix.flat().map((cell, index) => (
-            <span key={`${shareId}-${index}`} className={cell ? "qr-cell active" : "qr-cell"} />
-          ))}
-        </div>
+        {qrImageUrl ? (
+          <img
+            className="qr-image"
+            src={qrImageUrl}
+            alt={`QR code LifeLine pour ${profile?.fullName || "utilisateur"}`}
+          />
+        ) : null}
       </div>
 
       <div className="qr-copy">
-        <strong>{profile?.fullName}</strong>
-        <span>ID d'urgence: {shareId || profile?.emergencyId}</span>
-        <p>Scannez ce QR pour afficher le groupe sanguin, les allergies et le contact d'urgence.</p>
+        <div className="qr-user-row">
+          <span className="qr-avatar">{getInitials(profile?.fullName || "LL")}</span>
+          <div>
+            <strong>{profile?.fullName}</strong>
+            <span>{profile?.email || "abdel10@gmail.com"}</span>
+          </div>
+        </div>
+
+        <div className="qr-meta-list">
+          <div className="qr-meta">
+            <span>ID d'urgence</span>
+            <strong>{shareId || profile?.emergencyId}</strong>
+          </div>
+          <div className="qr-meta">
+            <span>Contact</span>
+            <strong>{profile?.emergencyContact || "Non renseigne"}</strong>
+          </div>
+        </div>
       </div>
     </article>
   );

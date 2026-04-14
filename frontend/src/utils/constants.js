@@ -25,12 +25,12 @@ export const DEFAULT_PROFILE = {
   phone: "06 12 34 56 78",
   city: "Oujda",
   bloodType: "O+",
-  allergies: "Penicilline, fruits de mer",
-  conditions: "Asthme leger",
-  medications: "Ventoline, vitamine D",
-  emergencyContact: "Yassine - 06 12 34 56 78",
-  doctor: "Dr. Ali Benomar",
-  notes: "En cas d'urgence, privilegier une prise en charge respiratoire rapide.",
+  allergies: "Penicilline",
+  conditions: "Diabete type 2",
+  medications: "Metformine",
+  emergencyContact: "Sofia Ghazali - 0612345678",
+  doctor: "Dr. Sara Ghazali",
+  notes: "Consignes: eviter les retards de traitement et verifier la glycemie rapidement.",
   emergencyId: "abdelmounaim-ouballa-emergency",
 };
 

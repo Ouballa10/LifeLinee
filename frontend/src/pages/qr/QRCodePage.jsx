@@ -1,50 +1,98 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
 import QRCard from "../../components/medical/QRCard.jsx";
+import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import { getQRCodeData } from "../../services/qrService.js";
-import { ROUTES } from "../../utils/constants.js";
+import {
+  downloadQRCode,
+  generateQRCodeImage,
+  getQRCodeData,
+} from "../../services/qrService.js";
 
 export default function QRCodePage() {
   const { user } = useAuth();
   const [qrData, setQrData] = useState(null);
+  const [qrImageUrl, setQrImageUrl] = useState("");
+  const [isSharing, setIsSharing] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
-    getQRCodeData(user).then((data) => {
+    async function loadQRCode() {
+      const data = await getQRCodeData(user);
+      const imageUrl = await generateQRCodeImage(data.shareUrl);
+
       if (!cancelled) {
         setQrData(data);
+        setQrImageUrl(imageUrl);
       }
-    });
+    }
+
+    loadQRCode();
 
     return () => {
       cancelled = true;
     };
   }, [user]);
 
+  async function handleShare() {
+    if (!qrData?.shareUrl) {
+      return;
+    }
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        setIsSharing(true);
+        await navigator.share({
+          title: "LifeLine QR",
+          text: "Mon QR medical LifeLine",
+          url: qrData.shareUrl,
+        });
+      } catch {
+        return;
+      } finally {
+        setIsSharing(false);
+      }
+
+      return;
+    }
+
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(qrData.shareUrl);
+    }
+  }
+
   return (
     <main className="screen">
       <section className="mobile-shell">
-        <Navbar title="Mon QR" subtitle="Identite medicale partageable" />
+        <Navbar title="Mon QR Code" subtitle="Mon code partageable" />
 
         <div className="app-content">
-          <Card eyebrow="QR LifeLine" title="Code d'urgence">
-            {qrData ? <QRCard profile={user} shareId={qrData.shareId} /> : <Loader label="Generation du QR..." />}
-          </Card>
+          <Card className="qr-page-card">
+            {qrData && qrImageUrl ? (
+              <QRCard profile={user} shareId={qrData.shareId} qrImageUrl={qrImageUrl} />
+            ) : (
+              <Loader label="Generation du QR..." />
+            )}
 
-          <Card eyebrow="Apercu public" title="Lien d'urgence">
-            <p className="section-copy">
-              Utilisez cet apercu pour simuler ce qu'un secouriste verra apres
-              le scan du code.
-            </p>
-            <Link to={`${ROUTES.emergency}/${user?.emergencyId}`} className="button button-primary">
-              Voir la carte d'urgence
-            </Link>
+            <div className="split-actions">
+              <Button
+                block
+                onClick={() =>
+                  qrImageUrl
+                    ? downloadQRCode(qrImageUrl, `${qrData?.shareId || "lifeline"}-qr.png`)
+                    : null
+                }
+              >
+                Telecharger
+              </Button>
+              <Button block variant="accent" onClick={handleShare} disabled={!qrData || isSharing}>
+                Partager
+              </Button>
+            </div>
           </Card>
         </div>
 

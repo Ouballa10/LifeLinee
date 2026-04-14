@@ -5,43 +5,24 @@ export default function Splash() {
   return (
     <main className="screen screen-splash">
       <section className="splash-shell">
-        <div className="splash-card">
-          <div className="brand-row splash-brand">
-            <span className="brand-mark">+</span>
-            <div className="brand-copy">
-              <strong>LifeLine</strong>
-              <span>Medical emergency companion</span>
+        <div className="splash-card splash-card-centered">
+          <div className="splash-glow"></div>
+
+          <div className="splash-logo">
+            <span className="brand-mark brand-mark-hero">+</span>
+            <div className="splash-copy">
+              <h1 className="splash-title">LifeLine</h1>
+              <p>Vos informations medicales en cas d'urgence</p>
             </div>
           </div>
 
-          <div className="hero-copy">
-            <span className="soft-badge">PWA ready</span>
-            <h1>Vos informations medicales, pretes au moment critique.</h1>
-            <p>
-              Un profil d'urgence mobile avec QR, fiche medicale rapide et
-              contact immediat pour les premiers secours.
-            </p>
+          <div className="splash-dots" aria-hidden="true">
+            <span className="splash-dot is-active"></span>
+            <span className="splash-dot"></span>
+            <span className="splash-dot"></span>
           </div>
 
-          <div className="device-preview">
-            <article className="mini-phone mini-phone-light">
-              <span className="mini-title">Bienvenue</span>
-              <strong>Connexion</strong>
-              <span>Acces securise au profil medical.</span>
-            </article>
-            <article className="mini-phone mini-phone-accent">
-              <span className="mini-title">Bonjour</span>
-              <strong>Tableau LifeLine</strong>
-              <span>QR, scanner, urgence rapide.</span>
-            </article>
-            <article className="mini-phone mini-phone-alert">
-              <span className="mini-title">Urgence</span>
-              <strong>Carte medicale</strong>
-              <span>Lecture instantanee des infos vitales.</span>
-            </article>
-          </div>
-
-          <div className="button-row">
+          <div className="button-row splash-actions">
             <Link to={ROUTES.login} className="button button-primary">
               Se connecter
             </Link>

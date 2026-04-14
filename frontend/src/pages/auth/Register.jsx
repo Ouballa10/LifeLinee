@@ -43,11 +43,27 @@ export default function Register() {
   return (
     <main className="screen">
       <section className="auth-shell">
-        <Card className="auth-panel" eyebrow="Inscription" title="Creez votre compte LifeLine">
+        <Card className="auth-panel">
+          <div className="auth-topbar">
+            <span className="soft-badge">Inscription</span>
+            <div className="menu-button" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <h1 className="auth-title">Creez votre compte LifeLine</h1>
           <p className="section-copy">
             Renseignez les informations de base pour activer votre carte
             medicale d'urgence.
           </p>
+
+          <div className="visual-shortcuts visual-shortcuts-single">
+            <span className="shortcut-pill">Profil securise</span>
+            <span className="shortcut-pill">QR medical</span>
+            <span className="shortcut-pill">Scanner rapide</span>
+          </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <Input

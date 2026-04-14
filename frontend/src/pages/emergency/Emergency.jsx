@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
+import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
@@ -38,7 +39,12 @@ export default function Emergency() {
   return (
     <main className="screen emergency-screen">
       <section className="emergency-shell">
-        <Card className="emergency-wrapper" eyebrow="Acces secouriste" title="Carte d'urgence LifeLine">
+        <Card className="emergency-wrapper">
+          <div className="card-top-row">
+            <span className="soft-badge">Urgence medicale</span>
+            <span className="status-chip">Prioritaire</span>
+          </div>
+
           <EmergencyCard
             profile={{
               ...preview.identity,
@@ -50,12 +56,20 @@ export default function Emergency() {
             }}
           />
 
+          <div className="emergency-note">
+            <span>Consigne</span>
+            <strong>{preview.notes || "Aucune note supplementaire."}</strong>
+          </div>
+
           <div className="emergency-actions">
             <a href={`tel:${preview.identity.phone || "0612345678"}`} className="button button-primary">
-              Appeler le patient
+              Appeler
             </a>
+            <Button variant="accent" onClick={() => window.print()}>
+              Imprimer
+            </Button>
             <Link to={ROUTES.home} className="button button-secondary">
-              Retour a l'app
+              Retour
             </Link>
           </div>
         </Card>

@@ -5,60 +5,159 @@
 }
 
 .auth-panel {
-  padding: 26px;
+  padding: 22px;
 }
 
 .auth-panel-featured {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(239, 248, 255, 0.96)),
-    radial-gradient(circle at bottom right, rgba(242, 94, 94, 0.1), transparent 28%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(244, 251, 247, 0.98)),
+    radial-gradient(circle at bottom right, rgba(83, 191, 135, 0.12), transparent 28%);
+}
+
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.auth-title {
+  font-size: 1.75rem;
+  line-height: 1.15;
+}
+
+.auth-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 18px 0 20px;
+}
+
+.illustration-stage {
+  position: relative;
+  height: 180px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #edf8f1, #dcefe4);
+  overflow: hidden;
+}
+
+.illustration-circle {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 999px;
+  background: rgba(83, 191, 135, 0.15);
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+}
+
+.illustration-card {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+}
+
+.illustration-card-large {
+  width: 130px;
+  height: 82px;
+  left: 38px;
+  bottom: 28px;
+}
+
+.illustration-card-small {
+  width: 78px;
+  height: 78px;
+  right: 36px;
+  bottom: 32px;
+}
+
+.illustration-plus {
+  position: absolute;
+  right: 34px;
+  top: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.visual-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shortcut-pill {
+  padding: 10px 8px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  text-align: center;
+  color: var(--color-primary-deep);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.shortcut-pill-alert {
+  background: var(--color-accent-soft);
+  border-color: rgba(229, 114, 114, 0.18);
+  color: #c95858;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-top: 22px;
+  margin-top: 8px;
 }
 
 .field-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .field-label {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
 }
 
 .field-input {
   width: 100%;
-  min-height: 50px;
-  padding: 0 16px;
+  min-height: 48px;
+  padding: 0 15px;
   border-radius: 14px;
-  border: 1px solid rgba(23, 50, 77, 0.12);
-  background: #ffffff;
+  border: 1px solid rgba(36, 56, 50, 0.1);
+  background: #fbfdfc;
   color: var(--color-text);
   outline: none;
 }
 
 .field-input:focus {
-  border-color: rgba(41, 133, 247, 0.46);
-  box-shadow: 0 0 0 4px rgba(41, 133, 247, 0.12);
+  border-color: rgba(83, 191, 135, 0.48);
+  box-shadow: 0 0 0 4px rgba(83, 191, 135, 0.12);
 }
 
 .field-input-error {
-  border-color: rgba(242, 94, 94, 0.45);
+  border-color: rgba(229, 114, 114, 0.45);
 }
 
 .field-select,
 .field-textarea {
-  padding-block: 14px;
+  padding-block: 13px;
 }
 
 .field-textarea {
-  min-height: 108px;
+  min-height: 100px;
   resize: vertical;
 }
 
@@ -68,23 +167,53 @@
   color: var(--color-text-soft);
 }
 
-.helper-row {
+.helper-row,
+.forgot-row {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 18px;
+  align-items: center;
+}
+
+.helper-row {
+  margin-top: 16px;
 }
 
 .text-link {
-  color: var(--color-primary-strong);
+  color: var(--color-primary-deep);
   text-decoration: none;
   font-weight: 600;
 }
 
 .feedback {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 .feedback-error {
-  color: #d04444;
+  color: #d35151;
+}
+
+.auth-tips {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-tip {
+  position: relative;
+  padding-left: 14px;
+  color: var(--color-text-soft);
+  font-size: 0.82rem;
+}
+
+.auth-tip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-primary);
 }

@@ -1,56 +1,76 @@
+import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
-import InfoCard from "../../components/medical/InfoCard.jsx";
+import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import { EMERGENCY_STEPS } from "../../utils/constants.js";
-import { formatList } from "../../utils/helpers.js";
+import { ROUTES } from "../../utils/constants.js";
+import { getInitials } from "../../utils/helpers.js";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
+  const shortcuts = [
+    {
+      title: "Mon profil",
+      subtitle: "Autonomie",
+      route: ROUTES.profile,
+      symbol: "M",
+    },
+    {
+      title: "Mon QR Code",
+      subtitle: "Acces medical",
+      route: ROUTES.qr,
+      symbol: "Q",
+    },
+    {
+      title: "Scanner QR",
+      subtitle: "Lecture rapide",
+      route: ROUTES.scanner,
+      symbol: "S",
+    },
+  ];
 
   return (
     <main className="screen">
       <section className="mobile-shell">
-        <Navbar title="Dashboard" subtitle="Lecture rapide de votre profil" />
+        <Navbar title="Profil" subtitle={`Bonjour, ${user?.fullName?.split(" ")[0] || "Utilisateur"}`} />
 
         <div className="app-content">
-          <Card eyebrow="Synthese" title="Informations prioritaires">
-            <div className="info-grid">
-              <InfoCard label="Nom" value={user?.fullName} />
-              <InfoCard label="Telephone" value={user?.phone} tone="soft" />
-              <InfoCard label="Ville" value={user?.city || "Non renseignee"} />
-              <InfoCard label="Medecin" value={user?.doctor || "Non renseigne"} tone="soft" />
+          <Card className="profile-summary-card">
+            <div className="profile-summary-row">
+              <span className="profile-avatar">{getInitials(user?.fullName || "LL")}</span>
+              <div className="profile-summary-copy">
+                <strong>{user?.fullName}</strong>
+                <span>{user?.email}</span>
+              </div>
+              <span className="status-chip">{user?.bloodType || "O+"}</span>
             </div>
           </Card>
 
-          <Card eyebrow="Dossier medical" title="Lecture secondaire">
-            <div className="detail-stack">
-              <div className="detail-panel">
-                <span>Allergies</span>
-                <strong>{formatList(user?.allergies)}</strong>
-              </div>
-              <div className="detail-panel">
-                <span>Pathologies</span>
-                <strong>{formatList(user?.conditions)}</strong>
-              </div>
-              <div className="detail-panel">
-                <span>Medicaments</span>
-                <strong>{formatList(user?.medications)}</strong>
-              </div>
-            </div>
-          </Card>
-
-          <Card eyebrow="Checklist" title="Rappel secouriste">
-            <div className="timeline-list">
-              {EMERGENCY_STEPS.map((step, index) => (
-                <div key={step} className="timeline-item">
-                  <span className="timeline-index">0{index + 1}</span>
-                  <p>{step}</p>
-                </div>
+          <Card className="menu-card">
+            <div className="menu-list">
+              {shortcuts.map((item, index) => (
+                <button
+                  key={item.route}
+                  type="button"
+                  className={`menu-item ${index === 0 ? "menu-item-primary" : ""}`}
+                  onClick={() => navigate(item.route)}
+                >
+                  <span className="menu-icon">{item.symbol}</span>
+                  <div className="menu-item-copy">
+                    <strong>{item.title}</strong>
+                    <p>{item.subtitle}</p>
+                  </div>
+                  <span className="menu-arrow">{">"}</span>
+                </button>
               ))}
             </div>
           </Card>
+
+          <Button block onClick={() => navigate(ROUTES.medicalForm)}>
+            Urgence mes infos
+          </Button>
         </div>
 
         <BottomNav />
