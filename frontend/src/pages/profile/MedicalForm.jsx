@@ -40,7 +40,7 @@ export default function MedicalForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     await updateProfile(form);
-    navigate(ROUTES.dashboard, { replace: true });
+    navigate(ROUTES.profile, { replace: true });
   }
 
   return (
@@ -50,9 +50,17 @@ export default function MedicalForm() {
 
         <div className="app-content">
           <Card className="edit-form-card">
-            <div className="segmented-tabs" aria-hidden="true">
-              <span className="tab-pill is-active">Groupe medical</span>
-              <span className="tab-pill">Generalite</span>
+            <div className="segmented-tabs">
+              <button type="button" className="tab-pill is-active">
+                Groupe medical
+              </button>
+              <button
+                type="button"
+                className="tab-pill"
+                onClick={() => navigate(ROUTES.editProfile)}
+              >
+                Generalite
+              </button>
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit}>

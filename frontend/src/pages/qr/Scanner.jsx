@@ -213,9 +213,7 @@ export default function Scanner() {
 
           {appState.lastScan ? (
             <Card className="menu-card result-card">
-              <p className="section-copy">
-                Token detecte: {scannedNavigation.shareId || appState.lastScan}
-              </p>
+              <p className="section-copy">QR detecte avec succes.</p>
               {scannedNavigation.route ? (
                 <Link to={scannedNavigation.route} className="button button-primary">
                   Voir la fiche medicale

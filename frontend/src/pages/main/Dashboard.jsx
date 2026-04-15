@@ -1,43 +1,49 @@
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
+import InfoCard from "../../components/medical/InfoCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { ROUTES } from "../../utils/constants.js";
-import { getInitials } from "../../utils/helpers.js";
+import { formatList, getInitials } from "../../utils/helpers.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const shortcuts = [
     {
-      title: "Mon profil",
-      subtitle: "Autonomie",
-      route: ROUTES.profile,
+      title: "Generalite",
+      subtitle: "Nom, email, telephone, ville",
+      route: ROUTES.editProfile,
+      symbol: "G",
+    },
+    {
+      title: "Medical",
+      subtitle: "Allergies, pathologies, medicaments",
+      route: ROUTES.medicalForm,
       symbol: "M",
     },
     {
-      title: "Mon QR Code",
-      subtitle: "Acces medical",
-      route: ROUTES.qr,
-      symbol: "Q",
+      title: "Profil complet",
+      subtitle: "Voir la carte medicale complete",
+      route: ROUTES.profile,
+      symbol: "P",
     },
-    {
-      title: "Scanner QR",
-      subtitle: "Lecture rapide",
-      route: ROUTES.scanner,
-      symbol: "S",
-    },
+  ];
+  const readinessItems = [
+    ["Contact d'urgence", user?.emergencyContact || "Non renseigne"],
+    ["Consignes critiques", user?.criticalInstructions || user?.notes || "Non renseigne"],
+    ["QR public", user?.qrToken ? "Active" : "A generer"],
   ];
 
   return (
     <main className="screen">
       <section className="mobile-shell">
-        <Navbar title="Profil" subtitle={`Bonjour, ${user?.fullName?.split(" ")[0] || "Utilisateur"}`} />
+        <Navbar title="Bord" subtitle={`Compte de ${user?.fullName?.split(" ")[0] || "Utilisateur"}`} />
 
         <div className="app-content">
-          <Card className="profile-summary-card">
+          <Card className="profile-summary-card board-profile-card">
             <div className="profile-summary-row">
               <span className="profile-avatar">{getInitials(user?.fullName || "LL")}</span>
               <div className="profile-summary-copy">
@@ -46,15 +52,24 @@ export default function Dashboard() {
               </div>
               <span className="status-chip">{user?.bloodType || "O+"}</span>
             </div>
+            <p className="section-copy board-profile-copy">
+              Cet espace sert a gerer votre compte medical, verifier les donnees enregistrees
+              et completer les informations d'urgence.
+            </p>
           </Card>
 
-          <Card className="menu-card">
+          <div className="info-grid board-info-grid">
+            <InfoCard label="Pathologies" value={formatList(user?.conditions)} />
+            <InfoCard label="Medicaments" value={formatList(user?.medications)} tone="soft" />
+          </div>
+
+          <Card className="menu-card board-menu-card">
             <div className="menu-list">
               {shortcuts.map((item, index) => (
                 <button
                   key={item.route}
                   type="button"
-                  className={`menu-item ${index === 0 ? "menu-item-primary" : ""}`}
+                  className={`menu-item ${index === 1 ? "menu-item-primary" : ""}`}
                   onClick={() => navigate(item.route)}
                 >
                   <span className="menu-icon">{item.symbol}</span>
@@ -68,9 +83,28 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          <Button block onClick={() => navigate(ROUTES.medicalForm)}>
-            Urgence mes infos
-          </Button>
+          <Card className="board-readiness-card">
+            <div className="card-top-row">
+              <span className="soft-badge">Etat medical</span>
+              <span className="status-chip">Compte actif</span>
+            </div>
+            <div className="profile-list board-readiness-list">
+              {readinessItems.map(([label, value]) => (
+                <div key={label} className="profile-line">
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+            <div className="split-actions">
+              <Button block onClick={() => navigate(ROUTES.medicalForm)}>
+                Modifier urgence
+              </Button>
+              <Button block variant="secondary" onClick={() => navigate(ROUTES.editProfile)}>
+                Modifier compte
+              </Button>
+            </div>
+          </Card>
         </div>
 
         <BottomNav />

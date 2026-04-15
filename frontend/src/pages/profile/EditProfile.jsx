@@ -52,9 +52,17 @@ export default function EditProfile() {
 
         <div className="app-content">
           <Card className="edit-form-card">
-            <div className="segmented-tabs" aria-hidden="true">
-              <span className="tab-pill">Groupe medical</span>
-              <span className="tab-pill is-active">Generalite</span>
+            <div className="segmented-tabs">
+              <button
+                type="button"
+                className="tab-pill"
+                onClick={() => navigate(ROUTES.medicalForm)}
+              >
+                Groupe medical
+              </button>
+              <button type="button" className="tab-pill is-active">
+                Generalite
+              </button>
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit}>

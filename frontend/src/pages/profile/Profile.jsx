@@ -43,9 +43,14 @@ export default function Profile() {
               ))}
             </div>
 
-            <Button block onClick={() => navigate(ROUTES.editProfile)}>
-              Modifier le profil
-            </Button>
+            <div className="split-actions">
+              <Button block onClick={() => navigate(ROUTES.editProfile)}>
+                Modifier generalite
+              </Button>
+              <Button block variant="secondary" onClick={() => navigate(ROUTES.medicalForm)}>
+                Modifier medical
+              </Button>
+            </div>
           </Card>
         </div>
 

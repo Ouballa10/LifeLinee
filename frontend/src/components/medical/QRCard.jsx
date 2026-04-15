@@ -29,8 +29,8 @@ export default function QRCard({ profile, shareId, qrImageUrl }) {
 
         <div className="qr-meta-list">
           <div className="qr-meta">
-            <span>Token QR</span>
-            <strong>{shareId || profile?.qrToken || profile?.emergencyId}</strong>
+            <span>Code d'urgence</span>
+            <strong>Scannez ce QR pour ouvrir la fiche medicale.</strong>
           </div>
           <div className="qr-meta">
             <span>Contact</span>
