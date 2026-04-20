@@ -38,7 +38,20 @@ export async function apiRequest(path, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(data?.message || "Request failed.");
+    const responseMessage =
+      typeof data?.message === "string" ? data.message.trim() : "";
+
+    if (responseMessage) {
+      throw new Error(responseMessage);
+    }
+
+    if ([502, 503, 504].includes(response.status)) {
+      throw new Error(
+        "Le frontend ne parvient pas a joindre le backend. Verifiez que le serveur Node est bien lance sur le port 5001."
+      );
+    }
+
+    throw new Error(`Request failed (${response.status}).`);
   }
 
   return data;
