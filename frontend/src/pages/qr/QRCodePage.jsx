@@ -7,6 +7,7 @@ import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import {
+  buildLocalQRCodeData,
   downloadQRCode,
   generateQRCodeImage,
   getQRCodeData,
@@ -17,12 +18,44 @@ export default function QRCodePage() {
   const [qrData, setQrData] = useState(null);
   const [qrImageUrl, setQrImageUrl] = useState("");
   const [isSharing, setIsSharing] = useState(false);
+  const [qrNotice, setQrNotice] = useState("");
+  const [qrError, setQrError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadQRCode() {
-      const data = await getQRCodeData(token);
+      if (!user) {
+        return;
+      }
+
+      setQrData(null);
+      setQrImageUrl("");
+      setQrNotice("");
+      setQrError("");
+
+      let data = null;
+
+      try {
+        if (!token) {
+          data = buildLocalQRCodeData(user);
+        } else {
+          data = await getQRCodeData(token);
+        }
+      } catch (error) {
+        data = buildLocalQRCodeData(user);
+        setQrNotice(
+          "QR genere localement car le service backend n'etait pas disponible pour le moment."
+        );
+      }
+
+      if (!data?.shareUrl) {
+        if (!cancelled) {
+          setQrError("Impossible de generer le QR pour ce compte.");
+        }
+        return;
+      }
+
       const imageUrl = await generateQRCodeImage(data.shareUrl);
 
       if (!cancelled) {
@@ -36,7 +69,7 @@ export default function QRCodePage() {
     return () => {
       cancelled = true;
     };
-  }, [token]);
+  }, [token, user]);
 
   async function handleShare() {
     if (!qrData?.shareUrl) {
@@ -74,9 +107,13 @@ export default function QRCodePage() {
           <Card className="qr-page-card">
             {qrData && qrImageUrl ? (
               <QRCard profile={user} shareId={qrData.qrToken} qrImageUrl={qrImageUrl} />
+            ) : qrError ? (
+              <p className="scanner-error">{qrError}</p>
             ) : (
               <Loader label="Generation du QR..." />
             )}
+
+            {qrNotice ? <p className="scanner-help scanner-help-inline">{qrNotice}</p> : null}
 
             <div className="split-actions">
               <Button

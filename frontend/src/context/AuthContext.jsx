@@ -5,10 +5,13 @@ import { auth, isFirebaseConfigured } from "../services/firebase.js";
 import {
   clearCurrentSession,
   getCurrentSession,
+  getStoredGoogleProfile,
   loginUser,
   loginGoogle as loginWithGooglePopup,
   logoutGoogle,
   registerUser,
+  saveGoogleProfile,
+  syncGoogleSession,
 } from "../services/authService.js";
 import { getProfile as fetchProfile, updateProfile as persistProfile } from "../services/profileService.js";
 import { AUTH_PROVIDERS, STORAGE_KEYS } from "../utils/constants.js";
@@ -22,6 +25,14 @@ export function AuthProvider({ children }) {
   );
   const [isLoading, setIsLoading] = useState(Boolean(storedSession?.token && !storedSession?.user));
   const hydratedTokenRef = useRef("");
+
+  useEffect(() => {
+    if (storedSession?.authProvider !== AUTH_PROVIDERS.google || !storedSession?.user) {
+      return;
+    }
+
+    saveGoogleProfile(storedSession.user);
+  }, [storedSession?.authProvider, storedSession?.user]);
 
   useEffect(() => {
     const currentToken = storedSession?.token || "";
@@ -73,24 +84,34 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      const token = await firebaseUser.getIdToken();
-      const nextUser = {
-        id: firebaseUser.uid,
-        fullName: firebaseUser.displayName || "Utilisateur Google",
-        email: firebaseUser.email || "",
-        phone: firebaseUser.phoneNumber || "",
-        photoURL: firebaseUser.photoURL || "",
-        authProvider: AUTH_PROVIDERS.google,
-      };
+      setIsLoading(true);
 
-      startTransition(() => {
-        setStoredSession((current) => ({
-          ...(current || {}),
-          token,
-          user: nextUser,
-          authProvider: AUTH_PROVIDERS.google,
-        }));
-      });
+      try {
+        const session = await syncGoogleSession(firebaseUser, {
+          ...(getStoredGoogleProfile(firebaseUser) || {}),
+          ...(storedSession?.user || {}),
+        });
+
+        startTransition(() => {
+          setStoredSession((current) => ({
+            ...(current || {}),
+            ...session,
+            user: {
+              ...(current?.user || {}),
+              ...session.user,
+              authProvider: AUTH_PROVIDERS.google,
+            },
+            authProvider: AUTH_PROVIDERS.google,
+          }));
+        });
+      } catch {
+        clearCurrentSession();
+        startTransition(() => {
+          setStoredSession(null);
+        });
+      } finally {
+        setIsLoading(false);
+      }
     });
 
     return unsubscribe;
@@ -143,40 +164,34 @@ export function AuthProvider({ children }) {
       throw new Error("You must be connected to update the profile.");
     }
 
-    if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
-      const user = {
-        ...(storedSession.user || {}),
-        ...updates,
-      };
-
-      startTransition(() => {
-        setStoredSession((current) =>
-          current
-            ? {
-                ...current,
-                user,
-              }
-            : current
-        );
-      });
-      return user;
-    }
-
     setIsLoading(true);
 
     try {
       const user = await persistProfile(storedSession.token, updates);
+      const nextUser =
+        storedSession?.authProvider === AUTH_PROVIDERS.google
+          ? {
+              ...(storedSession.user || {}),
+              ...user,
+              authProvider: AUTH_PROVIDERS.google,
+            }
+          : user;
+
+      if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
+        saveGoogleProfile(nextUser);
+      }
+
       startTransition(() => {
         setStoredSession((current) =>
           current
             ? {
                 ...current,
-                user,
+                user: nextUser,
               }
             : current
         );
       });
-      return user;
+      return nextUser;
     } finally {
       setIsLoading(false);
     }
@@ -187,22 +202,31 @@ export function AuthProvider({ children }) {
       return null;
     }
 
+    const user = await fetchProfile(storedSession.token);
+    const nextUser =
+      storedSession?.authProvider === AUTH_PROVIDERS.google
+        ? {
+            ...(storedSession.user || {}),
+            ...user,
+            authProvider: AUTH_PROVIDERS.google,
+          }
+        : user;
+
     if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
-      return storedSession.user || null;
+      saveGoogleProfile(nextUser);
     }
 
-    const user = await fetchProfile(storedSession.token);
     startTransition(() => {
       setStoredSession((current) =>
         current
           ? {
               ...current,
-              user,
+              user: nextUser,
             }
           : current
       );
     });
-    return user;
+    return nextUser;
   }
 
   async function logout() {

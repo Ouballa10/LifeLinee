@@ -14,6 +14,63 @@ function getFrontendBaseUrl(req) {
   );
 }
 
+function normalizeApiKey(req) {
+  return String(
+    process.env.FIREBASE_API_KEY ||
+      process.env.VITE_FIREBASE_API_KEY ||
+      req.body?.apiKey ||
+      ''
+  ).trim();
+}
+
+async function verifyGoogleAccount(req) {
+  const idToken = String(req.body?.idToken || '').trim();
+
+  if (!idToken) {
+    throw new Error('Google token is required.');
+  }
+
+  const apiKey = normalizeApiKey(req);
+
+  if (!apiKey) {
+    throw new Error('Firebase API key is missing for Google sign-in.');
+  }
+
+  const response = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${encodeURIComponent(apiKey)}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken }),
+    }
+  );
+
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(payload?.error?.message || 'Unable to verify the Google session.');
+  }
+
+  const account = payload?.users?.[0];
+
+  if (!account?.email) {
+    throw new Error('No email address was returned by Google.');
+  }
+
+  if (account.emailVerified === false) {
+    throw new Error('The Google email address must be verified before using LifeLine.');
+  }
+
+  return {
+    email: String(account.email).trim().toLowerCase(),
+    fullName: String(account.displayName || req.body?.fullName || '').trim(),
+    photoURL: String(account.photoUrl || req.body?.photoURL || '').trim(),
+    googleUid: String(account.localId || '').trim(),
+  };
+}
+
 exports.register = async (req, res) => {
   try {
     const missingFields = requireFields(req.body, ['fullName', 'email', 'password']);
@@ -95,6 +152,54 @@ exports.login = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: error.message || 'Unable to log in.',
+    });
+  }
+};
+
+exports.googleAuth = async (req, res) => {
+  try {
+    const googleAccount = await verifyGoogleAccount(req);
+    let user = await User.findOne({ email: googleAccount.email });
+
+    if (!user) {
+      user = await User.create({
+        fullName: googleAccount.fullName || 'Utilisateur Google',
+        email: googleAccount.email,
+        password: hashPassword(
+          `google:${googleAccount.googleUid || googleAccount.email}:${Date.now()}`
+        ),
+        phone: '',
+        city: '',
+      });
+    } else {
+      let shouldSaveUser = false;
+
+      if (!String(user.fullName || '').trim() && googleAccount.fullName) {
+        user.fullName = googleAccount.fullName;
+        shouldSaveUser = true;
+      }
+
+      if (shouldSaveUser) {
+        await user.save();
+      }
+    }
+
+    const medicalProfile = await ensureMedicalProfileForUser(user._id);
+
+    return res.json({
+      message: 'Google sign-in successful.',
+      token: generateToken({ sub: String(user._id), email: user.email }),
+      profile: serializePrivateProfile(user, medicalProfile, getFrontendBaseUrl(req)),
+      googleProfile: {
+        email: googleAccount.email,
+        fullName: googleAccount.fullName,
+        photoURL: googleAccount.photoURL,
+        googleUid: googleAccount.googleUid,
+      },
+    });
+  } catch (error) {
+    return res.status(401).json({
+      message: error.message || 'Unable to sign in with Google.',
     });
   }
 };

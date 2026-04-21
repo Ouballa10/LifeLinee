@@ -5,11 +5,12 @@ import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import { isFirebaseConfigured } from "../../services/firebase.js";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { register, isLoading } = useAuth();
+  const { register, loginGoogle, isLoading } = useAuth();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -40,29 +41,70 @@ export default function Register() {
     }
   }
 
+  async function handleGoogleRegister() {
+    setError("");
+
+    try {
+      await loginGoogle();
+      navigate(ROUTES.dashboard, { replace: true });
+    } catch (nextError) {
+      setError(nextError.message);
+    }
+  }
+
   return (
-    <main className="screen">
-      <section className="auth-shell">
-        <Card className="auth-panel">
-          <div className="auth-topbar">
-            <span className="soft-badge">Inscription</span>
-            <div className="menu-button" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+    <main className="screen auth-screen">
+      <section className="auth-shell auth-shell-compact">
+        <Card className="auth-card auth-card-register">
+          <div className="auth-card-header">
+            <span className="soft-badge auth-badge-blue">Inscription</span>
+            <Link to={ROUTES.login} className="auth-card-link">
+              Retour au login
+            </Link>
           </div>
 
-          <h1 className="auth-title">Creez votre compte LifeLine</h1>
-          <p className="section-copy">
-            Renseignez les informations de base pour activer votre carte
-            medicale d'urgence.
-          </p>
+          <div className="auth-brand-block auth-brand-block-form">
+            <span className="auth-logo-mark auth-logo-mark-small">+</span>
+            <h1 className="auth-form-title">Creer un compte</h1>
+            <p className="auth-form-subtitle">Activez votre compte LifeLine.</p>
+          </div>
 
-          <div className="visual-shortcuts visual-shortcuts-single">
-            <span className="shortcut-pill">Profil securise</span>
-            <span className="shortcut-pill">QR medical</span>
-            <span className="shortcut-pill">Scanner rapide</span>
+          <Button
+            type="button"
+            block
+            variant="ghost"
+            className="auth-action-button auth-action-button-google"
+            onClick={handleGoogleRegister}
+            disabled={isLoading || !isFirebaseConfigured}
+          >
+            <span className="google-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M21.6 12.23c0-.68-.06-1.33-.18-1.95H12v3.69h5.39a4.61 4.61 0 0 1-2 3.03v2.52h3.24c1.89-1.74 2.97-4.3 2.97-7.29Z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M12 22c2.7 0 4.96-.9 6.61-2.44l-3.24-2.52c-.9.6-2.04.96-3.37.96-2.59 0-4.78-1.74-5.56-4.08H3.09v2.6A9.99 9.99 0 0 0 12 22Z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M6.44 13.92A5.98 5.98 0 0 1 6.13 12c0-.67.11-1.31.31-1.92V7.48H3.09A9.99 9.99 0 0 0 2 12c0 1.61.38 3.13 1.09 4.52l3.35-2.6Z"
+                  fill="#FBBC04"
+                />
+                <path
+                  d="M12 5.98c1.47 0 2.79.5 3.83 1.49l2.87-2.87C16.95 2.98 14.69 2 12 2A9.99 9.99 0 0 0 3.09 7.48l3.35 2.6c.78-2.34 2.97-4.1 5.56-4.1Z"
+                  fill="#EA4335"
+                />
+              </svg>
+            </span>
+            <span className="google-copy">
+              <strong>Creer avec Google</strong>
+              <span>Inscription rapide et sans formulaire long</span>
+            </span>
+          </Button>
+
+          <div className="auth-divider">
+            <span>ou</span>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -101,7 +143,7 @@ export default function Register() {
               label="Mot de passe"
               name="password"
               type="password"
-              placeholder="Creez un mot de passe"
+              placeholder="Mot de passe"
               value={form.password}
               onChange={handleChange}
             />
@@ -109,23 +151,38 @@ export default function Register() {
               label="Confirmer le mot de passe"
               name="confirmPassword"
               type="password"
-              placeholder="Repetez le mot de passe"
+              placeholder="Confirmer le mot de passe"
               value={form.confirmPassword}
               onChange={handleChange}
-              error={error}
             />
-            <Button type="submit" block disabled={isLoading}>
-              Creer un compte
+
+            <Button type="submit" block className="auth-action-button auth-action-button-primary">
+              Creer mon compte
             </Button>
           </form>
 
-          {isLoading ? <Loader label="Creation du compte..." /> : null}
+          {!isFirebaseConfigured ? (
+            <p className="feedback auth-notice">
+              Activez Firebase dans `frontend/.env` pour Google.
+            </p>
+          ) : null}
 
-          <div className="helper-row">
-            <span className="helper-text">Vous avez deja un compte ?</span>
+          {error ? <p className="feedback feedback-error">{error}</p> : null}
+          {isLoading ? <Loader label="Creation..." /> : null}
+
+          <div className="auth-footer-row">
+            <span>Vous avez deja un compte ?</span>
             <Link to={ROUTES.login} className="text-link">
               Connexion
             </Link>
+          </div>
+
+          <div className="auth-illustration auth-illustration-register" aria-hidden="true">
+            <div className="auth-illustration-cloud auth-illustration-cloud-left"></div>
+            <div className="auth-illustration-cloud auth-illustration-cloud-right"></div>
+            <div className="auth-illustration-wave auth-illustration-wave-back"></div>
+            <div className="auth-illustration-wave auth-illustration-wave-front"></div>
+            <div className="auth-illustration-cross">+</div>
           </div>
         </Card>
       </section>

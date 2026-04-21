@@ -10,7 +10,7 @@ import { ROUTES } from "../../utils/constants.js";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, loginGoogle, isLoading, user } = useAuth();
+  const { login, loginGoogle, isLoading } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -49,36 +49,20 @@ export default function Login() {
   }
 
   return (
-    <main className="screen">
-      <section className="auth-shell">
-        <Card className="auth-panel auth-panel-featured">
-          <div className="auth-topbar">
-            <span className="soft-badge">Connexion</span>
-            <div className="menu-button" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+    <main className="screen auth-screen">
+      <section className="auth-shell auth-shell-compact">
+        <Card className="auth-card auth-card-login">
+          <div className="auth-card-header">
+            <span className="soft-badge auth-badge-blue">Connexion</span>
+            <Link to={ROUTES.splash} className="auth-card-link">
+              Retour
+            </Link>
           </div>
 
-          <h1 className="auth-title">Bienvenue sur LifeLine</h1>
-          <p className="section-copy">
-            Votre application medicale d'urgence.
-          </p>
-
-          <div className="auth-visual">
-            <div className="illustration-stage">
-              <div className="illustration-circle"></div>
-              <div className="illustration-card illustration-card-large"></div>
-              <div className="illustration-card illustration-card-small"></div>
-              <div className="illustration-plus">+</div>
-            </div>
-
-            <div className="visual-shortcuts">
-              <span className="shortcut-pill">Generer QR</span>
-              <span className="shortcut-pill">Scanner QR</span>
-              <span className="shortcut-pill shortcut-pill-alert">Urgence rapide</span>
-            </div>
+          <div className="auth-brand-block auth-brand-block-form">
+            <span className="auth-logo-mark auth-logo-mark-small">+</span>
+            <h1 className="auth-form-title">Connexion</h1>
+            <p className="auth-form-subtitle">Connectez-vous a votre espace LifeLine.</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -94,66 +78,88 @@ export default function Login() {
               label="Mot de passe"
               name="password"
               type="password"
-              placeholder="Entrez votre mot de passe"
+              placeholder="Mot de passe"
               value={form.password}
               onChange={handleChange}
-              error={error}
             />
 
-            <div className="forgot-row">
-              <span className="helper-text">Acces securise</span>
-              <Link to={ROUTES.register} className="text-link">
-                Mot de passe oublie?
-              </Link>
-            </div>
-
-            <Button type="submit" block disabled={isLoading}>
-              Connexion
+            <Button type="submit" block className="auth-action-button auth-action-button-primary">
+              Se connecter
             </Button>
+
+            <div className="auth-divider">
+              <span>ou</span>
+            </div>
 
             <Button
               type="button"
               block
-              variant="secondary"
-              className="google-login-button"
+              variant="ghost"
+              className="auth-action-button auth-action-button-google"
               onClick={handleGoogleLogin}
               disabled={isLoading || !isFirebaseConfigured}
             >
-              Se connecter avec Google
+              <span className="google-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    d="M21.6 12.23c0-.68-.06-1.33-.18-1.95H12v3.69h5.39a4.61 4.61 0 0 1-2 3.03v2.52h3.24c1.89-1.74 2.97-4.3 2.97-7.29Z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 22c2.7 0 4.96-.9 6.61-2.44l-3.24-2.52c-.9.6-2.04.96-3.37.96-2.59 0-4.78-1.74-5.56-4.08H3.09v2.6A9.99 9.99 0 0 0 12 22Z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M6.44 13.92A5.98 5.98 0 0 1 6.13 12c0-.67.11-1.31.31-1.92V7.48H3.09A9.99 9.99 0 0 0 2 12c0 1.61.38 3.13 1.09 4.52l3.35-2.6Z"
+                    fill="#FBBC04"
+                  />
+                  <path
+                    d="M12 5.98c1.47 0 2.79.5 3.83 1.49l2.87-2.87C16.95 2.98 14.69 2 12 2A9.99 9.99 0 0 0 3.09 7.48l3.35 2.6c.78-2.34 2.97-4.1 5.56-4.1Z"
+                    fill="#EA4335"
+                  />
+                </svg>
+              </span>
+              <span className="google-copy">
+                <strong>Connexion avec Google</strong>
+              
+              </span>
             </Button>
           </form>
 
           {!isFirebaseConfigured ? (
-            <p className="feedback">
-              Activez d'abord Firebase dans `frontend/.env` pour utiliser Google.
+            <p className="feedback auth-notice">
+              Activez Firebase dans `frontend/.env` pour Google.
             </p>
           ) : null}
 
           {error ? <p className="feedback feedback-error">{error}</p> : null}
-          {isLoading ? <Loader label="Verification du compte..." /> : null}
+          {isLoading ? <Loader label="Connexion..." /> : null}
 
-          {user ? (
-            <div className="connected-user-card">
-              <strong>Utilisateur connecte</strong>
-              <span>{user.fullName}</span>
-              <span>{user.email}</span>
-            </div>
-          ) : null}
-
-          <div className="helper-row">
-            <span className="helper-text">Vous n'avez pas de compte ?</span>
+          <div className="auth-footer-row">
+            <span>Vous n'avez pas de compte ?</span>
             <Link to={ROUTES.register} className="text-link">
               Inscription
             </Link>
           </div>
-          <Link to={ROUTES.splash} className="text-link text-link-subtle">
-            Retour a l'accueil
-          </Link>
 
-          <div className="auth-tips">
-            <span className="auth-tip">Au moins 6 caracteres</span>
-            <span className="auth-tip">Une majuscule conseillee</span>
-            <span className="auth-tip">Un symbole special utile</span>
+          <div className="auth-illustration auth-illustration-login" aria-hidden="true">
+            <div className="auth-illustration-mini-card"></div>
+            <div className="auth-illustration-phone auth-illustration-phone-small">
+              <div className="auth-phone-screen">
+                <div className="auth-phone-qr-grid">
+                  {Array.from({ length: 16 }).map((_, index) => (
+                    <span
+                      key={index}
+                      className={`auth-phone-qr-cell ${
+                        index % 2 === 0 || index % 3 === 0 ? "is-active" : ""
+                      }`}
+                    ></span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="auth-illustration-ambulance"></div>
+            <div className="auth-illustration-stethoscope"></div>
           </div>
         </Card>
       </section>

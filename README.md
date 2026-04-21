@@ -94,3 +94,29 @@ npm run dev
 
 - `frontend/index.html` remains the active Vite entry point. `frontend/public/index.html` is included only to mirror your requested tree.
 - Some docs and icon assets are placeholder files so the structure is complete and ready for real project material.
+
+## Firebase Google Auth
+
+The frontend now includes Google login with Firebase.
+
+Setup:
+
+```bash
+cd frontend
+npm install
+```
+
+Then create `frontend/.env` from `frontend/.env.example` and fill in your Firebase project values:
+
+```bash
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+```
+
+Also enable the Google provider in the Firebase console.
+
+Important: after a `git pull` that adds new dependencies such as `firebase`, each teammate must run `npm install` again inside `frontend`.

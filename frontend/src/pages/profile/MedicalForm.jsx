@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
@@ -8,29 +8,50 @@ import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { ROUTES } from "../../utils/constants.js";
 
-export default function MedicalForm() {
-  const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
-  const [form, setForm] = useState({
+function buildMedicalForm(user) {
+  return {
     allergies: user?.allergies || "",
     conditions: user?.conditions || "",
     medications: user?.medications || "",
     emergencyContact: user?.emergencyContact || "",
     notes: user?.criticalInstructions || user?.notes || "",
-  });
+  };
+}
+
+export default function MedicalForm() {
+  const navigate = useNavigate();
+  const { user, updateProfile } = useAuth();
+  const [form, setForm] = useState(() => buildMedicalForm(user));
+  const activeProfileRef = useRef("");
+  const isEditingRef = useRef(false);
+  const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 
   useEffect(() => {
-    setForm({
-      allergies: user?.allergies || "",
-      conditions: user?.conditions || "",
-      medications: user?.medications || "",
-      emergencyContact: user?.emergencyContact || "",
-      notes: user?.criticalInstructions || user?.notes || "",
-    });
-  }, [user]);
+    const identityChanged = activeProfileRef.current !== profileIdentity;
+
+    if (identityChanged) {
+      activeProfileRef.current = profileIdentity;
+      isEditingRef.current = false;
+    }
+
+    if (isEditingRef.current) {
+      return;
+    }
+
+    setForm(buildMedicalForm(user));
+  }, [
+    profileIdentity,
+    user?.allergies,
+    user?.conditions,
+    user?.medications,
+    user?.emergencyContact,
+    user?.criticalInstructions,
+    user?.notes,
+  ]);
 
   function handleChange(event) {
     const { name, value } = event.target;
+    isEditingRef.current = true;
     setForm((current) => ({
       ...current,
       [name]: value,
@@ -40,6 +61,7 @@ export default function MedicalForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     await updateProfile(form);
+    isEditingRef.current = false;
     navigate(ROUTES.profile, { replace: true });
   }
 

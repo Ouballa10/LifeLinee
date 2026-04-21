@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
@@ -8,31 +8,51 @@ import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
-export default function EditProfile() {
-  const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
-  const [form, setForm] = useState({
+function buildGeneralForm(user) {
+  return {
     fullName: user?.fullName || "",
     email: user?.email || "",
     phone: user?.phone || "",
     city: user?.city || "",
     bloodType: user?.bloodType || "O+",
     emergencyContact: user?.emergencyContact || "",
-  });
+  };
+}
+
+export default function EditProfile() {
+  const navigate = useNavigate();
+  const { user, updateProfile } = useAuth();
+  const [form, setForm] = useState(() => buildGeneralForm(user));
+  const activeProfileRef = useRef("");
+  const isEditingRef = useRef(false);
+  const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 
   useEffect(() => {
-    setForm({
-      fullName: user?.fullName || "",
-      email: user?.email || "",
-      phone: user?.phone || "",
-      city: user?.city || "",
-      bloodType: user?.bloodType || "O+",
-      emergencyContact: user?.emergencyContact || "",
-    });
-  }, [user]);
+    const identityChanged = activeProfileRef.current !== profileIdentity;
+
+    if (identityChanged) {
+      activeProfileRef.current = profileIdentity;
+      isEditingRef.current = false;
+    }
+
+    if (isEditingRef.current) {
+      return;
+    }
+
+    setForm(buildGeneralForm(user));
+  }, [
+    profileIdentity,
+    user?.fullName,
+    user?.email,
+    user?.phone,
+    user?.city,
+    user?.bloodType,
+    user?.emergencyContact,
+  ]);
 
   function handleChange(event) {
     const { name, value } = event.target;
+    isEditingRef.current = true;
     setForm((current) => ({
       ...current,
       [name]: value,
@@ -42,6 +62,7 @@ export default function EditProfile() {
   async function handleSubmit(event) {
     event.preventDefault();
     await updateProfile(form);
+    isEditingRef.current = false;
     navigate(ROUTES.profile, { replace: true });
   }
 
