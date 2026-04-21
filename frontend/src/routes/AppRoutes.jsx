@@ -18,7 +18,7 @@ function PublicOnlyRoute({ children }) {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={ROUTES.home} replace />;
+    return <Navigate to={ROUTES.dashboard} replace />;
   }
 
   return children;

@@ -1,6 +1,12 @@
 export const STORAGE_KEYS = {
   authSession: "lifeline.auth.session",
+  firebaseUser: "lifeline.firebase.user",
   appState: "lifeline.app.state",
+};
+
+export const AUTH_PROVIDERS = {
+  backend: "backend",
+  google: "google",
 };
 
 export const ROUTES = {

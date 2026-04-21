@@ -5,11 +5,12 @@ import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import { isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, isLoading } = useAuth();
+  const { login, loginGoogle, isLoading, user } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -30,7 +31,18 @@ export default function Login() {
 
     try {
       await login(form);
-      navigate(ROUTES.home, { replace: true });
+      navigate(ROUTES.dashboard, { replace: true });
+    } catch (nextError) {
+      setError(nextError.message);
+    }
+  }
+
+  async function handleGoogleLogin() {
+    setError("");
+
+    try {
+      await loginGoogle();
+      navigate(ROUTES.dashboard, { replace: true });
     } catch (nextError) {
       setError(nextError.message);
     }
@@ -98,9 +110,35 @@ export default function Login() {
             <Button type="submit" block disabled={isLoading}>
               Connexion
             </Button>
+
+            <Button
+              type="button"
+              block
+              variant="secondary"
+              className="google-login-button"
+              onClick={handleGoogleLogin}
+              disabled={isLoading || !isFirebaseConfigured}
+            >
+              Se connecter avec Google
+            </Button>
           </form>
 
+          {!isFirebaseConfigured ? (
+            <p className="feedback">
+              Activez d'abord Firebase dans `frontend/.env` pour utiliser Google.
+            </p>
+          ) : null}
+
+          {error ? <p className="feedback feedback-error">{error}</p> : null}
           {isLoading ? <Loader label="Verification du compte..." /> : null}
+
+          {user ? (
+            <div className="connected-user-card">
+              <strong>Utilisateur connecte</strong>
+              <span>{user.fullName}</span>
+              <span>{user.email}</span>
+            </div>
+          ) : null}
 
           <div className="helper-row">
             <span className="helper-text">Vous n'avez pas de compte ?</span>

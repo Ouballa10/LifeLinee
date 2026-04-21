@@ -43,8 +43,8 @@ export default function Navbar({ title, subtitle }) {
     { label: "Scanner", route: ROUTES.scanner },
   ];
 
-  function handleLogout() {
-    logout();
+  async function handleLogout() {
+    await logout();
     navigate(ROUTES.login, { replace: true });
   }
 

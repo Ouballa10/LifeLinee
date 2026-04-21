@@ -10,7 +10,7 @@ import { formatList, getInitials } from "../../utils/helpers.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const shortcuts = [
     {
       title: "Generalite",
@@ -51,6 +51,16 @@ export default function Dashboard() {
                 <span>{user?.email}</span>
               </div>
               <span className="status-chip">{user?.bloodType || "O+"}</span>
+            </div>
+            <div className="profile-list board-readiness-list">
+              <div className="profile-line">
+                <span>Nom</span>
+                <strong>{user?.fullName || "Non renseigne"}</strong>
+              </div>
+              <div className="profile-line">
+                <span>Email</span>
+                <strong>{user?.email || "Non renseigne"}</strong>
+              </div>
             </div>
             <p className="section-copy board-profile-copy">
               Cet espace sert a gerer votre compte medical, verifier les donnees enregistrees
@@ -102,6 +112,16 @@ export default function Dashboard() {
               </Button>
               <Button block variant="secondary" onClick={() => navigate(ROUTES.editProfile)}>
                 Modifier compte
+              </Button>
+              <Button
+                block
+                variant="ghost"
+                onClick={async () => {
+                  await logout();
+                  navigate(ROUTES.login, { replace: true });
+                }}
+              >
+                Se deconnecter
               </Button>
             </div>
           </Card>
