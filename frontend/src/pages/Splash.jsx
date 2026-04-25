@@ -116,7 +116,9 @@ export default function Splash() {
           </div>
 
           <div className="onboarding-header">
-            <img src={lifelineLogo} alt="Logo LifeLine" className="onboarding-logo-image" />
+            <div className="onboarding-logo-shell">
+              <img src={lifelineLogo} alt="Logo LifeLine" className="onboarding-logo-image" />
+            </div>
 
             <div className="onboarding-copy">
               <h1 className="onboarding-title">{slide.title}</h1>
