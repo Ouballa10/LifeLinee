@@ -177,6 +177,8 @@ function normalizeFirebaseError(error) {
       return "Connexion reseau impossible. Verifiez Internet puis reessayez.";
     case "auth/weak-password":
       return "Le mot de passe doit contenir au moins 6 caracteres.";
+    case "auth/unauthorized-domain":
+      return "Ce domaine n'est pas autorise dans Firebase. Ajoutez localhost et votre domaine Vercel dans Authentication > Settings > Authorized domains.";
     default:
       return error?.message || "Une erreur est survenue pendant l'authentification.";
   }

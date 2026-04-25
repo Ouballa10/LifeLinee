@@ -22,6 +22,10 @@ app.use('/api/auth', requireDatabase, authRoutes);
 app.use('/api/users', requireDatabase, userRoutes);
 app.use('/api/emergency', requireDatabase, emergencyRoutes);
 app.use('/api/qr', requireDatabase, qrRoutes);
+app.use('/auth', requireDatabase, authRoutes);
+app.use('/users', requireDatabase, userRoutes);
+app.use('/emergency', requireDatabase, emergencyRoutes);
+app.use('/qr', requireDatabase, qrRoutes);
 app.use(errorMiddleware);
 
 module.exports = app;

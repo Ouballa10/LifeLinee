@@ -75,7 +75,7 @@ export default function Register() {
             variant="ghost"
             className="auth-action-button auth-action-button-google"
             onClick={handleGoogleRegister}
-            disabled={isLoading || !isFirebaseConfigured}
+            disabled={isLoading}
           >
             <span className="google-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">

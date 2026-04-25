@@ -97,7 +97,7 @@ export default function Login() {
               variant="ghost"
               className="auth-action-button auth-action-button-google"
               onClick={handleGoogleLogin}
-              disabled={isLoading || !isFirebaseConfigured}
+              disabled={isLoading}
             >
               <span className="google-mark" aria-hidden="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
