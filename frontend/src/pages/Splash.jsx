@@ -2,7 +2,108 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import heroIllustration from "../assets/images/onboarding-hero.png";
 import lifelineLogo from "../assets/images/lifeline-logo.png";
+import onboardingPhoneIllustration from "../assets/images/onboarding-phone.png";
 import { ROUTES } from "../utils/constants.js";
+
+function FeatureIcon({ type }) {
+  const icons = {
+    shield: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M24 7L35 11.5V21.5C35 29.2 30.3 35.1 24 38C17.7 35.1 13 29.2 13 21.5V11.5L24 7Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M19 23.5L22.5 27L29.5 19.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    lock: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="14" y="21" width="20" height="16" rx="5" fill="none" stroke="currentColor" strokeWidth="3.2" />
+        <path
+          d="M18 21V17.5C18 14.2 20.7 11.5 24 11.5C27.3 11.5 30 14.2 30 17.5V21"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+        <circle cx="24" cy="28" r="2.5" fill="currentColor" />
+      </svg>
+    ),
+    heart: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M24 36C15 30.4 10 24.7 10 18.7C10 14.7 13 12 16.8 12C20 12 22.3 13.6 24 16C25.7 13.6 28 12 31.2 12C35 12 38 14.7 38 18.7C38 24.7 33 30.4 24 36Z"
+          fill="currentColor"
+        />
+        <path
+          d="M15.5 23.5H21L23.4 19L26 27L28.6 22.7H32.5"
+          fill="none"
+          stroke="#FFFFFF"
+          strokeWidth="2.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    refresh: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M16 18C17.8 15.5 20.7 14 24 14C29.5 14 34 18.5 34 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M32 14V19H27"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M32 30C30.2 32.5 27.3 34 24 34C18.5 34 14 29.5 14 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M16 34V29H21"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    bolt: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M27 8L17 24H24L21 40L31 23H24L27 8Z"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  };
+
+  return icons[type] || icons.shield;
+}
 
 export default function Splash() {
   const navigate = useNavigate();
@@ -24,9 +125,9 @@ export default function Splash() {
       cta: "Suivant",
       panelType: "hero",
       features: [
-        { title: "Rapide", text: "Accedez a vos informations en un instant." },
-        { title: "Securise", text: "Vos donnees sont protegees et privees." },
-        { title: "Toujours la", text: "Disponibles partout quand vous en avez besoin." },
+        { title: "Rapide", text: "Accedez a vos informations en un instant.", icon: "shield" },
+        { title: "Securise", text: "Vos donnees sont protegees et privees.", icon: "lock" },
+        { title: "Toujours la", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
       ],
     },
     {
@@ -45,9 +146,9 @@ export default function Splash() {
       cta: "Suivant",
       panelType: "phone",
       features: [
-        { title: "Confidentiel", text: "Les donnees restent privees et securisees." },
-        { title: "Accessible", text: "Disponibles pour les secours au bon moment." },
-        { title: "Instantane", text: "Des informations simples, lisibles et utiles." },
+        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lock" },
+        { title: "Accessible", text: "Disponibles pour les secours au bon moment.", icon: "refresh" },
+        { title: "Instantane", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
       ],
     },
     {
@@ -136,40 +237,11 @@ export default function Splash() {
             ) : null}
 
             {slide.panelType === "phone" ? (
-              <>
-                <div className="phone-ring phone-ring-left"></div>
-                <div className="phone-ring phone-ring-right"></div>
-                <div className="onboarding-phone">
-                  <div className="onboarding-phone-notch"></div>
-                  <div className="onboarding-phone-screen">
-                    <div className="phone-profile-row">
-                      <span className="phone-avatar"></span>
-                      <div className="phone-lines">
-                        <span></span>
-                        <span></span>
-                      </div>
-                    </div>
-                    <div className="phone-info-list">
-                      <div className="phone-info-card">
-                        <strong>Groupe sanguin</strong>
-                        <span>O+</span>
-                      </div>
-                      <div className="phone-info-card">
-                        <strong>Allergies</strong>
-                        <span>Penicilline</span>
-                      </div>
-                      <div className="phone-info-card">
-                        <strong>Contacts</strong>
-                        <span>2 proches</span>
-                      </div>
-                    </div>
-                    <div className="phone-share-bar">Partager</div>
-                  </div>
-                </div>
-                <span className="floating-badge floating-badge-red">♥</span>
-                <span className="floating-badge floating-badge-green">✓</span>
-                <span className="floating-badge floating-badge-purple">👥</span>
-              </>
+              <img
+                src={onboardingPhoneIllustration}
+                alt="Illustration partage des informations medicales"
+                className="onboarding-phone-image"
+              />
             ) : null}
 
             {slide.panelType === "security" ? (
@@ -201,7 +273,9 @@ export default function Splash() {
             <div className="onboarding-feature-grid">
               {slide.features.map((feature) => (
                 <article key={feature.title} className="onboarding-feature-card">
-                  <span className="onboarding-feature-icon">✦</span>
+                  <span className="onboarding-feature-icon">
+                    <FeatureIcon type={feature.icon} />
+                  </span>
                   <strong>{feature.title}</strong>
                   <p>{feature.text}</p>
                 </article>

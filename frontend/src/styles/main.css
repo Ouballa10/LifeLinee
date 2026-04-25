@@ -976,8 +976,25 @@
 }
 
 .onboarding-card-hero .onboarding-title {
-  font-size: clamp(1.55rem, 4.5vw, 2.15rem);
-  line-height: 1.16;
+  font-size: clamp(1.35rem, 3.9vw, 1.9rem);
+  line-height: 1.18;
+}
+
+.onboarding-card-hero .onboarding-copy p {
+  max-width: 285px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.onboarding-card-phone .onboarding-title {
+  font-size: clamp(1.35rem, 3.9vw, 1.9rem);
+  line-height: 1.18;
+}
+
+.onboarding-card-phone .onboarding-copy p {
+  max-width: 285px;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .onboarding-copy p {
@@ -1028,6 +1045,16 @@
 }
 
 .onboarding-hero-image {
+  position: absolute;
+  inset: -4px -14px 0;
+  width: calc(100% + 28px);
+  height: calc(100% + 4px);
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.onboarding-phone-image {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1536,6 +1563,12 @@
   background: rgba(72, 135, 241, 0.12);
   color: #2f6fdd;
   font-size: 1.1rem;
+}
+
+.onboarding-feature-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .onboarding-feature-card strong,
