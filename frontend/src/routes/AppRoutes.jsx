@@ -94,11 +94,7 @@ export default function AppRoutes() {
       />
       <Route
         path={ROUTES.scanner}
-        element={
-          <ProtectedRoute>
-            <Scanner />
-          </ProtectedRoute>
-        }
+        element={<Scanner />}
       />
       <Route path={ROUTES.emergency} element={<Emergency />} />
       <Route path={`${ROUTES.emergency}/:token`} element={<Emergency />} />

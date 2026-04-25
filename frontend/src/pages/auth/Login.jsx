@@ -4,6 +4,8 @@ import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
 import Loader from "../../components/ui/Loader.jsx";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import onboardingPhoneIllustration from "../../assets/images/onboarding-phone.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
@@ -60,7 +62,9 @@ export default function Login() {
           </div>
 
           <div className="auth-brand-block auth-brand-block-form">
-            <span className="auth-logo-mark auth-logo-mark-small">+</span>
+            <span className="auth-logo-image-shell">
+              <img src={lifelineLogo} alt="LifeLine" className="auth-logo-image" />
+            </span>
             <h1 className="auth-form-title">Connexion</h1>
             <p className="auth-form-subtitle">Connectez-vous a votre espace LifeLine.</p>
           </div>
@@ -121,9 +125,13 @@ export default function Login() {
               </span>
               <span className="google-copy">
                 <strong>Connexion avec Google</strong>
-              
+                <span>Acces rapide avec votre compte Google</span>
               </span>
             </Button>
+
+            <Link to={ROUTES.scanner} className="auth-public-scan-link">
+              Scanner un QR sans compte
+            </Link>
           </form>
 
           {!isFirebaseConfigured ? (
@@ -142,24 +150,14 @@ export default function Login() {
             </Link>
           </div>
 
-          <div className="auth-illustration auth-illustration-login" aria-hidden="true">
-            <div className="auth-illustration-mini-card"></div>
-            <div className="auth-illustration-phone auth-illustration-phone-small">
-              <div className="auth-phone-screen">
-                <div className="auth-phone-qr-grid">
-                  {Array.from({ length: 16 }).map((_, index) => (
-                    <span
-                      key={index}
-                      className={`auth-phone-qr-cell ${
-                        index % 2 === 0 || index % 3 === 0 ? "is-active" : ""
-                      }`}
-                    ></span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="auth-illustration-ambulance"></div>
-            <div className="auth-illustration-stethoscope"></div>
+          <div className="auth-illustration auth-illustration-login auth-asset-stage" aria-hidden="true">
+            <img
+              src={onboardingPhoneIllustration}
+              alt=""
+              className="auth-asset-image auth-asset-phone"
+            />
+            <span className="auth-asset-chip auth-asset-chip-left">QR</span>
+            <span className="auth-asset-chip auth-asset-chip-right">24/7</span>
           </div>
         </Card>
       </section>

@@ -304,16 +304,21 @@ export default function Splash() {
               <span className="onboarding-cta-arrow">→</span>
             </button>
 
-            {currentSlide === 2 ? (
-              <div className="onboarding-secondary-actions">
+            <div className="onboarding-secondary-actions">
+              <Link to={ROUTES.scanner} className="text-link">
+                Scanner un QR
+              </Link>
+              {currentSlide === 2 ? (
+                <>
                 <Link to={ROUTES.login} className="text-link">
                   Se connecter
                 </Link>
                 <Link to={ROUTES.register} className="text-link">
                   Creer un compte
                 </Link>
-              </div>
-            ) : null}
+                </>
+              ) : null}
+            </div>
           </div>
 
           <div className="splash-dots onboarding-dots" aria-label="Navigation onboarding">

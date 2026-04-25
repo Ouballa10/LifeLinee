@@ -4,6 +4,8 @@ import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
 import Loader from "../../components/ui/Loader.jsx";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import heroIllustration from "../../assets/images/onboarding-hero.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
@@ -64,7 +66,9 @@ export default function Register() {
           </div>
 
           <div className="auth-brand-block auth-brand-block-form">
-            <span className="auth-logo-mark auth-logo-mark-small">+</span>
+            <span className="auth-logo-image-shell">
+              <img src={lifelineLogo} alt="LifeLine" className="auth-logo-image" />
+            </span>
             <h1 className="auth-form-title">Creer un compte</h1>
             <p className="auth-form-subtitle">Activez votre compte LifeLine.</p>
           </div>
@@ -102,6 +106,10 @@ export default function Register() {
               <span>Inscription rapide et sans formulaire long</span>
             </span>
           </Button>
+
+          <Link to={ROUTES.scanner} className="auth-public-scan-link">
+            Scanner un QR sans compte
+          </Link>
 
           <div className="auth-divider">
             <span>ou</span>
@@ -177,12 +185,10 @@ export default function Register() {
             </Link>
           </div>
 
-          <div className="auth-illustration auth-illustration-register" aria-hidden="true">
-            <div className="auth-illustration-cloud auth-illustration-cloud-left"></div>
-            <div className="auth-illustration-cloud auth-illustration-cloud-right"></div>
-            <div className="auth-illustration-wave auth-illustration-wave-back"></div>
-            <div className="auth-illustration-wave auth-illustration-wave-front"></div>
-            <div className="auth-illustration-cross">+</div>
+          <div className="auth-illustration auth-illustration-register auth-asset-stage" aria-hidden="true">
+            <img src={heroIllustration} alt="" className="auth-asset-image auth-asset-hero" />
+            <span className="auth-asset-chip auth-asset-chip-left">Secure</span>
+            <span className="auth-asset-chip auth-asset-chip-right">SOS</span>
           </div>
         </Card>
       </section>

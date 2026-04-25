@@ -6,12 +6,14 @@ import Navbar from "../../components/layout/Navbar.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { parseEmergencyQrNavigation } from "../../services/qrService.js";
+import { ROUTES } from "../../utils/constants.js";
 
 export default function Scanner() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { appState, saveLastScan, setScannerPermission } = useContext(AppContext);
   const videoRef = useRef(null);
   const overlayRef = useRef(null);
@@ -138,11 +140,32 @@ export default function Scanner() {
   }
 
   const scannedNavigation = parseEmergencyQrNavigation(appState.lastScan || detectedValue);
+  const scannerName = user?.fullName || "Scanner public";
+  const scannerSubtitle = user?.email || "Aucun compte requis";
 
   return (
     <main className="screen">
-      <section className="mobile-shell scanner-shell">
-        <Navbar title="Scanner QR" subtitle="Lecture camera en direct" />
+      <section className={`mobile-shell scanner-shell ${!isAuthenticated ? "scanner-shell-public" : ""}`}>
+        {isAuthenticated ? (
+          <Navbar title="Scanner QR" subtitle="Lecture camera en direct" />
+        ) : (
+          <header className="public-scanner-header">
+            <Link to={ROUTES.splash} className="public-scanner-brand">
+              <span className="public-scanner-logo">
+                <img src={lifelineLogo} alt="LifeLine" />
+              </span>
+              <span>
+                <strong>LifeLine</strong>
+                <small>Scanner QR medical</small>
+              </span>
+            </Link>
+
+            <div className="public-scanner-links">
+              <Link to={ROUTES.login}>Login</Link>
+              <Link to={ROUTES.register}>Compte</Link>
+            </div>
+          </header>
+        )}
 
         <div className="app-content">
           <Card className="scanner-card scanner-card-light">
@@ -155,16 +178,16 @@ export default function Scanner() {
               {!isScannerActive ? (
                 <div className="scanner-placeholder">
                   <span className="soft-badge">Camera QR</span>
-                  <strong>{user?.fullName}</strong>
-                  <span>{user?.email}</span>
+                  <strong>{scannerName}</strong>
+                  <span>{scannerSubtitle}</span>
                 </div>
               ) : null}
             </div>
 
             <div className="scanner-profile-row scanner-toolbar">
               <div>
-                <strong>{user?.fullName}</strong>
-                <span>{user?.email}</span>
+                <strong>{scannerName}</strong>
+                <span>{scannerSubtitle}</span>
               </div>
 
               <span className="status-chip">
@@ -225,9 +248,26 @@ export default function Scanner() {
               )}
             </Card>
           ) : null}
+
+          {!isAuthenticated ? (
+            <Card className="scanner-public-cta">
+              <strong>Gardez votre propre QR LifeLine</strong>
+              <p className="section-copy">
+                Creez un compte pour enregistrer vos informations medicales et generer votre QR personnel.
+              </p>
+              <div className="split-actions">
+                <Link to={ROUTES.register} className="button button-primary">
+                  Creer un compte
+                </Link>
+                <Link to={ROUTES.login} className="button button-secondary">
+                  Se connecter
+                </Link>
+              </div>
+            </Card>
+          ) : null}
         </div>
 
-        <BottomNav />
+        {isAuthenticated ? <BottomNav /> : null}
       </section>
     </main>
   );
