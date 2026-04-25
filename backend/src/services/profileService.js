@@ -6,37 +6,46 @@ function createQrToken() {
 }
 
 async function ensureMedicalProfileForUser(userId, defaults = {}) {
-  let profile = await MedicalProfile.findOne({ userId });
+  const existingProfile = await MedicalProfile.findByUserProfileId(userId);
 
-  if (!profile) {
-    profile = await MedicalProfile.create({
-      userId,
-      qrToken: createQrToken(),
-      bloodType: defaults.bloodType || 'Unknown',
-      allergies: defaults.allergies || [],
-      chronicDiseases: defaults.chronicDiseases || [],
-      medications: defaults.medications || [],
-      emergencyContact: defaults.emergencyContact || {
-        name: '',
-        phone: '',
-        relationship: '',
-      },
-      criticalInstructions: defaults.criticalInstructions || '',
-    });
+  if (existingProfile) {
+    const repairUpdates = {};
 
-    return profile;
+    if (!existingProfile.qrToken) {
+      repairUpdates.qrToken = createQrToken();
+    }
+
+    if (!existingProfile.bloodType) {
+      repairUpdates.bloodType = defaults.bloodType || 'Unknown';
+    }
+
+    if (Object.keys(repairUpdates).length) {
+      return MedicalProfile.updateById(existingProfile.id, repairUpdates);
+    }
+
+    return existingProfile;
   }
 
-  if (!profile.qrToken) {
-    profile.qrToken = createQrToken();
-  }
+  return MedicalProfile.create({
+    userProfileId: userId,
+    qrToken: createQrToken(),
+    bloodType: defaults.bloodType || 'Unknown',
+    allergies: defaults.allergies || [],
+    chronicDiseases: defaults.chronicDiseases || [],
+    medications: defaults.medications || [],
+    emergencyContact: defaults.emergencyContact || {
+      name: '',
+      phone: '',
+      relationship: '',
+    },
+    doctorName: defaults.doctorName || '',
+    criticalInstructions: defaults.criticalInstructions || '',
+  });
+}
 
-  if (!profile.bloodType) {
-    profile.bloodType = defaults.bloodType || 'Unknown';
-  }
-
-  await profile.save();
-  return profile;
+async function updateMedicalProfileForUser(userId, updates = {}) {
+  const profile = await ensureMedicalProfileForUser(userId);
+  return MedicalProfile.updateById(profile.id, updates);
 }
 
 function serializeEmergencyContact(contact = {}) {
@@ -49,10 +58,11 @@ function serializeEmergencyContact(contact = {}) {
 
 function serializePrivateProfile(user, medicalProfile, baseUrl = '') {
   return {
-    id: medicalProfile._id,
-    userId: user._id,
+    id: medicalProfile.id,
+    userId: user.id,
+    firebaseUid: user.firebaseUid || '',
     fullName: user.fullName,
-    email: user.email,
+    email: user.email || '',
     phone: user.phone || '',
     city: user.city || '',
     bloodType: medicalProfile.bloodType || 'Unknown',
@@ -60,21 +70,22 @@ function serializePrivateProfile(user, medicalProfile, baseUrl = '') {
     chronicDiseases: medicalProfile.chronicDiseases || [],
     medications: medicalProfile.medications || [],
     emergencyContact: serializeEmergencyContact(medicalProfile.emergencyContact),
+    doctorName: medicalProfile.doctorName || '',
     criticalInstructions: medicalProfile.criticalInstructions || '',
     qrToken: medicalProfile.qrToken,
     emergencyUrl: baseUrl ? `${baseUrl}/emergency/${medicalProfile.qrToken}` : '',
   };
 }
 
-function serializeEmergencyProfile(user, medicalProfile) {
+function serializeEmergencyProfile(profile = {}) {
   return {
-    fullName: user.fullName,
-    bloodType: medicalProfile.bloodType || 'Unknown',
-    allergies: medicalProfile.allergies || [],
-    chronicDiseases: medicalProfile.chronicDiseases || [],
-    medications: medicalProfile.medications || [],
-    emergencyContact: serializeEmergencyContact(medicalProfile.emergencyContact),
-    criticalInstructions: medicalProfile.criticalInstructions || '',
+    fullName: profile.fullName || '',
+    bloodType: profile.bloodType || 'Unknown',
+    allergies: profile.allergies || [],
+    chronicDiseases: profile.chronicDiseases || [],
+    medications: profile.medications || [],
+    emergencyContact: serializeEmergencyContact(profile.emergencyContact),
+    criticalInstructions: profile.criticalInstructions || '',
   };
 }
 
@@ -83,4 +94,5 @@ module.exports = {
   ensureMedicalProfileForUser,
   serializePrivateProfile,
   serializeEmergencyProfile,
+  updateMedicalProfileForUser,
 };

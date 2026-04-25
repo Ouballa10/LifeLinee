@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { verifyToken } = require('../utils/generateToken');
+const { verifyFirebaseIdToken } = require('../services/firebaseAuthService');
 
 module.exports = async (req, res, next) => {
   const authHeader = req.headers.authorization || '';
@@ -10,14 +10,18 @@ module.exports = async (req, res, next) => {
 
   try {
     const token = authHeader.replace('Bearer ', '').trim();
-    const payload = verifyToken(token);
-    const user = await User.findById(payload.sub);
+    const firebaseAccount = await verifyFirebaseIdToken(token, req);
+    const user = await User.upsertFirebaseUser(firebaseAccount, {
+      email: firebaseAccount.email,
+      fullName: firebaseAccount.fullName,
+    });
 
-    if (!user) {
-      return res.status(401).json({ message: 'User not found for this token.' });
-    }
-
-    req.auth = payload;
+    req.auth = {
+      sub: firebaseAccount.firebaseUid,
+      email: firebaseAccount.email,
+      provider: 'firebase',
+    };
+    req.firebaseUser = firebaseAccount;
     req.user = user;
     return next();
   } catch (error) {

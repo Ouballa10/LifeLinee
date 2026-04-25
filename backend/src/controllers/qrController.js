@@ -10,7 +10,7 @@ function getFrontendBaseUrl(req) {
 
 exports.getMyQRCode = async (req, res) => {
   try {
-    const medicalProfile = await ensureMedicalProfileForUser(req.user._id);
+    const medicalProfile = await ensureMedicalProfileForUser(req.user.id);
 
     return res.json({
       message: 'QR payload generated.',

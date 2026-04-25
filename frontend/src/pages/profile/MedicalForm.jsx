@@ -14,6 +14,7 @@ function buildMedicalForm(user) {
     conditions: user?.conditions || "",
     medications: user?.medications || "",
     emergencyContact: user?.emergencyContact || "",
+    doctorName: user?.doctorName || "",
     notes: user?.criticalInstructions || user?.notes || "",
   };
 }
@@ -45,6 +46,7 @@ export default function MedicalForm() {
     user?.conditions,
     user?.medications,
     user?.emergencyContact,
+    user?.doctorName,
     user?.criticalInstructions,
     user?.notes,
   ]);
@@ -90,6 +92,7 @@ export default function MedicalForm() {
               <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
               <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
               <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+              <Input label="Medecin referent" name="doctorName" value={form.doctorName} onChange={handleChange} />
               <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
               <Button type="submit" block>
                 Enregistrer

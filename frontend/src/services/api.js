@@ -22,7 +22,7 @@ export async function apiRequest(path, options = {}) {
     });
   } catch (error) {
     throw new Error(
-      "Impossible de joindre le serveur. Verifiez que le backend LifeLine est lance et accessible."
+      "Impossible de joindre l'API LifeLine. Verifiez la configuration Vercel/API locale."
     );
   }
 
@@ -47,7 +47,7 @@ export async function apiRequest(path, options = {}) {
 
     if ([502, 503, 504].includes(response.status)) {
       throw new Error(
-        "Le frontend ne parvient pas a joindre le backend. Verifiez que le serveur Node est bien lance sur le port 5001."
+        "Le frontend ne parvient pas a joindre l'API LifeLine. Verifiez les variables Supabase/Firebase cote serveur."
       );
     }
 

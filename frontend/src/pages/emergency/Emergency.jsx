@@ -1,36 +1,29 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { buildEmergencyContactLabel, getEmergencyProfile } from "../../services/profileService.js";
-import { decodeEmergencyPreview } from "../../services/qrService.js";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function Emergency() {
   const { token } = useParams();
-  const location = useLocation();
-  const previewParam = useMemo(
-    () => new URLSearchParams(location.search).get("preview") || "",
-    [location.search]
-  );
-  const localPreview = useMemo(() => decodeEmergencyPreview(previewParam), [previewParam]);
-  const [preview, setPreview] = useState(() => localPreview);
-  const [error, setError] = useState(() => (localPreview ? "" : token ? "" : "QR token missing."));
+  const [preview, setPreview] = useState(null);
+  const [error, setError] = useState(() => (token ? "" : "QR token missing."));
 
   useEffect(() => {
     let cancelled = false;
 
     if (!token) {
-      setPreview(localPreview);
-      setError(localPreview ? "" : "QR token missing.");
+      setPreview(null);
+      setError("QR token missing.");
       return () => {
         cancelled = true;
       };
     }
 
-    setPreview(localPreview);
+    setPreview(null);
     setError("");
 
     getEmergencyProfile(token)
@@ -41,19 +34,14 @@ export default function Emergency() {
       })
       .catch((nextError) => {
         if (!cancelled) {
-          if (localPreview) {
-            setPreview(localPreview);
-            setError("");
-          } else {
-            setError(nextError.message);
-          }
+          setError(nextError.message);
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [localPreview, token]);
+  }, [token]);
 
   if (!preview && !error) {
     return <Loader label="Chargement de la carte d'urgence..." />;

@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
 
 export const AUTH_PROVIDERS = {
   backend: "backend",
+  firebase: "firebase",
   google: "google",
 };
 
@@ -16,7 +17,7 @@ export const ROUTES = {
   home: "/home",
   dashboard: "/dashboard",
   profile: "/profile",
-  editProfile: "/profile/edit",
+  editProfile: "/edit-profile",
   medicalForm: "/profile/medical",
   qr: "/qr",
   scanner: "/scanner",

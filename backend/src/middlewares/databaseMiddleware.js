@@ -1,21 +1,15 @@
-const mongoose = require('mongoose');
-
-const READY_STATE_LABELS = {
-  0: 'disconnected',
-  1: 'connected',
-  2: 'connecting',
-  3: 'disconnecting',
-};
+const { assertSupabaseConfig } = require('../config/supabase');
 
 module.exports = (req, res, next) => {
-  if (mongoose.connection.readyState === 1) {
+  try {
+    assertSupabaseConfig();
     return next();
+  } catch (error) {
+    return res.status(503).json({
+      message:
+        'La base de donnees LifeLine est indisponible. Verifiez SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY cote serveur.',
+      code: 'DATABASE_UNAVAILABLE',
+      detail: error.message,
+    });
   }
-
-  return res.status(503).json({
-    message:
-      'La base de donnees LifeLine est indisponible. Verifiez la connexion MongoDB du backend puis redemarrez le serveur.',
-    code: 'DATABASE_UNAVAILABLE',
-    state: READY_STATE_LABELS[mongoose.connection.readyState] || 'unknown',
-  });
 };

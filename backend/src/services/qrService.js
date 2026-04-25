@@ -5,6 +5,7 @@ function buildQrPayload(qrToken, baseUrl = '') {
     qrToken,
     emergencyPath,
     emergencyUrl: baseUrl ? `${baseUrl}${emergencyPath}` : emergencyPath,
+    shareUrl: baseUrl ? `${baseUrl}${emergencyPath}` : emergencyPath,
     status: 'ready',
   };
 }
