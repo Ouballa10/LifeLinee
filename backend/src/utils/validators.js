@@ -45,6 +45,7 @@ function normalizeMedicalProfile(payload = {}) {
     chronicDiseases: splitCsv(payload.conditions || payload.chronicDiseases),
     medications: splitCsv(payload.medications),
     emergencyContact: normalizeEmergencyContact(payload.emergencyContact),
+    doctorName: String(payload.doctorName || payload.doctor_name || '').trim(),
     criticalInstructions: String(
       payload.criticalInstructions || payload.notes || payload.medicalNotes || ''
     ).trim(),

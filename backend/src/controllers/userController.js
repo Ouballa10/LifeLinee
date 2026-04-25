@@ -2,6 +2,7 @@ const User = require('../models/User');
 const {
   ensureMedicalProfileForUser,
   serializePrivateProfile,
+  updateMedicalProfileForUser,
 } = require('../services/profileService');
 const { normalizeMedicalProfile, normalizePhone } = require('../utils/validators');
 
@@ -14,7 +15,7 @@ function getFrontendBaseUrl(req) {
 
 exports.getCurrentUserProfile = async (req, res) => {
   try {
-    const medicalProfile = await ensureMedicalProfileForUser(req.user._id);
+    const medicalProfile = await ensureMedicalProfileForUser(req.user.id);
 
     return res.json({
       profile: serializePrivateProfile(req.user, medicalProfile, getFrontendBaseUrl(req)),
@@ -29,10 +30,11 @@ exports.getCurrentUserProfile = async (req, res) => {
 exports.updateCurrentUserProfile = async (req, res) => {
   try {
     const updates = req.body || {};
+    const userUpdates = {};
     const email = String(updates.email || '').trim().toLowerCase();
 
     if (email && email !== req.user.email) {
-      const emailOwner = await User.findOne({ email, _id: { $ne: req.user._id } });
+      const emailOwner = await User.findEmailOwner(email, req.user.id);
 
       if (emailOwner) {
         return res.status(409).json({
@@ -40,7 +42,7 @@ exports.updateCurrentUserProfile = async (req, res) => {
         });
       }
 
-      req.user.email = email;
+      userUpdates.email = email;
     }
 
     if (updates.fullName !== undefined) {
@@ -52,51 +54,59 @@ exports.updateCurrentUserProfile = async (req, res) => {
         });
       }
 
-      req.user.fullName = fullName;
+      userUpdates.fullName = fullName;
     }
 
     if (updates.phone !== undefined) {
-      req.user.phone = normalizePhone(updates.phone);
+      userUpdates.phone = normalizePhone(updates.phone);
     }
 
     if (updates.city !== undefined) {
-      req.user.city = String(updates.city || '').trim();
+      userUpdates.city = String(updates.city || '').trim();
     }
 
-    await req.user.save();
+    const nextUser = Object.keys(userUpdates).length
+      ? await User.updateById(req.user.id, userUpdates)
+      : req.user;
 
-    const medicalProfile = await ensureMedicalProfileForUser(req.user._id);
     const medicalUpdates = normalizeMedicalProfile(updates);
+    const profileUpdates = {};
 
     if (updates.bloodType !== undefined) {
-      medicalProfile.bloodType = medicalUpdates.bloodType;
+      profileUpdates.bloodType = medicalUpdates.bloodType;
     }
 
     if (updates.allergies !== undefined) {
-      medicalProfile.allergies = medicalUpdates.allergies;
+      profileUpdates.allergies = medicalUpdates.allergies;
     }
 
     if (updates.chronicDiseases !== undefined || updates.conditions !== undefined) {
-      medicalProfile.chronicDiseases = medicalUpdates.chronicDiseases;
+      profileUpdates.chronicDiseases = medicalUpdates.chronicDiseases;
     }
 
     if (updates.medications !== undefined) {
-      medicalProfile.medications = medicalUpdates.medications;
+      profileUpdates.medications = medicalUpdates.medications;
     }
 
     if (updates.emergencyContact !== undefined) {
-      medicalProfile.emergencyContact = medicalUpdates.emergencyContact;
+      profileUpdates.emergencyContact = medicalUpdates.emergencyContact;
+    }
+
+    if (updates.doctorName !== undefined || updates.doctor_name !== undefined) {
+      profileUpdates.doctorName = medicalUpdates.doctorName;
     }
 
     if (updates.criticalInstructions !== undefined || updates.notes !== undefined) {
-      medicalProfile.criticalInstructions = medicalUpdates.criticalInstructions;
+      profileUpdates.criticalInstructions = medicalUpdates.criticalInstructions;
     }
 
-    await medicalProfile.save();
+    const medicalProfile = Object.keys(profileUpdates).length
+      ? await updateMedicalProfileForUser(nextUser.id, profileUpdates)
+      : await ensureMedicalProfileForUser(nextUser.id);
 
     return res.json({
       message: 'Profile updated successfully.',
-      profile: serializePrivateProfile(req.user, medicalProfile, getFrontendBaseUrl(req)),
+      profile: serializePrivateProfile(nextUser, medicalProfile, getFrontendBaseUrl(req)),
     });
   } catch (error) {
     return res.status(500).json({

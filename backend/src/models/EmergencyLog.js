@@ -1,26 +1,26 @@
-const mongoose = require('mongoose');
+const { getSupabaseAdmin } = require('../config/supabase');
 
-const emergencyLogSchema = new mongoose.Schema(
-  {
-    qrToken: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    responder: {
-      type: String,
-      default: 'unknown',
-    },
-    location: {
-      type: String,
-      default: '',
-    },
-    openedAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { timestamps: true }
-);
+const TABLE = 'emergency_logs';
 
-module.exports = mongoose.model('EmergencyLog', emergencyLogSchema);
+async function create(payload = {}) {
+  const { data, error } = await getSupabaseAdmin()
+    .from(TABLE)
+    .insert({
+      qr_token: String(payload.qrToken || payload.qr_token || '').trim(),
+      responder: String(payload.responder || 'unknown').trim() || 'unknown',
+      location: String(payload.location || '').trim(),
+      opened_at: payload.openedAt || payload.opened_at || new Date().toISOString(),
+    })
+    .select('*')
+    .single();
+
+  if (error) {
+    throw new Error(`Unable to store the emergency access log: ${error.message}`);
+  }
+
+  return data;
+}
+
+module.exports = {
+  create,
+};

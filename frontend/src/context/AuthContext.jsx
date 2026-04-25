@@ -11,6 +11,7 @@ import {
   logoutGoogle,
   registerUser,
   saveGoogleProfile,
+  syncFirebaseSession,
   syncGoogleSession,
 } from "../services/authService.js";
 import { getProfile as fetchProfile, updateProfile as persistProfile } from "../services/profileService.js";
@@ -27,12 +28,12 @@ export function AuthProvider({ children }) {
   const hydratedTokenRef = useRef("");
 
   useEffect(() => {
-    if (storedSession?.authProvider !== AUTH_PROVIDERS.google || !storedSession?.user) {
+    if (!storedSession?.user) {
       return;
     }
 
     saveGoogleProfile(storedSession.user);
-  }, [storedSession?.authProvider, storedSession?.user]);
+  }, [storedSession?.user]);
 
   useEffect(() => {
     const currentToken = storedSession?.token || "";
@@ -70,7 +71,7 @@ export function AuthProvider({ children }) {
     if (
       !isFirebaseConfigured ||
       !auth ||
-      storedSession?.authProvider !== AUTH_PROVIDERS.google
+      ![AUTH_PROVIDERS.firebase, AUTH_PROVIDERS.google].includes(storedSession?.authProvider)
     ) {
       return undefined;
     }
@@ -87,10 +88,15 @@ export function AuthProvider({ children }) {
       setIsLoading(true);
 
       try {
-        const session = await syncGoogleSession(firebaseUser, {
+        const syncSession =
+          storedSession?.authProvider === AUTH_PROVIDERS.google
+            ? syncGoogleSession
+            : syncFirebaseSession;
+        const session = await syncSession(firebaseUser, {
           ...(getStoredGoogleProfile(firebaseUser) || {}),
           ...(storedSession?.user || {}),
         });
+        const authProvider = session.authProvider || storedSession?.authProvider;
 
         startTransition(() => {
           setStoredSession((current) => ({
@@ -99,9 +105,9 @@ export function AuthProvider({ children }) {
             user: {
               ...(current?.user || {}),
               ...session.user,
-              authProvider: AUTH_PROVIDERS.google,
+              authProvider,
             },
-            authProvider: AUTH_PROVIDERS.google,
+            authProvider,
           }));
         });
       } catch {
@@ -167,17 +173,24 @@ export function AuthProvider({ children }) {
     setIsLoading(true);
 
     try {
-      const user = await persistProfile(storedSession.token, updates);
+      const isFirebaseProvider = [AUTH_PROVIDERS.firebase, AUTH_PROVIDERS.google].includes(
+        storedSession?.authProvider
+      );
+      const nextToken =
+        auth?.currentUser && isFirebaseProvider
+          ? await auth.currentUser.getIdToken()
+          : storedSession.token;
+      const user = await persistProfile(nextToken, updates);
       const nextUser =
-        storedSession?.authProvider === AUTH_PROVIDERS.google
+        isFirebaseProvider
           ? {
               ...(storedSession.user || {}),
               ...user,
-              authProvider: AUTH_PROVIDERS.google,
+              authProvider: storedSession?.authProvider,
             }
           : user;
 
-      if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
+      if (isFirebaseProvider) {
         saveGoogleProfile(nextUser);
       }
 
@@ -186,6 +199,7 @@ export function AuthProvider({ children }) {
           current
             ? {
                 ...current,
+                token: nextToken,
                 user: nextUser,
               }
             : current
@@ -202,17 +216,24 @@ export function AuthProvider({ children }) {
       return null;
     }
 
-    const user = await fetchProfile(storedSession.token);
+    const isFirebaseProvider = [AUTH_PROVIDERS.firebase, AUTH_PROVIDERS.google].includes(
+      storedSession?.authProvider
+    );
+    const nextToken =
+      auth?.currentUser && isFirebaseProvider
+        ? await auth.currentUser.getIdToken()
+        : storedSession.token;
+    const user = await fetchProfile(nextToken);
     const nextUser =
-      storedSession?.authProvider === AUTH_PROVIDERS.google
+      isFirebaseProvider
         ? {
             ...(storedSession.user || {}),
             ...user,
-            authProvider: AUTH_PROVIDERS.google,
+            authProvider: storedSession?.authProvider,
           }
         : user;
 
-    if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
+    if (isFirebaseProvider) {
       saveGoogleProfile(nextUser);
     }
 
@@ -221,6 +242,7 @@ export function AuthProvider({ children }) {
         current
           ? {
               ...current,
+              token: nextToken,
               user: nextUser,
             }
           : current
@@ -230,7 +252,7 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    if (storedSession?.authProvider === AUTH_PROVIDERS.google) {
+    if ([AUTH_PROVIDERS.firebase, AUTH_PROVIDERS.google].includes(storedSession?.authProvider)) {
       await logoutGoogle();
     }
 

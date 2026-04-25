@@ -7,7 +7,7 @@ import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import {
-  buildLocalQRCodeData,
+  buildQRCodeText,
   downloadQRCode,
   generateQRCodeImage,
   getQRCodeData,
@@ -34,33 +34,31 @@ export default function QRCodePage() {
       setQrNotice("");
       setQrError("");
 
-      let data = null;
-
       try {
         if (!token) {
-          data = buildLocalQRCodeData(user);
-        } else {
-          data = await getQRCodeData(token);
+          throw new Error("Session Firebase manquante. Reconnectez-vous pour generer un QR stable.");
+        }
+
+        const data = await getQRCodeData(token);
+
+        if (!data?.qrToken || !data?.shareUrl) {
+          throw new Error("Impossible de generer le QR pour ce compte.");
+        }
+
+        const qrText = buildQRCodeText(user, data);
+        const imageUrl = await generateQRCodeImage(qrText);
+
+        if (!cancelled) {
+          setQrData({
+            ...data,
+            qrText,
+          });
+          setQrImageUrl(imageUrl);
         }
       } catch (error) {
-        data = buildLocalQRCodeData(user);
-        setQrNotice(
-          "QR genere localement car le service backend n'etait pas disponible pour le moment."
-        );
-      }
-
-      if (!data?.shareUrl) {
         if (!cancelled) {
-          setQrError("Impossible de generer le QR pour ce compte.");
+          setQrError(error.message || "Impossible de generer le QR pour ce compte.");
         }
-        return;
-      }
-
-      const imageUrl = await generateQRCodeImage(data.shareUrl);
-
-      if (!cancelled) {
-        setQrData(data);
-        setQrImageUrl(imageUrl);
       }
     }
 
@@ -81,7 +79,7 @@ export default function QRCodePage() {
         setIsSharing(true);
         await navigator.share({
           title: "LifeLine QR",
-          text: "Mon QR medical LifeLine",
+          text: qrData.qrText || "Mon QR medical LifeLine",
           url: qrData.shareUrl,
         });
       } catch {

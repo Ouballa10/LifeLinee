@@ -1,4 +1,5 @@
 import { apiRequest } from "./api.js";
+import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 import { splitList } from "../utils/helpers.js";
 
 export function buildEmergencyContactLabel(contact = {}) {
@@ -55,6 +56,7 @@ export function mapProfileFromApi(profile = {}) {
     emergencyContactName: emergencyContact.name,
     emergencyContactPhone: emergencyContact.phone,
     emergencyContactRelationship: emergencyContact.relationship,
+    doctorName: profile?.doctorName || profile?.doctor_name || "",
     criticalInstructions,
     notes: criticalInstructions,
     qrToken: profile?.qrToken || "",
@@ -79,6 +81,29 @@ export function mapEmergencyProfileFromApi(profile = {}) {
     emergencyContact,
     emergencyContactLabel: buildEmergencyContactLabel(emergencyContact),
     criticalInstructions: String(profile?.criticalInstructions || "").trim(),
+  };
+}
+
+function mapEmergencyProfileFromSupabase(row = {}) {
+  const emergencyContact = parseEmergencyContact({
+    name: row?.emergency_contact_name,
+    phone: row?.emergency_contact_phone,
+  });
+  const allergies = splitList(row?.allergies);
+  const chronicDiseases = splitList(row?.chronic_diseases);
+  const medications = splitList(row?.medications);
+
+  return {
+    fullName: row?.full_name || "",
+    bloodType: row?.blood_type || "Unknown",
+    allergies,
+    conditions: chronicDiseases,
+    chronicDiseases,
+    medications,
+    emergencyContact,
+    emergencyContactLabel: buildEmergencyContactLabel(emergencyContact),
+    criticalInstructions: String(row?.critical_instructions || "").trim(),
+    qrToken: row?.qr_token || "",
   };
 }
 
@@ -129,7 +154,11 @@ function mapProfileUpdatesToApi(updates = {}) {
             name: updates.emergencyContactName,
             phone: updates.emergencyContactPhone,
             relationship: updates.emergencyContactRelationship,
-          });
+        });
+  }
+
+  if (updates.doctorName !== undefined) {
+    payload.doctorName = String(updates.doctorName || "").trim();
   }
 
   if (updates.criticalInstructions !== undefined || updates.notes !== undefined) {
@@ -157,6 +186,29 @@ export async function updateProfile(token, updates) {
 }
 
 export async function getEmergencyProfile(qrToken) {
+  if (isSupabaseConfigured && supabase) {
+    const { data, error } = await supabase
+      .from("public_emergency_profiles")
+      .select(
+        "full_name,blood_type,allergies,chronic_diseases,medications,emergency_contact_name,emergency_contact_phone,critical_instructions,qr_token"
+      )
+      .eq("qr_token", qrToken)
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(error.message || "Impossible de charger la fiche d'urgence.");
+    }
+
+    if (!data) {
+      throw new Error("Aucune fiche medicale d'urgence n'a ete trouvee pour ce QR.");
+    }
+
+    return {
+      token: qrToken,
+      profile: mapEmergencyProfileFromSupabase(data),
+    };
+  }
+
   const response = await apiRequest(`/emergency/${encodeURIComponent(qrToken)}`);
 
   return {

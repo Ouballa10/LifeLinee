@@ -4,12 +4,9 @@ const { serializeEmergencyProfile } = require('../services/profileService');
 
 exports.getEmergencyInfo = async (req, res) => {
   try {
-    const medicalProfile = await MedicalProfile.findOne({ qrToken: req.params.token }).populate(
-      'userId',
-      'fullName'
-    );
+    const medicalProfile = await MedicalProfile.findPublicByQrToken(req.params.token);
 
-    if (!medicalProfile || !medicalProfile.userId) {
+    if (!medicalProfile) {
       return res.status(404).json({
         message: 'No emergency medical profile was found for this QR code.',
       });
@@ -17,7 +14,7 @@ exports.getEmergencyInfo = async (req, res) => {
 
     return res.json({
       token: req.params.token,
-      profile: serializeEmergencyProfile(medicalProfile.userId, medicalProfile),
+      profile: serializeEmergencyProfile(medicalProfile),
     });
   } catch (error) {
     return res.status(500).json({

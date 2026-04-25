@@ -1,31 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { buildEmergencyContactLabel, getEmergencyProfile } from "../../services/profileService.js";
-import { decodeEmergencyPreview } from "../../services/qrService.js";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function Emergency() {
   const { token } = useParams();
-  const location = useLocation();
   const [preview, setPreview] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(() => (token ? "" : "QR token missing."));
 
   useEffect(() => {
     let cancelled = false;
-    const previewParam = new URLSearchParams(location.search).get("preview") || "";
-    const localPreview = decodeEmergencyPreview(previewParam);
 
     if (!token) {
-      if (localPreview) {
-        setPreview(localPreview);
-        setError("");
-      } else {
-        setError("QR token missing.");
-      }
+      setPreview(null);
+      setError("QR token missing.");
       return () => {
         cancelled = true;
       };
@@ -42,19 +34,14 @@ export default function Emergency() {
       })
       .catch((nextError) => {
         if (!cancelled) {
-          if (localPreview) {
-            setPreview(localPreview);
-            setError("");
-          } else {
-            setError(nextError.message);
-          }
+          setError(nextError.message);
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [location.search, token]);
+  }, [token]);
 
   if (!preview && !error) {
     return <Loader label="Chargement de la carte d'urgence..." />;

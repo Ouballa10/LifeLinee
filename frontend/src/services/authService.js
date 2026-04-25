@@ -1,5 +1,11 @@
 import { apiRequest } from "./api.js";
-import { signInWithPopup, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile as updateFirebaseProfile,
+} from "firebase/auth";
 import { auth, googleProvider, isFirebaseConfigured } from "./firebase.js";
 import { mapProfileFromApi } from "./profileService.js";
 import { AUTH_PROVIDERS, STORAGE_KEYS } from "../utils/constants.js";
@@ -17,9 +23,9 @@ function readStoredSession() {
   }
 }
 
-function getGoogleProfileKeys(source = {}) {
+function getFirebaseProfileKeys(source = {}) {
   const keys = [];
-  const uid = String(source?.uid || source?.id || "").trim();
+  const uid = String(source?.uid || source?.id || source?.firebaseUid || "").trim();
   const email = String(source?.email || "").trim().toLowerCase();
 
   if (uid) {
@@ -33,7 +39,7 @@ function getGoogleProfileKeys(source = {}) {
   return keys;
 }
 
-function readGoogleProfilesStore() {
+function readFirebaseProfilesStore() {
   if (typeof window === "undefined") {
     return {};
   }
@@ -52,7 +58,7 @@ function readGoogleProfilesStore() {
     }
 
     if (parsed && typeof parsed === "object") {
-      const legacyKeys = getGoogleProfileKeys(parsed);
+      const legacyKeys = getFirebaseProfileKeys(parsed);
 
       if (legacyKeys.length) {
         return legacyKeys.reduce((profiles, key) => {
@@ -68,7 +74,7 @@ function readGoogleProfilesStore() {
   return {};
 }
 
-function writeGoogleProfilesStore(profiles = {}) {
+function writeFirebaseProfilesStore(profiles = {}) {
   if (typeof window === "undefined") {
     return;
   }
@@ -91,13 +97,13 @@ function writeGoogleProfilesStore(profiles = {}) {
 export function getCurrentSession() {
   const session = readStoredSession();
 
-  if (!session || session.authProvider !== AUTH_PROVIDERS.google) {
-    return session;
+  if (!session) {
+    return null;
   }
 
-  const savedGoogleProfile = getStoredGoogleProfile(session?.user || session);
+  const savedFirebaseProfile = getStoredGoogleProfile(session?.user || session);
 
-  if (!savedGoogleProfile) {
+  if (!savedFirebaseProfile) {
     return session;
   }
 
@@ -105,8 +111,8 @@ export function getCurrentSession() {
     ...session,
     user: {
       ...(session.user || {}),
-      ...savedGoogleProfile,
-      authProvider: AUTH_PROVIDERS.google,
+      ...savedFirebaseProfile,
+      authProvider: session.authProvider || AUTH_PROVIDERS.firebase,
     },
   };
 }
@@ -118,9 +124,9 @@ export function clearCurrentSession() {
 }
 
 export function getStoredGoogleProfile(identitySource = {}) {
-  const profiles = readGoogleProfilesStore();
+  const profiles = readFirebaseProfilesStore();
 
-  for (const key of getGoogleProfileKeys(identitySource)) {
+  for (const key of getFirebaseProfileKeys(identitySource)) {
     if (profiles[key]) {
       return profiles[key];
     }
@@ -130,43 +136,37 @@ export function getStoredGoogleProfile(identitySource = {}) {
 }
 
 export function saveGoogleProfile(profile) {
-  const keys = getGoogleProfileKeys(profile);
+  const keys = getFirebaseProfileKeys(profile);
 
   if (!keys.length) {
     return;
   }
 
-  const profiles = readGoogleProfilesStore();
+  const profiles = readFirebaseProfilesStore();
 
   keys.forEach((key) => {
     profiles[key] = profile;
   });
 
-  writeGoogleProfilesStore(profiles);
+  writeFirebaseProfilesStore(profiles);
 }
 
-export function mergeGoogleUserProfile(firebaseUser, existingProfile = {}) {
-  return {
-    ...existingProfile,
-    id: firebaseUser.uid,
-    fullName: existingProfile?.fullName || firebaseUser.displayName || "Utilisateur Google",
-    email: firebaseUser.email || existingProfile?.email || "",
-    phone: existingProfile?.phone || firebaseUser.phoneNumber || "",
-    photoURL: firebaseUser.photoURL || existingProfile?.photoURL || "",
-    bloodType: existingProfile?.bloodType || "Unknown",
-    city: existingProfile?.city || "",
-    allergies: existingProfile?.allergies || "",
-    conditions: existingProfile?.conditions || "",
-    medications: existingProfile?.medications || "",
-    emergencyContact: existingProfile?.emergencyContact || "",
-    criticalInstructions: existingProfile?.criticalInstructions || existingProfile?.notes || "",
-    notes: existingProfile?.notes || existingProfile?.criticalInstructions || "",
-    authProvider: AUTH_PROVIDERS.google,
-  };
+function requireFirebaseAuth() {
+  if (!isFirebaseConfigured || !auth) {
+    throw new Error(
+      "Firebase n'est pas configure. Ajoutez les variables VITE_FIREBASE_* dans frontend/.env."
+    );
+  }
 }
 
 function normalizeFirebaseError(error) {
   switch (error?.code) {
+    case "auth/email-already-in-use":
+      return "Un compte Firebase existe deja avec cet email.";
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+    case "auth/user-not-found":
+      return "Email ou mot de passe invalide.";
     case "auth/popup-closed-by-user":
       return "La fenetre Google a ete fermee avant la fin de la connexion.";
     case "auth/popup-blocked":
@@ -175,33 +175,30 @@ function normalizeFirebaseError(error) {
       return "Une autre tentative de connexion est deja en cours.";
     case "auth/network-request-failed":
       return "Connexion reseau impossible. Verifiez Internet puis reessayez.";
+    case "auth/weak-password":
+      return "Le mot de passe doit contenir au moins 6 caracteres.";
     default:
-      return error?.message || "Une erreur est survenue pendant la connexion avec Google.";
+      return error?.message || "Une erreur est survenue pendant l'authentification.";
   }
 }
 
-function buildGoogleSessionFromApi(response, firebaseUser, existingProfile = {}) {
+function buildFirebaseSessionFromApi(response, firebaseUser, existingProfile = {}, provider) {
   const apiProfile = mapProfileFromApi(response.profile);
-  const googleProfile = response.googleProfile || {};
+  const firebaseProfile = response.firebaseProfile || {};
   const user = {
+    ...existingProfile,
     ...apiProfile,
-    id: firebaseUser.uid || existingProfile?.id || apiProfile.id || "",
-    userId: apiProfile.userId || existingProfile?.userId || "",
-    firebaseUid: firebaseUser.uid || googleProfile.googleUid || existingProfile?.firebaseUid || "",
+    id: firebaseUser.uid || firebaseProfile.firebaseUid || existingProfile?.id || "",
+    firebaseUid: firebaseUser.uid || firebaseProfile.firebaseUid || existingProfile?.firebaseUid || "",
     fullName:
       apiProfile.fullName ||
-      googleProfile.fullName ||
+      firebaseProfile.fullName ||
       existingProfile?.fullName ||
       firebaseUser.displayName ||
-      "Utilisateur Google",
-    email:
-      apiProfile.email ||
-      googleProfile.email ||
-      firebaseUser.email ||
-      existingProfile?.email ||
-      "",
-    photoURL: googleProfile.photoURL || firebaseUser.photoURL || existingProfile?.photoURL || "",
-    authProvider: AUTH_PROVIDERS.google,
+      "Utilisateur LifeLine",
+    email: apiProfile.email || firebaseProfile.email || firebaseUser.email || existingProfile?.email || "",
+    photoURL: firebaseProfile.photoURL || firebaseUser.photoURL || existingProfile?.photoURL || "",
+    authProvider: provider,
   };
 
   saveGoogleProfile(user);
@@ -209,23 +206,47 @@ function buildGoogleSessionFromApi(response, firebaseUser, existingProfile = {})
   return {
     token: response.token,
     user,
-    authProvider: AUTH_PROVIDERS.google,
+    authProvider: provider,
   };
 }
 
-export async function syncGoogleSession(firebaseUser, existingProfile = {}) {
+export async function syncFirebaseSession(firebaseUser, existingProfile = {}, defaults = {}) {
   const idToken = await firebaseUser.getIdToken();
-  const response = await apiRequest("/auth/google", {
+  const response = await apiRequest("/auth/firebase", {
     method: "POST",
     body: {
       idToken,
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
-      fullName: firebaseUser.displayName || existingProfile?.fullName || "",
-      photoURL: firebaseUser.photoURL || existingProfile?.photoURL || "",
+      fullName: defaults.fullName || firebaseUser.displayName || existingProfile?.fullName || "",
+      phone: defaults.phone || existingProfile?.phone || "",
+      city: defaults.city || existingProfile?.city || "",
+      bloodType: defaults.bloodType || existingProfile?.bloodType || "Unknown",
+      allergies: defaults.allergies || existingProfile?.allergiesList || existingProfile?.allergies || [],
+      chronicDiseases:
+        defaults.chronicDiseases || existingProfile?.chronicDiseases || existingProfile?.conditions || [],
+      medications: defaults.medications || existingProfile?.medicationsList || existingProfile?.medications || [],
+      emergencyContact: defaults.emergencyContact || existingProfile?.emergencyContact || "",
+      doctorName: defaults.doctorName || existingProfile?.doctorName || "",
+      criticalInstructions:
+        defaults.criticalInstructions ||
+        existingProfile?.criticalInstructions ||
+        existingProfile?.notes ||
+        "",
     },
   });
 
-  return buildGoogleSessionFromApi(response, firebaseUser, existingProfile);
+  return buildFirebaseSessionFromApi(
+    response,
+    firebaseUser,
+    existingProfile,
+    defaults.provider || AUTH_PROVIDERS.firebase
+  );
+}
+
+export async function syncGoogleSession(firebaseUser, existingProfile = {}) {
+  return syncFirebaseSession(firebaseUser, existingProfile, {
+    provider: AUTH_PROVIDERS.google,
+  });
 }
 
 export async function loginUser({ email, password }) {
@@ -233,19 +254,24 @@ export async function loginUser({ email, password }) {
     throw new Error("Email and password are required.");
   }
 
-  const response = await apiRequest("/auth/login", {
-    method: "POST",
-    body: {
-      email: email.trim(),
-      password,
-    },
-  });
+  requireFirebaseAuth();
 
-  return {
-    token: response.token,
-    user: mapProfileFromApi(response.profile),
-    authProvider: AUTH_PROVIDERS.backend,
-  };
+  try {
+    const result = await signInWithEmailAndPassword(auth, email.trim(), password);
+    return await syncFirebaseSession(
+      result.user,
+      getStoredGoogleProfile(result.user) || {},
+      {
+        provider: AUTH_PROVIDERS.firebase,
+      }
+    );
+  } catch (error) {
+    if (error?.code) {
+      throw new Error(normalizeFirebaseError(error));
+    }
+
+    throw error;
+  }
 }
 
 export async function registerUser(formValues) {
@@ -259,29 +285,34 @@ export async function registerUser(formValues) {
     throw new Error("Passwords do not match.");
   }
 
-  const response = await apiRequest("/auth/register", {
-    method: "POST",
-    body: {
+  requireFirebaseAuth();
+
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email.trim(), password);
+    await updateFirebaseProfile(result.user, {
+      displayName: fullName.trim(),
+    });
+
+    return await syncFirebaseSession(result.user, {}, {
+      provider: AUTH_PROVIDERS.firebase,
       fullName: fullName.trim(),
-      email: email.trim(),
       phone: phone.trim(),
       bloodType,
-      password,
-    },
-  });
+    });
+  } catch (error) {
+    if (error?.code) {
+      throw new Error(normalizeFirebaseError(error));
+    }
 
-  return {
-    token: response.token,
-    user: mapProfileFromApi(response.profile),
-    authProvider: AUTH_PROVIDERS.backend,
-  };
+    throw error;
+  }
 }
 
 export async function loginGoogle() {
-  if (!isFirebaseConfigured || !auth || !googleProvider) {
-    throw new Error(
-      "Firebase n'est pas configure. Ajoutez les variables VITE_FIREBASE_* dans frontend/.env."
-    );
+  requireFirebaseAuth();
+
+  if (!googleProvider) {
+    throw new Error("Google Auth n'est pas configure dans Firebase.");
   }
 
   try {

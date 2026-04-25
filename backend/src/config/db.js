@@ -1,17 +1,9 @@
-const mongoose = require('mongoose');
+const { getSupabaseAdmin } = require('./supabase');
 
 async function connectDB() {
-  if (!process.env.MONGO_URI) {
-    console.warn('MONGO_URI is not set. LifeLine API will start without a database connection.');
-    return;
-  }
-
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('MongoDB connection failed:', error.message);
-  }
+  const supabase = getSupabaseAdmin();
+  console.log('Supabase client initialized');
+  return supabase;
 }
 
 module.exports = connectDB;
