@@ -7,14 +7,30 @@ import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import {
+  buildEmergencyUrl,
   buildQRCodeText,
   downloadQRCode,
   generateQRCodeImage,
   getQRCodeData,
 } from "../../services/qrService.js";
 
+function buildProfileQrData(profile = {}) {
+  const qrToken = profile?.qrToken || profile?.emergencyId || "";
+
+  if (!qrToken) {
+    return null;
+  }
+
+  return {
+    qrToken,
+    shareId: qrToken,
+    emergencyPath: `/emergency/${qrToken}`,
+    shareUrl: profile?.emergencyUrl || buildEmergencyUrl(qrToken),
+  };
+}
+
 export default function QRCodePage() {
-  const { user, token } = useAuth();
+  const { user, token, refreshProfile } = useAuth();
   const [qrData, setQrData] = useState(null);
   const [qrImageUrl, setQrImageUrl] = useState("");
   const [isSharing, setIsSharing] = useState(false);
@@ -35,17 +51,28 @@ export default function QRCodePage() {
       setQrError("");
 
       try {
-        if (!token) {
-          throw new Error("Session Firebase manquante. Reconnectez-vous pour generer un QR stable.");
+        let qrProfile = user;
+        let data = buildProfileQrData(qrProfile);
+
+        if (!data && token) {
+          const refreshedProfile = await refreshProfile().catch(() => null);
+          qrProfile = refreshedProfile || qrProfile;
+          data = buildProfileQrData(qrProfile);
         }
 
-        const data = await getQRCodeData(token);
+        if (!data) {
+          if (!token) {
+            throw new Error("Session Firebase manquante. Reconnectez-vous pour generer un QR stable.");
+          }
+
+          data = await getQRCodeData(token);
+        }
 
         if (!data?.qrToken || !data?.shareUrl) {
           throw new Error("Impossible de generer le QR pour ce compte.");
         }
 
-        const qrText = buildQRCodeText(user, data);
+        const qrText = buildQRCodeText(qrProfile, data);
         const imageUrl = await generateQRCodeImage(qrText);
 
         if (!cancelled) {
