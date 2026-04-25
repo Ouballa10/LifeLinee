@@ -7,6 +7,10 @@ function buildUrl(path = "") {
 
 export async function apiRequest(path, options = {}) {
   const { method = "GET", body, token, headers = {} } = options;
+  const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const timeoutId = controller
+    ? globalThis.setTimeout(() => controller.abort(), 15000)
+    : null;
   let response;
 
   try {
@@ -19,11 +23,22 @@ export async function apiRequest(path, options = {}) {
         ...headers,
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal: controller?.signal,
     });
   } catch (error) {
+    if (error?.name === "AbortError") {
+      throw new Error(
+        "L'API LifeLine met trop de temps a repondre. Reessayez ou verifiez le deploy Vercel."
+      );
+    }
+
     throw new Error(
       "Impossible de joindre l'API LifeLine. Verifiez la configuration Vercel/API locale."
     );
+  } finally {
+    if (timeoutId) {
+      globalThis.clearTimeout(timeoutId);
+    }
   }
 
   const rawText = await response.text();
