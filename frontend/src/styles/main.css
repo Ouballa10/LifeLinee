@@ -827,11 +827,21 @@
   text-align: center;
 }
 
+.onboarding-logo-shell {
+  width: min(100%, 220px);
+  height: 110px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .onboarding-logo-image {
-  width: min(100%, 250px);
+  width: 100%;
   height: auto;
   display: block;
-  object-fit: contain;
+  mix-blend-mode: multiply;
+  opacity: 0.98;
 }
 
 .hero-intro-header {
