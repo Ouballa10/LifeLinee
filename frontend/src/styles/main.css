@@ -164,6 +164,20 @@
   font-size: 1rem;
 }
 
+.brand-mark-logo {
+  background: #ffffff;
+  border: 1px solid rgba(83, 191, 135, 0.14);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.brand-mark-logo img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
 .brand-mark-hero {
   width: 92px;
   height: 92px;
@@ -574,7 +588,8 @@
 }
 
 .button-block {
-  flex: 1 1 160px;
+  width: 100%;
+  flex: 1 1 0;
 }
 
 .soft-badge {

@@ -175,6 +175,8 @@ function normalizeFirebaseError(error) {
       return "Une autre tentative de connexion est deja en cours.";
     case "auth/network-request-failed":
       return "Connexion reseau impossible. Verifiez Internet puis reessayez.";
+    case "auth/operation-not-allowed":
+      return "L'inscription par email/mot de passe n'est pas activee dans Firebase. Activez Email/Password dans Authentication > Sign-in method.";
     case "auth/weak-password":
       return "Le mot de passe doit contenir au moins 6 caracteres.";
     case "auth/unauthorized-domain":

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.js";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 import { getInitials } from "../../utils/helpers.js";
 
@@ -52,7 +53,9 @@ export default function Navbar({ title, subtitle }) {
     <header className="app-navbar">
       <div className="app-navbar-top">
         <Link to={ROUTES.home} className="brand-row brand-link brand-row-compact">
-          <span className="brand-mark brand-mark-compact">+</span>
+          <span className="brand-mark brand-mark-compact brand-mark-logo">
+            <img src={lifelineLogo} alt="LifeLine" />
+          </span>
           <div className="brand-copy">
             <strong>LifeLine</strong>
           </div>
