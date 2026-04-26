@@ -49,10 +49,14 @@ export default function Emergency() {
 
   if (error) {
     return (
-      <main className="screen emergency-screen">
+      <main className="screen emergency-screen emergency-redesign-screen">
         <section className="emergency-shell">
-          <Card className="emergency-wrapper">
-            <p className="section-copy">{error}</p>
+          <Card className="emergency-wrapper emergency-redesign-wrapper">
+            <div className="emergency-error-state">
+              <span className="panel-kicker">LifeLine</span>
+              <h1>Fiche introuvable</h1>
+              <p className="section-copy">{error}</p>
+            </div>
             <Link to={ROUTES.home} className="button button-primary">
               Retour a l'app
             </Link>
@@ -66,12 +70,12 @@ export default function Emergency() {
   const emergencyContactLabel = buildEmergencyContactLabel(preview?.emergencyContact);
 
   return (
-    <main className="screen emergency-screen">
+    <main className="screen emergency-screen emergency-redesign-screen">
       <section className="emergency-shell">
-        <Card className="emergency-wrapper">
+        <Card className="emergency-wrapper emergency-redesign-wrapper">
           <EmergencyCard profile={preview} />
 
-          <div className="emergency-actions">
+          <div className="emergency-actions emergency-redesign-actions">
             <a
               href={emergencyPhone ? `tel:${emergencyPhone}` : "#"}
               className="button button-emergency"

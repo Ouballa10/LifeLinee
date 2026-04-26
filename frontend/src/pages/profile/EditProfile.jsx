@@ -67,13 +67,22 @@ export default function EditProfile() {
   }
 
   return (
-    <main className="screen">
-      <section className="mobile-shell">
+    <main className="screen app-redesign-screen">
+      <section className="mobile-shell app-redesign-shell">
         <Navbar title="Modifier le profil" subtitle="Informations generales" />
 
-        <div className="app-content">
-          <Card className="edit-form-card">
-            <div className="segmented-tabs">
+        <div className="app-content app-redesign-content">
+          <section className="form-intro-panel">
+            <span className="panel-kicker">Compte</span>
+            <h2>Identite et contact</h2>
+            <p>
+              Ces informations aident les proches et les secours a verifier
+              rapidement la bonne fiche.
+            </p>
+          </section>
+
+          <Card className="app-panel edit-form-card redesign-form-card">
+            <div className="segmented-tabs redesign-tabs">
               <button
                 type="button"
                 className="tab-pill"
@@ -87,13 +96,15 @@ export default function EditProfile() {
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit}>
-              <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
-              <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
-              <Input label="Telephone" name="phone" value={form.phone} onChange={handleChange} />
-              <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
-              <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
-              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
-              <Button type="submit" block>
+              <div className="form-grid">
+                <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
+                <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
+                <Input label="Telephone" name="phone" value={form.phone} onChange={handleChange} />
+                <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
+                <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+                <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+              </div>
+              <Button type="submit" block className="form-submit-button">
                 Modifier le profil
               </Button>
             </form>

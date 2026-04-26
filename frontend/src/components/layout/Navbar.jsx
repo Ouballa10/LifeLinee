@@ -50,14 +50,15 @@ export default function Navbar({ title, subtitle }) {
   }
 
   return (
-    <header className="app-navbar">
+    <header className="app-navbar redesigned-navbar">
       <div className="app-navbar-top">
-        <Link to={ROUTES.home} className="brand-row brand-link brand-row-compact">
-          <span className="brand-mark brand-mark-compact brand-mark-logo">
-            <img src={lifelineLogo} alt="LifeLine" />
+        <Link to={ROUTES.home} className="brand-row brand-link brand-row-compact nav-brand-redesign">
+          <span className="brand-mark brand-mark-compact brand-mark-logo nav-logo-redesign">
+            <img className="lifeline-logo-image" src={lifelineLogo} alt="LifeLine" />
           </span>
           <div className="brand-copy">
             <strong>LifeLine</strong>
+            <span>Dossier medical</span>
           </div>
         </Link>
 
@@ -111,9 +112,13 @@ export default function Navbar({ title, subtitle }) {
       </div>
 
       {title ? (
-        <div className="page-heading">
-          <h1 className="page-title">{title}</h1>
-          {subtitle ? <p className="page-subtitle">{subtitle}</p> : null}
+        <div className="page-heading redesigned-page-heading">
+          <div>
+            <span className="nav-kicker">Espace patient</span>
+            <h1 className="page-title">{title}</h1>
+            {subtitle ? <p className="page-subtitle">{subtitle}</p> : null}
+          </div>
+          <span className="nav-health-dot" aria-hidden="true"></span>
         </div>
       ) : null}
     </header>

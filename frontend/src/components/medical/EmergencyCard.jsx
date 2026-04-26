@@ -25,15 +25,24 @@ export default function EmergencyCard({ profile }) {
 
   return (
     <article className="emergency-card">
-      <header className="emergency-alert-banner">
-        <span className="emergency-banner-bag" aria-hidden="true">
-          +
-        </span>
-        <strong>Urgence medicale</strong>
+      <header className="emergency-alert-banner emergency-redesign-banner">
+        <div>
+          <span className="emergency-banner-bag" aria-hidden="true">
+            +
+          </span>
+          <span className="emergency-alert-label">Urgence medicale</span>
+        </div>
+        <strong>{profile?.bloodType || "N/A"}</strong>
       </header>
 
       <div className="emergency-card-body">
-        <h2 className="emergency-patient-name">{profile?.fullName}</h2>
+        <section className="emergency-patient-hero">
+          <div>
+            <span>Patient</span>
+            <h2 className="emergency-patient-name">{profile?.fullName}</h2>
+          </div>
+          <strong>{profile?.bloodType || "Non renseigne"}</strong>
+        </section>
 
         <div className="emergency-stack emergency-stack-tight">
           <EmergencyRow

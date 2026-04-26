@@ -14,29 +14,30 @@ export default function Home() {
   const navigate = useNavigate();
   const { appState } = useContext(AppContext);
   const { user } = useAuth();
+  const profileName = firstName(user?.fullName);
   const actions = [
     {
-      title: "Urgence",
-      subtitle: "Ouvrir ma fiche secouriste publique",
+      title: "Fiche urgence",
+      subtitle: "Carte publique pour secouristes",
       route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.qr,
-      symbol: "U",
+      symbol: "+",
       primary: true,
     },
     {
       title: "Mon QR Code",
-      subtitle: "Afficher et partager ma carte LifeLine",
+      subtitle: "Afficher et partager la carte",
       route: ROUTES.qr,
       symbol: "Q",
     },
     {
       title: "Scanner QR",
-      subtitle: "Lire un code medical rapidement",
+      subtitle: "Lire un code LifeLine",
       route: ROUTES.scanner,
       symbol: "S",
     },
     {
       title: "Mon profil",
-      subtitle: "Consulter et corriger mes informations",
+      subtitle: "Verifier mes donnees",
       route: ROUTES.profile,
       symbol: "P",
     },
@@ -44,59 +45,75 @@ export default function Home() {
   const lastScanLabel = appState.lastScan ? "Dernier scan enregistre" : "Aucun scan recent";
 
   return (
-    <main className="screen">
-      <section className="mobile-shell">
-        <Navbar title="Accueil" subtitle={`Bonjour, ${firstName(user?.fullName)},`} />
+    <main className="screen app-redesign-screen">
+      <section className="mobile-shell app-redesign-shell">
+        <Navbar title="Accueil" subtitle={`Bonjour ${profileName}`} />
 
-        <div className="app-content">
-          <Card className="dashboard-welcome-card home-hero-card">
-            <div className="card-top-row">
-              <span className="soft-badge">Centre d'action</span>
-              <span className="status-chip">Pret maintenant</span>
+        <div className="app-content app-redesign-content">
+          <section className="app-hero-panel home-command-panel">
+            <div className="hero-copy">
+              <span className="panel-kicker">Centre LifeLine</span>
+              <h2>Tout ce qui compte en urgence, pret en un geste.</h2>
+              <p>
+                Gardez votre QR, votre fiche medicale et le scanner dans un seul
+                espace rapide a utiliser.
+              </p>
             </div>
-            <p className="section-copy">
-              Accedez rapidement au QR, au scanner et a la fiche d'urgence sans
-              passer par les reglages du compte.
-            </p>
-          </Card>
+            <div className="hero-status-card">
+              <span>Statut</span>
+              <strong>{user?.qrToken ? "QR actif" : "QR a creer"}</strong>
+              <small>{user?.bloodType || "O+"} groupe sanguin</small>
+            </div>
+          </section>
 
-          <Card className="menu-card">
-            <div className="menu-list">
+          <section className="section-block">
+            <div className="section-heading-row">
+              <div>
+                <span className="panel-kicker">Actions</span>
+                <h2 className="section-title">Raccourcis essentiels</h2>
+              </div>
+              <span className="status-chip redesign-status">Pret</span>
+            </div>
+
+            <div className="action-grid">
               {actions.map((action) => (
                 <button
                   key={action.route}
                   type="button"
-                  className={`menu-item ${action.primary ? "menu-item-primary" : ""}`}
+                  className={`action-tile ${action.primary ? "action-tile-primary" : ""}`}
                   onClick={() => navigate(action.route)}
                 >
-                  <span className="menu-icon">{action.symbol}</span>
-                  <div className="menu-item-copy">
+                  <span className="action-symbol">{action.symbol}</span>
+                  <span className="action-copy">
                     <strong>{action.title}</strong>
-                    <p>{action.subtitle}</p>
-                  </div>
-                  <span className="menu-arrow">{">"}</span>
+                    <small>{action.subtitle}</small>
+                  </span>
                 </button>
               ))}
             </div>
-          </Card>
+          </section>
 
-          <div className="info-grid">
+          <section className="metric-strip">
             <InfoCard label="Groupe sanguin" value={user?.bloodType || "O+"} />
             <InfoCard label="Allergies" value={formatList(user?.allergies)} tone="soft" />
-          </div>
+          </section>
 
-          <Card className="home-scan-card">
-            <div className="card-top-row">
-              <span className="soft-badge">Activite</span>
-              <span className="status-chip">{appState.scannerPermission ? "Camera ok" : "Camera off"}</span>
+          <Card className="app-panel home-activity-panel">
+            <div className="panel-title-row">
+              <div>
+                <span className="panel-kicker">Activite</span>
+                <h2 className="section-title">{lastScanLabel}</h2>
+              </div>
+              <span className="status-chip redesign-status">
+                {appState.scannerPermission ? "Camera ok" : "Camera off"}
+              </span>
             </div>
-            <strong>{lastScanLabel}</strong>
             <p className="section-copy">
               {appState.lastScan
                 ? "Un QR a ete lu sur cet appareil. Vous pouvez rouvrir la fiche medicale si besoin."
                 : "Aucun QR n'a encore ete scanne sur cet appareil."}
             </p>
-            <div className="split-actions">
+            <div className="split-actions redesign-actions">
               <Button block onClick={() => navigate(ROUTES.scanner)}>
                 Ouvrir scanner
               </Button>
@@ -105,13 +122,6 @@ export default function Home() {
               </Button>
             </div>
           </Card>
-
-          <div className="footer-dots" aria-hidden="true">
-            <span className="footer-dot is-active"></span>
-            <span className="footer-dot"></span>
-            <span className="footer-dot"></span>
-            <span className="footer-dot"></span>
-          </div>
         </div>
 
         <BottomNav />

@@ -68,13 +68,22 @@ export default function MedicalForm() {
   }
 
   return (
-    <main className="screen">
-      <section className="mobile-shell">
+    <main className="screen app-redesign-screen">
+      <section className="mobile-shell app-redesign-shell">
         <Navbar title="Modifier le profil" subtitle="Groupe medical" />
 
-        <div className="app-content">
-          <Card className="edit-form-card">
-            <div className="segmented-tabs">
+        <div className="app-content app-redesign-content">
+          <section className="form-intro-panel medical-intro-panel">
+            <span className="panel-kicker">Urgence</span>
+            <h2>Donnees medicales critiques</h2>
+            <p>
+              Renseignez uniquement ce qui doit etre lisible tres vite par un
+              secouriste ou un medecin.
+            </p>
+          </section>
+
+          <Card className="app-panel edit-form-card redesign-form-card">
+            <div className="segmented-tabs redesign-tabs">
               <button type="button" className="tab-pill is-active">
                 Groupe medical
               </button>
@@ -88,13 +97,15 @@ export default function MedicalForm() {
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit}>
-              <Input label="Allergies" name="allergies" value={form.allergies} onChange={handleChange} />
-              <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
-              <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
-              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
-              <Input label="Medecin referent" name="doctorName" value={form.doctorName} onChange={handleChange} />
-              <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
-              <Button type="submit" block>
+              <div className="form-grid">
+                <Input label="Allergies" name="allergies" value={form.allergies} onChange={handleChange} />
+                <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
+                <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
+                <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+                <Input label="Medecin referent" name="doctorName" value={form.doctorName} onChange={handleChange} />
+                <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
+              </div>
+              <Button type="submit" block className="form-submit-button">
                 Enregistrer
               </Button>
             </form>
