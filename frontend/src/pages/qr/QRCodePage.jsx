@@ -124,12 +124,21 @@ export default function QRCodePage() {
   }
 
   return (
-    <main className="screen">
-      <section className="mobile-shell">
+    <main className="screen app-redesign-screen">
+      <section className="mobile-shell app-redesign-shell">
         <Navbar title="Mon QR Code" subtitle="Mon code partageable" />
 
-        <div className="app-content">
-          <Card className="qr-page-card">
+        <div className="app-content app-redesign-content">
+          <section className="form-intro-panel qr-intro-panel">
+            <span className="panel-kicker">Partage securise</span>
+            <h2>Un scan ouvre votre fiche d'urgence.</h2>
+            <p>
+              Telechargez le QR ou partagez le lien avec un proche, une clinique
+              ou votre carte personnelle.
+            </p>
+          </section>
+
+          <Card className="app-panel qr-page-card redesign-qr-panel">
             {qrData && qrImageUrl ? (
               <QRCard profile={user} shareId={qrData.qrToken} qrImageUrl={qrImageUrl} />
             ) : qrError ? (
@@ -140,7 +149,7 @@ export default function QRCodePage() {
 
             {qrNotice ? <p className="scanner-help scanner-help-inline">{qrNotice}</p> : null}
 
-            <div className="split-actions">
+            <div className="split-actions redesign-actions">
               <Button
                 block
                 onClick={() =>

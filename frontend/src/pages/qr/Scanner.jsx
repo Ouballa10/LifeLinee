@@ -144,15 +144,19 @@ export default function Scanner() {
   const scannerSubtitle = user?.email || "Aucun compte requis";
 
   return (
-    <main className="screen">
-      <section className={`mobile-shell scanner-shell ${!isAuthenticated ? "scanner-shell-public" : ""}`}>
+    <main className="screen app-redesign-screen">
+      <section
+        className={`mobile-shell app-redesign-shell scanner-shell ${
+          !isAuthenticated ? "scanner-shell-public" : ""
+        }`}
+      >
         {isAuthenticated ? (
           <Navbar title="Scanner QR" subtitle="Lecture camera en direct" />
         ) : (
           <header className="public-scanner-header">
             <Link to={ROUTES.splash} className="public-scanner-brand">
               <span className="public-scanner-logo">
-                <img src={lifelineLogo} alt="LifeLine" />
+                <img className="lifeline-logo-image" src={lifelineLogo} alt="LifeLine" />
               </span>
               <span>
                 <strong>LifeLine</strong>
@@ -167,9 +171,18 @@ export default function Scanner() {
           </header>
         )}
 
-        <div className="app-content">
-          <Card className="scanner-card scanner-card-light">
-            <div className="scanner-video-shell">
+        <div className="app-content app-redesign-content">
+          <section className="form-intro-panel scanner-intro-panel">
+            <span className="panel-kicker">Scanner</span>
+            <h2>Cadrez un QR LifeLine.</h2>
+            <p>
+              La lecture ouvre automatiquement la fiche medicale publique quand
+              le token est reconnu.
+            </p>
+          </section>
+
+          <Card className="app-panel scanner-card scanner-card-light redesign-scanner-panel">
+            <div className="scanner-video-shell redesign-video-shell">
               <div className="scanner-video-wrap">
                 <video ref={videoRef} className="scanner-video" muted playsInline />
                 <div ref={overlayRef} className="scanner-overlay" aria-hidden="true"></div>
@@ -184,7 +197,7 @@ export default function Scanner() {
               ) : null}
             </div>
 
-            <div className="scanner-profile-row scanner-toolbar">
+            <div className="scanner-profile-row scanner-toolbar redesign-scanner-toolbar">
               <div>
                 <strong>{scannerName}</strong>
                 <span>{scannerSubtitle}</span>
@@ -195,7 +208,7 @@ export default function Scanner() {
               </span>
             </div>
 
-            <div className="scanner-actions">
+            <div className="scanner-actions redesign-actions">
               <Button onClick={startScanner} disabled={isPreparingCamera || !hasCamera}>
                 {isScannerActive ? "Camera active" : "Autoriser"}
               </Button>
@@ -235,7 +248,7 @@ export default function Scanner() {
           </Card>
 
           {appState.lastScan ? (
-            <Card className="menu-card result-card">
+            <Card className="app-panel result-card">
               <p className="section-copy">QR detecte avec succes.</p>
               {scannedNavigation.route ? (
                 <Link to={scannedNavigation.route} className="button button-primary">
@@ -250,12 +263,12 @@ export default function Scanner() {
           ) : null}
 
           {!isAuthenticated ? (
-            <Card className="scanner-public-cta">
+            <Card className="app-panel scanner-public-cta">
               <strong>Gardez votre propre QR LifeLine</strong>
               <p className="section-copy">
                 Creez un compte pour enregistrer vos informations medicales et generer votre QR personnel.
               </p>
-              <div className="split-actions">
+              <div className="split-actions redesign-actions">
                 <Link to={ROUTES.register} className="button button-primary">
                   Creer un compte
                 </Link>

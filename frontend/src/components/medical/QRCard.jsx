@@ -3,8 +3,11 @@ import { getInitials } from "../../utils/helpers.js";
 export default function QRCard({ profile, shareId, qrImageUrl }) {
   return (
     <article className="qr-card">
-      <div className="qr-top-row">
-        <span className="soft-badge">Code medical</span>
+      <div className="qr-top-row redesign-qr-top">
+        <div>
+          <span className="panel-kicker">Code medical</span>
+          <h2 className="section-title">Carte de scan</h2>
+        </div>
         <span className="qr-blood-pill">{profile?.bloodType || "O+"}</span>
       </div>
 
@@ -19,20 +22,20 @@ export default function QRCard({ profile, shareId, qrImageUrl }) {
       </div>
 
       <div className="qr-copy">
-        <div className="qr-user-row">
-          <span className="qr-avatar">{getInitials(profile?.fullName || "LL")}</span>
+        <div className="qr-user-row redesign-qr-user">
+          <span className="qr-avatar redesign-avatar">{getInitials(profile?.fullName || "LL")}</span>
           <div>
             <strong>{profile?.fullName}</strong>
             <span>{profile?.email || "abdel10@gmail.com"}</span>
           </div>
         </div>
 
-        <div className="qr-meta-list">
-          <div className="qr-meta">
+        <div className="data-list qr-meta-list">
+          <div className="data-row qr-meta">
             <span>Code d'urgence</span>
-            <strong>Scannez ce QR pour ouvrir la fiche medicale.</strong>
+            <strong>{shareId || "LifeLine"}</strong>
           </div>
-          <div className="qr-meta">
+          <div className="data-row qr-meta">
             <span>Contact</span>
             <strong>{profile?.emergencyContact || "Non renseigne"}</strong>
           </div>

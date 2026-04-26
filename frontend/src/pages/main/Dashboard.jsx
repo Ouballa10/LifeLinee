@@ -13,13 +13,13 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const shortcuts = [
     {
-      title: "Generalite",
+      title: "Identite",
       subtitle: "Nom, email, telephone, ville",
       route: ROUTES.editProfile,
       symbol: "G",
     },
     {
-      title: "Medical",
+      title: "Sante",
       subtitle: "Allergies, pathologies, medicaments",
       route: ROUTES.medicalForm,
       symbol: "M",
@@ -36,77 +36,100 @@ export default function Dashboard() {
     ["Consignes critiques", user?.criticalInstructions || user?.notes || "Non renseigne"],
     ["QR public", user?.qrToken ? "Active" : "A generer"],
   ];
+  const readinessFields = [
+    user?.fullName,
+    user?.bloodType,
+    user?.allergies,
+    user?.conditions,
+    user?.medications,
+    user?.emergencyContact,
+    user?.criticalInstructions || user?.notes,
+  ];
+  const readinessScore = Math.round(
+    (readinessFields.filter(Boolean).length / readinessFields.length) * 100
+  );
 
   return (
-    <main className="screen">
-      <section className="mobile-shell">
+    <main className="screen app-redesign-screen">
+      <section className="mobile-shell app-redesign-shell">
         <Navbar title="Bord" subtitle={`Compte de ${user?.fullName?.split(" ")[0] || "Utilisateur"}`} />
 
-        <div className="app-content">
-          <Card className="profile-summary-card board-profile-card">
-            <div className="profile-summary-row">
-              <span className="profile-avatar">{getInitials(user?.fullName || "LL")}</span>
+        <div className="app-content app-redesign-content">
+          <section className="app-hero-panel dashboard-control-panel">
+            <div className="hero-copy">
+              <span className="panel-kicker">Tableau de bord</span>
+              <h2>Votre dossier medical est complet a {readinessScore}%.</h2>
+              <p>
+                Completez les elements critiques pour rendre la fiche plus utile
+                quand chaque seconde compte.
+              </p>
+            </div>
+            <div className="readiness-ring" aria-label={`Dossier complete a ${readinessScore}%`}>
+              <span>{readinessScore}</span>
+              <small>%</small>
+            </div>
+          </section>
+
+          <Card className="app-panel profile-identity-panel">
+            <div className="profile-summary-row redesign-profile-row">
+              <span className="profile-avatar redesign-avatar">{getInitials(user?.fullName || "LL")}</span>
               <div className="profile-summary-copy">
-                <strong>{user?.fullName}</strong>
-                <span>{user?.email}</span>
-              </div>
-              <span className="status-chip">{user?.bloodType || "O+"}</span>
-            </div>
-            <div className="profile-list board-readiness-list">
-              <div className="profile-line">
-                <span>Nom</span>
+                <span className="panel-kicker">Profil principal</span>
                 <strong>{user?.fullName || "Non renseigne"}</strong>
+                <span>{user?.email || "Non renseigne"}</span>
               </div>
-              <div className="profile-line">
-                <span>Email</span>
-                <strong>{user?.email || "Non renseigne"}</strong>
-              </div>
+              <span className="status-chip redesign-status">{user?.bloodType || "O+"}</span>
             </div>
-            <p className="section-copy board-profile-copy">
-              Cet espace sert a gerer votre compte medical, verifier les donnees enregistrees
-              et completer les informations d'urgence.
-            </p>
           </Card>
 
-          <div className="info-grid board-info-grid">
+          <section className="metric-strip board-info-grid">
             <InfoCard label="Pathologies" value={formatList(user?.conditions)} />
             <InfoCard label="Medicaments" value={formatList(user?.medications)} tone="soft" />
-          </div>
+          </section>
 
-          <Card className="menu-card board-menu-card">
-            <div className="menu-list">
+          <section className="section-block">
+            <div className="section-heading-row">
+              <div>
+                <span className="panel-kicker">Edition</span>
+                <h2 className="section-title">Mettre a jour</h2>
+              </div>
+            </div>
+            <div className="route-list">
               {shortcuts.map((item, index) => (
                 <button
                   key={item.route}
                   type="button"
-                  className={`menu-item ${index === 1 ? "menu-item-primary" : ""}`}
+                  className={`route-row ${index === 1 ? "route-row-primary" : ""}`}
                   onClick={() => navigate(item.route)}
                 >
-                  <span className="menu-icon">{item.symbol}</span>
-                  <div className="menu-item-copy">
+                  <span className="route-symbol">{item.symbol}</span>
+                  <span className="route-copy">
                     <strong>{item.title}</strong>
-                    <p>{item.subtitle}</p>
-                  </div>
-                  <span className="menu-arrow">{">"}</span>
+                    <small>{item.subtitle}</small>
+                  </span>
+                  <span className="route-arrow">{">"}</span>
                 </button>
               ))}
             </div>
-          </Card>
+          </section>
 
-          <Card className="board-readiness-card">
-            <div className="card-top-row">
-              <span className="soft-badge">Etat medical</span>
-              <span className="status-chip">Compte actif</span>
+          <Card className="app-panel board-readiness-panel">
+            <div className="panel-title-row">
+              <div>
+                <span className="panel-kicker">Etat medical</span>
+                <h2 className="section-title">Verification rapide</h2>
+              </div>
+              <span className="status-chip redesign-status">Compte actif</span>
             </div>
-            <div className="profile-list board-readiness-list">
+            <div className="data-list">
               {readinessItems.map(([label, value]) => (
-                <div key={label} className="profile-line">
+                <div key={label} className="data-row">
                   <span>{label}</span>
                   <strong>{value}</strong>
                 </div>
               ))}
             </div>
-            <div className="split-actions">
+            <div className="split-actions redesign-actions">
               <Button block onClick={() => navigate(ROUTES.medicalForm)}>
                 Modifier urgence
               </Button>
