@@ -106,6 +106,68 @@ function FeatureIcon({ type }) {
   return icons[type] || icons.shield;
 }
 
+function ControlChecklistIcon({ type }) {
+  const icons = {
+    edit: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M12 33.5V38h4.5L33 21.5L28.5 17L12 33.5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.5 20L30 24.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M18 38H36"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+    users: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="20" cy="18" r="6" fill="currentColor" />
+        <path
+          d="M10.5 34C10.5 28.8 14.8 24.5 20 24.5C25.2 24.5 29.5 28.8 29.5 34"
+          fill="currentColor"
+        />
+        <circle cx="32.5" cy="21" r="4.5" fill="currentColor" opacity="0.9" />
+        <path
+          d="M28.5 34C28.8 30.4 31.8 27.5 35.5 27.5C39.2 27.5 42 30.3 42 34"
+          fill="currentColor"
+          opacity="0.9"
+        />
+      </svg>
+    ),
+    bell: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path
+          d="M24 10C18.8 10 14.5 14.3 14.5 19.5V24.5C14.5 27.1 13.6 29.7 11.8 31.6L10 33.5H38L36.2 31.6C34.4 29.7 33.5 27.1 33.5 24.5V19.5C33.5 14.3 29.2 10 24 10Z"
+          fill="currentColor"
+        />
+        <path
+          d="M20 37C20.7 39 22.2 40 24 40C25.8 40 27.3 39 28 37"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+  };
+
+  return icons[type] || icons.edit;
+}
+
 export default function Splash() {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -164,26 +226,33 @@ export default function Splash() {
         <>
           Vous gardez
           <br />
-          le controle
+          <span className="onboarding-title-accent-red">le contrôle</span>
         </>
       ),
-      titleAccent: "le controle",
-      description:
-        "Gerez votre compte, decidez ce qui est visible et demarrez votre espace LifeLine en toute confiance.",
+      titleAccent: "le contrôle",
+      description: (
+        <>
+          Gérez votre compte, décidez ce qui est visible et démarrez votre espace LifeLine{" "}
+          <span className="onboarding-copy-accent-blue">en toute confiance</span>.
+        </>
+      ),
       cta: "Commencer",
       panelType: "security",
       checklist: [
         {
-          title: "Confidentialite garantie",
-          text: "Vos donnees restent privees et ne sont jamais partagees sans votre autorisation.",
+          title: "Modifier mes infos",
+          text: "Mettez à jour vos données quand vous le souhaitez",
+          icon: "edit",
         },
         {
-          title: "Controle total",
-          text: "Vous choisissez ce qui est visible ou modifiable a tout moment.",
+          title: "Confidentialité",
+          text: "Vous décidez qui y a accès",
+          icon: "users",
         },
         {
-          title: "Sur et conforme",
-          text: "Un espace pense pour vos besoins medicaux et vos situations d'urgence.",
+          title: "Notifications",
+          text: "Restez informé à tout moment",
+          icon: "bell",
         },
       ],
     },
@@ -280,7 +349,9 @@ export default function Splash() {
             <div className="onboarding-checklist">
               {slide.checklist.map((item) => (
                 <article key={item.title} className="onboarding-check-item">
-                  <span className="onboarding-check-icon">✓</span>
+                  <span className="onboarding-check-icon">
+                    <ControlChecklistIcon type={item.icon} />
+                  </span>
                   <div>
                     <strong>{item.title}</strong>
                     <p>{item.text}</p>
