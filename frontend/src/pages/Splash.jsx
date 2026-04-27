@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import onboardingControlIllustration from "../assets/images/onboarding-control-real.png.jpeg";
 import heroIllustration from "../assets/images/onboarding-hero.png";
 import lifelineLogo from "../assets/images/lifeline-logo.png";
 import onboardingPhoneIllustration from "../assets/images/onboarding-phone.png";
@@ -250,34 +251,21 @@ export default function Splash() {
             ) : null}
 
             {slide.panelType === "security" ? (
-              <>
-                <div className="security-shield"></div>
-                <div className="security-phone">
-                  <div className="security-phone-top"></div>
-                  <div className="security-phone-list">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <div className="security-lock"></div>
-                <div className="security-mini-card security-mini-card-left">
-                  <strong>Acces securise</strong>
-                  <span>Protection avancee</span>
-                </div>
-                <div className="security-mini-card security-mini-card-right">
-                  <strong>Historique</strong>
-                  <span>Suivi des acces</span>
-                </div>
-              </>
+              <img
+                src={onboardingControlIllustration}
+                alt=""
+                className="onboarding-control-image"
+              />
             ) : null}
           </div>
 
           {slide.features ? (
-            <div className="onboarding-feature-grid">
+            <div className={`onboarding-feature-grid onboarding-feature-grid-${slide.panelType}`}>
               {slide.features.map((feature) => (
-                <article key={feature.title} className="onboarding-feature-card">
+                <article
+                  key={feature.title}
+                  className={`onboarding-feature-card onboarding-feature-card-${slide.panelType}`}
+                >
                   <span className="onboarding-feature-icon">
                     <FeatureIcon type={feature.icon} />
                   </span>

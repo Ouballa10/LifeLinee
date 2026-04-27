@@ -1088,6 +1088,16 @@
   display: block;
 }
 
+.onboarding-control-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 .hero-skyline {
   left: 50%;
   bottom: 86px;
@@ -1612,6 +1622,19 @@
   line-height: 1.55;
 }
 
+.onboarding-feature-card-phone {
+  padding: 14px 10px;
+}
+
+.onboarding-feature-card-phone strong {
+  font-size: 0.9rem;
+}
+
+.onboarding-feature-card-phone p {
+  font-size: 0.78rem;
+  line-height: 1.48;
+}
+
 .onboarding-checklist {
   position: relative;
   z-index: 1;
@@ -1737,6 +1760,18 @@
 
   .onboarding-feature-card p {
     font-size: 0.76rem;
+  }
+
+  .onboarding-feature-card-phone {
+    padding: 13px 8px;
+  }
+
+  .onboarding-feature-card-phone strong {
+    font-size: 0.84rem;
+  }
+
+  .onboarding-feature-card-phone p {
+    font-size: 0.73rem;
   }
 
   .onboarding-stage {
