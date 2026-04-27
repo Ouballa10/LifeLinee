@@ -137,12 +137,17 @@ export default function Splash() {
         <>
           Vos donnees,
           <br />
-          sauvent des vies
+          <span className="onboarding-title-accent-red">sauvent des vies</span>
         </>
       ),
       titleAccent: "sauvent des vies",
-      description:
-        "Partagez les informations essentielles avec les secouristes pour une prise en charge rapide et claire.",
+      description: (
+        <>
+          Partagez les informations essentielles en{" "}
+          <span className="onboarding-copy-accent-blue">cas d'urgence</span> avec les secouristes pour une prise
+          en charge rapide et claire.
+        </>
+      ),
       cta: "Suivant",
       panelType: "phone",
       features: [

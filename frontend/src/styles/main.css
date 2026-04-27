@@ -982,6 +982,10 @@
   color: #173f8f;
 }
 
+.onboarding-title-accent-red {
+  color: #df4f5e;
+}
+
 .onboarding-card-hero .onboarding-brand .brand-copy strong {
   font-size: 1.9rem;
 }
@@ -1018,6 +1022,11 @@
   color: #4e6695;
   font-size: 1rem;
   line-height: 1.65;
+}
+
+.onboarding-copy-accent-blue {
+  color: #2f6fdd;
+  font-weight: 700;
 }
 
 .onboarding-stage {
@@ -1663,6 +1672,7 @@
 
 .onboarding-cta {
   flex: none;
+  gap: 12px;
   min-height: 52px;
   width: min(100%, 340px);
   margin: 0 auto;
@@ -1678,7 +1688,7 @@
 .onboarding-cta-arrow {
   font-size: 1.4rem;
   line-height: 1;
-  margin-left: 26px;
+  margin-left: 0;
 }
 
 .onboarding-secondary-actions {
