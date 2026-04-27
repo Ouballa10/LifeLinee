@@ -1016,6 +1016,17 @@
   line-height: 1.55;
 }
 
+.onboarding-card-security .onboarding-title {
+  font-size: clamp(1.35rem, 3.9vw, 1.9rem);
+  line-height: 1.18;
+}
+
+.onboarding-card-security .onboarding-copy p {
+  max-width: 285px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
 .onboarding-copy p {
   margin: 0 auto;
   max-width: 300px;
@@ -1664,6 +1675,12 @@
   background: rgba(72, 135, 241, 0.12);
   color: #2f6fdd;
   font-weight: 700;
+}
+
+.onboarding-check-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .onboarding-check-item strong {
