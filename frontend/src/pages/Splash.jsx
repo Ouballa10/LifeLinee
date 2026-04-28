@@ -356,7 +356,6 @@ export default function Splash() {
                     <strong>{item.title}</strong>
                     <p>{item.text}</p>
                   </div>
-                  <span className="onboarding-check-arrow">{">"}</span>
                 </article>
               ))}
             </div>
