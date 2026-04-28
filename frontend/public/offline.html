@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#53bf87" />
+    <title>LifeLine hors ligne</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at top, rgba(83, 191, 135, 0.18), transparent 32%),
+          linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+        color: #163f8f;
+      }
+
+      .offline-card {
+        width: min(100%, 420px);
+        padding: 32px 24px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(22, 63, 143, 0.08);
+        box-shadow: 0 24px 50px rgba(22, 63, 143, 0.12);
+        text-align: center;
+      }
+
+      .offline-badge {
+        width: 78px;
+        height: 78px;
+        margin: 0 auto 20px;
+        border-radius: 24px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, #4b95ff, #2d78ee);
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 1.7rem;
+        line-height: 1.15;
+      }
+
+      p {
+        margin: 0 auto;
+        max-width: 290px;
+        color: #5f76a4;
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .offline-actions {
+        display: grid;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .button {
+        appearance: none;
+        border: none;
+        border-radius: 999px;
+        min-height: 52px;
+        padding: 0 22px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background: linear-gradient(180deg, #4b95ff, #2d78ee);
+        color: #ffffff;
+      }
+
+      .button-secondary {
+        background: #edf4ff;
+        color: #163f8f;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="offline-card">
+      <div class="offline-badge">+</div>
+      <h1>Vous êtes hors ligne</h1>
+      <p>
+        LifeLine n’arrive pas à joindre Internet pour le moment. Reconnectez-vous puis réessayez.
+      </p>
+      <div class="offline-actions">
+        <button class="button button-primary" type="button" onclick="window.location.reload()">
+          Réessayer
+        </button>
+        <button class="button button-secondary" type="button" onclick="window.location.href='/'">
+          Retour à l’accueil
+        </button>
+      </div>
+    </main>
+  </body>
+</html>
