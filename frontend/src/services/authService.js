@@ -159,6 +159,14 @@ function requireFirebaseAuth() {
   }
 }
 
+function requireOnlineAuth() {
+  if (typeof navigator !== "undefined" && !navigator.onLine) {
+    throw new Error(
+      "Connexion Internet requise. L'authentification LifeLine ne fonctionne pas en mode hors ligne."
+    );
+  }
+}
+
 function normalizeFirebaseError(error) {
   switch (error?.code) {
     case "auth/email-already-in-use":
@@ -175,6 +183,8 @@ function normalizeFirebaseError(error) {
       return "Une autre tentative de connexion est deja en cours.";
     case "auth/network-request-failed":
       return "Connexion reseau impossible. Verifiez Internet puis reessayez.";
+    case "auth/internal-error":
+      return "Connexion impossible pour le moment. Verifiez Internet puis reessayez.";
     case "auth/operation-not-allowed":
       return "L'inscription par email/mot de passe n'est pas activee dans Firebase. Activez Email/Password dans Authentication > Sign-in method.";
     case "auth/weak-password":
@@ -215,6 +225,7 @@ function buildFirebaseSessionFromApi(response, firebaseUser, existingProfile = {
 }
 
 export async function syncFirebaseSession(firebaseUser, existingProfile = {}, defaults = {}) {
+  requireOnlineAuth();
   const idToken = await firebaseUser.getIdToken();
   const response = await apiRequest("/auth/firebase", {
     method: "POST",
@@ -258,6 +269,7 @@ export async function loginUser({ email, password }) {
     throw new Error("Email and password are required.");
   }
 
+  requireOnlineAuth();
   requireFirebaseAuth();
 
   try {
@@ -289,6 +301,7 @@ export async function registerUser(formValues) {
     throw new Error("Passwords do not match.");
   }
 
+  requireOnlineAuth();
   requireFirebaseAuth();
 
   try {
@@ -313,6 +326,7 @@ export async function registerUser(formValues) {
 }
 
 export async function loginGoogle() {
+  requireOnlineAuth();
   requireFirebaseAuth();
 
   if (!googleProvider) {

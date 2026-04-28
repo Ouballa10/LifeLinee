@@ -13,6 +13,7 @@ import { ROUTES } from "../../utils/constants.js";
 export default function Login() {
   const navigate = useNavigate();
   const { login, loginGoogle, isLoading } = useAuth();
+  const isOffline = typeof navigator !== "undefined" ? !navigator.onLine : false;
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -87,7 +88,12 @@ export default function Login() {
               onChange={handleChange}
             />
 
-            <Button type="submit" block className="auth-action-button auth-action-button-primary">
+            <Button
+              type="submit"
+              block
+              className="auth-action-button auth-action-button-primary"
+              disabled={isLoading || isOffline}
+            >
               Se connecter
             </Button>
 
@@ -101,7 +107,7 @@ export default function Login() {
               variant="ghost"
               className="auth-action-button auth-action-button-google"
               onClick={handleGoogleLogin}
-              disabled={isLoading}
+              disabled={isLoading || isOffline}
             >
               <span className="google-mark" aria-hidden="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -137,6 +143,12 @@ export default function Login() {
           {!isFirebaseConfigured ? (
             <p className="feedback auth-notice">
               Activez Firebase dans `frontend/.env` pour Google.
+            </p>
+          ) : null}
+
+          {isOffline ? (
+            <p className="feedback auth-notice">
+              Le mode hors ligne est actif. La consultation de l'app reste disponible, mais la connexion demande Internet.
             </p>
           ) : null}
 

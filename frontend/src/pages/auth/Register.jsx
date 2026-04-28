@@ -13,6 +13,7 @@ import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 export default function Register() {
   const navigate = useNavigate();
   const { register, loginGoogle, isLoading } = useAuth();
+  const isOffline = typeof navigator !== "undefined" ? !navigator.onLine : false;
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -79,7 +80,7 @@ export default function Register() {
             variant="ghost"
             className="auth-action-button auth-action-button-google"
             onClick={handleGoogleRegister}
-            disabled={isLoading}
+            disabled={isLoading || isOffline}
           >
             <span className="google-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -164,7 +165,12 @@ export default function Register() {
               onChange={handleChange}
             />
 
-            <Button type="submit" block className="auth-action-button auth-action-button-primary">
+            <Button
+              type="submit"
+              block
+              className="auth-action-button auth-action-button-primary"
+              disabled={isLoading || isOffline}
+            >
               Creer mon compte
             </Button>
           </form>
@@ -172,6 +178,12 @@ export default function Register() {
           {!isFirebaseConfigured ? (
             <p className="feedback auth-notice">
               Activez Firebase dans `frontend/.env` pour Google.
+            </p>
+          ) : null}
+
+          {isOffline ? (
+            <p className="feedback auth-notice">
+              Le mode hors ligne est actif. Vous pouvez parcourir LifeLine, mais la creation de compte demande Internet.
             </p>
           ) : null}
 
