@@ -4,7 +4,11 @@ import EmergencyCard from "../../components/medical/EmergencyCard.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Loader from "../../components/ui/Loader.jsx";
-import { buildEmergencyContactLabel, getEmergencyProfile } from "../../services/profileService.js";
+import {
+  buildEmergencyContactLabel,
+  buildEmergencyPhoneHref,
+  getEmergencyProfile,
+} from "../../services/profileService.js";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function Emergency() {
@@ -66,8 +70,8 @@ export default function Emergency() {
     );
   }
 
-  const emergencyPhone = preview?.emergencyContact?.phone || "";
   const emergencyContactLabel = buildEmergencyContactLabel(preview?.emergencyContact);
+  const emergencyPhoneHref = buildEmergencyPhoneHref(preview?.emergencyContact);
 
   return (
     <main className="screen emergency-screen emergency-redesign-screen">
@@ -77,10 +81,16 @@ export default function Emergency() {
 
           <div className="emergency-actions emergency-redesign-actions">
             <a
-              href={emergencyPhone ? `tel:${emergencyPhone}` : "#"}
-              className="button button-emergency"
+              href={emergencyPhoneHref || undefined}
+              className={`button button-emergency ${!emergencyPhoneHref ? "button-disabled" : ""}`}
+              aria-disabled={!emergencyPhoneHref}
+              onClick={(event) => {
+                if (!emergencyPhoneHref) {
+                  event.preventDefault();
+                }
+              }}
             >
-              Appeler
+              {emergencyPhoneHref ? "Appeler" : "Aucun numero"}
             </a>
           </div>
 

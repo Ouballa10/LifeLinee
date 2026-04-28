@@ -6,28 +6,76 @@ export function buildEmergencyContactLabel(contact = {}) {
   return [contact?.name, contact?.phone].filter(Boolean).join(" - ") || "Non renseigne";
 }
 
+function extractPhoneNumber(value = "") {
+  const text = String(value || "").trim();
+  const matches = text.match(/\+?\d[\d\s().-]{5,}\d/g) || [];
+
+  return (
+    matches.find((candidate) => candidate.replace(/\D/g, "").length >= 6)?.trim() || ""
+  );
+}
+
+function removePhoneFromText(value = "", phone = "") {
+  return String(value || "")
+    .replace(phone, "")
+    .replace(/[-:|,]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeTelNumber(value = "") {
+  const phone = extractPhoneNumber(value);
+
+  if (!phone) {
+    return "";
+  }
+
+  const hasLeadingPlus = phone.trim().startsWith("+");
+  const digits = phone.replace(/\D/g, "");
+
+  return digits ? `${hasLeadingPlus ? "+" : ""}${digits}` : "";
+}
+
+export function buildEmergencyPhoneHref(contact = {}) {
+  const phone = normalizeTelNumber(
+    [contact?.phone, contact?.name, contact?.relationship].filter(Boolean).join(" ")
+  );
+
+  return phone ? `tel:${phone}` : "";
+}
+
 function joinList(value) {
   return splitList(value).join(", ");
 }
 
 function parseEmergencyContact(value = {}) {
   if (typeof value === "string") {
+    const phone = extractPhoneNumber(value);
     const parts = value
       .split(/\s*-\s*/)
       .map((item) => item.trim())
       .filter(Boolean);
+    const phonePart = parts.find((part) => extractPhoneNumber(part)) || "";
+    const namePart =
+      parts.find((part) => part !== phonePart && !extractPhoneNumber(part)) || "";
 
     return {
-      name: parts[0] || "",
-      phone: parts[1] || "",
+      name: namePart || removePhoneFromText(value, phone) || (!phone ? parts[0] || "" : ""),
+      phone: phone || parts[1] || "",
       relationship: "",
     };
   }
 
+  const name = String(value?.name || "").trim();
+  const relationship = String(value?.relationship || "").trim();
+  const explicitPhone = String(value?.phone || "").trim();
+  const fallbackPhone = extractPhoneNumber([name, relationship].filter(Boolean).join(" "));
+  const phone = explicitPhone || fallbackPhone;
+
   return {
-    name: String(value?.name || "").trim(),
-    phone: String(value?.phone || "").trim(),
-    relationship: String(value?.relationship || "").trim(),
+    name: explicitPhone ? name : removePhoneFromText(name, fallbackPhone) || (!fallbackPhone ? name : ""),
+    phone,
+    relationship,
   };
 }
 
