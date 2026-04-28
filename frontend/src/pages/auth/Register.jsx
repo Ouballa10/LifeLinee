@@ -7,13 +7,14 @@ import Loader from "../../components/ui/Loader.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import heroIllustration from "../../assets/images/onboarding-hero.png";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 export default function Register() {
   const navigate = useNavigate();
   const { register, loginGoogle, isLoading } = useAuth();
-  const isOffline = typeof navigator !== "undefined" ? !navigator.onLine : false;
+  const { isOffline } = useNetworkStatus();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -36,6 +37,11 @@ export default function Register() {
     event.preventDefault();
     setError("");
 
+    if (isOffline) {
+      setError("Connexion Internet requise. La creation de compte LifeLine ne fonctionne pas en mode hors ligne.");
+      return;
+    }
+
     try {
       await register(form);
       navigate(ROUTES.home, { replace: true });
@@ -46,6 +52,11 @@ export default function Register() {
 
   async function handleGoogleRegister() {
     setError("");
+
+    if (isOffline) {
+      setError("Connexion Internet requise. L'authentification Google ne fonctionne pas en mode hors ligne.");
+      return;
+    }
 
     try {
       await loginGoogle();
