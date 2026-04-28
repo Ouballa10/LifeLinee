@@ -7,13 +7,14 @@ import Loader from "../../components/ui/Loader.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import onboardingPhoneIllustration from "../../assets/images/onboarding-phone.png";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login, loginGoogle, isLoading } = useAuth();
-  const isOffline = typeof navigator !== "undefined" ? !navigator.onLine : false;
+  const { isOffline } = useNetworkStatus();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -32,6 +33,11 @@ export default function Login() {
     event.preventDefault();
     setError("");
 
+     if (isOffline) {
+      setError("Connexion Internet requise. L'authentification LifeLine ne fonctionne pas en mode hors ligne.");
+      return;
+    }
+
     try {
       await login(form);
       navigate(ROUTES.dashboard, { replace: true });
@@ -42,6 +48,11 @@ export default function Login() {
 
   async function handleGoogleLogin() {
     setError("");
+
+    if (isOffline) {
+      setError("Connexion Internet requise. L'authentification Google ne fonctionne pas en mode hors ligne.");
+      return;
+    }
 
     try {
       await loginGoogle();
