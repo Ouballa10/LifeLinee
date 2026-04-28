@@ -2,6 +2,80 @@ import QRCode from "qrcode";
 import { apiRequest } from "./api.js";
 import { ROUTES } from "../utils/constants.js";
 
+function getConfiguredAppBaseUrl() {
+  const explicitUrl = String(
+    import.meta.env.VITE_PUBLIC_APP_URL || import.meta.env.VITE_FRONTEND_URL || ""
+  )
+    .trim()
+    .replace(/\/+$/, "");
+
+  if (explicitUrl) {
+    return explicitUrl;
+  }
+
+  const apiUrl = String(import.meta.env.VITE_API_URL || "").trim();
+
+  if (/^https?:\/\//i.test(apiUrl)) {
+    return apiUrl.replace(/\/api\/?$/i, "").replace(/\/+$/, "");
+  }
+
+  return "";
+}
+
+function isLocalHostname(hostname = "") {
+  const normalizedHostname = hostname.toLowerCase();
+  return ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(normalizedHostname);
+}
+
+function getCurrentPublicOrigin() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const { protocol, hostname, origin } = window.location;
+
+  if (!/^https?:$/i.test(protocol) || isLocalHostname(hostname)) {
+    return "";
+  }
+
+  return origin.replace(/\/+$/, "");
+}
+
+function getPreferredAppBaseUrl() {
+  return getConfiguredAppBaseUrl() || getCurrentPublicOrigin();
+}
+
+function getQueryStringFromUrl(value) {
+  if (!value) {
+    return "";
+  }
+
+  const fallbackBase =
+    typeof window !== "undefined" ? window.location.origin : "https://lifeline.local";
+
+  try {
+    return new URL(value, fallbackBase).search.replace(/^\?/, "");
+  } catch {
+    return "";
+  }
+}
+
+function isLocalUrl(value) {
+  if (!value) {
+    return false;
+  }
+
+  const fallbackBase =
+    typeof window !== "undefined" ? window.location.origin : "https://lifeline.local";
+
+  try {
+    const url = new URL(value, fallbackBase);
+    return isLocalHostname(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export function buildEmergencyUrl(qrToken, queryString = "") {
   if (!qrToken) {
     return "";
@@ -9,6 +83,11 @@ export function buildEmergencyUrl(qrToken, queryString = "") {
 
   const pathname = `${ROUTES.emergency}/${qrToken}`;
   const search = queryString ? `?${queryString}` : "";
+  const configuredBaseUrl = getPreferredAppBaseUrl();
+
+  if (configuredBaseUrl) {
+    return `${configuredBaseUrl}${pathname}${search}`;
+  }
 
   if (typeof window === "undefined") {
     return `${pathname}${search}`;
@@ -37,7 +116,7 @@ function buildQrLine(label, value) {
 
 export function buildQRCodeText(profile = {}, qrData = {}) {
   const qrToken = qrData.qrToken || profile?.qrToken || "";
-  const emergencyUrl = qrData.shareUrl || buildEmergencyUrl(qrToken);
+  const emergencyUrl = buildQRCodePayload({ ...qrData, qrToken });
   const lines = [
     "LifeLine Emergency Profile",
     buildQrLine("Name", profile?.fullName),
@@ -52,6 +131,31 @@ export function buildQRCodeText(profile = {}, qrData = {}) {
   ].filter(Boolean);
 
   return lines.join("\n");
+}
+
+export function buildQRCodePayload(qrData = {}) {
+  const qrToken = qrData.qrToken || qrData.shareId || "";
+  const value = qrData.shareUrl || qrData.emergencyUrl || buildEmergencyUrl(qrToken);
+  const queryString = getQueryStringFromUrl(value);
+  const preferredBaseUrl = getPreferredAppBaseUrl();
+
+  if (qrToken && preferredBaseUrl) {
+    return buildEmergencyUrl(qrToken, queryString);
+  }
+
+  if (qrToken && isLocalUrl(value)) {
+    return buildEmergencyUrl(qrToken, queryString);
+  }
+
+  if (!value || /^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  if (typeof window === "undefined") {
+    return value;
+  }
+
+  return new URL(value, window.location.origin).toString();
 }
 
 export async function generateQRCodeImage(content) {

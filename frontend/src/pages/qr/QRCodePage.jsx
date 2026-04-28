@@ -8,6 +8,7 @@ import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import {
   buildEmergencyUrl,
+  buildQRCodePayload,
   buildQRCodeText,
   downloadQRCode,
   generateQRCodeImage,
@@ -73,11 +74,14 @@ export default function QRCodePage() {
         }
 
         const qrText = buildQRCodeText(qrProfile, data);
-        const imageUrl = await generateQRCodeImage(qrText);
+        const qrPayload = buildQRCodePayload(data);
+        const imageUrl = await generateQRCodeImage(qrPayload);
 
         if (!cancelled) {
           setQrData({
             ...data,
+            shareUrl: qrPayload,
+            qrPayload,
             qrText,
           });
           setQrImageUrl(imageUrl);

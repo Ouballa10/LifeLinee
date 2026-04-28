@@ -1,11 +1,24 @@
 const { ensureMedicalProfileForUser } = require('../services/profileService');
 const { buildQrPayload } = require('../services/qrService');
 
+function isLocalFrontendUrl(value = '') {
+  try {
+    const url = new URL(value);
+    return ['localhost', '127.0.0.1', '0.0.0.0', '::1'].includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
 function getFrontendBaseUrl(req) {
-  return (process.env.FRONTEND_URL || req.get('origin') || 'http://localhost:5173').replace(
-    /\/+$/,
-    ''
-  );
+  const configuredUrl = process.env.FRONTEND_URL || '';
+  const originUrl = req.get('origin') || '';
+
+  return (
+    configuredUrl && !isLocalFrontendUrl(configuredUrl)
+      ? configuredUrl
+      : originUrl || configuredUrl || 'http://localhost:5173'
+  ).replace(/\/+$/, '');
 }
 
 exports.getMyQRCode = async (req, res) => {
