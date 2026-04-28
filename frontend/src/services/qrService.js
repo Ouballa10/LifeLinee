@@ -2,6 +2,28 @@ import QRCode from "qrcode";
 import { apiRequest } from "./api.js";
 import { ROUTES } from "../utils/constants.js";
 
+function isLocalHostname(hostname = "") {
+  const normalizedHostname = hostname.toLowerCase();
+  return ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(normalizedHostname);
+}
+
+function isVercelDashboardHostname(hostname = "") {
+  return ["vercel.com", "www.vercel.com"].includes(hostname.toLowerCase());
+}
+
+function isUsableAppBaseUrl(value = "") {
+  try {
+    const url = new URL(value);
+    return (
+      /^https?:$/i.test(url.protocol) &&
+      !isLocalHostname(url.hostname) &&
+      !isVercelDashboardHostname(url.hostname)
+    );
+  } catch {
+    return false;
+  }
+}
+
 function getConfiguredAppBaseUrl() {
   const explicitUrl = String(
     import.meta.env.VITE_PUBLIC_APP_URL || import.meta.env.VITE_FRONTEND_URL || ""
@@ -9,22 +31,18 @@ function getConfiguredAppBaseUrl() {
     .trim()
     .replace(/\/+$/, "");
 
-  if (explicitUrl) {
+  if (explicitUrl && isUsableAppBaseUrl(explicitUrl)) {
     return explicitUrl;
   }
 
   const apiUrl = String(import.meta.env.VITE_API_URL || "").trim();
 
   if (/^https?:\/\//i.test(apiUrl)) {
-    return apiUrl.replace(/\/api\/?$/i, "").replace(/\/+$/, "");
+    const appUrl = apiUrl.replace(/\/api\/?$/i, "").replace(/\/+$/, "");
+    return isUsableAppBaseUrl(appUrl) ? appUrl : "";
   }
 
   return "";
-}
-
-function isLocalHostname(hostname = "") {
-  const normalizedHostname = hostname.toLowerCase();
-  return ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(normalizedHostname);
 }
 
 function getCurrentPublicOrigin() {
@@ -34,7 +52,7 @@ function getCurrentPublicOrigin() {
 
   const { protocol, hostname, origin } = window.location;
 
-  if (!/^https?:$/i.test(protocol) || isLocalHostname(hostname)) {
+  if (!/^https?:$/i.test(protocol) || isLocalHostname(hostname) || isVercelDashboardHostname(hostname)) {
     return "";
   }
 
