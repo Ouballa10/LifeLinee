@@ -53,10 +53,10 @@ export default function Home() {
           <section className="app-hero-panel home-command-panel">
             <div className="hero-copy">
               <span className="panel-kicker">Centre LifeLine</span>
-              <h2>Tout ce qui compte en urgence, pret en un geste.</h2>
+              <h2>Tout ce qui compte en urgence, pret en un geste</h2>
               <p>
-                Gardez votre QR, votre fiche medicale et le scanner dans un seul
-                espace rapide a utiliser.
+                Gardez votre QR votre fiche medicale et le scanner dans un seul
+                
               </p>
             </div>
             <div className="hero-status-card">

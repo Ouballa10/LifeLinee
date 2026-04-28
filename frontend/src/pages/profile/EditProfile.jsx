@@ -1,12 +1,46 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Navbar from "../../components/layout/Navbar.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
+
 import { useAuth } from "../../hooks/useAuth.js";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
+
+const DEFAULT_BLOOD_TYPE = "O+";
+
+const FORM_FIELDS = [
+  {
+    label: "Nom complet",
+    name: "fullName",
+  },
+  {
+    label: "Groupe sanguin",
+    name: "bloodType",
+    as: "select",
+    options: BLOOD_GROUPS,
+  },
+  {
+    label: "Telephone",
+    name: "phone",
+  },
+  {
+    label: "Ville",
+    name: "city",
+  },
+  {
+    label: "Email",
+    name: "email",
+    type: "email",
+  },
+  {
+    label: "Contact d'urgence",
+    name: "emergencyContact",
+  },
+];
 
 function buildGeneralForm(user) {
   return {
@@ -14,18 +48,25 @@ function buildGeneralForm(user) {
     email: user?.email || "",
     phone: user?.phone || "",
     city: user?.city || "",
-    bloodType: user?.bloodType || "O+",
+    bloodType: user?.bloodType || DEFAULT_BLOOD_TYPE,
     emergencyContact: user?.emergencyContact || "",
   };
+}
+
+function getProfileIdentity(user) {
+  return `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 }
 
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, updateProfile } = useAuth();
+
   const [form, setForm] = useState(() => buildGeneralForm(user));
+
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
-  const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
+
+  const profileIdentity = getProfileIdentity(user);
 
   useEffect(() => {
     const identityChanged = activeProfileRef.current !== profileIdentity;
@@ -35,11 +76,9 @@ export default function EditProfile() {
       isEditingRef.current = false;
     }
 
-    if (isEditingRef.current) {
-      return;
+    if (!isEditingRef.current) {
+      setForm(buildGeneralForm(user));
     }
-
-    setForm(buildGeneralForm(user));
   }, [
     profileIdentity,
     user?.fullName,
@@ -52,18 +91,26 @@ export default function EditProfile() {
 
   function handleChange(event) {
     const { name, value } = event.target;
+
     isEditingRef.current = true;
-    setForm((current) => ({
-      ...current,
+
+    setForm((currentForm) => ({
+      ...currentForm,
       [name]: value,
     }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     await updateProfile(form);
+
     isEditingRef.current = false;
     navigate(ROUTES.profile, { replace: true });
+  }
+
+  function goToMedicalForm() {
+    navigate(ROUTES.medicalForm);
   }
 
   return (
@@ -86,10 +133,11 @@ export default function EditProfile() {
               <button
                 type="button"
                 className="tab-pill"
-                onClick={() => navigate(ROUTES.medicalForm)}
+                onClick={goToMedicalForm}
               >
                 Groupe medical
               </button>
+
               <button type="button" className="tab-pill is-active">
                 Generalite
               </button>
@@ -97,13 +145,16 @@ export default function EditProfile() {
 
             <form className="auth-form" onSubmit={handleSubmit}>
               <div className="form-grid">
-                <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
-                <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
-                <Input label="Telephone" name="phone" value={form.phone} onChange={handleChange} />
-                <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
-                <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
-                <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+                {FORM_FIELDS.map((field) => (
+                  <Input
+                    key={field.name}
+                    {...field}
+                    value={form[field.name]}
+                    onChange={handleChange}
+                  />
+                ))}
               </div>
+
               <Button type="submit" block className="form-submit-button">
                 Modifier le profil
               </Button>
