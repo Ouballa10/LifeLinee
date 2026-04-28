@@ -361,13 +361,13 @@ export default function Splash() {
             </div>
           ) : null}
 
-          <div className="onboarding-actions">
+          <div className={`onboarding-actions onboarding-actions-${slide.panelType}`}>
             <button type="button" className="button button-primary onboarding-cta" onClick={handlePrimaryAction}>
               {slide.cta}
               <span className="onboarding-cta-arrow">→</span>
             </button>
 
-            <div className="onboarding-secondary-actions">
+            <div className={`onboarding-secondary-actions onboarding-secondary-actions-${slide.panelType}`}>
               <Link to={ROUTES.scanner} className="text-link">
                 Scanner un QR
               </Link>
