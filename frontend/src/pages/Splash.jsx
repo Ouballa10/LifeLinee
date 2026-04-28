@@ -240,7 +240,7 @@ export default function Splash() {
       panelType: "security",
       checklist: [
         {
-          title: "Modifier mes infos",
+          title: "Modifier mes informations",
           text: "Mettez à jour vos données quand vous le souhaitez",
           icon: "edit",
         },
