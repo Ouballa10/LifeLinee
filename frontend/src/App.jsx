@@ -6,6 +6,7 @@ import "./styles/auth.css";
 import "./styles/profile.css";
 import "./styles/emergency.css";
 import "./styles/app-redesign.css";
+import "./styles/login.css";
 
 function OfflineNotice() {
   const [isOffline, setIsOffline] = useState(() =>
