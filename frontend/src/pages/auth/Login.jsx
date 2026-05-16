@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
+import "../../styles/login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -33,9 +34,7 @@ export default function Login() {
     setError("");
 
     if (isOffline) {
-      setError(
-        "Connexion Internet requise. L'authentification ne fonctionne pas en mode hors ligne."
-      );
+      setError("Connexion Internet requise. L'authentification LifeLine ne fonctionne pas en mode hors ligne.");
       return;
     }
 
@@ -66,6 +65,7 @@ export default function Login() {
   }
 
   return (
+<<<<<<< HEAD
     <main className="aurora-screen">
       <ThemeToggle />
       {/* Animated mesh background */}
@@ -86,10 +86,39 @@ export default function Login() {
           Connectez-vous a votre espace medical
           <br />
           en toute securite.
+=======
+    <main className="login-screen">
+      {/* Background decorations */}
+      <div className="login-bg-decorations">
+        <div className="login-bg-cityscape" aria-hidden="true"></div>
+        <span className="login-cloud login-cloud-1"></span>
+        <span className="login-cloud login-cloud-2"></span>
+        <span className="login-cloud login-cloud-3"></span>
+        <span className="login-cross login-cross-1">+</span>
+        <span className="login-cross login-cross-2">+</span>
+        <span className="login-cross login-cross-3">+</span>
+        <span className="login-cross login-cross-4">+</span>
+        <span className="login-dots-grid"></span>
+        <div className="login-bg-leaves">
+          <div className="login-leaves login-leaves-left"></div>
+          <div className="login-leaves login-leaves-right"></div>
+        </div>
+      </div>
+
+      {/* Logo + heading */}
+      <section className="login-header">
+        <div className="login-logo-wrapper">
+          <img src={lifelineLogo} alt="LifeLine" className="login-logo-img" />
+        </div>
+        <h1 className="login-title">Connectez-vous</h1>
+        <p className="login-subtitle">
+          Accédez à votre espace médical<br />simplement et en toute sécurité.
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
         </p>
       </section>
 
       {/* Form card */}
+<<<<<<< HEAD
       <section className="aurora-card">
         <form className="aurora-form" onSubmit={handleSubmit}>
           {/* Email */}
@@ -98,6 +127,16 @@ export default function Login() {
             <div className="aurora-field-input-wrapper">
               <span className="aurora-field-icon" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+=======
+      <section className="login-card">
+        <form className="login-form" onSubmit={handleSubmit}>
+          {/* Email */}
+          <div className="login-field-group">
+            <label className="login-field-label">Adresse e-mail</label>
+            <div className="login-field-input-wrapper">
+              <span className="login-field-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
                   <rect x="2" y="4" width="20" height="16" rx="3" />
                   <path d="M2 7l10 7 10-7" />
                 </svg>
@@ -108,18 +147,30 @@ export default function Login() {
                 placeholder="exemple@email.com"
                 value={form.email}
                 onChange={handleChange}
+<<<<<<< HEAD
                 className="aurora-field-input"
+=======
+                className="login-field-input"
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
                 autoComplete="email"
               />
             </div>
           </div>
 
           {/* Password */}
+<<<<<<< HEAD
           <div className="aurora-field-group">
             <label className="aurora-field-label">Mot de passe</label>
             <div className="aurora-field-input-wrapper">
               <span className="aurora-field-icon" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+=======
+          <div className="login-field-group">
+            <label className="login-field-label">Mot de passe</label>
+            <div className="login-field-input-wrapper">
+              <span className="login-field-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
                   <rect x="3" y="11" width="18" height="11" rx="3" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
@@ -130,16 +181,28 @@ export default function Login() {
                 placeholder="Votre mot de passe"
                 value={form.password}
                 onChange={handleChange}
+<<<<<<< HEAD
                 className="aurora-field-input"
+=======
+                className="login-field-input"
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
                 autoComplete="current-password"
               />
               <button
                 type="button"
+<<<<<<< HEAD
                 className="aurora-field-toggle"
                 onClick={() => setShowPassword((v) => !v)}
                 aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+=======
+                className="login-field-toggle"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
                   {showPassword ? (
                     <>
                       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
@@ -155,34 +218,55 @@ export default function Login() {
                 </svg>
               </button>
             </div>
+<<<<<<< HEAD
             <div className="aurora-field-extras">
               <Link to="/forgot-password" className="aurora-forgot-link">
                 Mot de passe oublie ?
+=======
+            <div className="login-field-extras">
+              <Link to="/forgot-password" className="login-forgot-link">
+                Mot de passe oublié ?
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
               </Link>
             </div>
           </div>
 
           {/* Remember me */}
+<<<<<<< HEAD
           <label className="aurora-remember">
+=======
+          <label className="login-remember">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
             <input
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
+<<<<<<< HEAD
               className="aurora-remember-checkbox"
             />
             <span className="aurora-remember-checkmark">
+=======
+              className="login-remember-checkbox"
+            />
+            <span className="login-remember-checkmark">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
               {rememberMe && (
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}
             </span>
+<<<<<<< HEAD
             <span className="aurora-remember-text">Se souvenir de moi</span>
+=======
+            <span className="login-remember-text">Se souvenir de moi</span>
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
           </label>
 
           {/* Submit */}
           <button
             type="submit"
+<<<<<<< HEAD
             className="aurora-submit-btn"
             disabled={isLoading || isOffline}
           >
@@ -198,17 +282,44 @@ export default function Login() {
 
           {/* Divider */}
           <div className="aurora-divider">
+=======
+            className="login-submit-btn"
+            disabled={isLoading || isOffline}
+          >
+            <span>Se connecter</span>
+            <span className="login-submit-arrow">&rarr;</span>
+          </button>
+
+          {/* Create account */}
+          <div className="login-create-account">
+            <span>Vous n'avez pas de compte ?</span>
+            <Link to={ROUTES.register} className="login-create-link">
+              Créer un compte
+            </Link>
+          </div>
+
+          {/* Divider */}
+          <div className="login-divider">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
             <span>Ou continuer avec</span>
           </div>
 
           {/* Google */}
           <button
             type="button"
+<<<<<<< HEAD
             className="aurora-google-btn"
             onClick={handleGoogleLogin}
             disabled={isLoading || isOffline}
           >
             <span aria-hidden="true">
+=======
+            className="login-google-btn"
+            onClick={handleGoogleLogin}
+            disabled={isLoading || isOffline}
+          >
+            <span className="login-google-icon" aria-hidden="true">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
               <svg viewBox="0 0 24 24" width="22" height="22">
                 <path d="M21.6 12.23c0-.68-.06-1.33-.18-1.95H12v3.69h5.39a4.61 4.61 0 0 1-2 3.03v2.52h3.24c1.89-1.74 2.97-4.3 2.97-7.29Z" fill="#4285F4" />
                 <path d="M12 22c2.7 0 4.96-.9 6.61-2.44l-3.24-2.52c-.9.6-2.04.96-3.37.96-2.59 0-4.78-1.74-5.56-4.08H3.09v2.6A9.99 9.99 0 0 0 12 22Z" fill="#34A853" />
@@ -218,6 +329,7 @@ export default function Login() {
             </span>
             <span>Continuer avec Google</span>
           </button>
+<<<<<<< HEAD
 
           {/* Public scan */}
           <Link to={ROUTES.scanner} className="aurora-scan-link">
@@ -252,14 +364,42 @@ export default function Login() {
       <div className="aurora-privacy">
         <span className="aurora-privacy-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+=======
+        </form>
+
+        {/* Notices */}
+        {!isFirebaseConfigured && (
+          <p className="login-notice">
+            Activez Firebase dans frontend/.env pour Google.
+          </p>
+        )}
+        {isOffline && (
+          <p className="login-notice">
+            Mode hors ligne actif. La connexion demande Internet.
+          </p>
+        )}
+        {error && <p className="login-error">{error}</p>}
+        {isLoading && <Loader label="Connexion..." />}
+      </section>
+
+      {/* Privacy footer */}
+      <div className="login-privacy">
+        <span className="login-privacy-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             <polyline points="9 12 11 14 15 10" />
           </svg>
         </span>
+<<<<<<< HEAD
         <span className="aurora-privacy-text">
           Vos donnees sont chiffrees
           <br />
           et 100% confidentielles.
+=======
+        <span className="login-privacy-text">
+          Vos données sont protégées<br />et confidentielles.
+>>>>>>> 74be448 (feat: redesign login page to match maquette)
         </span>
       </div>
     </main>
