@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import ThemeToggle from "../ui/ThemeToggle.jsx";
 import { ROUTES } from "../../utils/constants.js";
 import { getInitials } from "../../utils/helpers.js";
 
@@ -63,6 +64,8 @@ export default function Navbar({ title, subtitle }) {
         </Link>
 
         <div className="navbar-tools">
+          <ThemeToggle />
+
           {user ? (
             <Link to={ROUTES.profile} className="avatar-link" aria-label="Ouvrir le profil">
               <span className="avatar-badge avatar-badge-small">{getInitials(user?.fullName || "LL")}</span>

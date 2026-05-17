@@ -55,8 +55,8 @@ export default function Home() {
               <span className="panel-kicker">Centre LifeLine</span>
               <h2>Tout ce qui compte en urgence, pret en un geste</h2>
               <p>
-                Gardez votre QR votre fiche medicale et le scanner dans un seul
-                
+                Gardez votre QR, votre fiche medicale et le scanner reunis dans
+                un seul espace premium et securise.
               </p>
             </div>
             <div className="hero-status-card">
