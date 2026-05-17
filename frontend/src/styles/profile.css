@@ -1,11 +1,11 @@
 .profile-detail-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(244, 251, 247, 0.98)),
-    radial-gradient(circle at bottom, rgba(74, 142, 239, 0.08), transparent 28%);
+    radial-gradient(circle at bottom, rgba(99, 102, 241, 0.08), transparent 28%);
 }
 
 .edit-form-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 251, 249, 0.98)),
-    radial-gradient(circle at top right, rgba(74, 142, 239, 0.08), transparent 24%);
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 24%);
 }

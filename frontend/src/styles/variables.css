@@ -1,37 +1,70 @@
 :root {
-  font-family: "Poppins", "Trebuchet MS", sans-serif;
-  color: #1a2e4a;
+  font-family: "Inter", "Poppins", "Trebuchet MS", sans-serif;
+  color: #0f172a;
   background:
-    radial-gradient(circle at top left, rgba(58, 123, 213, 0.18), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(232, 240, 251, 0.9), transparent 30%),
-    linear-gradient(180deg, #e8f0fb 0%, #dce8f8 30%, #c9dcf3 70%, #e0ecf9 100%);
+    radial-gradient(circle at 15% 18%, rgba(139, 92, 246, 0.18), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(236, 72, 153, 0.16), transparent 38%),
+    radial-gradient(circle at 50% 92%, rgba(99, 102, 241, 0.14), transparent 40%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  background-attachment: fixed;
 
-  /* Professional navy blue palette (matches Login maquette) */
-  --color-primary: #3a7bd5;
-  --color-primary-strong: #2563b0;
-  --color-primary-deep: #1d4f99;
-  --color-primary-soft: #eef4ff;
-  --color-primary-faint: #f7faff;
+  /* === AURORA MODERN PALETTE === */
+  /* Primary: indigo / violet */
+  --color-primary: #6366f1;
+  --color-primary-strong: #5b5bd6;
+  --color-primary-deep: #4338ca;
+  --color-primary-soft: #eef2ff;
+  --color-primary-faint: #f5f3ff;
 
-  --color-accent: #ef4559;
-  --color-accent-soft: #fff5f6;
-  --color-accent-deep: #d83a52;
+  /* Aurora secondary: violet */
+  --color-violet: #8b5cf6;
+  --color-violet-deep: #7c3aed;
+  --color-violet-soft: #f3e8ff;
 
-  --color-text: #1a2e4a;
-  --color-text-soft: #5a7094;
+  /* Accent: pink / rose */
+  --color-accent: #ec4899;
+  --color-accent-deep: #db2777;
+  --color-accent-soft: #fdf2f8;
 
-  --color-surface: rgba(255, 255, 255, 0.96);
+  /* Reds for emergency */
+  --color-danger: #ef4444;
+  --color-danger-deep: #dc2626;
+  --color-danger-soft: #fef2f2;
+
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-soft: #64748b;
+  --color-text-muted: #94a3b8;
+
+  /* Surfaces */
+  --color-surface: rgba(255, 255, 255, 0.92);
   --color-surface-strong: #ffffff;
-  --color-border: rgba(74, 142, 239, 0.18);
+  --color-surface-glass: rgba(255, 255, 255, 0.65);
+  --color-border: rgba(99, 102, 241, 0.14);
+  --color-border-soft: rgba(15, 23, 42, 0.06);
 
-  --shadow-card: 0 28px 60px rgba(60, 100, 160, 0.18);
-  --shadow-soft: 0 14px 30px rgba(60, 100, 160, 0.1);
+  /* Aurora gradients */
+  --gradient-aurora: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  --gradient-aurora-soft: linear-gradient(135deg, #eef2ff 0%, #f3e8ff 50%, #fdf2f8 100%);
+  --gradient-indigo: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+  --gradient-violet: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  --gradient-pink: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  --gradient-danger: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
 
-  --radius-xl: 30px;
-  --radius-lg: 24px;
-  --radius-md: 18px;
-  --radius-sm: 14px;
-  --app-width: min(100%, 400px);
+  /* Shadows */
+  --shadow-card: 0 20px 50px rgba(99, 102, 241, 0.14), 0 8px 20px rgba(99, 102, 241, 0.08);
+  --shadow-soft: 0 10px 30px rgba(99, 102, 241, 0.1);
+  --shadow-glow-indigo: 0 12px 30px rgba(99, 102, 241, 0.32);
+  --shadow-glow-pink: 0 12px 30px rgba(236, 72, 153, 0.28);
+  --shadow-glow-aurora: 0 14px 32px rgba(139, 92, 246, 0.3);
+
+  /* Radii */
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+
+  --app-width: min(100%, 420px);
 }
 
 * {
@@ -45,6 +78,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body,
@@ -71,9 +106,8 @@ a {
 }
 
 /*
- * Keep the Splash / Onboarding screens on the original green theme
- * (per user request: do not touch Splash design or colors).
- * All other screens use the new navy blue palette defined in :root above.
+ * Splash / Onboarding screens keep the original green theme
+ * (per user request: do NOT touch Splash design).
  */
 .onboarding-screen,
 .screen-splash {
@@ -94,12 +128,6 @@ a {
     linear-gradient(180deg, #f2f3f5 0%, #edf2ef 100%);
 }
 
-/*
- * Splash uses hardcoded green rgba() values inside main.css for its
- * decorative glows. Re-color those splash-only ornaments back to green
- * (the global hardcoded rgba(83,191,135,...) were swapped to blue for
- * the rest of the app).
- */
 .onboarding-screen .splash-card-centered,
 .screen-splash .splash-card-centered {
   background:
@@ -126,4 +154,3 @@ a {
 .screen-splash .brand-mark-logo {
   border-color: rgba(83, 191, 135, 0.14);
 }
-
