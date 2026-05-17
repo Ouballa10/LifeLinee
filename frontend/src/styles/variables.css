@@ -1,24 +1,32 @@
 :root {
   font-family: "Poppins", "Trebuchet MS", sans-serif;
-  color: #243832;
+  color: #1a2e4a;
   background:
-    radial-gradient(circle at top left, rgba(111, 195, 153, 0.2), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(233, 245, 237, 0.88), transparent 30%),
-    linear-gradient(180deg, #f2f3f5 0%, #edf2ef 100%);
-  --color-primary: #53bf87;
-  --color-primary-strong: #349a67;
-  --color-primary-deep: #267751;
-  --color-primary-soft: #e8f7ef;
-  --color-primary-faint: #f6fbf8;
-  --color-accent: #e57272;
-  --color-accent-soft: #ffefef;
-  --color-text: #243832;
-  --color-text-soft: #7a8d84;
-  --color-surface: rgba(255, 255, 255, 0.94);
+    radial-gradient(circle at top left, rgba(58, 123, 213, 0.18), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(232, 240, 251, 0.9), transparent 30%),
+    linear-gradient(180deg, #e8f0fb 0%, #dce8f8 30%, #c9dcf3 70%, #e0ecf9 100%);
+
+  /* Professional navy blue palette (matches Login maquette) */
+  --color-primary: #3a7bd5;
+  --color-primary-strong: #2563b0;
+  --color-primary-deep: #1d4f99;
+  --color-primary-soft: #eef4ff;
+  --color-primary-faint: #f7faff;
+
+  --color-accent: #ef4559;
+  --color-accent-soft: #fff5f6;
+  --color-accent-deep: #d83a52;
+
+  --color-text: #1a2e4a;
+  --color-text-soft: #5a7094;
+
+  --color-surface: rgba(255, 255, 255, 0.96);
   --color-surface-strong: #ffffff;
-  --color-border: rgba(69, 110, 83, 0.12);
-  --shadow-card: 0 28px 60px rgba(74, 99, 85, 0.16);
-  --shadow-soft: 0 14px 30px rgba(65, 97, 77, 0.1);
+  --color-border: rgba(74, 142, 239, 0.18);
+
+  --shadow-card: 0 28px 60px rgba(60, 100, 160, 0.18);
+  --shadow-soft: 0 14px 30px rgba(60, 100, 160, 0.1);
+
   --radius-xl: 30px;
   --radius-lg: 24px;
   --radius-md: 18px;
@@ -61,3 +69,61 @@ a {
 #root {
   min-height: 100vh;
 }
+
+/*
+ * Keep the Splash / Onboarding screens on the original green theme
+ * (per user request: do not touch Splash design or colors).
+ * All other screens use the new navy blue palette defined in :root above.
+ */
+.onboarding-screen,
+.screen-splash {
+  --color-primary: #53bf87;
+  --color-primary-strong: #349a67;
+  --color-primary-deep: #267751;
+  --color-primary-soft: #e8f7ef;
+  --color-primary-faint: #f6fbf8;
+  --color-text: #243832;
+  --color-text-soft: #7a8d84;
+  --color-border: rgba(69, 110, 83, 0.12);
+  --shadow-card: 0 28px 60px rgba(74, 99, 85, 0.16);
+  --shadow-soft: 0 14px 30px rgba(65, 97, 77, 0.1);
+  color: #243832;
+  background:
+    radial-gradient(circle at top left, rgba(111, 195, 153, 0.2), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(233, 245, 237, 0.88), transparent 30%),
+    linear-gradient(180deg, #f2f3f5 0%, #edf2ef 100%);
+}
+
+/*
+ * Splash uses hardcoded green rgba() values inside main.css for its
+ * decorative glows. Re-color those splash-only ornaments back to green
+ * (the global hardcoded rgba(83,191,135,...) were swapped to blue for
+ * the rest of the app).
+ */
+.onboarding-screen .splash-card-centered,
+.screen-splash .splash-card-centered {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 252, 248, 0.98)),
+    radial-gradient(circle at bottom, rgba(83, 191, 135, 0.12), transparent 26%);
+}
+
+.onboarding-screen .splash-glow,
+.screen-splash .splash-glow {
+  background: radial-gradient(circle, rgba(83, 191, 135, 0.14), transparent 70%);
+}
+
+.onboarding-screen .splash-glow-top,
+.screen-splash .splash-glow-top {
+  background: radial-gradient(circle, rgba(91, 188, 138, 0.12), transparent 70%);
+}
+
+.onboarding-screen .splash-float,
+.screen-splash .splash-float {
+  border-color: rgba(83, 191, 135, 0.16);
+}
+
+.onboarding-screen .brand-mark-logo,
+.screen-splash .brand-mark-logo {
+  border-color: rgba(83, 191, 135, 0.14);
+}
+
