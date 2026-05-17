@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/Loader.jsx";
+import ThemeToggle from "../../components/ui/ThemeToggle.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
@@ -70,6 +71,7 @@ export default function Register() {
 
   return (
     <main className="aurora-screen">
+      <ThemeToggle />
       {/* Animated mesh background */}
       <div className="aurora-bg" aria-hidden="true">
         <span className="aurora-blob aurora-blob-1"></span>

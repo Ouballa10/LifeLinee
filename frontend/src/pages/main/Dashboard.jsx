@@ -64,7 +64,11 @@ export default function Dashboard() {
                 quand chaque seconde compte.
               </p>
             </div>
-            <div className="readiness-ring" aria-label={`Dossier complete a ${readinessScore}%`}>
+            <div
+              className="readiness-ring"
+              style={{ "--lx-progress": readinessScore }}
+              aria-label={`Dossier complete a ${readinessScore}%`}
+            >
               <span>{readinessScore}</span>
               <small>%</small>
             </div>
