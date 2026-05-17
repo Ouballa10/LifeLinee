@@ -1,0 +1,591 @@
+/* ===================================================================
+ * AURORA AUTH — Modern premium login/register design
+ * Indigo + violet + pink mesh gradient, glass card, animated blobs.
+ * Used by both Login and Register pages.
+ * =================================================================== */
+
+.aurora-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 18px 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.32), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(236, 72, 153, 0.28), transparent 38%),
+    radial-gradient(circle at 50% 95%, rgba(99, 102, 241, 0.26), transparent 45%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2ff 50%, #fdf2f8 100%);
+}
+
+/* === Animated mesh blobs (decorative, behind everything) === */
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: aurora-float 18s ease-in-out infinite;
+}
+
+.aurora-blob-1 {
+  top: -80px;
+  left: -60px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, #8b5cf6, transparent 70%);
+  animation-delay: 0s;
+}
+
+.aurora-blob-2 {
+  top: 40px;
+  right: -90px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #ec4899, transparent 70%);
+  animation-delay: -6s;
+}
+
+.aurora-blob-3 {
+  bottom: -120px;
+  left: 30%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #6366f1, transparent 70%);
+  animation-delay: -12s;
+}
+
+@keyframes aurora-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.08);
+  }
+  66% {
+    transform: translate(-20px, 25px) scale(0.95);
+  }
+}
+
+/* Subtle dot grid overlay */
+.aurora-dots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(99, 102, 241, 0.18) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+}
+
+/* === Header (logo + title) === */
+
+.aurora-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.aurora-logo-wrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.65));
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 18px 40px rgba(99, 102, 241, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.aurora-logo-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 32px;
+  background: var(--gradient-aurora);
+  opacity: 0.18;
+  filter: blur(14px);
+  z-index: -1;
+}
+
+.aurora-logo-img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(99, 102, 241, 0.2));
+}
+
+.aurora-title {
+  margin: 0 0 6px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  background: var(--gradient-aurora);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.aurora-subtitle {
+  margin: 0;
+  font-size: 0.94rem;
+  color: #64748b;
+  line-height: 1.55;
+  font-weight: 500;
+  max-width: 320px;
+}
+
+/* === Glass card === */
+
+.aurora-card {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 410px);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 26px 22px 22px;
+  box-shadow:
+    0 24px 60px rgba(99, 102, 241, 0.16),
+    0 8px 24px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.aurora-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* === Fields === */
+
+.aurora-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aurora-field-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #1e293b;
+  padding-left: 4px;
+  letter-spacing: -0.01em;
+}
+
+.aurora-field-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(99, 102, 241, 0.16);
+  border-radius: 14px;
+  padding: 0 14px;
+  transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.aurora-field-input-wrapper:focus-within {
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.14),
+    0 8px 22px rgba(99, 102, 241, 0.16);
+}
+
+.aurora-field-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition: color 220ms ease;
+}
+
+.aurora-field-input-wrapper:focus-within .aurora-field-icon {
+  color: #6366f1;
+}
+
+.aurora-field-input,
+.aurora-field-select {
+  flex: 1;
+  min-height: 50px;
+  border: none;
+  background: transparent;
+  color: #0f172a;
+  font-size: 0.94rem;
+  font-weight: 500;
+  outline: none;
+  width: 100%;
+}
+
+.aurora-field-input::placeholder {
+  color: #cbd5e1;
+}
+
+.aurora-field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Cpolyline points='1 1 7 7 13 1'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+.aurora-field-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: color 200ms ease;
+}
+
+.aurora-field-toggle:hover {
+  color: #6366f1;
+}
+
+/* Two-column row for Phone + Blood */
+.aurora-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* === Extras (forgot link) === */
+
+.aurora-field-extras {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.aurora-forgot-link {
+  font-size: 0.84rem;
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 200ms ease;
+}
+
+.aurora-forgot-link:hover {
+  color: #4338ca;
+}
+
+/* === Remember me === */
+
+.aurora-remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 0;
+}
+
+.aurora-remember-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.aurora-remember-checkmark {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms ease;
+  flex-shrink: 0;
+}
+
+.aurora-remember-checkbox:checked + .aurora-remember-checkmark {
+  background: var(--gradient-aurora);
+  border-color: transparent;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.32);
+}
+
+.aurora-remember-text {
+  font-size: 0.88rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* === Submit button === */
+
+.aurora-submit-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 16px;
+  background: var(--gradient-aurora);
+  background-size: 200% 200%;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 14px 32px rgba(99, 102, 241, 0.34),
+    0 4px 10px rgba(236, 72, 153, 0.18);
+  transition: transform 220ms ease, box-shadow 220ms ease, background-position 600ms ease;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.aurora-submit-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+.aurora-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background-position: 100% 0;
+  box-shadow:
+    0 18px 38px rgba(99, 102, 241, 0.42),
+    0 6px 14px rgba(236, 72, 153, 0.24);
+}
+
+.aurora-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.aurora-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.aurora-submit-arrow {
+  font-size: 1.3rem;
+  font-weight: 300;
+  transition: transform 200ms ease;
+}
+
+.aurora-submit-btn:hover:not(:disabled) .aurora-submit-arrow {
+  transform: translateX(3px);
+}
+
+/* === Bottom links (create account / login link) === */
+
+.aurora-bottom-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.aurora-bottom-link a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 200ms ease;
+}
+
+.aurora-bottom-link a:hover {
+  color: #4338ca;
+}
+
+/* === Divider === */
+
+.aurora-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.aurora-divider::before,
+.aurora-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+}
+
+/* === Google button === */
+
+.aurora-google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 50px;
+  border: 1.5px solid rgba(99, 102, 241, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 220ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.aurora-google-btn:hover:not(:disabled) {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.16);
+  transform: translateY(-1px);
+}
+
+.aurora-google-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* === Public scan link === */
+
+.aurora-scan-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  border: 1.5px solid rgba(236, 72, 153, 0.22);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(253, 242, 248, 0.85), rgba(243, 232, 255, 0.85));
+  color: #db2777;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 220ms ease;
+  margin-top: 4px;
+}
+
+.aurora-scan-link:hover {
+  background: linear-gradient(135deg, #fdf2f8, #f3e8ff);
+  border-color: rgba(236, 72, 153, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(236, 72, 153, 0.18);
+}
+
+/* === Notices === */
+
+.aurora-notice {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.85), rgba(243, 232, 255, 0.85));
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  color: #4338ca;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.aurora-error {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(254, 226, 226, 0.6), rgba(254, 242, 242, 0.6));
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  color: #dc2626;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* === Footer privacy === */
+
+.aurora-privacy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.aurora-privacy-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  flex-shrink: 0;
+}
+
+.aurora-privacy-text {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* === Responsive === */
+
+@media (max-width: 400px) {
+  .aurora-screen {
+    padding: 24px 14px 22px;
+  }
+
+  .aurora-card {
+    padding: 22px 18px 20px;
+    border-radius: 24px;
+  }
+
+  .aurora-logo-wrapper {
+    width: 84px;
+    height: 84px;
+    border-radius: 24px;
+  }
+
+  .aurora-title {
+    font-size: 1.5rem;
+  }
+
+  .aurora-field-row {
+    grid-template-columns: 1fr;
+  }
+}
