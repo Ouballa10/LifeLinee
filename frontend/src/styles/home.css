@@ -1046,13 +1046,19 @@
   direction: rtl;
 }
 
+/* RTL: topbar keeps same layout, menu opens correctly */
 [dir="rtl"] .home-topbar {
   flex-direction: row-reverse;
 }
 
+[dir="rtl"] .home-shell {
+  overflow: visible;
+}
+
 [dir="rtl"] .home-menu-wrap .home-dropdown-menu {
-  left: auto;
-  right: 0;
+  right: auto;
+  left: 0;
+  min-width: 220px;
 }
 
 [dir="rtl"] .home-dropdown-header,

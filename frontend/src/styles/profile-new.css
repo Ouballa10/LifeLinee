@@ -837,8 +837,8 @@
 }
 
 [dir="rtl"] .home-dropdown-menu {
-  left: auto;
-  right: 0;
+  right: auto;
+  left: 0;
 }
 
 [dir="rtl"] .home-dropdown-header {

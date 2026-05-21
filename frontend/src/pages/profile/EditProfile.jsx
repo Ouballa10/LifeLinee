@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import { useLang } from "../../context/LanguageContext.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
@@ -21,7 +20,6 @@ function buildGeneralForm(user) {
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, updateProfile } = useAuth();
-  const { t } = useLang();
   const [form, setForm] = useState(() => buildGeneralForm(user));
   const [isSaving, setIsSaving] = useState(false);
   const activeProfileRef = useRef("");
@@ -65,39 +63,39 @@ export default function EditProfile() {
 
         <div className="home-scroll-content">
           <section className="home-welcome">
-            <h1 className="home-greeting">{t.editProfileTitle}</h1>
-            <p className="home-greeting-sub">{t.editProfileSub}</p>
+            <h1 className="home-greeting">Modifier le profil</h1>
+            <p className="home-greeting-sub">Mettez a jour vos informations personnelles et de contact.</p>
           </section>
 
           {/* Tabs */}
           <div className="edit-tabs">
-            <button type="button" className="edit-tab is-active">{t.general}</button>
-            <button type="button" className="edit-tab" onClick={() => navigate(ROUTES.medicalForm)}>{t.medical}</button>
+            <button type="button" className="edit-tab is-active">Generalite</button>
+            <button type="button" className="edit-tab" onClick={() => navigate(ROUTES.medicalForm)}>Medical</button>
           </div>
 
           {/* Form */}
           <form className="edit-form" onSubmit={handleSubmit}>
             <div className="edit-field-group">
-              <Input label={t.fullName} name="fullName" value={form.fullName} onChange={handleChange} />
+              <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
             </div>
             <div className="edit-field-group">
-              <Input label={t.email} name="email" type="email" value={form.email} onChange={handleChange} />
+              <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
             </div>
             <div className="edit-field-group">
-              <Input label={t.phone} name="phone" type="tel" value={form.phone} onChange={handleChange} />
+              <Input label="Telephone" name="phone" type="tel" value={form.phone} onChange={handleChange} />
             </div>
             <div className="edit-field-group">
-              <Input label={t.city} name="city" value={form.city} onChange={handleChange} />
+              <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
             </div>
             <div className="edit-field-group">
-              <Input label={t.bloodType} name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
+              <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
             </div>
             <div className="edit-field-group">
-              <Input label={t.emergencyContact} name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
             </div>
 
             <button type="submit" className="edit-submit-btn" disabled={isSaving}>
-              {isSaving ? t.saving : t.saveChanges}
+              {isSaving ? "Enregistrement..." : "Enregistrer les modifications"}
             </button>
           </form>
         </div>
