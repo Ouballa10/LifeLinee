@@ -1,59 +1,207 @@
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
-import Navbar from "../../components/layout/Navbar.jsx";
-import InfoCard from "../../components/medical/InfoCard.jsx";
-import Button from "../../components/ui/Button.jsx";
-import Card from "../../components/ui/Card.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
-import { formatList, getInitials } from "../../utils/helpers.js";
+import { firstName, formatList, getInitials } from "../../utils/helpers.js";
+
+function QrIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <path d="M14 14h3v3h-3zM20 14v7h-3" />
+    </svg>
+  );
+}
+
+function InfoIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function HistoryIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
+function BloodIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2c0 0-6 7.5-6 12a6 6 0 0 0 12 0c0-4.5-6-12-6-12z" />
+    </svg>
+  );
+}
+
+function AllergyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
+
+function HeartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  );
+}
+
+function PillIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M10.5 1.5l-8 8a5 5 0 0 0 7 7l8-8a5 5 0 0 0-7-7z" />
+      <path d="M7 10.5L13.5 4" />
+    </svg>
+  );
+}
+
+function ContactsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+    </svg>
+  );
+}
+
+function ShieldCheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0,185,242,0.2)" stroke="#00b9f2" strokeWidth="1.5" />
+      <path d="M9 12l2 2 4-4" stroke="#00b9f2" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const shortcuts = [
-    {
-      title: "Identite",
-      subtitle: "Nom, email, telephone, ville",
-      route: ROUTES.editProfile,
-      symbol: "G",
-    },
-    {
-      title: "Sante",
-      subtitle: "Allergies, pathologies, medicaments",
-      route: ROUTES.medicalForm,
-      symbol: "M",
-    },
-    {
-      title: "Profil complet",
-      subtitle: "Voir la carte medicale complete",
-      route: ROUTES.profile,
-      symbol: "P",
-    },
+  const profileName = firstName(user?.fullName);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+    function handleClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("touchstart", handleClick);
+    };
+  }, [isMenuOpen]);
+
+  const menuItems = [
+    { label: "Accueil", route: ROUTES.home },
+    { label: "Tableau de bord", route: ROUTES.dashboard },
+    { label: "Mon profil", route: ROUTES.profile },
+    { label: "Mon QR", route: ROUTES.qr },
+    { label: "Scanner", route: ROUTES.scanner },
   ];
-  const readinessItems = [
-    ["Contact d'urgence", user?.emergencyContact || "Non renseigne"],
-    ["Consignes critiques", user?.criticalInstructions || user?.notes || "Non renseigne"],
-    ["QR public", user?.qrToken ? "Active" : "A generer"],
+
+  async function handleLogout() {
+    await logout();
+    navigate(ROUTES.login, { replace: true });
+  }
+
+  // Profile completeness
+  const profileFields = [
+    user?.fullName, user?.bloodType, user?.allergies, user?.conditions,
+    user?.medications, user?.emergencyContact, user?.criticalInstructions || user?.notes,
+    user?.phone, user?.city, user?.doctorName,
   ];
-  const readinessFields = [
-    user?.fullName,
-    user?.bloodType,
-    user?.allergies,
-    user?.conditions,
-    user?.medications,
-    user?.emergencyContact,
-    user?.criticalInstructions || user?.notes,
+  const completedFields = profileFields.filter(Boolean).length;
+  const completenessPercent = Math.round((completedFields / profileFields.length) * 100);
+
+  const quickActions = [
+    { icon: <QrIcon />, title: "Mon QR medical", subtitle: "Afficher mon code QR", route: ROUTES.qr, color: "blue" },
+    { icon: <InfoIcon />, title: "Mes informations", subtitle: "Voir et modifier mes informations", route: ROUTES.editProfile, color: "indigo" },
+    { icon: <PhoneIcon />, title: "Contacts d'urgence", subtitle: "Gerer mes contacts d'urgence", route: ROUTES.medicalForm, color: "red" },
+    { icon: <HistoryIcon />, title: "Historique des acces", subtitle: "Voir les acces a mes informations", route: ROUTES.profile, color: "purple" },
   ];
-  const readinessScore = Math.round(
-    (readinessFields.filter(Boolean).length / readinessFields.length) * 100
-  );
+
+  const medicalItems = [
+    { icon: <BloodIcon />, label: "Groupe sanguin", value: user?.bloodType || "Non renseigne", color: "red" },
+    { icon: <AllergyIcon />, label: "Allergies", value: formatList(user?.allergies, "Aucune"), color: "blue" },
+    { icon: <HeartIcon />, label: "Maladies chroniques", value: formatList(user?.conditions, "Aucune"), color: "teal" },
+    { icon: <PillIcon />, label: "Traitements", value: formatList(user?.medications, "Aucun"), color: "orange" },
+  ];
 
   return (
-    <main className="screen app-redesign-screen">
-      <section className="mobile-shell app-redesign-shell">
-        <Navbar title="Bord" subtitle={`Compte de ${user?.fullName?.split(" ")[0] || "Utilisateur"}`} />
+    <main className="home-screen">
+      <section className="home-shell">
+        {/* Top Bar */}
+        <header className="home-topbar">
+          <div className="home-menu-wrap" ref={menuRef}>
+            <button
+              type="button"
+              className={`home-topbar-btn ${isMenuOpen ? "is-open" : ""}`}
+              aria-label="Menu"
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((v) => !v)}
+            >
+              <span className="home-hamburger-line"></span>
+              <span className="home-hamburger-line"></span>
+              <span className="home-hamburger-line"></span>
+            </button>
+            {isMenuOpen && (
+              <div className="home-dropdown-menu">
+                <div className="home-dropdown-header">
+                  <strong>{user?.fullName || "LifeLine"}</strong>
+                  <span>{user?.email || "Menu"}</span>
+                </div>
+                <div className="home-dropdown-links">
+                  {menuItems.map((item) => (
+                    <button key={item.route} type="button" className="home-dropdown-link" onClick={() => { navigate(item.route); setIsMenuOpen(false); }}>
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={handleLogout}>
+                  Deconnexion
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="home-topbar-center">
+            <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
+          </div>
+          <button type="button" className="home-topbar-btn" aria-label="Notifications" onClick={() => navigate(ROUTES.home)}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1e3a5f" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <span className="home-notif-badge"></span>
+          </button>
+        </header>
 
+<<<<<<< HEAD
         <div className="app-content app-redesign-content">
           <section className="app-hero-panel dashboard-control-panel">
             <div className="hero-copy">
@@ -72,86 +220,89 @@ export default function Dashboard() {
               <span>{readinessScore}</span>
               <small>%</small>
             </div>
+=======
+        <div className="home-scroll-content">
+          {/* Welcome */}
+          <section className="home-welcome">
+            <h1 className="home-greeting">Bonjour, {profileName} 👋</h1>
+            <p className="home-greeting-sub">
+              Voici un apercu rapide de vos informations et de votre espace medical.
+            </p>
+>>>>>>> 59270f2 (acceuil,bord,profile)
           </section>
 
-          <Card className="app-panel profile-identity-panel">
-            <div className="profile-summary-row redesign-profile-row">
-              <span className="profile-avatar redesign-avatar">{getInitials(user?.fullName || "LL")}</span>
-              <div className="profile-summary-copy">
-                <span className="panel-kicker">Profil principal</span>
-                <strong>{user?.fullName || "Non renseigne"}</strong>
-                <span>{user?.email || "Non renseigne"}</span>
-              </div>
-              <span className="status-chip redesign-status">{user?.bloodType || "O+"}</span>
+          {/* Profile Completeness */}
+          <section className="home-completeness">
+            <div className="home-completeness-icon-wrap">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a5fb4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
             </div>
-          </Card>
-
-          <section className="metric-strip board-info-grid">
-            <InfoCard label="Pathologies" value={formatList(user?.conditions)} />
-            <InfoCard label="Medicaments" value={formatList(user?.medications)} tone="soft" />
+            <div className="home-completeness-text">
+              <strong>Profil medical</strong>
+              <span>Vos informations medicales sont completes a {completenessPercent}%.</span>
+              <div className="home-progress-bar">
+                <div className="home-progress-fill" style={{ width: `${completenessPercent}%` }}></div>
+              </div>
+              <span className="home-progress-pct">{completenessPercent}%</span>
+            </div>
+            <button type="button" className="home-completeness-link" onClick={() => navigate(ROUTES.profile)}>
+              Voir mon profil &rsaquo;
+            </button>
           </section>
 
-          <section className="section-block">
-            <div className="section-heading-row">
-              <div>
-                <span className="panel-kicker">Edition</span>
-                <h2 className="section-title">Mettre a jour</h2>
-              </div>
-            </div>
-            <div className="route-list">
-              {shortcuts.map((item, index) => (
-                <button
-                  key={item.route}
-                  type="button"
-                  className={`route-row ${index === 1 ? "route-row-primary" : ""}`}
-                  onClick={() => navigate(item.route)}
-                >
-                  <span className="route-symbol">{item.symbol}</span>
-                  <span className="route-copy">
-                    <strong>{item.title}</strong>
-                    <small>{item.subtitle}</small>
-                  </span>
-                  <span className="route-arrow">{">"}</span>
+          {/* Quick Actions */}
+          <section className="home-section">
+            <h2 className="home-section-heading">Acces rapide</h2>
+            <div className="home-actions-row">
+              {quickActions.map((action) => (
+                <button key={action.route} type="button" className="home-action-item" onClick={() => navigate(action.route)}>
+                  <span className={`home-action-icon home-action-icon-${action.color}`}>{action.icon}</span>
+                  <strong>{action.title}</strong>
+                  <small>{action.subtitle}</small>
                 </button>
               ))}
             </div>
           </section>
 
-          <Card className="app-panel board-readiness-panel">
-            <div className="panel-title-row">
-              <div>
-                <span className="panel-kicker">Etat medical</span>
-                <h2 className="section-title">Verification rapide</h2>
-              </div>
-              <span className="status-chip redesign-status">Compte actif</span>
+          {/* Medical Summary */}
+          <section className="home-section">
+            <div className="home-section-header-row">
+              <h2 className="home-section-heading">Resume de mon profil medical</h2>
+              <button type="button" className="home-link-btn" onClick={() => navigate(ROUTES.profile)}>
+                Voir tout &rsaquo;
+              </button>
             </div>
-            <div className="data-list">
-              {readinessItems.map(([label, value]) => (
-                <div key={label} className="data-row">
-                  <span>{label}</span>
-                  <strong>{value}</strong>
+            <div className="home-medical-list">
+              {medicalItems.map((item) => (
+                <div key={item.label} className="home-medical-row">
+                  <span className={`home-med-icon home-med-icon-${item.color}`}>{item.icon}</span>
+                  <div className="home-med-info">
+                    <strong>{item.label}</strong>
+                    <span>{item.value}</span>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="split-actions redesign-actions">
-              <Button block onClick={() => navigate(ROUTES.medicalForm)}>
-                Modifier urgence
-              </Button>
-              <Button block variant="secondary" onClick={() => navigate(ROUTES.editProfile)}>
-                Modifier compte
-              </Button>
-              <Button
-                block
-                variant="ghost"
-                onClick={async () => {
-                  await logout();
-                  navigate(ROUTES.login, { replace: true });
-                }}
-              >
-                Se deconnecter
-              </Button>
+            <button type="button" className="home-contacts-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+              <span className="home-med-icon home-med-icon-purple"><ContactsIcon /></span>
+              <div className="home-med-info">
+                <strong>Contacts d'urgence</strong>
+                <span>{user?.emergencyContact || "Non renseigne"}</span>
+              </div>
+              <span className="home-arrow">&rsaquo;</span>
+            </button>
+          </section>
+
+          {/* Security Banner */}
+          <section className="home-security">
+            <div className="home-security-icon"><ShieldCheckIcon /></div>
+            <div className="home-security-copy">
+              <strong>Vos donnees sont securisees</strong>
+              <p>Nous protegeons vos informations medicales avec la plus haute securite.</p>
             </div>
-          </Card>
+          </section>
         </div>
 
         <BottomNav />

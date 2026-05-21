@@ -1,0 +1,812 @@
+/* ═══════════════════════════════════════════════════════
+   HOME PAGE — LifeLine Medical App
+   Exact match to mockup design
+   ═══════════════════════════════════════════════════════ */
+
+.home-screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  background: #eef3f9;
+}
+
+.home-shell {
+  width: min(100%, 430px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f8fc;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ─── Top Bar ─── */
+.home-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 8px;
+  background: transparent;
+}
+
+.home-topbar-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1.5px solid #d6dde6;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 20, 60, 0.06);
+}
+
+.home-hamburger-line {
+  display: block;
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: #1e3a5f;
+}
+
+.home-topbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-topbar-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.home-notif-badge {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e8364f;
+  border: 2px solid #ffffff;
+}
+
+/* ─── Menu Dropdown ─── */
+.home-menu-wrap {
+  position: relative;
+}
+
+.home-topbar-btn.is-open {
+  background: #edf4ff;
+  border-color: #a8c8e8;
+}
+
+.home-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 220px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 36px rgba(0, 20, 60, 0.14);
+  z-index: 100;
+  animation: homeMenuFadeIn 150ms ease;
+}
+
+@keyframes homeMenuFadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.home-dropdown-header {
+  padding: 6px 8px 10px;
+  border-bottom: 1px solid #eef2f6;
+  margin-bottom: 6px;
+}
+
+.home-dropdown-header strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.home-dropdown-header span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.72rem;
+  margin-top: 2px;
+}
+
+.home-dropdown-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.home-dropdown-link {
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #1e3a5f;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.home-dropdown-link:hover {
+  background: #edf4ff;
+}
+
+.home-dropdown-link-danger {
+  color: #d63031;
+}
+
+.home-dropdown-link-danger:hover {
+  background: #fff5f5;
+}
+
+/* ─── Scroll Content ─── */
+.home-scroll-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px 18px 28px;
+  overflow-y: auto;
+}
+
+/* ─── Welcome ─── */
+.home-welcome {
+  padding: 0;
+}
+
+.home-greeting {
+  margin: 0;
+  color: #102a4a;
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.home-greeting-sub {
+  margin: 6px 0 0;
+  color: #6b8299;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* ─── Profile Completeness ─── */
+.home-completeness {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  box-shadow: 0 2px 6px rgba(0, 20, 60, 0.03);
+}
+
+.home-completeness-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e4f0fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-completeness-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-completeness-text strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.home-completeness-text > span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.home-progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e4eaf0;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.home-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #1a5fb4, #2980d9);
+  transition: width 500ms ease;
+}
+
+.home-progress-pct {
+  display: block;
+  margin-top: 3px;
+  color: #1a5fb4;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.home-completeness-link {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: #1a5fb4;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.home-completeness-link:hover {
+  background: #edf4ff;
+}
+
+/* ─── Hero Banner ─── */
+.home-hero-banner {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: 195px;
+  padding: 24px 20px;
+  border-radius: 20px;
+  background: linear-gradient(140deg, #e4f0fb 0%, #d6eaf8 45%, #eaf4fd 100%);
+  overflow: hidden;
+}
+
+.home-hero-bg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.home-hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(30, 120, 200, 0.05);
+}
+
+.home-hero-circle-1 {
+  width: 130px;
+  height: 130px;
+  top: -35px;
+  right: -25px;
+}
+
+.home-hero-circle-2 {
+  width: 70px;
+  height: 70px;
+  bottom: -15px;
+  left: 25%;
+}
+
+.home-hero-tree {
+  position: absolute;
+  bottom: 0;
+  width: 28px;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(180deg, rgba(46, 160, 80, 0.22), rgba(46, 160, 80, 0.06));
+}
+
+.home-hero-tree-left {
+  left: 6px;
+  height: 45px;
+}
+
+.home-hero-tree-right {
+  right: 90px;
+  height: 35px;
+}
+
+.home-hero-text {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.home-hero-text h2 {
+  margin: 0;
+  color: #1e3a5f;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.home-hero-text p {
+  margin: 0;
+  color: #4a6d8c;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  max-width: 175px;
+}
+
+.home-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a5fb4, #143d7a);
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  box-shadow: 0 5px 14px rgba(20, 61, 122, 0.28);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.home-hero-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(20, 61, 122, 0.35);
+}
+
+.home-hero-visual {
+  position: relative;
+  z-index: 2;
+  width: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero-phone {
+  width: 88px;
+  height: 135px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 2px solid #d6e4f0;
+  box-shadow: 0 6px 20px rgba(20, 60, 120, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+
+.home-hero-phone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: #f6faff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.home-hero-phone-qr {
+  width: 46px;
+  height: 46px;
+  border-radius: 5px;
+  background:
+    linear-gradient(45deg, #1e3a5f 25%, transparent 25%),
+    linear-gradient(-45deg, #1e3a5f 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1e3a5f 75%),
+    linear-gradient(-45deg, transparent 75%, #1e3a5f 75%);
+  background-size: 11px 11px;
+  background-position: 0 0, 0 5.5px, 5.5px -5.5px, -5.5px 0;
+  opacity: 0.65;
+}
+
+.home-hero-phone-label {
+  color: #4a6d8c;
+  font-size: 0.52rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.home-hero-shield-float {
+  position: absolute;
+  bottom: 6px;
+  right: 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(20, 80, 160, 0.12);
+}
+
+/* ─── Sections ─── */
+.home-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.home-section-heading {
+  margin: 0;
+  color: #1e3a5f;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.home-section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home-link-btn {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: #1a5fb4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.home-link-btn:hover {
+  background: #edf4ff;
+}
+
+/* ─── Quick Actions ─── */
+.home-actions-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.home-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 6px 12px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 2px 6px rgba(0, 20, 60, 0.04);
+}
+
+.home-action-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 20, 60, 0.08);
+}
+
+.home-action-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-action-icon-blue {
+  background: #e4f0fb;
+  color: #1a5fb4;
+}
+
+.home-action-icon-indigo {
+  background: #eaecfb;
+  color: #3b4cc0;
+}
+
+.home-action-icon-red {
+  background: #fdeced;
+  color: #d63031;
+}
+
+.home-action-icon-purple {
+  background: #f0eafb;
+  color: #6c3ec2;
+}
+
+.home-action-item strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.home-action-item small {
+  display: block;
+  color: #6b8299;
+  font-size: 0.6rem;
+  line-height: 1.3;
+}
+
+/* ─── Medical Summary ─── */
+.home-medical-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.home-medical-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  box-shadow: 0 1px 4px rgba(0, 20, 60, 0.03);
+}
+
+.home-med-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-med-icon-red {
+  background: #fdeced;
+  color: #d63031;
+}
+
+.home-med-icon-blue {
+  background: #e4f0fb;
+  color: #1a5fb4;
+}
+
+.home-med-icon-teal {
+  background: #e2f7f2;
+  color: #0e8a6d;
+}
+
+.home-med-icon-orange {
+  background: #fef3e6;
+  color: #d4740e;
+}
+
+.home-med-icon-purple {
+  background: #f0eafb;
+  color: #6c3ec2;
+}
+
+.home-med-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.home-med-info strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.home-med-info span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contacts Button */
+.home-contacts-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 1px 4px rgba(0, 20, 60, 0.03);
+  transition: background 150ms ease;
+}
+
+.home-contacts-btn:hover {
+  background: #f8fbff;
+}
+
+.home-arrow {
+  color: #6b8299;
+  font-size: 1.4rem;
+  font-weight: 300;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ─── Security Banner ─── */
+.home-security {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1a3d6e 0%, #1a5fb4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-security::before {
+  content: "";
+  position: absolute;
+  right: -15px;
+  bottom: -15px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.home-security::after {
+  content: "";
+  position: absolute;
+  right: 25px;
+  top: -15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.home-security-icon {
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.home-security-copy {
+  flex: 1;
+  z-index: 1;
+}
+
+.home-security-copy strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.home-security-copy p {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+/* ─── Bottom Nav Override for Home ─── */
+.home-screen .home-shell .bottom-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 8px 10px 10px;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid #e4eaf0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.home-screen .home-shell .bottom-nav-link {
+  min-height: 52px;
+  gap: 3px;
+  padding: 5px 4px;
+  border-radius: 8px;
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: #6b8299;
+}
+
+.home-screen .home-shell .bottom-nav-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b8299;
+  box-shadow: none;
+}
+
+.home-screen .home-shell .bottom-nav-link.is-active {
+  color: #1a5fb4;
+  background: transparent;
+  transform: none;
+}
+
+.home-screen .home-shell .bottom-nav-link.is-active .bottom-nav-icon {
+  background: transparent;
+  color: #1a5fb4;
+  box-shadow: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 380px) {
+  .home-actions-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-medical-list {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-banner {
+    min-height: 160px;
+    padding: 18px 16px;
+  }
+
+  .home-hero-visual {
+    width: 100px;
+  }
+
+  .home-hero-phone {
+    width: 72px;
+    height: 110px;
+  }
+}
+
+@media (min-width: 431px) {
+  .home-screen {
+    padding: 18px 14px;
+  }
+
+  .home-shell {
+    border-radius: 24px;
+    border: 1px solid #dce4ec;
+    box-shadow: 0 16px 50px rgba(0, 30, 80, 0.1);
+    min-height: calc(100vh - 36px);
+  }
+}

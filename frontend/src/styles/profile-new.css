@@ -1,0 +1,395 @@
+/* ═══════════════════════════════════════════════════════
+   PROFILE PAGE — LifeLine
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Profile Card ─── */
+.prof-card {
+  padding: 20px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #e8f2fc, #f4f9ff);
+  border: 1.5px solid #d6e4f0;
+}
+
+.prof-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.prof-avatar-wrap {
+  flex-shrink: 0;
+}
+
+.prof-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a5fb4, #2980d9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(26, 95, 180, 0.2);
+}
+
+.prof-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.prof-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.prof-name-row strong {
+  color: #102a4a;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.prof-verified {
+  display: inline-block;
+  margin-top: 3px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: #e6f9ee;
+  color: #0e8a4f;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.prof-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1.5px solid #d6e4f0;
+  color: #1a5fb4;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.prof-edit-btn:hover {
+  background: #edf4ff;
+}
+
+.prof-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(26, 95, 180, 0.1);
+}
+
+.prof-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prof-detail-row span {
+  color: #4a6d8c;
+  font-size: 0.78rem;
+}
+
+/* ─── Medical Badges ─── */
+.prof-badges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.prof-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 6px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  text-align: center;
+}
+
+.prof-badge-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prof-badge-icon-red {
+  background: #fdeced;
+  color: #d63031;
+}
+
+.prof-badge-icon-blue {
+  background: #e4f0fb;
+  color: #1a5fb4;
+}
+
+.prof-badge-icon-teal {
+  background: #e2f7f2;
+  color: #0e8a6d;
+}
+
+.prof-badge-icon-orange {
+  background: #fef3e6;
+  color: #d4740e;
+}
+
+.prof-badge strong {
+  color: #1e3a5f;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.prof-badge > span:last-child {
+  color: #6b8299;
+  font-size: 0.6rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ─── Completeness ─── */
+.prof-completeness {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #e8f2fc;
+  border: 1.5px solid #d0e2f2;
+}
+
+.prof-completeness-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.prof-completeness-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid #1a5fb4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+.prof-completeness-ring span {
+  color: #1a5fb4;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.prof-completeness-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.prof-completeness-text strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.prof-completeness-text p {
+  margin: 3px 0 0;
+  color: #4a6d8c;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.prof-completeness-text .home-progress-bar {
+  margin-top: 8px;
+}
+
+.prof-complete-btn {
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #1a5fb4;
+  border: none;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 150ms ease;
+}
+
+.prof-complete-btn:hover {
+  background: #143d7a;
+}
+
+/* ─── Menu Links ─── */
+.prof-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prof-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+}
+
+.prof-menu-item:hover {
+  background: #f8fbff;
+}
+
+.prof-menu-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.prof-menu-icon-blue {
+  background: #e4f0fb;
+  color: #1a5fb4;
+}
+
+.prof-menu-icon-red {
+  background: #fdeced;
+  color: #d63031;
+}
+
+.prof-menu-icon-purple {
+  background: #f0eafb;
+  color: #6c3ec2;
+}
+
+.prof-menu-icon-orange {
+  background: #fef3e6;
+  color: #d4740e;
+}
+
+.prof-menu-icon-pink {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.prof-menu-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.prof-menu-text strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.prof-menu-text span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.prof-menu-arrow {
+  color: #6b8299;
+  font-size: 1.3rem;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+/* ─── Logout Button ─── */
+.prof-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 14px;
+  border-radius: 14px;
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+}
+
+.prof-logout-btn:hover {
+  background: #fee2e2;
+}
+
+.prof-logout-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #fdeced;
+  color: #d63031;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.prof-logout-btn .prof-menu-text strong {
+  color: #d63031;
+}
+
+.prof-logout-btn .prof-menu-arrow {
+  color: #d63031;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 380px) {
+  .prof-badges {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prof-completeness {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .prof-completeness-left {
+    width: 100%;
+  }
+
+  .prof-complete-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
