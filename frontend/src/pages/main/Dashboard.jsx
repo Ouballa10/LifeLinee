@@ -192,29 +192,15 @@ export default function Dashboard() {
           <div className="home-topbar-center">
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
-          <div style={{ width: 42 }}></div>
+          <button type="button" className="home-topbar-btn" aria-label="Notifications" onClick={() => navigate(ROUTES.home)}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1e3a5f" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <span className="home-notif-badge"></span>
+          </button>
         </header>
 
-<<<<<<< HEAD
-        <div className="app-content app-redesign-content">
-          <section className="app-hero-panel dashboard-control-panel">
-            <div className="hero-copy">
-              <span className="panel-kicker">Tableau de bord</span>
-              <h2>Votre dossier medical est complet a {readinessScore}%.</h2>
-              <p>
-                Completez les elements critiques pour rendre la fiche plus utile
-                quand chaque seconde compte.
-              </p>
-            </div>
-            <div
-              className="readiness-ring"
-              style={{ "--lx-progress": readinessScore }}
-              aria-label={`Dossier complete a ${readinessScore}%`}
-            >
-              <span>{readinessScore}</span>
-              <small>%</small>
-            </div>
-=======
         <div className="home-scroll-content">
           {/* Welcome */}
           <section className="home-welcome">
@@ -222,7 +208,6 @@ export default function Dashboard() {
             <p className="home-greeting-sub">
               Voici un apercu rapide de vos informations et de votre espace medical.
             </p>
->>>>>>> 59270f2 (acceuil,bord,profile)
           </section>
 
           {/* Profile Completeness */}

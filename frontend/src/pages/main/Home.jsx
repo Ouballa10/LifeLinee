@@ -148,8 +148,6 @@ export default function Home() {
   const completedFields = profileFields.filter(Boolean).length;
   const completenessPercent = Math.round((completedFields / profileFields.length) * 100);
 
-  const [showContacts, setShowContacts] = useState(false);
-
   const quickActions = [
     {
       icon: <ProfileIcon />,
@@ -169,9 +167,8 @@ export default function Home() {
       icon: <PhoneIcon />,
       title: "Contacts d'urgence",
       subtitle: "Gerer mes contacts d'urgence",
-      route: null,
+      route: ROUTES.medicalForm,
       color: "red",
-      action: () => setShowContacts(true),
     },
     {
       icon: <HistoryIcon />,
@@ -227,16 +224,6 @@ export default function Home() {
               <span className="home-hamburger-line"></span>
             </button>
 
-<<<<<<< HEAD
-        <div className="app-content app-redesign-content">
-          <section className="app-hero-panel home-command-panel">
-            <div className="hero-copy">
-              <span className="panel-kicker">Centre LifeLine</span>
-              <h2>Tout ce qui compte en urgence, pret en un geste</h2>
-              <p>
-                Gardez votre QR, votre fiche medicale et le scanner reunis dans
-                un seul espace premium et securise.
-=======
             {isMenuOpen && (
               <div className="home-dropdown-menu">
                 <div className="home-dropdown-header">
@@ -273,7 +260,18 @@ export default function Home() {
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
 
-          <div style={{ width: 48 }}></div>
+          <button
+            type="button"
+            className="home-topbar-btn"
+            aria-label="Notifications"
+            onClick={() => navigate(ROUTES.dashboard)}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0a2540" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <span className="home-notif-badge"></span>
+          </button>
         </header>
 
         <div className="home-scroll-content">
@@ -283,7 +281,6 @@ export default function Home() {
               <h1 className="home-greeting">Bonjour, {profileName} 👋</h1>
               <p className="home-greeting-sub">
                 Prenez soin de vous, vos informations peuvent sauver des vies.
->>>>>>> 59270f2 (acceuil,bord,profile)
               </p>
             </div>
           </section>
@@ -335,10 +332,10 @@ export default function Home() {
             <div className="home-actions-row">
               {quickActions.map((action) => (
                 <button
-                  key={action.title}
+                  key={action.route}
                   type="button"
                   className="home-action-item"
-                  onClick={() => action.action ? action.action() : navigate(action.route)}
+                  onClick={() => navigate(action.route)}
                 >
                   <span className={`home-action-icon home-action-icon-${action.color}`}>
                     {action.icon}
@@ -381,7 +378,7 @@ export default function Home() {
             <button
               type="button"
               className="home-contacts-btn"
-              onClick={() => setShowContacts(true)}
+              onClick={() => navigate(ROUTES.medicalForm)}
             >
               <span className="home-med-icon home-med-icon-purple">
                 <ContactsIcon />
@@ -405,62 +402,6 @@ export default function Home() {
             </div>
           </section>
         </div>
-
-        {/* Contacts Modal */}
-        {showContacts && (
-          <div className="contacts-overlay" onClick={() => setShowContacts(false)}>
-            <div className="contacts-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="contacts-modal-header">
-                <h2>Contacts d'urgence</h2>
-                <button type="button" className="contacts-close" onClick={() => setShowContacts(false)}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-              </div>
-
-              {user?.emergencyContact ? (
-                <div className="contacts-list">
-                  <div className="contacts-item">
-                    <div className="contacts-item-icon">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                      </svg>
-                    </div>
-                    <div className="contacts-item-info">
-                      <strong>{user.emergencyContact}</strong>
-                      <span>Contact d'urgence principal</span>
-                    </div>
-                  </div>
-
-                  {/* Extract phone number if present */}
-                  {(() => {
-                    const phoneMatch = user.emergencyContact.match(/(\+?\d[\d\s\-.]{6,})/);
-                    const phone = phoneMatch ? phoneMatch[1].replace(/\s/g, "") : null;
-                    return phone ? (
-                      <a href={`tel:${phone}`} className="contacts-call-btn">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                        </svg>
-                        Appeler maintenant
-                      </a>
-                    ) : null;
-                  })()}
-                </div>
-              ) : (
-                <div className="contacts-empty">
-                  <span>📞</span>
-                  <p>Aucun contact d'urgence enregistre.</p>
-                  <button type="button" className="contacts-add-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.medicalForm); }}>
-                    Ajouter un contact
-                  </button>
-                </div>
-              )}
-
-              <button type="button" className="contacts-edit-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.medicalForm); }}>
-                Modifier les contacts
-              </button>
-            </div>
-          </div>
-        )}
 
         <BottomNav />
       </section>
