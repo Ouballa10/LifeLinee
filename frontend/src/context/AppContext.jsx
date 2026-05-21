@@ -5,6 +5,7 @@ import { STORAGE_KEYS } from "../utils/constants.js";
 const defaultAppState = {
   scannerPermission: false,
   lastScan: "",
+  scanHistory: [],
 };
 
 export const AppContext = createContext(null);
@@ -20,9 +21,19 @@ export function AppProvider({ children }) {
   }
 
   function saveLastScan(lastScan) {
+    const history = Array.isArray(appState.scanHistory) ? appState.scanHistory : [];
+    const newEntry = {
+      value: lastScan,
+      date: new Date().toISOString(),
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    };
+    // Keep last 20 scans
+    const updatedHistory = [newEntry, ...history].slice(0, 20);
+
     setAppState((current) => ({
       ...current,
       lastScan,
+      scanHistory: updatedHistory,
     }));
   }
 

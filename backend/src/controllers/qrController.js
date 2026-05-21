@@ -1,5 +1,6 @@
 const { ensureMedicalProfileForUser } = require('../services/profileService');
 const { buildQrPayload } = require('../services/qrService');
+const { getSupabaseAdmin } = require('../config/supabase');
 
 function isLocalFrontendUrl(value = '') {
   try {
@@ -34,6 +35,40 @@ exports.getMyQRCode = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: error.message || 'Unable to generate the QR payload.',
+    });
+  }
+};
+
+exports.getMyAccessLogs = async (req, res) => {
+  try {
+    const medicalProfile = await ensureMedicalProfileForUser(req.user.id);
+
+    if (!medicalProfile?.qrToken) {
+      return res.json({ logs: [] });
+    }
+
+    const { data, error } = await getSupabaseAdmin()
+      .from('emergency_logs')
+      .select('*')
+      .eq('qr_token', medicalProfile.qrToken)
+      .order('opened_at', { ascending: false })
+      .limit(20);
+
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+
+    const logs = (data || []).map((log) => ({
+      id: log.id,
+      responder: log.responder || 'Inconnu',
+      location: log.location || '',
+      openedAt: log.opened_at,
+    }));
+
+    return res.json({ logs });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || 'Unable to load access logs.',
     });
   }
 };

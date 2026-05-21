@@ -1,46 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import BottomNav from "../../components/layout/BottomNav.jsx";
-import Navbar from "../../components/layout/Navbar.jsx";
-import Button from "../../components/ui/Button.jsx";
-import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
-
 import { useAuth } from "../../hooks/useAuth.js";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
-
-const DEFAULT_BLOOD_TYPE = "O+";
-
-const FORM_FIELDS = [
-  {
-    label: "Nom complet",
-    name: "fullName",
-  },
-  {
-    label: "Groupe sanguin",
-    name: "bloodType",
-    as: "select",
-    options: BLOOD_GROUPS,
-  },
-  {
-    label: "Telephone",
-    name: "phone",
-  },
-  {
-    label: "Ville",
-    name: "city",
-  },
-  {
-    label: "Email",
-    name: "email",
-    type: "email",
-  },
-  {
-    label: "Contact d'urgence",
-    name: "emergencyContact",
-  },
-];
 
 function buildGeneralForm(user) {
   return {
@@ -48,118 +12,92 @@ function buildGeneralForm(user) {
     email: user?.email || "",
     phone: user?.phone || "",
     city: user?.city || "",
-    bloodType: user?.bloodType || DEFAULT_BLOOD_TYPE,
+    bloodType: user?.bloodType || "O+",
     emergencyContact: user?.emergencyContact || "",
   };
-}
-
-function getProfileIdentity(user) {
-  return `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 }
 
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, updateProfile } = useAuth();
-
   const [form, setForm] = useState(() => buildGeneralForm(user));
-
+  const [isSaving, setIsSaving] = useState(false);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
-
-  const profileIdentity = getProfileIdentity(user);
+  const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 
   useEffect(() => {
-    const identityChanged = activeProfileRef.current !== profileIdentity;
-
-    if (identityChanged) {
+    if (activeProfileRef.current !== profileIdentity) {
       activeProfileRef.current = profileIdentity;
       isEditingRef.current = false;
     }
-
-    if (!isEditingRef.current) {
-      setForm(buildGeneralForm(user));
-    }
-  }, [
-    profileIdentity,
-    user?.fullName,
-    user?.email,
-    user?.phone,
-    user?.city,
-    user?.bloodType,
-    user?.emergencyContact,
-  ]);
+    if (!isEditingRef.current) setForm(buildGeneralForm(user));
+  }, [profileIdentity, user?.fullName, user?.email, user?.phone, user?.city, user?.bloodType, user?.emergencyContact]);
 
   function handleChange(event) {
     const { name, value } = event.target;
-
     isEditingRef.current = true;
-
-    setForm((currentForm) => ({
-      ...currentForm,
-      [name]: value,
-    }));
+    setForm((c) => ({ ...c, [name]: value }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    await updateProfile(form);
-
-    isEditingRef.current = false;
-    navigate(ROUTES.profile, { replace: true });
-  }
-
-  function goToMedicalForm() {
-    navigate(ROUTES.medicalForm);
+    setIsSaving(true);
+    try {
+      await updateProfile(form);
+      isEditingRef.current = false;
+      navigate(ROUTES.profile, { replace: true });
+    } finally { setIsSaving(false); }
   }
 
   return (
-    <main className="screen app-redesign-screen">
-      <section className="mobile-shell app-redesign-shell">
-        <Navbar title="Modifier le profil" subtitle="Informations generales" />
+    <main className="home-screen">
+      <section className="home-shell">
+        <header className="home-topbar">
+          <button type="button" className="home-topbar-btn" onClick={() => navigate(-1)} aria-label="Retour">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1e3a5f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <div className="home-topbar-center"><img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" /></div>
+          <div style={{ width: 42 }}></div>
+        </header>
 
-        <div className="app-content app-redesign-content">
-          <section className="form-intro-panel">
-            <span className="panel-kicker">Compte</span>
-            <h2>Identite et contact</h2>
-            <p>
-              Ces informations aident les proches et les secours a verifier
-              rapidement la bonne fiche.
-            </p>
+        <div className="home-scroll-content">
+          <section className="home-welcome">
+            <h1 className="home-greeting">Modifier le profil</h1>
+            <p className="home-greeting-sub">Mettez a jour vos informations personnelles et de contact.</p>
           </section>
 
-          <Card className="app-panel edit-form-card redesign-form-card">
-            <div className="segmented-tabs redesign-tabs">
-              <button
-                type="button"
-                className="tab-pill"
-                onClick={goToMedicalForm}
-              >
-                Groupe medical
-              </button>
+          {/* Tabs */}
+          <div className="edit-tabs">
+            <button type="button" className="edit-tab is-active">Generalite</button>
+            <button type="button" className="edit-tab" onClick={() => navigate(ROUTES.medicalForm)}>Medical</button>
+          </div>
 
-              <button type="button" className="tab-pill is-active">
-                Generalite
-              </button>
+          {/* Form */}
+          <form className="edit-form" onSubmit={handleSubmit}>
+            <div className="edit-field-group">
+              <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Telephone" name="phone" type="tel" value={form.phone} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Groupe sanguin" name="bloodType" as="select" options={BLOOD_GROUPS} value={form.bloodType} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
             </div>
 
-            <form className="auth-form" onSubmit={handleSubmit}>
-              <div className="form-grid">
-                {FORM_FIELDS.map((field) => (
-                  <Input
-                    key={field.name}
-                    {...field}
-                    value={form[field.name]}
-                    onChange={handleChange}
-                  />
-                ))}
-              </div>
-
-              <Button type="submit" block className="form-submit-button">
-                Modifier le profil
-              </Button>
-            </form>
-          </Card>
+            <button type="submit" className="edit-submit-btn" disabled={isSaving}>
+              {isSaving ? "Enregistrement..." : "Enregistrer les modifications"}
+            </button>
+          </form>
         </div>
 
         <BottomNav />

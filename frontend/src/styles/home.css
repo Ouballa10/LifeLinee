@@ -61,12 +61,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: visible;
 }
 
 .home-topbar-logo {
-  width: 72px;
-  height: 72px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
+  transform: scale(1.8);
+  pointer-events: none;
 }
 
 .home-notif-badge {
@@ -809,4 +812,225 @@
     box-shadow: 0 16px 50px rgba(0, 30, 80, 0.1);
     min-height: calc(100vh - 36px);
   }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   CONTACTS MODAL
+   ═══════════════════════════════════════════════════════ */
+
+.contacts-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 20, 40, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: contactsFadeIn 200ms ease;
+}
+
+@keyframes contactsFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.contacts-modal {
+  width: min(100%, 430px);
+  max-height: 80vh;
+  padding: 24px 20px 28px;
+  border-radius: 24px 24px 0 0;
+  background: #ffffff;
+  box-shadow: 0 -10px 40px rgba(0, 20, 60, 0.15);
+  animation: contactsSlideUp 250ms ease;
+  overflow-y: auto;
+}
+
+@keyframes contactsSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.contacts-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.contacts-modal-header h2 {
+  margin: 0;
+  color: #102a4a;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.contacts-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: #f5f8fc;
+  color: #6b8299;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.contacts-close:hover {
+  background: #eef2f6;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contacts-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f5f8fc;
+  border: 1.5px solid #e4eaf0;
+}
+
+.contacts-item-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #e4f0fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contacts-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contacts-item-info strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.contacts-item-info span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.74rem;
+  margin-top: 2px;
+}
+
+.contacts-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0e8a4f, #0b6e3f);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(14, 138, 79, 0.25);
+  transition: transform 150ms ease;
+}
+
+.contacts-call-btn:hover {
+  transform: translateY(-1px);
+}
+
+.contacts-empty {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.contacts-empty span {
+  font-size: 2rem;
+}
+
+.contacts-empty p {
+  margin: 10px 0 16px;
+  color: #6b8299;
+  font-size: 0.84rem;
+}
+
+.contacts-add-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #1a5fb4;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.contacts-edit-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 20px;
+  border-radius: 12px;
+  background: #f5f8fc;
+  border: 1.5px solid #e4eaf0;
+  color: #1a5fb4;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.contacts-edit-btn:hover {
+  background: #edf4ff;
+}
+
+/* Dark mode */
+.dark-mode .contacts-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dark-mode .contacts-modal {
+  background: #161b22;
+}
+
+.dark-mode .contacts-modal-header h2 {
+  color: #f0f6fc;
+}
+
+.dark-mode .contacts-close {
+  background: #1c2128;
+  color: #8b949e;
+}
+
+.dark-mode .contacts-item {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .contacts-item-icon {
+  background: #1a2d42;
+}
+
+.dark-mode .contacts-item-info strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .contacts-item-info span {
+  color: #8b949e;
+}
+
+.dark-mode .contacts-edit-btn {
+  background: #1c2128;
+  border-color: #30363d;
+  color: #58a6ff;
 }

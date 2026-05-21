@@ -1,0 +1,705 @@
+/* ═══════════════════════════════════════════════════════
+   QR CODE & SCANNER PAGES — LifeLine
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── QR Code Page ─── */
+.qr-main-card {
+  padding: 24px 20px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  box-shadow: 0 2px 8px rgba(0, 20, 60, 0.04);
+}
+
+.qr-main-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.qr-main-header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e4f0fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qr-main-header strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.qr-main-header span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.76rem;
+  margin-top: 2px;
+}
+
+.qr-main-frame {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.qr-main-corners {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  padding: 12px;
+  border: 2px solid #1a5fb4;
+  border-radius: 18px;
+}
+
+.qr-main-corners::before,
+.qr-main-corners::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #1a5fb4;
+}
+
+.qr-main-corners::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 12px 0 0 0;
+}
+
+.qr-main-corners::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 12px 0;
+}
+
+.qr-main-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.qr-main-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #f5f8fc;
+  margin-bottom: 18px;
+}
+
+.qr-main-notice-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e4f0fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-main-notice span {
+  color: #4a6d8c;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.qr-main-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.qr-main-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+
+.qr-main-btn:hover {
+  transform: translateY(-1px);
+}
+
+.qr-main-btn-share {
+  background: #ffffff;
+  color: #1e3a5f;
+  border: 1.5px solid #d6e4f0;
+}
+
+.qr-main-btn-share:hover {
+  background: #f5f8fc;
+}
+
+.qr-main-btn-download {
+  background: linear-gradient(135deg, #1a5fb4, #143d7a);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(26, 95, 180, 0.25);
+}
+
+.qr-main-error {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.qr-main-error span {
+  font-size: 2rem;
+}
+
+.qr-main-error p {
+  margin: 10px 0;
+  color: #6b8299;
+  font-size: 0.84rem;
+}
+
+.qr-retry-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: #1a5fb4;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+/* QR Info List */
+.qr-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.qr-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+}
+
+.qr-info-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qr-info-item-icon-blue {
+  background: #e4f0fb;
+  color: #1a5fb4;
+}
+
+.qr-info-item-icon-navy {
+  background: #eaecfb;
+  color: #3b4cc0;
+}
+
+.qr-info-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.qr-info-item-text strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.qr-info-item-text span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.qr-info-item-badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #e6f9ee;
+  color: #0e8a4f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.qr-info-item-arrow {
+  color: #6b8299;
+  font-size: 1.4rem;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+/* ─── Scanner Page ─── */
+.scan-camera-card {
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  overflow: hidden;
+}
+
+.scan-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #0d1117;
+  overflow: hidden;
+}
+
+.scan-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.scan-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(180deg, #1a2540, #0d1520);
+}
+
+.scan-placeholder span {
+  color: #6b8299;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.scan-controls {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.scan-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.scan-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.scan-btn-start {
+  background: linear-gradient(135deg, #1a5fb4, #143d7a);
+  color: #ffffff;
+}
+
+.scan-btn-stop {
+  background: #fdeced;
+  color: #d63031;
+}
+
+.scan-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 16px 14px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f5f8fc;
+  border: 1.5px dashed #d6e4f0;
+  color: #1a5fb4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.scan-upload-label:hover {
+  background: #edf4ff;
+}
+
+.scan-status {
+  margin: 0;
+  padding: 0 16px 14px;
+  color: #6b8299;
+  font-size: 0.76rem;
+}
+
+.scan-error {
+  margin: 0;
+  padding: 0 16px 14px;
+  color: #d63031;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+/* Scanner Result */
+.scan-result-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #e6f9ee;
+  border: 1.5px solid #a7e8c0;
+}
+
+.scan-result-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.scan-result-text {
+  flex: 1;
+}
+
+.scan-result-text strong {
+  display: block;
+  color: #0e6b3a;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.scan-result-link {
+  display: inline-block;
+  margin-top: 6px;
+  color: #1a5fb4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.scan-result-text > span {
+  display: block;
+  margin-top: 4px;
+  color: #4a8a5e;
+  font-size: 0.74rem;
+}
+
+/* Scanner CTA */
+.scan-cta-card {
+  padding: 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+}
+
+.scan-cta-card strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.scan-cta-card p {
+  margin: 6px 0 14px;
+  color: #6b8299;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.scan-cta-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.scan-cta-btn {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.scan-cta-primary {
+  background: linear-gradient(135deg, #1a5fb4, #143d7a);
+  color: #ffffff;
+}
+
+.scan-cta-secondary {
+  background: #f5f8fc;
+  color: #1a5fb4;
+  border: 1.5px solid #d6e4f0;
+}
+
+/* ─── Dark Mode ─── */
+.dark-mode .qr-main-card {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .qr-main-header strong { color: #f0f6fc; }
+.dark-mode .qr-main-header span { color: #8b949e; }
+.dark-mode .qr-main-header-icon { background: #1a2d42; }
+.dark-mode .qr-main-corners { border-color: #58a6ff; }
+.dark-mode .qr-main-corners::before,
+.dark-mode .qr-main-corners::after { border-color: #58a6ff; }
+.dark-mode .qr-main-notice { background: #0d1117; }
+.dark-mode .qr-main-notice span { color: #8b949e; }
+.dark-mode .qr-main-notice-icon { background: #1a2d42; }
+.dark-mode .qr-main-btn-share { background: #1c2128; border-color: #30363d; color: #c9d1d9; }
+.dark-mode .qr-info-item { background: #1c2128; border-color: #30363d; }
+.dark-mode .qr-info-item-text strong { color: #f0f6fc; }
+.dark-mode .qr-info-item-text span { color: #8b949e; }
+.dark-mode .qr-info-item-icon-blue { background: #1a2d42; color: #58a6ff; }
+.dark-mode .qr-info-item-icon-navy { background: #1e1f3d; color: #a5b4fc; }
+.dark-mode .qr-info-item-badge { background: #1a2d2a; color: #34d399; }
+
+.dark-mode .scan-camera-card { background: #1c2128; border-color: #30363d; }
+.dark-mode .scan-upload-label { background: #0d1117; border-color: #30363d; color: #58a6ff; }
+.dark-mode .scan-status { color: #8b949e; }
+.dark-mode .scan-result-card { background: #1a2d2a; border-color: #2d4a3a; }
+.dark-mode .scan-result-text strong { color: #34d399; }
+.dark-mode .scan-cta-card { background: #1c2128; border-color: #30363d; }
+.dark-mode .scan-cta-card strong { color: #f0f6fc; }
+.dark-mode .scan-cta-card p { color: #8b949e; }
+.dark-mode .scan-cta-secondary { background: #1c2128; border-color: #30363d; color: #58a6ff; }
+
+
+/* ─── How it works ─── */
+.scan-howto-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+}
+
+.scan-howto-icon {
+  flex-shrink: 0;
+}
+
+.scan-howto-content {
+  flex: 1;
+}
+
+.scan-howto-content > strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.scan-howto-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scan-howto-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.scan-howto-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e4f0fb;
+  color: #1a5fb4;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.scan-howto-step > span:last-child {
+  color: #4a6d8c;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  padding-top: 2px;
+}
+
+/* ─── Recent Scans ─── */
+.scan-recent-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scan-recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scan-recent-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+}
+
+.scan-recent-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e4f0fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.scan-recent-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.scan-recent-info strong {
+  display: block;
+  color: #102a4a;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.scan-recent-info > span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.72rem;
+  margin-top: 2px;
+}
+
+.scan-recent-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: #e6f9ee;
+  color: #0e8a4f;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.scan-recent-arrow {
+  color: #6b8299;
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* ─── Dark Mode ─── */
+.dark-mode .scan-howto-card {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .scan-howto-content > strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .scan-howto-num {
+  background: #1a2d42;
+  color: #58a6ff;
+}
+
+.dark-mode .scan-howto-step > span:last-child {
+  color: #8b949e;
+}
+
+.dark-mode .scan-recent-item {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .scan-recent-avatar {
+  background: #1a2d42;
+}
+
+.dark-mode .scan-recent-info strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .scan-recent-info > span {
+  color: #8b949e;
+}
+
+.dark-mode .scan-recent-badge {
+  background: #1a2d2a;
+  color: #34d399;
+}
+
+
+/* ─── Empty state ─── */
+.scan-recent-empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+}
+
+.scan-recent-empty span {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.scan-recent-empty p {
+  margin: 0;
+  color: #6b8299;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.dark-mode .scan-recent-empty {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .scan-recent-empty p {
+  color: #8b949e;
+}

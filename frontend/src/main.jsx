@@ -9,6 +9,11 @@ import { registerSW } from "./pwa/registerSW.js";
 
 registerSW();
 
+// Initialize dark mode from localStorage
+if (localStorage.getItem("lifeline.darkMode") === "true") {
+  document.documentElement.classList.add("dark-mode");
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>

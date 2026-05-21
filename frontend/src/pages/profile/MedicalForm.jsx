@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
-import Navbar from "../../components/layout/Navbar.jsx";
-import Button from "../../components/ui/Button.jsx";
-import Card from "../../components/ui/Card.jsx";
 import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 
 function buildMedicalForm(user) {
@@ -23,93 +21,83 @@ export default function MedicalForm() {
   const navigate = useNavigate();
   const { user, updateProfile } = useAuth();
   const [form, setForm] = useState(() => buildMedicalForm(user));
+  const [isSaving, setIsSaving] = useState(false);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
 
   useEffect(() => {
-    const identityChanged = activeProfileRef.current !== profileIdentity;
-
-    if (identityChanged) {
+    if (activeProfileRef.current !== profileIdentity) {
       activeProfileRef.current = profileIdentity;
       isEditingRef.current = false;
     }
-
-    if (isEditingRef.current) {
-      return;
-    }
-
-    setForm(buildMedicalForm(user));
-  }, [
-    profileIdentity,
-    user?.allergies,
-    user?.conditions,
-    user?.medications,
-    user?.emergencyContact,
-    user?.doctorName,
-    user?.criticalInstructions,
-    user?.notes,
-  ]);
+    if (!isEditingRef.current) setForm(buildMedicalForm(user));
+  }, [profileIdentity, user?.allergies, user?.conditions, user?.medications, user?.emergencyContact, user?.doctorName, user?.criticalInstructions, user?.notes]);
 
   function handleChange(event) {
     const { name, value } = event.target;
     isEditingRef.current = true;
-    setForm((current) => ({
-      ...current,
-      [name]: value,
-    }));
+    setForm((c) => ({ ...c, [name]: value }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await updateProfile(form);
-    isEditingRef.current = false;
-    navigate(ROUTES.profile, { replace: true });
+    setIsSaving(true);
+    try {
+      await updateProfile(form);
+      isEditingRef.current = false;
+      navigate(ROUTES.profile, { replace: true });
+    } finally { setIsSaving(false); }
   }
 
   return (
-    <main className="screen app-redesign-screen">
-      <section className="mobile-shell app-redesign-shell">
-        <Navbar title="Modifier le profil" subtitle="Groupe medical" />
+    <main className="home-screen">
+      <section className="home-shell">
+        <header className="home-topbar">
+          <button type="button" className="home-topbar-btn" onClick={() => navigate(-1)} aria-label="Retour">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1e3a5f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <div className="home-topbar-center"><img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" /></div>
+          <div style={{ width: 42 }}></div>
+        </header>
 
-        <div className="app-content app-redesign-content">
-          <section className="form-intro-panel medical-intro-panel">
-            <span className="panel-kicker">Urgence</span>
-            <h2>Donnees medicales critiques</h2>
-            <p>
-              Renseignez uniquement ce qui doit etre lisible tres vite par un
-              secouriste ou un medecin.
-            </p>
+        <div className="home-scroll-content">
+          <section className="home-welcome">
+            <h1 className="home-greeting">Informations medicales</h1>
+            <p className="home-greeting-sub">Renseignez les donnees critiques pour les secouristes et medecins.</p>
           </section>
 
-          <Card className="app-panel edit-form-card redesign-form-card">
-            <div className="segmented-tabs redesign-tabs">
-              <button type="button" className="tab-pill is-active">
-                Groupe medical
-              </button>
-              <button
-                type="button"
-                className="tab-pill"
-                onClick={() => navigate(ROUTES.editProfile)}
-              >
-                Generalite
-              </button>
+          {/* Tabs */}
+          <div className="edit-tabs">
+            <button type="button" className="edit-tab" onClick={() => navigate(ROUTES.editProfile)}>Generalite</button>
+            <button type="button" className="edit-tab is-active">Medical</button>
+          </div>
+
+          {/* Form */}
+          <form className="edit-form" onSubmit={handleSubmit}>
+            <div className="edit-field-group">
+              <Input label="Allergies" name="allergies" value={form.allergies} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Medecin referent" name="doctorName" value={form.doctorName} onChange={handleChange} />
+            </div>
+            <div className="edit-field-group">
+              <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
             </div>
 
-            <form className="auth-form" onSubmit={handleSubmit}>
-              <div className="form-grid">
-                <Input label="Allergies" name="allergies" value={form.allergies} onChange={handleChange} />
-                <Input label="Maladies chroniques" name="conditions" value={form.conditions} onChange={handleChange} />
-                <Input label="Medicaments" name="medications" as="textarea" rows="3" value={form.medications} onChange={handleChange} />
-                <Input label="Contact d'urgence" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
-                <Input label="Medecin referent" name="doctorName" value={form.doctorName} onChange={handleChange} />
-                <Input label="Consignes d'urgence" name="notes" as="textarea" rows="4" value={form.notes} onChange={handleChange} />
-              </div>
-              <Button type="submit" block className="form-submit-button">
-                Enregistrer
-              </Button>
-            </form>
-          </Card>
+            <button type="submit" className="edit-submit-btn" disabled={isSaving}>
+              {isSaving ? "Enregistrement..." : "Enregistrer les modifications"}
+            </button>
+          </form>
         </div>
 
         <BottomNav />

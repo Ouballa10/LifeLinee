@@ -393,3 +393,316 @@
     text-align: center;
   }
 }
+
+
+/* ─── Expandable Panels ─── */
+.prof-menu-item.is-active {
+  background: #f0f7ff;
+  border-color: #b8d4f0;
+}
+
+.prof-panel {
+  margin-top: -4px;
+  margin-bottom: 4px;
+  padding: 14px 16px;
+  border-radius: 0 0 14px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e4eaf0;
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: profPanelSlide 200ms ease;
+}
+
+@keyframes profPanelSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.prof-panel-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.prof-panel-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.prof-panel-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f5f8fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.prof-panel-row div {
+  flex: 1;
+  min-width: 0;
+}
+
+.prof-panel-row strong {
+  display: block;
+  color: #1e3a5f;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.prof-panel-row span {
+  display: block;
+  color: #6b8299;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  margin-top: 1px;
+}
+
+
+/* ─── Toggle Switch ─── */
+.prof-panel-row-toggle {
+  align-items: center;
+}
+
+.prof-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #d6dde6;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 200ms ease;
+}
+
+.prof-toggle.is-on {
+  background: #1a5fb4;
+}
+
+.prof-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 200ms ease;
+}
+
+.prof-toggle.is-on .prof-toggle-knob {
+  transform: translateX(20px);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   EDIT PROFILE & MEDICAL FORM — New Theme
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Tabs ─── */
+.edit-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 4px;
+  border-radius: 12px;
+  background: #eef2f6;
+  border: 1.5px solid #e4eaf0;
+}
+
+.edit-tab {
+  padding: 11px 14px;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: #6b8299;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.edit-tab.is-active {
+  background: #ffffff;
+  color: #102a4a;
+  box-shadow: 0 1px 4px rgba(0, 20, 60, 0.06);
+}
+
+.edit-tab:hover:not(.is-active) {
+  color: #1e3a5f;
+}
+
+/* ─── Form ─── */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.edit-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-field-group .field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-field-group .field-label {
+  color: #1e3a5f;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.edit-field-group .field-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #e4eaf0;
+  background: #ffffff;
+  color: #102a4a;
+  font-size: 0.86rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.edit-field-group .field-input:focus {
+  outline: none;
+  border-color: #1a5fb4;
+  box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+}
+
+.edit-field-group .field-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.edit-field-group .field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%236b8299' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* ─── Submit Button ─── */
+.edit-submit-btn {
+  width: 100%;
+  padding: 15px 20px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #1a5fb4, #143d7a);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26, 95, 180, 0.25);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.edit-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(26, 95, 180, 0.3);
+}
+
+.edit-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Dark Mode ─── */
+.dark-mode .edit-tabs {
+  background: #0d1117;
+  border-color: #30363d;
+}
+
+.dark-mode .edit-tab {
+  color: #8b949e;
+}
+
+.dark-mode .edit-tab.is-active {
+  background: #1c2128;
+  color: #f0f6fc;
+}
+
+.dark-mode .edit-field-group .field-label {
+  color: #c9d1d9;
+}
+
+.dark-mode .edit-field-group .field-input {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #f0f6fc;
+}
+
+.dark-mode .edit-field-group .field-input:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.dark-mode .edit-submit-btn {
+  background: linear-gradient(135deg, #2f81f7, #1a5fb4);
+}
+
+
+/* ─── Panel Call & Edit Buttons ─── */
+.prof-panel-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0e8a4f, #0b6e3f);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 150ms ease;
+}
+
+.prof-panel-call-btn:hover {
+  transform: translateY(-1px);
+}
+
+.prof-panel-edit-btn {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: #f5f8fc;
+  border: 1.5px solid #e4eaf0;
+  color: #1a5fb4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.prof-panel-edit-btn:hover {
+  background: #edf4ff;
+}
+
+.dark-mode .prof-panel-call-btn {
+  background: linear-gradient(135deg, #0b6e3f, #085a32);
+}
+
+.dark-mode .prof-panel-edit-btn {
+  background: #1c2128;
+  border-color: #30363d;
+  color: #58a6ff;
+}

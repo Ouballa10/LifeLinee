@@ -1,0 +1,538 @@
+/* ═══════════════════════════════════════════════════════
+   DARK MODE — LifeLine
+   Applied when html has class "dark-mode"
+   ═══════════════════════════════════════════════════════ */
+
+.dark-mode {
+  color-scheme: dark;
+}
+
+/* ─── Root overrides ─── */
+.dark-mode body {
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.dark-mode #root {
+  background: #0d1117;
+}
+
+/* ─── Home & Dashboard Pages ─── */
+.dark-mode .home-screen {
+  background: #0d1117;
+}
+
+.dark-mode .home-shell {
+  background: #161b22;
+}
+
+.dark-mode .home-topbar-btn {
+  background: #1c2128;
+  border-color: #30363d;
+  box-shadow: none;
+}
+
+.dark-mode .home-hamburger-line {
+  background: #c9d1d9;
+}
+
+.dark-mode .home-topbar-btn svg {
+  stroke: #c9d1d9;
+}
+
+.dark-mode .home-greeting {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-greeting-sub {
+  color: #8b949e;
+}
+
+/* Hero Banner */
+.dark-mode .home-hero-banner {
+  background: linear-gradient(135deg, #1c2d42 0%, #1a2940 45%, #1f3350 100%);
+}
+
+.dark-mode .home-hero-text h2 {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-hero-text p {
+  color: #8b949e;
+}
+
+.dark-mode .home-hero-cta {
+  background: linear-gradient(135deg, #2f81f7, #1a5fb4);
+}
+
+.dark-mode .home-hero-phone {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-hero-phone-screen {
+  background: #21262d;
+}
+
+.dark-mode .home-hero-shield-float {
+  background: #1c2128;
+}
+
+/* Sections */
+.dark-mode .home-section-heading {
+  color: #f0f6fc;
+}
+
+/* Quick Actions */
+.dark-mode .home-action-item {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-action-item strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-action-item small {
+  color: #8b949e;
+}
+
+.dark-mode .home-action-icon-blue {
+  background: #1a2d42;
+  color: #58a6ff;
+}
+
+.dark-mode .home-action-icon-indigo {
+  background: #1e1f3d;
+  color: #a5b4fc;
+}
+
+.dark-mode .home-action-icon-red {
+  background: #2d1b1b;
+  color: #f87171;
+}
+
+.dark-mode .home-action-icon-purple {
+  background: #261b3d;
+  color: #c4b5fd;
+}
+
+/* Medical Items */
+.dark-mode .home-medical-row {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-med-info strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-med-info span {
+  color: #8b949e;
+}
+
+.dark-mode .home-med-icon-red { background: #2d1b1b; color: #f87171; }
+.dark-mode .home-med-icon-blue { background: #1a2d42; color: #58a6ff; }
+.dark-mode .home-med-icon-teal { background: #1a2d2a; color: #34d399; }
+.dark-mode .home-med-icon-orange { background: #2d2518; color: #fbbf24; }
+.dark-mode .home-med-icon-purple { background: #261b3d; color: #c4b5fd; }
+
+/* Contacts */
+.dark-mode .home-contacts-btn {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-arrow {
+  color: #8b949e;
+}
+
+/* Security Banner */
+.dark-mode .home-security {
+  background: linear-gradient(135deg, #0d1b2a 0%, #1a3050 100%);
+}
+
+/* Completeness */
+.dark-mode .home-completeness {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-completeness-text strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-completeness-text > span {
+  color: #8b949e;
+}
+
+.dark-mode .home-progress-bar {
+  background: #30363d;
+}
+
+.dark-mode .home-completeness-link {
+  color: #58a6ff;
+}
+
+/* Link button */
+.dark-mode .home-link-btn {
+  color: #58a6ff;
+}
+
+/* Dropdown */
+.dark-mode .home-dropdown-menu {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .home-dropdown-header strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-dropdown-header span {
+  color: #8b949e;
+}
+
+.dark-mode .home-dropdown-link {
+  color: #f0f6fc;
+}
+
+.dark-mode .home-dropdown-link:hover {
+  background: #21262d;
+}
+
+/* Bottom Nav */
+.dark-mode .home-screen .home-shell .bottom-nav {
+  background: #161b22;
+  border-top-color: #30363d;
+}
+
+.dark-mode .home-screen .home-shell .bottom-nav-link {
+  color: #8b949e;
+}
+
+.dark-mode .home-screen .home-shell .bottom-nav-link.is-active {
+  color: #58a6ff;
+}
+
+.dark-mode .home-screen .home-shell .bottom-nav-link.is-active .bottom-nav-icon {
+  color: #58a6ff;
+}
+
+/* ─── Profile Page ─── */
+.dark-mode .prof-card {
+  background: linear-gradient(180deg, #1a2d42, #1c2128);
+  border-color: #30363d;
+}
+
+.dark-mode .prof-name-row strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .prof-verified {
+  background: #1a2d2a;
+  color: #34d399;
+}
+
+.dark-mode .prof-edit-btn {
+  background: #21262d;
+  border-color: #30363d;
+  color: #58a6ff;
+}
+
+.dark-mode .prof-details {
+  border-top-color: #30363d;
+}
+
+.dark-mode .prof-detail-row span {
+  color: #8b949e;
+}
+
+.dark-mode .prof-detail-row svg {
+  stroke: #8b949e;
+}
+
+.dark-mode .prof-badge {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .prof-badge strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .prof-badge > span:last-child {
+  color: #8b949e;
+}
+
+.dark-mode .prof-badge-icon-red { background: #2d1b1b; }
+.dark-mode .prof-badge-icon-blue { background: #1a2d42; }
+.dark-mode .prof-badge-icon-teal { background: #1a2d2a; }
+.dark-mode .prof-badge-icon-orange { background: #2d2518; }
+
+.dark-mode .prof-completeness {
+  background: #1a2d42;
+  border-color: #30363d;
+}
+
+.dark-mode .prof-completeness-ring {
+  border-color: #58a6ff;
+  background: #1c2128;
+}
+
+.dark-mode .prof-completeness-ring span {
+  color: #58a6ff;
+}
+
+.dark-mode .prof-completeness-text strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .prof-completeness-text p {
+  color: #8b949e;
+}
+
+.dark-mode .prof-menu-item {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .prof-menu-item:hover {
+  background: #21262d;
+}
+
+.dark-mode .prof-menu-text strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .prof-menu-text span {
+  color: #8b949e;
+}
+
+.dark-mode .prof-menu-arrow {
+  color: #8b949e;
+}
+
+.dark-mode .prof-menu-icon-blue { background: #1a2d42; color: #58a6ff; }
+.dark-mode .prof-menu-icon-red { background: #2d1b1b; color: #f87171; }
+.dark-mode .prof-menu-icon-purple { background: #261b3d; color: #c4b5fd; }
+.dark-mode .prof-menu-icon-orange { background: #2d2518; color: #fbbf24; }
+.dark-mode .prof-menu-icon-pink { background: #2d1b28; color: #f472b6; }
+
+.dark-mode .prof-panel {
+  background: #21262d;
+  border-color: #30363d;
+}
+
+.dark-mode .prof-panel-row {
+  border-bottom-color: #30363d;
+}
+
+.dark-mode .prof-panel-icon {
+  background: #1c2128;
+}
+
+.dark-mode .prof-panel-row strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .prof-panel-row span {
+  color: #8b949e;
+}
+
+.dark-mode .prof-logout-btn {
+  background: #2d1b1b;
+  border-color: #4d2020;
+}
+
+.dark-mode .prof-logout-icon {
+  background: #3d1b1b;
+}
+
+.dark-mode .prof-toggle {
+  background: #30363d;
+}
+
+.dark-mode .prof-toggle.is-on {
+  background: #58a6ff;
+}
+
+/* ─── Notification badge stays red ─── */
+.dark-mode .home-notif-badge {
+  border-color: #1c2128;
+}
+
+
+/* ─── Old pages (app-redesign) dark mode ─── */
+.dark-mode .app-redesign-screen {
+  background: #0d1117;
+}
+
+.dark-mode .app-redesign-shell {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.dark-mode .app-redesign-shell .page-title {
+  color: #f0f6fc;
+}
+
+.dark-mode .app-redesign-shell .page-subtitle {
+  color: #8b949e;
+}
+
+.dark-mode .app-redesign-shell .redesigned-navbar {
+  background: #161b22;
+  border-bottom-color: #30363d;
+}
+
+.dark-mode .app-redesign-shell .brand-copy strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .app-redesign-shell .brand-copy span {
+  color: #58a6ff;
+}
+
+.dark-mode .app-redesign-shell .menu-button {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .app-redesign-shell .menu-button span {
+  background: #c9d1d9;
+}
+
+.dark-mode .app-panel {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+.dark-mode .section-block {
+  background: #1c212880;
+  border-color: #30363d;
+}
+
+.dark-mode .form-intro-panel {
+  background: #1c2128;
+  border-color: #30363d;
+  color: #f0f6fc;
+}
+
+.dark-mode .form-intro-panel p {
+  color: #8b949e;
+}
+
+.dark-mode .app-redesign-shell .section-title {
+  color: #f0f6fc;
+}
+
+.dark-mode .app-redesign-shell .section-copy {
+  color: #8b949e;
+}
+
+.dark-mode .app-redesign-shell .field-input {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #f0f6fc;
+}
+
+.dark-mode .app-redesign-shell .field-label {
+  color: #c9d1d9;
+}
+
+.dark-mode .app-redesign-shell .button-ghost {
+  background: #1c2128;
+  color: #c9d1d9;
+  border-color: #30363d;
+}
+
+.dark-mode .app-redesign-shell .button-secondary {
+  background: #2d1b1b;
+  color: #f87171;
+  border-color: #4d2020;
+}
+
+.dark-mode .data-row {
+  border-top-color: #30363d;
+}
+
+.dark-mode .data-row span {
+  color: #8b949e;
+}
+
+.dark-mode .data-row strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .route-row {
+  border-top-color: #30363d;
+}
+
+.dark-mode .route-copy strong {
+  color: #f0f6fc;
+}
+
+.dark-mode .route-copy small {
+  color: #8b949e;
+}
+
+.dark-mode .app-redesign-shell .bottom-nav {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.dark-mode .app-redesign-shell .bottom-nav-link {
+  color: #8b949e;
+}
+
+.dark-mode .app-redesign-shell .bottom-nav-link.is-active {
+  color: #58a6ff;
+  background: #1a2d42;
+}
+
+.dark-mode .app-redesign-shell .bottom-nav-link.is-active .bottom-nav-icon {
+  background: #58a6ff;
+  color: #ffffff;
+}
+
+/* ─── Scanner page ─── */
+.dark-mode .scanner-shell {
+  background: #161b22;
+}
+
+.dark-mode .scanner-card {
+  background: #1c2128;
+  border-color: #30363d;
+}
+
+/* ─── Auth pages ─── */
+.dark-mode .auth-screen {
+  background: #0d1117;
+}
+
+.dark-mode .auth-card {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+/* ─── Emergency page ─── */
+.dark-mode .emergency-screen {
+  background: #0d1117;
+}
+
+.dark-mode .emergency-wrapper {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+/* ─── Offline notice ─── */
+.dark-mode .offline-notice {
+  background: #2d1b1b;
+  border-color: #4d2020;
+  color: #f87171;
+}
+
+.dark-mode .offline-notice span {
+  color: #fca5a5;
+}

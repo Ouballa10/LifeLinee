@@ -131,12 +131,32 @@ export default function Profile() {
     { icon: <PillIcon />, label: "Traitements", value: formatList(user?.medications, "Aucun"), color: "orange" },
   ];
 
+  const [openPanel, setOpenPanel] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("dark-mode");
+    }
+    return false;
+  });
+
+  function toggleDarkMode() {
+    const next = !isDarkMode;
+    setIsDarkMode(next);
+    if (next) {
+      document.documentElement.classList.add("dark-mode");
+      localStorage.setItem("lifeline.darkMode", "true");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+      localStorage.setItem("lifeline.darkMode", "false");
+    }
+  }
+
   const menuLinks = [
-    { icon: <PersonIcon />, label: "Informations personnelles", sub: "Gerez vos informations personnelles", route: ROUTES.editProfile, color: "blue" },
-    { icon: <MedicalIcon />, label: "Informations medicales", sub: "Consultez et mettez a jour vos informations de sante", route: ROUTES.medicalForm, color: "red" },
-    { icon: <ContactIcon />, label: "Contacts d'urgence", sub: "Gerez vos contacts d'urgence", route: ROUTES.medicalForm, color: "purple" },
-    { icon: <LockIcon />, label: "Securite et confidentialite", sub: "Parametres de securite et confidentialite", route: ROUTES.profile, color: "orange" },
-    { icon: <SettingsIcon />, label: "Parametres de l'application", sub: "Preferences, langue, notifications...", route: ROUTES.profile, color: "pink" },
+    { icon: <PersonIcon />, label: "Informations personnelles", sub: "Gerez vos informations personnelles", route: ROUTES.editProfile, color: "blue", id: "personal" },
+    { icon: <MedicalIcon />, label: "Informations medicales", sub: "Consultez et mettez a jour vos informations de sante", route: ROUTES.medicalForm, color: "red", id: "medical" },
+    { icon: <ContactIcon />, label: "Contacts d'urgence", sub: "Gerez vos contacts d'urgence", route: null, color: "purple", id: "contacts" },
+    { icon: <LockIcon />, label: "Securite et confidentialite", sub: "Parametres de securite et confidentialite", route: null, color: "orange", id: "security" },
+    { icon: <SettingsIcon />, label: "Parametres de l'application", sub: "Preferences, langue, notifications...", route: null, color: "pink", id: "settings" },
   ];
 
   return (
@@ -174,13 +194,7 @@ export default function Profile() {
           <div className="home-topbar-center">
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
-          <button type="button" className="home-topbar-btn" aria-label="Notifications" onClick={() => navigate(ROUTES.dashboard)}>
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1e3a5f" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-            </svg>
-            <span className="home-notif-badge"></span>
-          </button>
+          <div style={{ width: 42 }}></div>
         </header>
 
         <div className="home-scroll-content">
@@ -259,14 +273,161 @@ export default function Profile() {
           {/* Menu Links */}
           <section className="prof-menu-list">
             {menuLinks.map((item) => (
-              <button key={item.label} type="button" className="prof-menu-item" onClick={() => navigate(item.route)}>
-                <span className={`prof-menu-icon prof-menu-icon-${item.color}`}>{item.icon}</span>
-                <div className="prof-menu-text">
-                  <strong>{item.label}</strong>
-                  <span>{item.sub}</span>
-                </div>
-                <span className="prof-menu-arrow">&rsaquo;</span>
-              </button>
+              <div key={item.id}>
+                <button
+                  type="button"
+                  className={`prof-menu-item ${openPanel === item.id ? "is-active" : ""}`}
+                  onClick={() => {
+                    if (item.route) {
+                      navigate(item.route);
+                    } else {
+                      setOpenPanel(openPanel === item.id ? "" : item.id);
+                    }
+                  }}
+                >
+                  <span className={`prof-menu-icon prof-menu-icon-${item.color}`}>{item.icon}</span>
+                  <div className="prof-menu-text">
+                    <strong>{item.label}</strong>
+                    <span>{item.sub}</span>
+                  </div>
+                  <span className="prof-menu-arrow">{openPanel === item.id ? "∨" : "›"}</span>
+                </button>
+
+                {/* Contacts Panel */}
+                {item.id === "contacts" && openPanel === "contacts" && (
+                  <div className="prof-panel">
+                    {user?.emergencyContact ? (
+                      <>
+                        <div className="prof-panel-row">
+                          <span className="prof-panel-icon">👤</span>
+                          <div>
+                            <strong>Contact principal</strong>
+                            <span>{user.emergencyContact}</span>
+                          </div>
+                        </div>
+                        {(() => {
+                          const phoneMatch = user.emergencyContact.match(/(\+?\d[\d\s\-.]{6,})/);
+                          const phone = phoneMatch ? phoneMatch[1].replace(/\s/g, "") : null;
+                          return phone ? (
+                            <a href={`tel:${phone}`} className="prof-panel-call-btn">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                              </svg>
+                              Appeler maintenant
+                            </a>
+                          ) : null;
+                        })()}
+                        <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+                          Modifier le contact
+                        </button>
+                      </>
+                    ) : (
+                      <div className="prof-panel-row">
+                        <span className="prof-panel-icon">📞</span>
+                        <div>
+                          <strong>Aucun contact enregistre</strong>
+                          <span>Ajoutez un contact d'urgence pour votre securite.</span>
+                        </div>
+                      </div>
+                    )}
+                    {!user?.emergencyContact && (
+                      <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+                        Ajouter un contact
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Security Panel */}
+                {item.id === "security" && openPanel === "security" && (
+                  <div className="prof-panel">
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">🔒</span>
+                      <div>
+                        <strong>Mot de passe</strong>
+                        <span>Gere par Firebase Authentication</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">🛡️</span>
+                      <div>
+                        <strong>Authentification</strong>
+                        <span>{user?.authProvider === "google" ? "Google (OAuth 2.0)" : "Email / Mot de passe"}</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">📱</span>
+                      <div>
+                        <strong>Sessions actives</strong>
+                        <span>Cet appareil uniquement</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">🔐</span>
+                      <div>
+                        <strong>Donnees medicales</strong>
+                        <span>Chiffrees et stockees sur Supabase (PostgreSQL)</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">👁️</span>
+                      <div>
+                        <strong>Visibilite QR</strong>
+                        <span>Seules les infos d'urgence sont visibles publiquement</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Settings Panel */}
+                {item.id === "settings" && openPanel === "settings" && (
+                  <div className="prof-panel">
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">🌐</span>
+                      <div>
+                        <strong>Langue</strong>
+                        <span>Francais</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">🔔</span>
+                      <div>
+                        <strong>Notifications</strong>
+                        <span>Activees (navigateur)</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row prof-panel-row-toggle">
+                      <span className="prof-panel-icon">🌙</span>
+                      <div>
+                        <strong>Mode sombre</strong>
+                        <span>{isDarkMode ? "Active" : "Desactive"}</span>
+                      </div>
+                      <button
+                        type="button"
+                        className={`prof-toggle ${isDarkMode ? "is-on" : ""}`}
+                        onClick={toggleDarkMode}
+                        aria-label="Activer le mode sombre"
+                      >
+                        <span className="prof-toggle-knob"></span>
+                      </button>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">📲</span>
+                      <div>
+                        <strong>Application PWA</strong>
+                        <span>Installez LifeLine sur votre ecran d'accueil</span>
+                      </div>
+                    </div>
+                    <div className="prof-panel-row">
+                      <span className="prof-panel-icon">ℹ️</span>
+                      <div>
+                        <strong>Version</strong>
+                        <span>LifeLine v1.0.0</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </section>
 
