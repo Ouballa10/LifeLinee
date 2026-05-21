@@ -7,6 +7,7 @@ import "./styles/profile.css";
 import "./styles/emergency.css";
 import "./styles/app-redesign.css";
 import "./styles/home.css";
+import "./styles/dashboard.css";
 import "./styles/profile-new.css";
 import "./styles/qr-scanner.css";
 import "./styles/dark-mode.css";

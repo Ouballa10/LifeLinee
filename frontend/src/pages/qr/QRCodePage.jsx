@@ -4,6 +4,7 @@ import BottomNav from "../../components/layout/BottomNav.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import { useLang } from "../../context/LanguageContext.jsx";
 import { ROUTES } from "../../utils/constants.js";
 import {
   buildEmergencyUrl,
@@ -28,6 +29,7 @@ function buildProfileQrData(profile = {}) {
 export default function QRCodePage() {
   const navigate = useNavigate();
   const { user, token, refreshProfile, logout } = useAuth();
+  const { t } = useLang();
   const [qrData, setQrData] = useState(null);
   const [qrImageUrl, setQrImageUrl] = useState("");
   const [isSharing, setIsSharing] = useState(false);
@@ -89,10 +91,8 @@ export default function QRCodePage() {
         <div className="home-scroll-content">
           {/* Title */}
           <section className="home-welcome">
-            <h1 className="home-greeting">Mon QR medical</h1>
-            <p className="home-greeting-sub">
-              Presentez ce QR Code aux secouristes pour qu'ils accedent a vos informations medicales en cas d'urgence.
-            </p>
+            <h1 className="home-greeting">{t.qrTitle}</h1>
+            <p className="home-greeting-sub">{t.qrSub}</p>
           </section>
 
           {/* QR Card */}
@@ -108,8 +108,8 @@ export default function QRCodePage() {
                     </svg>
                   </span>
                   <div>
-                    <strong>Votre QR Code est pret</strong>
-                    <span>Scannez pour acceder a mes informations medicales.</span>
+                    <strong>{t.qrReady}</strong>
+                    <span>{t.qrReadySub}</span>
                   </div>
                 </div>
 
@@ -127,7 +127,7 @@ export default function QRCodePage() {
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </span>
-                  <span>Vos informations sont securisees et ne sont accessibles qu'aux personnes autorisees.</span>
+                  <span>{t.qrSecure}</span>
                 </div>
 
                 {/* Actions */}
@@ -138,7 +138,7 @@ export default function QRCodePage() {
                       <polyline points="16 6 12 2 8 6" />
                       <line x1="12" y1="2" x2="12" y2="15" />
                     </svg>
-                    Partager
+                    {t.share}
                   </button>
                   <button type="button" className="qr-main-btn qr-main-btn-download" onClick={() => downloadQRCode(qrImageUrl, `${qrData.qrToken}-qr.png`)}>
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -146,7 +146,7 @@ export default function QRCodePage() {
                       <polyline points="7 10 12 15 17 10" />
                       <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                    Telecharger
+                    {t.download}
                   </button>
                 </div>
               </>
@@ -154,7 +154,7 @@ export default function QRCodePage() {
               <div className="qr-main-error">
                 <span>⚠️</span>
                 <p>{qrError}</p>
-                <button type="button" className="qr-retry-btn" onClick={() => navigate(ROUTES.login)}>Se reconnecter</button>
+                <button type="button" className="qr-retry-btn" onClick={() => navigate(ROUTES.login)}>{t.reconnect}</button>
               </div>
             ) : (
               <Loader label="Generation du QR..." />
@@ -171,10 +171,10 @@ export default function QRCodePage() {
                 </svg>
               </span>
               <div className="qr-info-item-text">
-                <strong>Informations a jour</strong>
-                <span>Assurez-vous que vos informations sont toujours a jour pour votre securite.</span>
+                <strong>{t.infoUpToDate}</strong>
+                <span>{t.infoUpToDateSub}</span>
               </div>
-              <span className="qr-info-item-badge">✓ A jour</span>
+              <span className="qr-info-item-badge">✓ {t.upToDate}</span>
             </div>
 
             <div className="qr-info-item">
@@ -185,8 +185,8 @@ export default function QRCodePage() {
                 </svg>
               </span>
               <div className="qr-info-item-text">
-                <strong>Utilisation securisee</strong>
-                <span>Montrez ce QR Code uniquement en cas d'urgence a des professionnels de sante ou secouristes.</span>
+                <strong>{t.secureUse}</strong>
+                <span>{t.secureUseSub}</span>
               </div>
               <span className="qr-info-item-arrow">&rsaquo;</span>
             </div>

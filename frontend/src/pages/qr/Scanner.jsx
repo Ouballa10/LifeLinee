@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import QrScanner from "qr-scanner";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
+import { useLang } from "../../context/LanguageContext.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { parseEmergencyQrNavigation } from "../../services/qrService.js";
@@ -12,6 +13,7 @@ import { ROUTES } from "../../utils/constants.js";
 export default function Scanner() {
   const navigate = useNavigate();
   const { user, token, isAuthenticated, logout } = useAuth();
+  const { t } = useLang();
   const { appState, saveLastScan, setScannerPermission } = useContext(AppContext);
   const videoRef = useRef(null);
   const overlayRef = useRef(null);
@@ -103,13 +105,13 @@ export default function Scanner() {
               <div className="home-dropdown-menu">
                 <div className="home-dropdown-header"><strong>{user?.fullName || "LifeLine"}</strong><span>{user?.email || "Scanner public"}</span></div>
                 <div className="home-dropdown-links">
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>Accueil</button>}
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>Tableau de bord</button>}
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>Mon QR</button>}
-                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.login); setIsMenuOpen(false); }}>Se connecter</button>}
-                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.register); setIsMenuOpen(false); }}>Creer un compte</button>}
+                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>{t.navHome}</button>}
+                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>{t.navDashboard}</button>}
+                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>{t.navQr}</button>}
+                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.login); setIsMenuOpen(false); }}>{t.signIn}</button>}
+                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.register); setIsMenuOpen(false); }}>{t.createAccount}</button>}
                 </div>
-                {isAuthenticated && <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={async () => { await logout(); navigate(ROUTES.login, { replace: true }); }}>Deconnexion</button>}
+                {isAuthenticated && <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={async () => { await logout(); navigate(ROUTES.login, { replace: true }); }}>{t.logout}</button>}
               </div>
             )}
           </div>
@@ -119,8 +121,8 @@ export default function Scanner() {
 
         <div className="home-scroll-content">
           <section className="home-welcome">
-            <h1 className="home-greeting">Scanner QR</h1>
-            <p className="home-greeting-sub">Scannez un QR LifeLine pour acceder a une fiche medicale d'urgence.</p>
+            <h1 className="home-greeting">{t.scannerTitle}</h1>
+            <p className="home-greeting-sub">{t.scannerSub}</p>
           </section>
 
           {/* Camera Scanner */}
@@ -134,31 +136,31 @@ export default function Scanner() {
                     <path d="M7 4H5.5A1.5 1.5 0 0 0 4 5.5V7M17 4h1.5A1.5 1.5 0 0 1 20 5.5V7M7 20H5.5A1.5 1.5 0 0 1 4 18.5V17M17 20h1.5a1.5 1.5 0 0 0 1.5-1.5V17" />
                     <rect x="8" y="8" width="8" height="8" rx="2" opacity="0.3" fill="#6b8299" />
                   </svg>
-                  <span>Camera en attente</span>
+                  <span>{t.cameraWaiting}</span>
                 </div>
               )}
             </div>
 
             <div className="scan-controls">
               <button type="button" className="scan-btn scan-btn-start" onClick={startScanner} disabled={isPreparingCamera || !hasCamera || isScannerActive}>
-                {isScannerActive ? "Camera active" : "Demarrer la camera"}
+                {isScannerActive ? t.cameraActive : t.startCamera}
               </button>
               {isScannerActive && (
                 <button type="button" className="scan-btn scan-btn-stop" onClick={stopScanner}>
-                  Arreter
+                  {t.stop}
                 </button>
               )}
             </div>
 
             <label className="scan-upload-label" htmlFor="scan-file-input">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Importer une image QR
+              {t.importImage}
             </label>
             <input id="scan-file-input" type="file" accept="image/*" onChange={handleImageScan} style={{ display: "none" }} />
 
-            {isPreparingCamera && <p className="scan-status">Verification de la camera...</p>}
-            {!hasCamera && !isPreparingCamera && <p className="scan-status">Aucune camera detectee. Utilisez l'import d'image.</p>}
-            {isReadingFile && <p className="scan-status">Lecture de l'image...</p>}
+            {isPreparingCamera && <p className="scan-status">{t.checkingCamera}</p>}
+            {!hasCamera && !isPreparingCamera && <p className="scan-status">{t.noCamera}</p>}
+            {isReadingFile && <p className="scan-status">{t.readingImage}</p>}
             {scannerError && <p className="scan-error">{scannerError}</p>}
           </section>
 
@@ -167,10 +169,10 @@ export default function Scanner() {
             <section className="scan-result-card">
               <div className="scan-result-icon">✅</div>
               <div className="scan-result-text">
-                <strong>QR detecte avec succes</strong>
+                <strong>{t.qrDetected}</strong>
                 {scannedNavigation.route ? (
                   <Link to={scannedNavigation.route} className="scan-result-link">
-                    Voir la fiche medicale &rsaquo;
+                    {t.viewMedicalCard} &rsaquo;
                   </Link>
                 ) : (
                   <span>Ce QR ne contient pas un token LifeLine valide.</span>
@@ -182,11 +184,11 @@ export default function Scanner() {
           {/* CTA for non-authenticated */}
           {!isAuthenticated && (
             <section className="scan-cta-card">
-              <strong>Creez votre propre QR LifeLine</strong>
-              <p>Enregistrez vos informations medicales et generez votre QR personnel.</p>
+              <strong>{t.createQrCta}</strong>
+              <p>{t.createQrCtaSub}</p>
               <div className="scan-cta-actions">
-                <Link to={ROUTES.register} className="scan-cta-btn scan-cta-primary">Creer un compte</Link>
-                <Link to={ROUTES.login} className="scan-cta-btn scan-cta-secondary">Se connecter</Link>
+                <Link to={ROUTES.register} className="scan-cta-btn scan-cta-primary">{t.createAccount}</Link>
+                <Link to={ROUTES.login} className="scan-cta-btn scan-cta-secondary">{t.signIn}</Link>
               </div>
             </section>
           )}
@@ -203,19 +205,19 @@ export default function Scanner() {
               </svg>
             </div>
             <div className="scan-howto-content">
-              <strong>Comment ca marche ?</strong>
+              <strong>{t.howItWorks}</strong>
               <div className="scan-howto-steps">
                 <div className="scan-howto-step">
                   <span className="scan-howto-num">1</span>
-                  <span>Ouvrez l'appareil photo et alignez le QR Code.</span>
+                  <span>{t.step1}</span>
                 </div>
                 <div className="scan-howto-step">
                   <span className="scan-howto-num">2</span>
-                  <span>Le scan est detecte automatiquement.</span>
+                  <span>{t.step2}</span>
                 </div>
                 <div className="scan-howto-step">
                   <span className="scan-howto-num">3</span>
-                  <span>Accedez aux informations medicales en quelques secondes.</span>
+                  <span>{t.step3}</span>
                 </div>
               </div>
             </div>
@@ -225,7 +227,7 @@ export default function Scanner() {
           {isAuthenticated && (
             <section className="scan-recent-section">
               <div className="scan-recent-header">
-                <h2 className="home-section-heading">Scans recents</h2>
+                <h2 className="home-section-heading">{t.recentScans}</h2>
                 <span className="home-link-btn">Voir tout &rsaquo;</span>
               </div>
               {accessLogs.length > 0 ? (
@@ -250,7 +252,7 @@ export default function Scanner() {
               ) : (
                 <div className="scan-recent-empty">
                   <span>📋</span>
-                  <p>Personne n'a encore scanne votre QR. Partagez-le pour voir l'historique ici.</p>
+                  <p>{t.noRecentScans}</p>
                 </div>
               )}
             </section>

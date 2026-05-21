@@ -706,3 +706,145 @@
   border-color: #30363d;
   color: #58a6ff;
 }
+
+
+/* ─── Language Selector ─── */
+.prof-panel-row-lang {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.prof-lang-options {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.prof-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e4eaf0;
+  background: #ffffff;
+  color: #4a6d8c;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.prof-lang-btn:hover {
+  border-color: #1a5fb4;
+  color: #1a5fb4;
+}
+
+.prof-lang-btn.is-active {
+  background: #1a5fb4;
+  border-color: #1a5fb4;
+  color: #ffffff;
+}
+
+.dark-mode .prof-lang-btn {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #8b949e;
+}
+
+.dark-mode .prof-lang-btn:hover {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+.dark-mode .prof-lang-btn.is-active {
+  background: #58a6ff;
+  border-color: #58a6ff;
+  color: #0d1117;
+}
+
+/* ─── RTL Support (Profile) ─── */
+[dir="rtl"] .prof-card {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .prof-card-top {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .prof-card-info {
+  text-align: right;
+}
+
+[dir="rtl"] .prof-name-row {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .prof-details {
+  text-align: right;
+}
+
+[dir="rtl"] .prof-detail-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .prof-menu-item {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .prof-menu-text {
+  text-align: right;
+}
+
+[dir="rtl"] .prof-panel-row {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .prof-panel-row div {
+  text-align: right;
+}
+
+[dir="rtl"] .prof-panel-row-lang {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+[dir="rtl"] .prof-completeness {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .prof-completeness-left {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .prof-completeness-text {
+  text-align: right;
+}
+
+[dir="rtl"] .prof-logout-btn {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .prof-logout-btn .prof-menu-text {
+  text-align: right;
+}
+
+[dir="rtl"] .home-dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .home-dropdown-header {
+  text-align: right;
+}
+
+[dir="rtl"] .home-dropdown-link {
+  text-align: right;
+}

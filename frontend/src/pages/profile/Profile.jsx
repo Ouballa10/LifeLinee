@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useLang } from "../../context/LanguageContext.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 import { formatList, getInitials } from "../../utils/helpers.js";
@@ -95,6 +96,7 @@ function LogoutIcon() {
 export default function Profile() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { lang, t, changeLang, LANGUAGES } = useLang();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -152,11 +154,11 @@ export default function Profile() {
   }
 
   const menuLinks = [
-    { icon: <PersonIcon />, label: "Informations personnelles", sub: "Gerez vos informations personnelles", route: ROUTES.editProfile, color: "blue", id: "personal" },
-    { icon: <MedicalIcon />, label: "Informations medicales", sub: "Consultez et mettez a jour vos informations de sante", route: ROUTES.medicalForm, color: "red", id: "medical" },
-    { icon: <ContactIcon />, label: "Contacts d'urgence", sub: "Gerez vos contacts d'urgence", route: null, color: "purple", id: "contacts" },
-    { icon: <LockIcon />, label: "Securite et confidentialite", sub: "Parametres de securite et confidentialite", route: null, color: "orange", id: "security" },
-    { icon: <SettingsIcon />, label: "Parametres de l'application", sub: "Preferences, langue, notifications...", route: null, color: "pink", id: "settings" },
+    { icon: <PersonIcon />, label: t.personalInfo, sub: t.personalInfoSub, route: ROUTES.editProfile, color: "blue", id: "personal" },
+    { icon: <MedicalIcon />, label: t.medicalInfo, sub: t.medicalInfoSub, route: ROUTES.medicalForm, color: "red", id: "medical" },
+    { icon: <ContactIcon />, label: t.emergencyContacts, sub: t.emergencyContactsSub2, route: null, color: "purple", id: "contacts" },
+    { icon: <LockIcon />, label: t.security, sub: t.securitySub2, route: null, color: "orange", id: "security" },
+    { icon: <SettingsIcon />, label: t.appSettings, sub: t.appSettingsSub, route: null, color: "pink", id: "settings" },
   ];
 
   return (
@@ -182,12 +184,12 @@ export default function Profile() {
                   <span>{user?.email || ""}</span>
                 </div>
                 <div className="home-dropdown-links">
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>Accueil</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>Tableau de bord</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>Mon QR</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.scanner); setIsMenuOpen(false); }}>Scanner</button>
+                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>{t.navHome}</button>
+                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>{t.navDashboard}</button>
+                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>{t.navQr}</button>
+                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.scanner); setIsMenuOpen(false); }}>{t.navScanner}</button>
                 </div>
-                <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={handleLogout}>Deconnexion</button>
+                <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={handleLogout}>{t.logout}</button>
               </div>
             )}
           </div>
@@ -200,8 +202,8 @@ export default function Profile() {
         <div className="home-scroll-content">
           {/* Page Title */}
           <section className="home-welcome">
-            <h1 className="home-greeting">Mon profil</h1>
-            <p className="home-greeting-sub">Gerez vos informations personnelles et medicales en toute securite.</p>
+            <h1 className="home-greeting">{t.profileTitle}</h1>
+            <p className="home-greeting-sub">{t.profileSub}</p>
           </section>
 
           {/* Profile Card */}
@@ -217,9 +219,9 @@ export default function Profile() {
                   <strong>{user?.fullName || "Utilisateur"}</strong>
                   <svg viewBox="0 0 20 20" width="16" height="16" fill="#1a5fb4"><circle cx="10" cy="10" r="10" /><path d="M6 10l3 3 5-5" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </div>
-                <span className="prof-verified">Compte verifie</span>
+                <span className="prof-verified">{t.verifiedAccount}</span>
                 <button type="button" className="prof-edit-btn" onClick={() => navigate(ROUTES.editProfile)}>
-                  Modifier le profil
+                  {t.editProfile}
                 </button>
               </div>
             </div>
@@ -257,8 +259,8 @@ export default function Profile() {
                 <span>{completenessPercent}%</span>
               </div>
               <div className="prof-completeness-text">
-                <strong>Completude du profil medical</strong>
-                <p>Plus votre profil est complet, plus vous etes en securite.</p>
+                <strong>{t.profileCompleteness}</strong>
+                <p>{t.profileCompletenessSub}</p>
                 <div className="home-progress-bar">
                   <div className="home-progress-fill" style={{ width: `${completenessPercent}%` }}></div>
                 </div>
@@ -266,7 +268,7 @@ export default function Profile() {
               </div>
             </div>
             <button type="button" className="prof-complete-btn" onClick={() => navigate(ROUTES.medicalForm)}>
-              Completer &rsaquo;
+              {t.complete} &rsaquo;
             </button>
           </section>
 
@@ -344,36 +346,36 @@ export default function Profile() {
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">🔒</span>
                       <div>
-                        <strong>Mot de passe</strong>
-                        <span>Gere par Firebase Authentication</span>
+                        <strong>{t.password}</strong>
+                        <span>{t.passwordSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">🛡️</span>
                       <div>
-                        <strong>Authentification</strong>
-                        <span>{user?.authProvider === "google" ? "Google (OAuth 2.0)" : "Email / Mot de passe"}</span>
+                        <strong>{t.authentication}</strong>
+                        <span>{user?.authProvider === "google" ? "Google (OAuth 2.0)" : "Email / Password"}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">📱</span>
                       <div>
-                        <strong>Sessions actives</strong>
-                        <span>Cet appareil uniquement</span>
+                        <strong>{t.activeSessions}</strong>
+                        <span>{t.activeSessionsSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">🔐</span>
                       <div>
-                        <strong>Donnees medicales</strong>
-                        <span>Chiffrees et stockees sur Supabase (PostgreSQL)</span>
+                        <strong>{t.medicalData}</strong>
+                        <span>{t.medicalDataSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">👁️</span>
                       <div>
-                        <strong>Visibilite QR</strong>
-                        <span>Seules les infos d'urgence sont visibles publiquement</span>
+                        <strong>{t.qrVisibility}</strong>
+                        <span>{t.qrVisibilitySub}</span>
                       </div>
                     </div>
                   </div>
@@ -382,25 +384,37 @@ export default function Profile() {
                 {/* Settings Panel */}
                 {item.id === "settings" && openPanel === "settings" && (
                   <div className="prof-panel">
-                    <div className="prof-panel-row">
+                    <div className="prof-panel-row prof-panel-row-lang">
                       <span className="prof-panel-icon">🌐</span>
                       <div>
-                        <strong>Langue</strong>
-                        <span>Francais</span>
+                        <strong>{t.language}</strong>
+                        <div className="prof-lang-options">
+                          {LANGUAGES.map((l) => (
+                            <button
+                              key={l.code}
+                              type="button"
+                              className={`prof-lang-btn ${lang === l.code ? "is-active" : ""}`}
+                              onClick={() => changeLang(l.code)}
+                            >
+                              <span>{l.flag}</span>
+                              <span>{l.label}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">🔔</span>
                       <div>
-                        <strong>Notifications</strong>
-                        <span>Activees (navigateur)</span>
+                        <strong>{t.notifications}</strong>
+                        <span>{t.notificationsSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row prof-panel-row-toggle">
                       <span className="prof-panel-icon">🌙</span>
                       <div>
-                        <strong>Mode sombre</strong>
-                        <span>{isDarkMode ? "Active" : "Desactive"}</span>
+                        <strong>{t.darkMode}</strong>
+                        <span>{isDarkMode ? t.darkModeOn : t.darkModeOff}</span>
                       </div>
                       <button
                         type="button"
@@ -414,14 +428,14 @@ export default function Profile() {
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">📲</span>
                       <div>
-                        <strong>Application PWA</strong>
-                        <span>Installez LifeLine sur votre ecran d'accueil</span>
+                        <strong>{t.pwApp}</strong>
+                        <span>{t.pwAppSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">ℹ️</span>
                       <div>
-                        <strong>Version</strong>
+                        <strong>{t.version}</strong>
                         <span>LifeLine v1.0.0</span>
                       </div>
                     </div>
@@ -435,8 +449,8 @@ export default function Profile() {
           <button type="button" className="prof-logout-btn" onClick={handleLogout}>
             <span className="prof-logout-icon"><LogoutIcon /></span>
             <div className="prof-menu-text">
-              <strong>Se deconnecter</strong>
-              <span>Deconnectez-vous de votre compte</span>
+              <strong>{t.logout}</strong>
+              <span>{t.logoutSub}</span>
             </div>
             <span className="prof-menu-arrow">&rsaquo;</span>
           </button>

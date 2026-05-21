@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { registerSW } from "./pwa/registerSW.js";
 
@@ -14,16 +15,23 @@ if (localStorage.getItem("lifeline.darkMode") === "true") {
   document.documentElement.classList.add("dark-mode");
 }
 
+// Initialize language direction
+const savedLang = localStorage.getItem("lifeline.lang") || "fr";
+document.documentElement.lang = savedLang;
+if (savedLang === "ar") document.documentElement.dir = "rtl";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <AppProvider>
-            <App />
-          </AppProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <LanguageProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <AppProvider>
+              <App />
+            </AppProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </LanguageProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

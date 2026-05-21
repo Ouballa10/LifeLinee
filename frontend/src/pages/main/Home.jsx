@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
+import { useLang } from "../../context/LanguageContext.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
@@ -98,6 +99,7 @@ export default function Home() {
   const navigate = useNavigate();
   const { appState } = useContext(AppContext);
   const { user, logout } = useAuth();
+  const { t } = useLang();
   const profileName = firstName(user?.fullName);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -119,12 +121,12 @@ export default function Home() {
   }, [isMenuOpen]);
 
   const menuItems = [
-    { label: "Accueil", route: ROUTES.home },
-    { label: "Tableau de bord", route: ROUTES.dashboard },
-    { label: "Mon profil", route: ROUTES.profile },
-    { label: "Mon QR", route: ROUTES.qr },
-    { label: "Scanner", route: ROUTES.scanner },
-    { label: "Modifier profil", route: ROUTES.editProfile },
+    { label: t.navHome, route: ROUTES.home },
+    { label: t.navDashboard, route: ROUTES.dashboard },
+    { label: t.navProfile, route: ROUTES.profile },
+    { label: t.navQr, route: ROUTES.qr },
+    { label: t.navScanner, route: ROUTES.scanner },
+    { label: t.navEditProfile, route: ROUTES.editProfile },
   ];
 
   async function handleLogout() {
@@ -151,29 +153,29 @@ export default function Home() {
   const quickActions = [
     {
       icon: <ProfileIcon />,
-      title: "Mon profil medical",
-      subtitle: "Afficher mon code QR",
+      title: t.myMedicalProfile,
+      subtitle: t.myInfoSub,
       route: ROUTES.profile,
       color: "blue",
     },
     {
       icon: <InfoIcon />,
-      title: "Mes informations",
-      subtitle: "Voir et modifier mes informations",
+      title: t.myInfo,
+      subtitle: t.myInfoSub,
       route: ROUTES.editProfile,
       color: "indigo",
     },
     {
       icon: <PhoneIcon />,
-      title: "Contacts d'urgence",
-      subtitle: "Gerer mes contacts d'urgence",
+      title: t.emergencyContacts,
+      subtitle: t.emergencyContactsSub,
       route: ROUTES.medicalForm,
       color: "red",
     },
     {
       icon: <HistoryIcon />,
-      title: "Historique des acces",
-      subtitle: "Voir les acces a mes informations",
+      title: t.accessHistory,
+      subtitle: t.accessHistorySub,
       route: ROUTES.dashboard,
       color: "purple",
     },
@@ -182,26 +184,26 @@ export default function Home() {
   const medicalItems = [
     {
       icon: <BloodIcon />,
-      label: "Groupe sanguin",
-      value: user?.bloodType || "Non renseigne",
+      label: t.bloodType,
+      value: user?.bloodType || t.notSpecified,
       color: "red",
     },
     {
       icon: <AllergyIcon />,
-      label: "Allergies",
-      value: formatList(user?.allergies, "Aucune"),
+      label: t.allergies,
+      value: formatList(user?.allergies, t.none),
       color: "blue",
     },
     {
       icon: <HeartIcon />,
-      label: "Maladies chroniques",
-      value: formatList(user?.conditions, "Aucune"),
+      label: t.chronicDiseases,
+      value: formatList(user?.conditions, t.none),
       color: "teal",
     },
     {
       icon: <PillIcon />,
-      label: "Traitements",
-      value: formatList(user?.medications, "Aucun"),
+      label: t.treatments,
+      value: formatList(user?.medications, t.noneM),
       color: "orange",
     },
   ];
@@ -278,10 +280,8 @@ export default function Home() {
           {/* Welcome */}
           <section className="home-welcome">
             <div className="home-welcome-left">
-              <h1 className="home-greeting">Bonjour, {profileName} 👋</h1>
-              <p className="home-greeting-sub">
-                Prenez soin de vous, vos informations peuvent sauver des vies.
-              </p>
+              <h1 className="home-greeting">{t.homeGreeting}, {profileName} 👋</h1>
+              <p className="home-greeting-sub">{t.homeSub}</p>
             </div>
           </section>
 
@@ -294,8 +294,8 @@ export default function Home() {
               <div className="home-hero-tree home-hero-tree-right"></div>
             </div>
             <div className="home-hero-text">
-              <h2>Votre sante, notre priorite</h2>
-              <p>Gardez vos informations medicales a portee de main en cas d'urgence.</p>
+              <h2>{t.heroTitle}</h2>
+              <p>{t.heroSub}</p>
               <button
                 type="button"
                 className="home-hero-cta"
@@ -307,7 +307,7 @@ export default function Home() {
                   <rect x="3" y="14" width="7" height="7" rx="1" />
                   <path d="M14 14h3v3h-3zM20 14v7h-3" />
                 </svg>
-                Afficher mon QR
+                {t.showMyQr}
               </button>
             </div>
             <div className="home-hero-visual">
@@ -328,7 +328,7 @@ export default function Home() {
 
           {/* Quick Actions */}
           <section className="home-section">
-            <h2 className="home-section-heading">Actions rapides</h2>
+            <h2 className="home-section-heading">{t.quickActions}</h2>
             <div className="home-actions-row">
               {quickActions.map((action) => (
                 <button
@@ -350,13 +350,13 @@ export default function Home() {
           {/* Medical Summary */}
           <section className="home-section">
             <div className="home-section-header-row">
-              <h2 className="home-section-heading">Resume de mon profil medical</h2>
+              <h2 className="home-section-heading">{t.medicalSummary}</h2>
               <button
                 type="button"
                 className="home-link-btn"
                 onClick={() => navigate(ROUTES.profile)}
               >
-                Voir tout &rsaquo;
+                {t.seeAll} &rsaquo;
               </button>
             </div>
 
@@ -384,8 +384,8 @@ export default function Home() {
                 <ContactsIcon />
               </span>
               <div className="home-med-info">
-                <strong>Contacts d'urgence</strong>
-                <span>{user?.emergencyContact || "Non renseigne"}</span>
+                <strong>{t.emergencyContacts}</strong>
+                <span>{user?.emergencyContact || t.notSpecified}</span>
               </div>
               <span className="home-arrow">&rsaquo;</span>
             </button>
@@ -397,8 +397,8 @@ export default function Home() {
               <ShieldCheckIcon />
             </div>
             <div className="home-security-copy">
-              <strong>Vos donnees sont securisees</strong>
-              <p>Nous protegeons vos informations medicales avec la plus haute securite.</p>
+              <strong>{t.securityTitle}</strong>
+              <p>{t.securitySub}</p>
             </div>
           </section>
         </div>
