@@ -120,30 +120,6 @@ function toUpdatePayload(updates = {}) {
       updates.criticalInstructions ?? updates.critical_instructions ?? '';
   }
 
-  if (updates.medicalHistory !== undefined) {
-    payload.medical_history = String(updates.medicalHistory || '').trim();
-  }
-
-  if (updates.weight !== undefined) {
-    payload.weight = String(updates.weight || '').trim();
-  }
-
-  if (updates.height !== undefined) {
-    payload.height = String(updates.height || '').trim();
-  }
-
-  if (updates.secondaryContact !== undefined) {
-    payload.secondary_contact = String(updates.secondaryContact || '').trim();
-  }
-
-  if (updates.doctorPhone !== undefined) {
-    payload.doctor_phone = String(updates.doctorPhone || '').trim();
-  }
-
-  if (updates.qrVisibility !== undefined) {
-    payload.qr_visibility = String(updates.qrVisibility || 'full').trim();
-  }
-
   return payload;
 }
 

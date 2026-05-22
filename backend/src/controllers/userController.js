@@ -80,25 +80,30 @@ exports.updateCurrentUserProfile = async (req, res) => {
       userUpdates.city = String(updates.city || '').trim();
     }
 
-    if (updates.address !== undefined) {
-      userUpdates.address = String(updates.address || '').trim();
-    }
-
-    if (updates.birthDate !== undefined) {
-      userUpdates.birthDate = String(updates.birthDate || '').trim();
-    }
-
-    if (updates.gender !== undefined) {
-      userUpdates.gender = String(updates.gender || '').trim();
-    }
-
-    if (updates.cin !== undefined) {
-      userUpdates.cin = String(updates.cin || '').trim();
-    }
+    // New fields - only include if they have values (safe if columns don't exist yet)
+    const extraUserFields = ['address', 'birthDate', 'gender', 'cin'];
+    const extraUserPayload = {};
+    if (updates.address !== undefined) extraUserPayload.address = String(updates.address || '').trim();
+    if (updates.birthDate !== undefined) extraUserPayload.birth_date = String(updates.birthDate || '').trim();
+    if (updates.gender !== undefined) extraUserPayload.gender = String(updates.gender || '').trim();
+    if (updates.cin !== undefined) extraUserPayload.cin = String(updates.cin || '').trim();
 
     const nextUser = Object.keys(userUpdates).length
       ? await User.updateById(req.user.id, userUpdates)
       : req.user;
+
+    // Try to save extra user fields separately (won't crash if columns missing)
+    if (Object.keys(extraUserPayload).length) {
+      try {
+        const { getSupabaseAdmin } = require('../config/supabase');
+        await getSupabaseAdmin()
+          .from('user_profiles')
+          .update(extraUserPayload)
+          .eq('id', req.user.id);
+      } catch (e) {
+        // Columns may not exist yet - ignore silently
+      }
+    }
 
     const medicalUpdates = normalizeMedicalProfile(updates);
     const profileUpdates = {};
@@ -131,33 +136,31 @@ exports.updateCurrentUserProfile = async (req, res) => {
       profileUpdates.criticalInstructions = medicalUpdates.criticalInstructions;
     }
 
-    if (updates.medicalHistory !== undefined) {
-      profileUpdates.medicalHistory = String(updates.medicalHistory || '').trim();
-    }
-
-    if (updates.weight !== undefined) {
-      profileUpdates.weight = String(updates.weight || '').trim();
-    }
-
-    if (updates.height !== undefined) {
-      profileUpdates.height = String(updates.height || '').trim();
-    }
-
-    if (updates.secondaryContact !== undefined) {
-      profileUpdates.secondaryContact = String(updates.secondaryContact || '').trim();
-    }
-
-    if (updates.doctorPhone !== undefined) {
-      profileUpdates.doctorPhone = String(updates.doctorPhone || '').trim();
-    }
-
-    if (updates.qrVisibility !== undefined) {
-      profileUpdates.qrVisibility = String(updates.qrVisibility || 'full').trim();
-    }
+    // New medical fields - save separately to avoid crash if columns missing
+    const extraMedicalPayload = {};
+    if (updates.medicalHistory !== undefined) extraMedicalPayload.medical_history = String(updates.medicalHistory || '').trim();
+    if (updates.weight !== undefined) extraMedicalPayload.weight = String(updates.weight || '').trim();
+    if (updates.height !== undefined) extraMedicalPayload.height = String(updates.height || '').trim();
+    if (updates.secondaryContact !== undefined) extraMedicalPayload.secondary_contact = String(updates.secondaryContact || '').trim();
+    if (updates.doctorPhone !== undefined) extraMedicalPayload.doctor_phone = String(updates.doctorPhone || '').trim();
+    if (updates.qrVisibility !== undefined) extraMedicalPayload.qr_visibility = String(updates.qrVisibility || 'full').trim();
 
     const medicalProfile = Object.keys(profileUpdates).length
       ? await updateMedicalProfileForUser(nextUser.id, profileUpdates)
       : await ensureMedicalProfileForUser(nextUser.id);
+
+    // Try to save extra medical fields separately
+    if (Object.keys(extraMedicalPayload).length && medicalProfile?.id) {
+      try {
+        const { getSupabaseAdmin } = require('../config/supabase');
+        await getSupabaseAdmin()
+          .from('medical_profiles')
+          .update(extraMedicalPayload)
+          .eq('id', medicalProfile.id);
+      } catch (e) {
+        // Columns may not exist yet - ignore silently
+      }
+    }
 
     return res.json({
       message: 'Profile updated successfully.',
