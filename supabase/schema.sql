@@ -208,3 +208,75 @@ ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS height TEXT DEFAULT
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS secondary_contact TEXT DEFAULT '';
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS doctor_phone TEXT DEFAULT '';
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS qr_visibility TEXT DEFAULT 'full';
+
+
+-- ═══════════════════════════════════════════════════════
+-- Medical Documents table (v1.2)
+-- ═══════════════════════════════════════════════════════
+
+create table if not exists public.medical_documents (
+  id uuid primary key default gen_random_uuid(),
+  user_profile_id uuid not null references public.user_profiles(id) on delete cascade,
+  file_name text not null default '',
+  file_type text not null default 'pdf',
+  category text not null default 'other',
+  file_url text not null default '',
+  file_size integer not null default 0,
+  notes text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists medical_documents_user_profile_id_idx
+  on public.medical_documents(user_profile_id);
+
+drop trigger if exists set_medical_documents_updated_at on public.medical_documents;
+create trigger set_medical_documents_updated_at
+before update on public.medical_documents
+for each row execute function public.set_updated_at();
+
+alter table public.medical_documents enable row level security;
+
+drop policy if exists "medical_documents_select_own" on public.medical_documents;
+create policy "medical_documents_select_own"
+on public.medical_documents
+for select
+to authenticated
+using (
+  exists (
+    select 1 from public.user_profiles up
+    where up.id = medical_documents.user_profile_id
+      and up.auth_user_id = auth.uid()
+  )
+);
+
+drop policy if exists "medical_documents_insert_own" on public.medical_documents;
+create policy "medical_documents_insert_own"
+on public.medical_documents
+for insert
+to authenticated
+with check (
+  exists (
+    select 1 from public.user_profiles up
+    where up.id = medical_documents.user_profile_id
+      and up.auth_user_id = auth.uid()
+  )
+);
+
+drop policy if exists "medical_documents_delete_own" on public.medical_documents;
+create policy "medical_documents_delete_own"
+on public.medical_documents
+for delete
+to authenticated
+using (
+  exists (
+    select 1 from public.user_profiles up
+    where up.id = medical_documents.user_profile_id
+      and up.auth_user_id = auth.uid()
+  )
+);
+
+grant select, insert, delete on public.medical_documents to authenticated;
+
+-- Storage bucket policy (run separately in Storage settings)
+-- Create bucket: medical-documents (public: false)
