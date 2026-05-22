@@ -155,7 +155,7 @@ export default function Profile() {
 
   const menuLinks = [
     { icon: <PersonIcon />, label: t.personalInfo, sub: t.personalInfoSub, route: ROUTES.editProfile, color: "blue", id: "personal" },
-    { icon: <MedicalIcon />, label: t.medicalInfo, sub: t.medicalInfoSub, route: ROUTES.medicalForm, color: "red", id: "medical" },
+    { icon: <MedicalIcon />, label: t.medicalInfo, sub: t.medicalInfoSub, route: ROUTES.editProfile, color: "red", id: "medical" },
     { icon: <ContactIcon />, label: t.emergencyContacts, sub: t.emergencyContactsSub2, route: null, color: "purple", id: "contacts" },
     { icon: <LockIcon />, label: t.security, sub: t.securitySub2, route: null, color: "orange", id: "security" },
     { icon: <SettingsIcon />, label: t.appSettings, sub: t.appSettingsSub, route: null, color: "pink", id: "settings" },
@@ -267,7 +267,7 @@ export default function Profile() {
                 <span className="home-progress-pct">{completenessPercent}%</span>
               </div>
             </div>
-            <button type="button" className="prof-complete-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+            <button type="button" className="prof-complete-btn" onClick={() => navigate(ROUTES.editProfile)}>
               {t.complete} &rsaquo;
             </button>
           </section>
@@ -319,7 +319,7 @@ export default function Profile() {
                             </a>
                           ) : null;
                         })()}
-                        <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+                        <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.editProfile)}>
                           Modifier le contact
                         </button>
                       </>
@@ -333,7 +333,7 @@ export default function Profile() {
                       </div>
                     )}
                     {!user?.emergencyContact && (
-                      <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+                      <button type="button" className="prof-panel-edit-btn" onClick={() => navigate(ROUTES.editProfile)}>
                         Ajouter un contact
                       </button>
                     )}

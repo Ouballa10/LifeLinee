@@ -45,7 +45,7 @@ export default function Dashboard() {
 
   const shortcuts = [
     { label: t.identity, sub: t.identitySub, route: ROUTES.editProfile, icon: "👤" },
-    { label: t.medical, sub: t.medicalSub, route: ROUTES.medicalForm, icon: "💊" },
+    { label: t.medical, sub: t.medicalSub, route: ROUTES.editProfile, icon: "💊" },
     { label: t.myQr, sub: t.myQrSub, route: ROUTES.qr, icon: "📱" },
   ];
 
@@ -107,7 +107,7 @@ export default function Dashboard() {
                   ? t.allComplete
                   : `${missingFields} ${t.fieldsRemaining}`}
               </p>
-              <button type="button" className="dash-complete-btn" onClick={() => navigate(ROUTES.medicalForm)}>
+              <button type="button" className="dash-complete-btn" onClick={() => navigate(ROUTES.editProfile)}>
                 {completenessPercent === 100 ? t.seeAll : t.complete} &rsaquo;
               </button>
             </div>
