@@ -19,6 +19,10 @@ function mapUser(row) {
     authUserId: row.auth_user_id || '',
     phone: row.phone || '',
     city: row.city || '',
+    address: row.address || '',
+    birthDate: row.birth_date || '',
+    gender: row.gender || '',
+    cin: row.cin || '',
   };
 }
 
@@ -58,6 +62,22 @@ function toUpdatePayload(updates = {}) {
 
   if (updates.city !== undefined) {
     payload.city = String(updates.city || '').trim();
+  }
+
+  if (updates.address !== undefined) {
+    payload.address = String(updates.address || '').trim();
+  }
+
+  if (updates.birthDate !== undefined) {
+    payload.birth_date = String(updates.birthDate || '').trim();
+  }
+
+  if (updates.gender !== undefined) {
+    payload.gender = String(updates.gender || '').trim();
+  }
+
+  if (updates.cin !== undefined) {
+    payload.cin = String(updates.cin || '').trim();
   }
 
   return payload;

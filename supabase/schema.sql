@@ -189,3 +189,22 @@ grant select, insert, update on public.user_profiles to authenticated;
 grant select, insert, update on public.medical_profiles to authenticated;
 grant insert on public.emergency_logs to anon, authenticated;
 grant select on public.public_emergency_profiles to anon, authenticated;
+
+
+-- ═══════════════════════════════════════════════════════
+-- New columns added for enhanced profile (v1.1)
+-- ═══════════════════════════════════════════════════════
+
+-- User profile: personal info
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS address TEXT DEFAULT '';
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS birth_date TEXT DEFAULT '';
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS gender TEXT DEFAULT '';
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS cin TEXT DEFAULT '';
+
+-- Medical profile: health + emergency + privacy
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS medical_history TEXT DEFAULT '';
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS weight TEXT DEFAULT '';
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS height TEXT DEFAULT '';
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS secondary_contact TEXT DEFAULT '';
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS doctor_phone TEXT DEFAULT '';
+ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS qr_visibility TEXT DEFAULT 'full';
