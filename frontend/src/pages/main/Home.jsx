@@ -438,13 +438,13 @@ export default function Home() {
                 <div className="contacts-empty">
                   <span>📞</span>
                   <p>Aucun contact d'urgence enregistre.</p>
-                  <button type="button" className="contacts-add-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.medicalForm); }}>
+                  <button type="button" className="contacts-add-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.editProfile); }}>
                     Ajouter un contact
                   </button>
                 </div>
               )}
 
-              <button type="button" className="contacts-edit-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.medicalForm); }}>
+              <button type="button" className="contacts-edit-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.editProfile); }}>
                 Modifier les contacts
               </button>
             </div>
