@@ -4,6 +4,7 @@ import BottomNav from "../../components/layout/BottomNav.jsx";
 import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
+import { apiRequest } from "../../services/api.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
@@ -11,6 +12,7 @@ const SECTIONS = [
   { id: "personal", icon: "👤", label: "Informations personnelles" },
   { id: "health", icon: "🩺", label: "Informations médicales" },
   { id: "emergency", icon: "🚨", label: "Contacts d'urgence" },
+  { id: "documents", icon: "📄", label: "Documents" },
   { id: "privacy", icon: "🔒", label: "Sécurité" },
 ];
 
@@ -42,13 +44,15 @@ function buildForm(user) {
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
+  const { user, token, updateProfile } = useAuth();
   const { t } = useLang();
   const [form, setForm] = useState(() => buildForm(user));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [activeSection, setActiveSection] = useState("personal");
+  const [documents, setDocuments] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
@@ -60,6 +64,70 @@ export default function EditProfile() {
     }
     if (!isEditingRef.current) setForm(buildForm(user));
   }, [profileIdentity, user]);
+
+  // Load documents
+  useEffect(() => {
+    if (!token) return;
+    loadDocuments();
+  }, [token]);
+
+  function loadDocuments() {
+    apiRequest("/documents", { token })
+      .then((data) => { if (data?.documents) setDocuments(data.documents); })
+      .catch(() => {});
+  }
+
+  async function handleFileUpload(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Fichier trop volumineux (max 10MB).");
+      return;
+    }
+
+    setIsUploading(true);
+    setError("");
+
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const category = file.type.startsWith("image/") ? "radio" : "ordonnance";
+
+      await apiRequest("/documents/upload", {
+        method: "POST",
+        token,
+        body: {
+          fileName: file.name,
+          fileType: file.type,
+          fileBase64: base64,
+          category,
+          notes: "",
+        },
+      });
+
+      loadDocuments();
+    } catch (err) {
+      setError(err.message || "Erreur lors de l'upload.");
+    } finally {
+      setIsUploading(false);
+      event.target.value = "";
+    }
+  }
+
+  async function handleDeleteDoc(docId) {
+    try {
+      await apiRequest(`/documents/${docId}`, { method: "DELETE", token });
+      setDocuments((prev) => prev.filter((d) => d.id !== docId));
+    } catch (err) {
+      setError(err.message || "Erreur lors de la suppression.");
+    }
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -213,7 +281,65 @@ export default function EditProfile() {
               </div>
             )}
 
-            {/* ═══ SECTION 4: PRIVACY ═══ */}
+            {/* ═══ SECTION 4: DOCUMENTS ═══ */}
+            {activeSection === "documents" && (
+              <div className="edit-section-card">
+                <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-blue">📄</span>
+                  <div>
+                    <strong>Documents médicaux</strong>
+                    <span>Ordonnances, analyses, radios, PDF</span>
+                  </div>
+                </div>
+
+                {/* Upload */}
+                <label className="doc-upload-zone" htmlFor="doc-file-input">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                  <strong>{isUploading ? "Upload en cours..." : "Ajouter un document"}</strong>
+                  <span>PDF, JPEG, PNG — Max 10MB</span>
+                </label>
+                <input
+                  id="doc-file-input"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,.webp"
+                  onChange={handleFileUpload}
+                  disabled={isUploading}
+                  style={{ display: "none" }}
+                />
+
+                {/* Documents list */}
+                {documents.length > 0 ? (
+                  <div className="doc-list">
+                    {documents.map((doc) => (
+                      <div key={doc.id} className="doc-item">
+                        <span className={`doc-item-icon doc-icon-${doc.file_type?.includes("pdf") ? "pdf" : "img"}`}>
+                          {doc.file_type?.includes("pdf") ? "📋" : "🖼️"}
+                        </span>
+                        <div className="doc-item-info">
+                          <strong>{doc.file_name}</strong>
+                          <span>{doc.category} • {(doc.file_size / 1024).toFixed(0)} KB</span>
+                        </div>
+                        <div className="doc-item-actions">
+                          <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-view-btn">Voir</a>
+                          <button type="button" className="doc-delete-btn" onClick={() => handleDeleteDoc(doc.id)}>✕</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="doc-empty">
+                    <span>📂</span>
+                    <p>Aucun document. Ajoutez vos ordonnances, analyses ou radios.</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ═══ SECTION 5: PRIVACY ═══ */}
             {activeSection === "privacy" && (
               <div className="edit-section-card">
                 <div className="edit-section-header">
