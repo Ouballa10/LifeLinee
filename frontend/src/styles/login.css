@@ -8,10 +8,34 @@
   align-items: center;
   padding: 40px 20px 30px;
   overflow: hidden;
-  background: linear-gradient(180deg, #eaf2fc 0%, #dfe9f7 40%, #d4e2f4 70%, #e8f0fb 100%);
+  background: #f0f6ff;
 }
 
-/* ===== BACKGROUND DECORATIONS ===== */
+/* ===== BACKGROUND IMAGE ===== */
+
+.login-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.login-bg-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.login-bg-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== KEEP OLD CLASSES HIDDEN ===== */
+.login-bg-decorations { display: none; }
 
 .login-bg-decorations {
   position: absolute;
@@ -177,8 +201,8 @@
 }
 
 .login-logo-wrapper {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,6 +213,8 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: scale(1.6);
+  pointer-events: none;
   filter: drop-shadow(0 8px 16px rgba(40, 80, 140, 0.15));
 }
 
