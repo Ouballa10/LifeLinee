@@ -64,22 +64,6 @@ function toUpdatePayload(updates = {}) {
     payload.city = String(updates.city || '').trim();
   }
 
-  if (updates.address !== undefined) {
-    payload.address = String(updates.address || '').trim();
-  }
-
-  if (updates.birthDate !== undefined) {
-    payload.birth_date = String(updates.birthDate || '').trim();
-  }
-
-  if (updates.gender !== undefined) {
-    payload.gender = String(updates.gender || '').trim();
-  }
-
-  if (updates.cin !== undefined) {
-    payload.cin = String(updates.cin || '').trim();
-  }
-
   return payload;
 }
 

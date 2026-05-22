@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/Loader.jsx";
-import ThemeToggle from "../../components/ui/ThemeToggle.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
-import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
+import { ROUTES } from "../../utils/constants.js";
 
 export default function Register() {
   const navigate = useNavigate();
   const { register, loginGoogle, isLoading } = useAuth();
   const { isOffline } = useNetworkStatus();
   const [form, setForm] = useState({
-    fullName: "",
+    lastName: "",
+    firstName: "",
     email: "",
-    phone: "",
-    bloodType: "O+",
     password: "",
     confirmPassword: "",
   });
@@ -38,13 +36,13 @@ export default function Register() {
 
     if (isOffline) {
       setError(
-        "Connexion Internet requise. La creation de compte ne fonctionne pas en mode hors ligne."
+        "Connexion Internet requise. La création de compte ne fonctionne pas en mode hors ligne."
       );
       return;
     }
 
     try {
-      await register(form);
+      await register({ ...form, fullName: `${form.firstName} ${form.lastName}`.trim() });
       navigate(ROUTES.home, { replace: true });
     } catch (nextError) {
       setError(nextError.message);
@@ -71,7 +69,6 @@ export default function Register() {
 
   return (
     <main className="aurora-screen">
-      <ThemeToggle />
       {/* Animated mesh background */}
       <div className="aurora-bg" aria-hidden="true">
         <span className="aurora-blob aurora-blob-1"></span>
@@ -85,9 +82,9 @@ export default function Register() {
         <div className="aurora-logo-wrapper">
           <img src={lifelineLogo} alt="LifeLine" className="aurora-logo-img" />
         </div>
-        <h1 className="aurora-title">Creer un compte</h1>
+        <h1 className="aurora-title">Créer un compte</h1>
         <p className="aurora-subtitle">
-          Activez votre espace medical LifeLine
+          Activez votre espace médical LifeLine
           <br />
           en quelques secondes.
         </p>
@@ -96,25 +93,48 @@ export default function Register() {
       {/* Form card */}
       <section className="aurora-card">
         <form className="aurora-form" onSubmit={handleSubmit}>
-          {/* Nom complet */}
-          <div className="aurora-field-group">
-            <label className="aurora-field-label">Nom complet</label>
-            <div className="aurora-field-input-wrapper">
-              <span className="aurora-field-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M5 21a7 7 0 0 1 14 0" />
-                </svg>
-              </span>
-              <input
-                type="text"
-                name="fullName"
-                placeholder="Abdelmounaim Ouballa"
-                value={form.fullName}
-                onChange={handleChange}
-                className="aurora-field-input"
-                autoComplete="name"
-              />
+          {/* Nom + Prénom */}
+          <div className="aurora-field-row">
+            <div className="aurora-field-group">
+              <label className="aurora-field-label">Nom</label>
+              <div className="aurora-field-input-wrapper">
+                <span className="aurora-field-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Nom"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  className="aurora-field-input"
+                  autoComplete="family-name"
+                />
+              </div>
+            </div>
+
+            <div className="aurora-field-group">
+              <label className="aurora-field-label">Prénom</label>
+              <div className="aurora-field-input-wrapper">
+                <span className="aurora-field-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M5 21a7 7 0 0 1 14 0" />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="Prénom"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  className="aurora-field-input"
+                  autoComplete="given-name"
+                />
+              </div>
             </div>
           </div>
 
@@ -140,52 +160,6 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Phone + Blood (2 cols) */}
-          <div className="aurora-field-row">
-            <div className="aurora-field-group">
-              <label className="aurora-field-label">Telephone</label>
-              <div className="aurora-field-input-wrapper">
-                <span className="aurora-field-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                </span>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="06 12 34 56 78"
-                  value={form.phone}
-                  onChange={handleChange}
-                  className="aurora-field-input"
-                  autoComplete="tel"
-                />
-              </div>
-            </div>
-
-            <div className="aurora-field-group">
-              <label className="aurora-field-label">Groupe sanguin</label>
-              <div className="aurora-field-input-wrapper">
-                <span className="aurora-field-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                    <path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z" />
-                  </svg>
-                </span>
-                <select
-                  name="bloodType"
-                  value={form.bloodType}
-                  onChange={handleChange}
-                  className="aurora-field-input aurora-field-select"
-                >
-                  {BLOOD_GROUPS.map((group) => (
-                    <option key={group} value={group}>
-                      {group}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
           {/* Password */}
           <div className="aurora-field-group">
             <label className="aurora-field-label">Mot de passe</label>
@@ -199,7 +173,7 @@ export default function Register() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Au moins 6 caracteres"
+                placeholder="Au moins 6 caractères"
                 value={form.password}
                 onChange={handleChange}
                 className="aurora-field-input"
@@ -243,7 +217,7 @@ export default function Register() {
               <input
                 type={showConfirm ? "text" : "password"}
                 name="confirmPassword"
-                placeholder="Repetez votre mot de passe"
+                placeholder="Répétez votre mot de passe"
                 value={form.confirmPassword}
                 onChange={handleChange}
                 className="aurora-field-input"
@@ -279,13 +253,13 @@ export default function Register() {
             className="aurora-submit-btn"
             disabled={isLoading || isOffline}
           >
-            <span>Creer mon compte</span>
+            <span>Créer mon compte</span>
             <span className="aurora-submit-arrow">&rarr;</span>
           </button>
 
           {/* Login link */}
           <div className="aurora-bottom-link">
-            <span>Vous avez deja un compte ?</span>
+            <span>Vous avez déjà un compte ?</span>
             <Link to={ROUTES.login}>Se connecter</Link>
           </div>
 
@@ -333,12 +307,12 @@ export default function Register() {
 
         {isOffline ? (
           <p className="aurora-notice">
-            Mode hors ligne actif. La creation de compte demande Internet.
+            Mode hors ligne actif. La création de compte demande Internet.
           </p>
         ) : null}
 
         {error ? <p className="aurora-error">{error}</p> : null}
-        {isLoading ? <Loader label="Creation..." /> : null}
+        {isLoading ? <Loader label="Création..." /> : null}
       </section>
 
       {/* Privacy footer */}
@@ -350,7 +324,7 @@ export default function Register() {
           </svg>
         </span>
         <span className="aurora-privacy-text">
-          Vos donnees medicales sont chiffrees
+          Vos données médicales sont chiffrées
           <br />
           et 100% confidentielles.
         </span>
