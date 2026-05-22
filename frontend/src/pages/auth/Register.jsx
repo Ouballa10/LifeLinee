@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/Loader.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import loginBg from "../../assets/images/login-bg.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
@@ -69,12 +70,9 @@ export default function Register() {
 
   return (
     <main className="aurora-screen">
-      {/* Animated mesh background */}
-      <div className="aurora-bg" aria-hidden="true">
-        <span className="aurora-blob aurora-blob-1"></span>
-        <span className="aurora-blob aurora-blob-2"></span>
-        <span className="aurora-blob aurora-blob-3"></span>
-        <span className="aurora-dots"></span>
+      {/* Background image */}
+      <div className="login-bg-image">
+        <img src={loginBg} alt="" aria-hidden="true" />
       </div>
 
       {/* Logo + Title */}
