@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/Loader.jsx";
-import ThemeToggle from "../../components/ui/ThemeToggle.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import loginBg from "../../assets/images/login-bg.png";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
@@ -66,21 +66,9 @@ export default function Login() {
 
   return (
     <main className="login-screen">
-      {/* Background decorations */}
-      <div className="login-bg-decorations">
-        <div className="login-bg-cityscape" aria-hidden="true"></div>
-        <span className="login-cloud login-cloud-1"></span>
-        <span className="login-cloud login-cloud-2"></span>
-        <span className="login-cloud login-cloud-3"></span>
-        <span className="login-cross login-cross-1">+</span>
-        <span className="login-cross login-cross-2">+</span>
-        <span className="login-cross login-cross-3">+</span>
-        <span className="login-cross login-cross-4">+</span>
-        <span className="login-dots-grid"></span>
-        <div className="login-bg-leaves">
-          <div className="login-leaves login-leaves-left"></div>
-          <div className="login-leaves login-leaves-right"></div>
-        </div>
+      {/* Background image */}
+      <div className="login-bg-image">
+        <img src={loginBg} alt="" aria-hidden="true" />
       </div>
 
       {/* Logo + heading */}
