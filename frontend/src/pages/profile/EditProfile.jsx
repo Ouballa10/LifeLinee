@@ -22,6 +22,7 @@ export default function EditProfile() {
   const { user, updateProfile } = useAuth();
   const [form, setForm] = useState(() => buildGeneralForm(user));
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState("");
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
@@ -43,10 +44,13 @@ export default function EditProfile() {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsSaving(true);
+    setError("");
     try {
       await updateProfile(form);
       isEditingRef.current = false;
       navigate(ROUTES.profile, { replace: true });
+    } catch (err) {
+      setError(err.message || "Erreur lors de l'enregistrement.");
     } finally { setIsSaving(false); }
   }
 
@@ -97,6 +101,8 @@ export default function EditProfile() {
             <button type="submit" className="edit-submit-btn" disabled={isSaving}>
               {isSaving ? "Enregistrement..." : "Enregistrer les modifications"}
             </button>
+
+            {error && <p style={{ color: "#d63031", fontSize: "0.82rem", marginTop: "10px", textAlign: "center" }}>{error}</p>}
           </form>
         </div>
 
