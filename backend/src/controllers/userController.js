@@ -80,6 +80,22 @@ exports.updateCurrentUserProfile = async (req, res) => {
       userUpdates.city = String(updates.city || '').trim();
     }
 
+    if (updates.address !== undefined) {
+      userUpdates.address = String(updates.address || '').trim();
+    }
+
+    if (updates.birthDate !== undefined) {
+      userUpdates.birthDate = String(updates.birthDate || '').trim();
+    }
+
+    if (updates.gender !== undefined) {
+      userUpdates.gender = String(updates.gender || '').trim();
+    }
+
+    if (updates.cin !== undefined) {
+      userUpdates.cin = String(updates.cin || '').trim();
+    }
+
     const nextUser = Object.keys(userUpdates).length
       ? await User.updateById(req.user.id, userUpdates)
       : req.user;
@@ -113,6 +129,30 @@ exports.updateCurrentUserProfile = async (req, res) => {
 
     if (updates.criticalInstructions !== undefined || updates.notes !== undefined) {
       profileUpdates.criticalInstructions = medicalUpdates.criticalInstructions;
+    }
+
+    if (updates.medicalHistory !== undefined) {
+      profileUpdates.medicalHistory = String(updates.medicalHistory || '').trim();
+    }
+
+    if (updates.weight !== undefined) {
+      profileUpdates.weight = String(updates.weight || '').trim();
+    }
+
+    if (updates.height !== undefined) {
+      profileUpdates.height = String(updates.height || '').trim();
+    }
+
+    if (updates.secondaryContact !== undefined) {
+      profileUpdates.secondaryContact = String(updates.secondaryContact || '').trim();
+    }
+
+    if (updates.doctorPhone !== undefined) {
+      profileUpdates.doctorPhone = String(updates.doctorPhone || '').trim();
+    }
+
+    if (updates.qrVisibility !== undefined) {
+      profileUpdates.qrVisibility = String(updates.qrVisibility || 'full').trim();
     }
 
     const medicalProfile = Object.keys(profileUpdates).length

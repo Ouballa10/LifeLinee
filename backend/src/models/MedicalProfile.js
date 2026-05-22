@@ -29,6 +29,12 @@ function mapProfile(row) {
     },
     doctorName: row.doctor_name || '',
     criticalInstructions: row.critical_instructions || '',
+    medicalHistory: row.medical_history || '',
+    weight: row.weight || '',
+    height: row.height || '',
+    secondaryContact: row.secondary_contact || '',
+    doctorPhone: row.doctor_phone || '',
+    qrVisibility: row.qr_visibility || 'full',
   };
 }
 
@@ -112,6 +118,30 @@ function toUpdatePayload(updates = {}) {
   ) {
     payload.critical_instructions =
       updates.criticalInstructions ?? updates.critical_instructions ?? '';
+  }
+
+  if (updates.medicalHistory !== undefined) {
+    payload.medical_history = String(updates.medicalHistory || '').trim();
+  }
+
+  if (updates.weight !== undefined) {
+    payload.weight = String(updates.weight || '').trim();
+  }
+
+  if (updates.height !== undefined) {
+    payload.height = String(updates.height || '').trim();
+  }
+
+  if (updates.secondaryContact !== undefined) {
+    payload.secondary_contact = String(updates.secondaryContact || '').trim();
+  }
+
+  if (updates.doctorPhone !== undefined) {
+    payload.doctor_phone = String(updates.doctorPhone || '').trim();
+  }
+
+  if (updates.qrVisibility !== undefined) {
+    payload.qr_visibility = String(updates.qrVisibility || 'full').trim();
   }
 
   return payload;
