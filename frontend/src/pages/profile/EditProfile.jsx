@@ -282,7 +282,8 @@ export default function EditProfile() {
       await updateProfile(form);
       isEditingRef.current = false;
       setSuccess("Profil mis à jour avec succès !");
-      setTimeout(() => navigate(ROUTES.profile, { replace: true }), 1200);
+      // Stay on the same page — clear success after 3s
+      setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       setError(err.message || "Erreur lors de l'enregistrement.");
     } finally {
