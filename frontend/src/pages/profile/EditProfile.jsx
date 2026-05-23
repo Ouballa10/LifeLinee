@@ -85,6 +85,7 @@ export default function EditProfile() {
   const [docSortBy, setDocSortBy] = useState("date");
   const [docSortOrder, setDocSortOrder] = useState("desc");
   const [uploadCategory, setUploadCategory] = useState("ordonnance");
+  const [uploadNotes, setUploadNotes] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
@@ -153,12 +154,13 @@ export default function EditProfile() {
           fileType: file.type,
           fileBase64: base64,
           category: uploadCategory,
-          notes: "",
+          notes: uploadNotes.trim(),
         },
       });
 
       setUploadProgress(100);
       setUploadSuccess(`"${file.name}" uploadé avec succès !`);
+      setUploadNotes("");
       loadDocuments();
 
       // Clear success message after 4s
