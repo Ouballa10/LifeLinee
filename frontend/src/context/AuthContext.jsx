@@ -151,6 +151,14 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      // Skip sync if we already have a valid session with user data
+      // (prevents unnecessary API calls that overwrite saved phone/city)
+      const currentSession = storedSessionRef.current || {};
+      if (currentSession?.user?.id && currentSession?.token) {
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
 
       try {

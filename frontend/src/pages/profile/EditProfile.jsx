@@ -132,14 +132,21 @@ export default function EditProfile() {
   }, [profileIdentity, user]);
 
   // Load documents when documents tab is active
+  const docLoadIdRef = useRef(0);
   useEffect(() => {
     if (!token || activeSection !== "documents") return;
     loadDocuments();
   }, [token, activeSection]);
 
   function loadDocuments() {
+    const loadId = ++docLoadIdRef.current;
     apiRequest("/documents", { token })
-      .then((data) => { if (data?.documents) setDocuments(data.documents); })
+      .then((data) => {
+        // Only update if this is still the latest request (prevents stale data)
+        if (loadId === docLoadIdRef.current && data?.documents) {
+          setDocuments(data.documents);
+        }
+      })
       .catch(() => {});
   }
 

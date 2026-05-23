@@ -204,9 +204,20 @@ async function upsertFirebaseUser(firebaseAccount = {}, defaults = {}) {
   const updates = {
     firebaseUid: firebaseUid || user?.firebaseUid || null,
     email: email || user?.email || null,
-    phone: defaults.phone || user?.phone || '',
-    city: defaults.city || user?.city || '',
   };
+
+  // Only update phone/city if a non-empty value is provided (never overwrite with empty)
+  if (defaults.phone) {
+    updates.phone = defaults.phone;
+  } else if (!user) {
+    updates.phone = '';
+  }
+
+  if (defaults.city) {
+    updates.city = defaults.city;
+  } else if (!user) {
+    updates.city = '';
+  }
 
   if (fullName || !user?.fullName) {
     updates.fullName = fullName || user?.fullName || 'Utilisateur LifeLine';
