@@ -66,6 +66,36 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+function compressImage(file, maxWidth = 1200, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement("canvas");
+      let { width, height } = img;
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error("Compression failed"));
+        },
+        "image/jpeg",
+        quality
+      );
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Image load failed")); };
+    img.src = url;
+  });
+}
+
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, token, updateProfile } = useAuth();
@@ -129,19 +159,32 @@ export default function EditProfile() {
     setError("");
 
     try {
-      // Simulate progress during base64 encoding
       setUploadProgress(10);
+
+      let finalFile = file;
+      let finalType = file.type;
+      let finalName = file.name;
+
+      // Compress images before upload (reduce size by 60-80%)
+      if (file.type.startsWith("image/") && file.size > 200 * 1024) {
+        setUploadProgress(20);
+        finalFile = await compressImage(file, 1200, 0.7);
+        finalType = "image/jpeg";
+        finalName = file.name.replace(/\.[^.]+$/, ".jpg");
+      }
+
+      setUploadProgress(30);
 
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onprogress = (e) => {
           if (e.lengthComputable) {
-            setUploadProgress(Math.min(10 + Math.round((e.loaded / e.total) * 40), 50));
+            setUploadProgress(Math.min(30 + Math.round((e.loaded / e.total) * 25), 55));
           }
         };
         reader.onload = () => resolve(reader.result.split(",")[1]);
         reader.onerror = reject;
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(finalFile);
       });
 
       setUploadProgress(60);
@@ -149,9 +192,10 @@ export default function EditProfile() {
       await apiRequest("/documents/upload", {
         method: "POST",
         token,
+        timeout: 90000,
         body: {
-          fileName: file.name,
-          fileType: file.type,
+          fileName: finalName,
+          fileType: finalType,
           fileBase64: base64,
           category: uploadCategory,
           notes: uploadNotes.trim(),
@@ -437,6 +481,18 @@ export default function EditProfile() {
                     </div>
                   </div>
 
+                  {/* Notes / Motif */}
+                  <div className="doc-upload-notes">
+                    <input
+                      type="text"
+                      className="doc-notes-input"
+                      placeholder="Motif / description (ex: ordonnance paracétamol)"
+                      value={uploadNotes}
+                      onChange={(e) => setUploadNotes(e.target.value)}
+                      disabled={isUploading}
+                    />
+                  </div>
+
                   {isUploading ? (
                     <div className="doc-upload-progress">
                       <div className="doc-upload-progress-info">
@@ -539,6 +595,7 @@ export default function EditProfile() {
                                       <span className="doc-item-size">{formatFileSize(doc.file_size)}</span>
                                       {doc.created_at && <span className="doc-item-date">{formatDate(doc.created_at)}</span>}
                                     </div>
+                                    {doc.notes && <div className="doc-item-notes">{doc.notes}</div>}
                                   </div>
                                   <div className="doc-item-actions">
                                     <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-action-btn doc-action-view" title="Ouvrir">

@@ -6,10 +6,11 @@ function buildUrl(path = "") {
 }
 
 export async function apiRequest(path, options = {}) {
-  const { method = "GET", body, token, headers = {} } = options;
+  const { method = "GET", body, token, headers = {}, timeout } = options;
+  const timeoutMs = timeout || (method !== "GET" && body ? 60000 : 15000);
   const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   const timeoutId = controller
-    ? globalThis.setTimeout(() => controller.abort(), 15000)
+    ? globalThis.setTimeout(() => controller.abort(), timeoutMs)
     : null;
   let response;
 
