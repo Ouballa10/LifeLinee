@@ -93,6 +93,11 @@ export function mapProfileFromApi(profile = {}) {
     email: profile?.email || "",
     phone: profile?.phone || "",
     city: profile?.city || "",
+    address: profile?.address || "",
+    birthDate: profile?.birthDate || "",
+    gender: profile?.gender || "",
+    cin: profile?.cin || "",
+    photoUrl: profile?.photoUrl || "",
     bloodType: profile?.bloodType || "Unknown",
     allergies: joinList(allergies),
     allergiesList: allergies,
@@ -107,10 +112,15 @@ export function mapProfileFromApi(profile = {}) {
     doctorName: profile?.doctorName || profile?.doctor_name || "",
     criticalInstructions,
     notes: criticalInstructions,
+    medicalHistory: profile?.medicalHistory || "",
+    weight: profile?.weight || "",
+    height: profile?.height || "",
+    secondaryContact: profile?.secondaryContact || "",
+    doctorPhone: profile?.doctorPhone || "",
+    qrVisibility: profile?.qrVisibility || "full",
     qrToken: profile?.qrToken || "",
     emergencyId: profile?.qrToken || "",
     emergencyUrl: profile?.emergencyUrl || "",
-    photoUrl: profile?.photoUrl || "",
   };
 }
 
@@ -175,6 +185,26 @@ function mapProfileUpdatesToApi(updates = {}) {
     payload.city = String(updates.city || "").trim();
   }
 
+  if (updates.address !== undefined) {
+    payload.address = String(updates.address || "").trim();
+  }
+
+  if (updates.birthDate !== undefined) {
+    payload.birthDate = String(updates.birthDate || "").trim();
+  }
+
+  if (updates.gender !== undefined) {
+    payload.gender = String(updates.gender || "").trim();
+  }
+
+  if (updates.cin !== undefined) {
+    payload.cin = String(updates.cin || "").trim();
+  }
+
+  if (updates.photoUrl !== undefined) {
+    payload.photoUrl = String(updates.photoUrl || "").trim();
+  }
+
   if (updates.bloodType !== undefined) {
     payload.bloodType = String(updates.bloodType || "").trim();
   }
@@ -214,6 +244,30 @@ function mapProfileUpdatesToApi(updates = {}) {
     payload.criticalInstructions = String(
       updates.criticalInstructions ?? updates.notes ?? ""
     ).trim();
+  }
+
+  if (updates.medicalHistory !== undefined) {
+    payload.medicalHistory = String(updates.medicalHistory || "").trim();
+  }
+
+  if (updates.weight !== undefined) {
+    payload.weight = String(updates.weight || "").trim();
+  }
+
+  if (updates.height !== undefined) {
+    payload.height = String(updates.height || "").trim();
+  }
+
+  if (updates.secondaryContact !== undefined) {
+    payload.secondaryContact = String(updates.secondaryContact || "").trim();
+  }
+
+  if (updates.doctorPhone !== undefined) {
+    payload.doctorPhone = String(updates.doctorPhone || "").trim();
+  }
+
+  if (updates.qrVisibility !== undefined) {
+    payload.qrVisibility = String(updates.qrVisibility || "full").trim();
   }
 
   return payload;

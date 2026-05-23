@@ -96,6 +96,10 @@ exports.updateCurrentUserProfile = async (req, res) => {
       userUpdates.cin = String(updates.cin || '').trim();
     }
 
+    if (updates.photoUrl !== undefined) {
+      userUpdates.photoUrl = String(updates.photoUrl || '').trim();
+    }
+
     const nextUser = Object.keys(userUpdates).length
       ? await User.updateById(req.user.id, userUpdates)
       : req.user;
