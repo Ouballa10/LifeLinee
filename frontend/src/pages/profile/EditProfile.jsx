@@ -358,20 +358,48 @@ export default function EditProfile() {
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
+                      setError("");
                       try {
                         const compressed = await compressImage(file, 400, 0.8);
                         const { supabase, isSupabaseConfigured } = await import("../../services/supabaseClient.js");
-                        if (!isSupabaseConfigured || !supabase) return;
-                        const ext = "jpg";
-                        const path = `avatars/${Date.now().toString(36)}.${ext}`;
-                        const { error: upErr } = await supabase.storage.from("medical-documents").upload(path, compressed, { contentType: "image/jpeg", upsert: true });
-                        if (upErr) throw upErr;
-                        const { data: urlData } = supabase.storage.from("medical-documents").getPublicUrl(path);
-                        const photoUrl = urlData?.publicUrl || "";
-                        isEditingRef.current = true;
-                        setForm((f) => ({ ...f, photoUrl }));
+
+                        if (isSupabaseConfigured && supabase) {
+                          // Direct upload to Supabase Storage
+                          const ext = "jpg";
+                          const path = `avatars/${Date.now().toString(36)}.${ext}`;
+                          const { error: upErr } = await supabase.storage.from("medical-documents").upload(path, compressed, { contentType: "image/jpeg", upsert: true });
+                          if (upErr) throw upErr;
+                          const { data: urlData } = supabase.storage.from("medical-documents").getPublicUrl(path);
+                          const photoUrl = urlData?.publicUrl || "";
+                          isEditingRef.current = true;
+                          setForm((f) => ({ ...f, photoUrl }));
+                        } else {
+                          // Fallback: upload via backend as base64
+                          const base64 = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(reader.result.split(",")[1]);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(compressed);
+                          });
+                          const response = await apiRequest("/documents/upload", {
+                            method: "POST",
+                            token,
+                            body: {
+                              fileName: `avatar_${Date.now()}.jpg`,
+                              fileType: "image/jpeg",
+                              fileBase64: base64,
+                              category: "other",
+                              notes: "Photo de profil",
+                            },
+                          });
+                          const photoUrl = response?.document?.file_url || "";
+                          if (photoUrl) {
+                            isEditingRef.current = true;
+                            setForm((f) => ({ ...f, photoUrl }));
+                          }
+                        }
                       } catch (err) {
-                        setError("Erreur upload photo: " + (err.message || ""));
+                        setError("Erreur upload photo: " + (err.message || "Réessayez."));
                       }
                       e.target.value = "";
                     }}
