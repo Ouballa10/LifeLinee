@@ -110,6 +110,7 @@ export function mapProfileFromApi(profile = {}) {
     qrToken: profile?.qrToken || "",
     emergencyId: profile?.qrToken || "",
     emergencyUrl: profile?.emergencyUrl || "",
+    photoUrl: profile?.photoUrl || "",
   };
 }
 

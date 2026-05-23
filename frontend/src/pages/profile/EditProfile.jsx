@@ -39,6 +39,7 @@ function buildForm(user) {
     secondaryContact: user?.secondaryContact || "",
     doctorPhone: user?.doctorPhone || "",
     qrVisibility: user?.qrVisibility || "full",
+    photoUrl: user?.photoUrl || "",
   };
 }
 
@@ -335,6 +336,48 @@ export default function EditProfile() {
                     <span>Identité et coordonnées</span>
                   </div>
                 </div>
+
+                {/* Profile Photo */}
+                <div className="edit-photo-section">
+                  <div className="edit-photo-avatar">
+                    {form.photoUrl ? (
+                      <img src={form.photoUrl} alt="Photo de profil" className="edit-photo-img" />
+                    ) : (
+                      <span className="edit-photo-initials">{(form.fullName || "U").slice(0, 2).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <label className="edit-photo-btn" htmlFor="profile-photo-input">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    Changer la photo
+                  </label>
+                  <input
+                    id="profile-photo-input"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    style={{ display: "none" }}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      try {
+                        const compressed = await compressImage(file, 400, 0.8);
+                        const { supabase, isSupabaseConfigured } = await import("../../services/supabaseClient.js");
+                        if (!isSupabaseConfigured || !supabase) return;
+                        const ext = "jpg";
+                        const path = `avatars/${Date.now().toString(36)}.${ext}`;
+                        const { error: upErr } = await supabase.storage.from("medical-documents").upload(path, compressed, { contentType: "image/jpeg", upsert: true });
+                        if (upErr) throw upErr;
+                        const { data: urlData } = supabase.storage.from("medical-documents").getPublicUrl(path);
+                        const photoUrl = urlData?.publicUrl || "";
+                        isEditingRef.current = true;
+                        setForm((f) => ({ ...f, photoUrl }));
+                      } catch (err) {
+                        setError("Erreur upload photo: " + (err.message || ""));
+                      }
+                      e.target.value = "";
+                    }}
+                  />
+                </div>
+
                 <div className="edit-fields">
                   <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
                   <Input label="Téléphone" name="phone" type="tel" value={form.phone} onChange={handleChange} />
