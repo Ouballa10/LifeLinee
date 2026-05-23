@@ -69,6 +69,7 @@ function serializePrivateProfile(user, medicalProfile, baseUrl = '') {
     birthDate: user.birthDate || '',
     gender: user.gender || '',
     cin: user.cin || '',
+    photoUrl: user.photoUrl || '',
     bloodType: medicalProfile.bloodType || 'Unknown',
     allergies: medicalProfile.allergies || [],
     chronicDiseases: medicalProfile.chronicDiseases || [],

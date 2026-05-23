@@ -8,6 +8,7 @@ ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS address TEXT DEFAULT '
 ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS birth_date TEXT DEFAULT '';
 ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS gender TEXT DEFAULT '';
 ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS cin TEXT DEFAULT '';
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS photo_url TEXT DEFAULT '';
 
 -- 2. Medical profile: health + emergency + privacy columns
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS medical_history TEXT DEFAULT '';

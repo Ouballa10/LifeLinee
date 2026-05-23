@@ -23,6 +23,7 @@ function mapUser(row) {
     birthDate: row.birth_date || '',
     gender: row.gender || '',
     cin: row.cin || '',
+    photoUrl: row.photo_url || '',
   };
 }
 
@@ -62,6 +63,26 @@ function toUpdatePayload(updates = {}) {
 
   if (updates.city !== undefined) {
     payload.city = String(updates.city || '').trim();
+  }
+
+  if (updates.address !== undefined) {
+    payload.address = String(updates.address || '').trim();
+  }
+
+  if (updates.birthDate !== undefined || updates.birth_date !== undefined) {
+    payload.birth_date = String(updates.birthDate ?? updates.birth_date ?? '').trim();
+  }
+
+  if (updates.gender !== undefined) {
+    payload.gender = String(updates.gender || '').trim();
+  }
+
+  if (updates.cin !== undefined) {
+    payload.cin = String(updates.cin || '').trim();
+  }
+
+  if (updates.photoUrl !== undefined || updates.photo_url !== undefined) {
+    payload.photo_url = String(updates.photoUrl ?? updates.photo_url ?? '').trim();
   }
 
   return payload;

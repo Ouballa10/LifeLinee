@@ -201,6 +201,9 @@ ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS birth_date TEXT DEFAUL
 ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS gender TEXT DEFAULT '';
 ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS cin TEXT DEFAULT '';
 
+-- Profile photo
+ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS photo_url TEXT DEFAULT '';
+
 -- Medical profile: health + emergency + privacy
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS medical_history TEXT DEFAULT '';
 ALTER TABLE public.medical_profiles ADD COLUMN IF NOT EXISTS weight TEXT DEFAULT '';
@@ -293,18 +296,21 @@ values ('medical-documents', 'medical-documents', true)
 on conflict (id) do nothing;
 
 -- Policy: allow uploads (INSERT) from anon and authenticated
+drop policy if exists "Allow uploads to medical-documents" on storage.objects;
 create policy "Allow uploads to medical-documents"
 on storage.objects for insert
 to anon, authenticated
 with check (bucket_id = 'medical-documents');
 
 -- Policy: allow reading (SELECT) files from the bucket
+drop policy if exists "Allow public read medical-documents" on storage.objects;
 create policy "Allow public read medical-documents"
 on storage.objects for select
 to anon, authenticated
 using (bucket_id = 'medical-documents');
 
 -- Policy: allow delete own files (authenticated only)
+drop policy if exists "Allow delete medical-documents" on storage.objects;
 create policy "Allow delete medical-documents"
 on storage.objects for delete
 to authenticated

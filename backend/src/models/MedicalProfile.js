@@ -120,6 +120,30 @@ function toUpdatePayload(updates = {}) {
       updates.criticalInstructions ?? updates.critical_instructions ?? '';
   }
 
+  if (updates.medicalHistory !== undefined || updates.medical_history !== undefined) {
+    payload.medical_history = updates.medicalHistory ?? updates.medical_history ?? '';
+  }
+
+  if (updates.weight !== undefined) {
+    payload.weight = String(updates.weight || '').trim();
+  }
+
+  if (updates.height !== undefined) {
+    payload.height = String(updates.height || '').trim();
+  }
+
+  if (updates.secondaryContact !== undefined || updates.secondary_contact !== undefined) {
+    payload.secondary_contact = updates.secondaryContact ?? updates.secondary_contact ?? '';
+  }
+
+  if (updates.doctorPhone !== undefined || updates.doctor_phone !== undefined) {
+    payload.doctor_phone = updates.doctorPhone ?? updates.doctor_phone ?? '';
+  }
+
+  if (updates.qrVisibility !== undefined || updates.qr_visibility !== undefined) {
+    payload.qr_visibility = updates.qrVisibility ?? updates.qr_visibility ?? 'full';
+  }
+
   return payload;
 }
 
