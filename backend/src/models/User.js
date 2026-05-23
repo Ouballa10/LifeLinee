@@ -204,8 +204,8 @@ async function upsertFirebaseUser(firebaseAccount = {}, defaults = {}) {
   const updates = {
     firebaseUid: firebaseUid || user?.firebaseUid || null,
     email: email || user?.email || null,
-    phone: defaults.phone ?? user?.phone ?? '',
-    city: defaults.city ?? user?.city ?? '',
+    phone: defaults.phone || user?.phone || '',
+    city: defaults.city || user?.city || '',
   };
 
   if (fullName || !user?.fullName) {

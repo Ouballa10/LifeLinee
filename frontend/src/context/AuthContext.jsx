@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(Boolean(storedSession?.token && !storedSession?.user));
   const hydratedTokenRef = useRef("");
   const storedSessionRef = useRef(storedSession);
+  const isUpdatingProfileRef = useRef(false);
 
   useEffect(() => {
     storedSessionRef.current = storedSession;
@@ -144,6 +145,12 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      // Skip sync if we're in the middle of a profile update (prevents overwriting saved data)
+      if (isUpdatingProfileRef.current) {
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
 
       try {
@@ -228,6 +235,7 @@ export function AuthProvider({ children }) {
     }
 
     setIsLoading(true);
+    isUpdatingProfileRef.current = true;
 
     try {
       const isFirebaseProvider = isFirebaseSessionProvider(storedSession?.authProvider);
@@ -260,6 +268,8 @@ export function AuthProvider({ children }) {
       return nextUser;
     } finally {
       setIsLoading(false);
+      // Delay clearing the flag to let any pending onAuthStateChanged events pass
+      setTimeout(() => { isUpdatingProfileRef.current = false; }, 2000);
     }
   }
 

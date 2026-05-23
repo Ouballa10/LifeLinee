@@ -118,6 +118,7 @@ export default function EditProfile() {
   const [uploadCategory, setUploadCategory] = useState("ordonnance");
   const [uploadNotes, setUploadNotes] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(false);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
@@ -339,7 +340,7 @@ export default function EditProfile() {
 
                 {/* Profile Photo */}
                 <div className="edit-photo-section">
-                  <div className="edit-photo-avatar">
+                  <div className="edit-photo-avatar" onClick={() => form.photoUrl && setPhotoPreview(true)} style={form.photoUrl ? { cursor: "pointer" } : {}}>
                     {form.photoUrl ? (
                       <img src={form.photoUrl} alt="Photo de profil" className="edit-photo-img" />
                     ) : (
@@ -811,6 +812,16 @@ export default function EditProfile() {
 
         <BottomNav />
       </section>
+
+      {/* Photo Preview Modal */}
+      {photoPreview && form.photoUrl && (
+        <div className="photo-preview-overlay" onClick={() => setPhotoPreview(false)}>
+          <div className="photo-preview-modal" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="photo-preview-close" onClick={() => setPhotoPreview(false)} aria-label="Fermer">✕</button>
+            <img src={form.photoUrl} alt="Photo de profil" className="photo-preview-img" />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
