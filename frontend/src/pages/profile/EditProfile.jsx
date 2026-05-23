@@ -129,11 +129,9 @@ export default function EditProfile() {
     if (!isEditingRef.current) setForm(buildForm(user));
   }, [profileIdentity, user]);
 
-  // Load documents only when documents tab is active
-  const docsLoadedRef = useRef(false);
+  // Load documents when documents tab is active
   useEffect(() => {
-    if (!token || activeSection !== "documents" || docsLoadedRef.current) return;
-    docsLoadedRef.current = true;
+    if (!token || activeSection !== "documents") return;
     loadDocuments();
   }, [token, activeSection]);
 
@@ -244,7 +242,8 @@ export default function EditProfile() {
       setUploadProgress(100);
       setUploadSuccess(`"${finalName}" uploadé avec succès !`);
       setUploadNotes("");
-      docsLoadedRef.current = false;
+      // Small delay to let Supabase index the new record
+      await new Promise((r) => setTimeout(r, 500));
       loadDocuments();
 
       setTimeout(() => setUploadSuccess(""), 4000);
