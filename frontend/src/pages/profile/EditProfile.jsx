@@ -167,7 +167,7 @@ export default function EditProfile() {
 
       // Compress images before upload (reduce size by 60-80%)
       if (file.type.startsWith("image/") && file.size > 200 * 1024) {
-        setUploadProgress(20);
+        setUploadProgress(15);
         finalFile = await compressImage(file, 1200, 0.7);
         finalType = "image/jpeg";
         finalName = file.name.replace(/\.[^.]+$/, ".jpg");
@@ -175,39 +175,78 @@ export default function EditProfile() {
 
       setUploadProgress(30);
 
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onprogress = (e) => {
-          if (e.lengthComputable) {
-            setUploadProgress(Math.min(30 + Math.round((e.loaded / e.total) * 25), 55));
-          }
-        };
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(finalFile);
-      });
+      // Upload directly to Supabase Storage (bypasses Vercel timeout)
+      const { supabase, isSupabaseConfigured } = await import("../../services/supabaseClient.js");
 
-      setUploadProgress(60);
+      if (isSupabaseConfigured && supabase) {
+        const ext = finalName.split(".").pop() || "pdf";
+        const uniqueId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const storagePath = `uploads/${uploadCategory}/${uniqueId}.${ext}`;
 
-      await apiRequest("/documents/upload", {
-        method: "POST",
-        token,
-        timeout: 90000,
-        body: {
-          fileName: finalName,
-          fileType: finalType,
-          fileBase64: base64,
-          category: uploadCategory,
-          notes: uploadNotes.trim(),
-        },
-      });
+        setUploadProgress(40);
+
+        const { error: uploadErr } = await supabase.storage
+          .from("medical-documents")
+          .upload(storagePath, finalFile, {
+            contentType: finalType,
+            upsert: false,
+          });
+
+        if (uploadErr) throw new Error(uploadErr.message);
+
+        setUploadProgress(75);
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from("medical-documents")
+          .getPublicUrl(storagePath);
+
+        const fileUrl = urlData?.publicUrl || storagePath;
+
+        // Save metadata via backend API
+        await apiRequest("/documents/upload-meta", {
+          method: "POST",
+          token,
+          body: {
+            fileName: finalName,
+            fileType: finalType,
+            fileUrl,
+            fileSize: finalFile.size || file.size,
+            category: uploadCategory,
+            notes: uploadNotes.trim(),
+          },
+        });
+      } else {
+        // Fallback: base64 upload via backend (slower, may timeout)
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(",")[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(finalFile);
+        });
+
+        setUploadProgress(50);
+
+        await apiRequest("/documents/upload", {
+          method: "POST",
+          token,
+          timeout: 90000,
+          body: {
+            fileName: finalName,
+            fileType: finalType,
+            fileBase64: base64,
+            category: uploadCategory,
+            notes: uploadNotes.trim(),
+          },
+        });
+      }
 
       setUploadProgress(100);
-      setUploadSuccess(`"${file.name}" uploadé avec succès !`);
+      setUploadSuccess(`"${finalName}" uploadé avec succès !`);
       setUploadNotes("");
+      docsLoadedRef.current = false;
       loadDocuments();
 
-      // Clear success message after 4s
       setTimeout(() => setUploadSuccess(""), 4000);
     } catch (err) {
       setError(err.message || "Erreur lors de l'upload.");

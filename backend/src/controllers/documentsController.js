@@ -111,6 +111,53 @@ exports.getDocumentStats = async (req, res) => {
 };
 
 /**
+ * POST /documents/upload-meta
+ * Save document metadata only (file already uploaded directly to Supabase Storage from frontend)
+ */
+exports.uploadDocumentMeta = async (req, res) => {
+  try {
+    const { fileName, fileType, fileUrl, fileSize, category, notes, tags } = req.body;
+
+    if (!fileName || !fileUrl) {
+      return res.status(400).json({ message: 'File name and URL are required.' });
+    }
+
+    const docCategory = VALID_CATEGORIES.includes(category) ? category : 'other';
+
+    // Parse tags
+    const docTags = Array.isArray(tags)
+      ? tags.map((t) => String(t).trim().toLowerCase()).filter(Boolean)
+      : String(tags || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
+
+    const insertPayload = {
+      user_profile_id: req.user.id,
+      file_name: String(fileName).trim(),
+      file_type: String(fileType || 'application/octet-stream').trim(),
+      category: docCategory,
+      file_url: String(fileUrl).trim(),
+      file_size: parseInt(fileSize, 10) || 0,
+      notes: String(notes || '').trim(),
+    };
+
+    if (docTags.length > 0) {
+      insertPayload.tags = docTags;
+    }
+
+    const { data, error: dbError } = await getSupabaseAdmin()
+      .from(TABLE)
+      .insert(insertPayload)
+      .select('*')
+      .single();
+
+    if (dbError) throw new Error(dbError.message);
+
+    return res.status(201).json({ message: 'Document saved.', document: data });
+  } catch (error) {
+    return res.status(500).json({ message: error.message || 'Unable to save document metadata.' });
+  }
+};
+
+/**
  * POST /documents/upload
  */
 exports.uploadDocument = async (req, res) => {
