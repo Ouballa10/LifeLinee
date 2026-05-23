@@ -53,6 +53,19 @@ const DOC_CATEGORIES = [
   { id: "other", label: "Autres", icon: "📎" },
 ];
 
+function formatFileSize(bytes) {
+  if (!bytes) return "0 KB";
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
+}
+
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, token, updateProfile } = useAuth();
@@ -64,11 +77,15 @@ export default function EditProfile() {
   const [activeSection, setActiveSection] = useState("personal");
   const [documents, setDocuments] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadFileName, setUploadFileName] = useState("");
+  const [uploadSuccess, setUploadSuccess] = useState("");
   const [docSearch, setDocSearch] = useState("");
   const [docCategory, setDocCategory] = useState("all");
   const [docSortBy, setDocSortBy] = useState("date");
   const [docSortOrder, setDocSortOrder] = useState("desc");
   const [uploadCategory, setUploadCategory] = useState("ordonnance");
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
@@ -103,15 +120,28 @@ export default function EditProfile() {
     }
 
     setIsUploading(true);
+    setUploadFileName(file.name);
+    setUploadProgress(0);
+    setUploadSuccess("");
     setError("");
 
     try {
+      // Simulate progress during base64 encoding
+      setUploadProgress(10);
+
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
+        reader.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setUploadProgress(Math.min(10 + Math.round((e.loaded / e.total) * 40), 50));
+          }
+        };
         reader.onload = () => resolve(reader.result.split(",")[1]);
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
+
+      setUploadProgress(60);
 
       await apiRequest("/documents/upload", {
         method: "POST",
@@ -125,11 +155,18 @@ export default function EditProfile() {
         },
       });
 
+      setUploadProgress(100);
+      setUploadSuccess(`"${file.name}" uploadé avec succès !`);
       loadDocuments();
+
+      // Clear success message after 4s
+      setTimeout(() => setUploadSuccess(""), 4000);
     } catch (err) {
       setError(err.message || "Erreur lors de l'upload.");
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
+      setUploadFileName("");
       event.target.value = "";
     }
   }
@@ -138,6 +175,7 @@ export default function EditProfile() {
     try {
       await apiRequest(`/documents/${docId}`, { method: "DELETE", token });
       setDocuments((prev) => prev.filter((d) => d.id !== docId));
+      setDeleteConfirm(null);
     } catch (err) {
       setError(err.message || "Erreur lors de la suppression.");
     }
@@ -297,44 +335,63 @@ export default function EditProfile() {
 
             {/* ═══ SECTION 4: DOCUMENTS ═══ */}
             {activeSection === "documents" && (
-              <div className="edit-section-card">
+              <div className="edit-section-card doc-section">
                 <div className="edit-section-header">
                   <span className="edit-section-icon edit-section-icon-blue">📄</span>
                   <div>
-                    <strong>Documents médicaux</strong>
-                    <span>Ordonnances, analyses, radios, PDF</span>
+                    <strong>Dossier médical</strong>
+                    <span>Gérez vos documents médicaux en toute sécurité</span>
                   </div>
                 </div>
+
+                {/* Stats summary */}
+                {documents.length > 0 && (
+                  <div className="doc-stats-bar">
+                    <div className="doc-stat">
+                      <span className="doc-stat-number">{documents.length}</span>
+                      <span className="doc-stat-label">Documents</span>
+                    </div>
+                    <div className="doc-stat">
+                      <span className="doc-stat-number">{formatFileSize(documents.reduce((s, d) => s + (d.file_size || 0), 0))}</span>
+                      <span className="doc-stat-label">Espace utilisé</span>
+                    </div>
+                    <div className="doc-stat">
+                      <span className="doc-stat-number">{new Set(documents.map((d) => d.category)).size}</span>
+                      <span className="doc-stat-label">Catégories</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Search & Sort Bar */}
                 <div className="doc-toolbar">
                   <div className="doc-search-box">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6b8299" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="11" cy="11" r="8" />
                       <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
                     <input
                       type="text"
                       className="doc-search-input"
-                      placeholder="Rechercher un document..."
+                      placeholder="Rechercher par nom, catégorie..."
                       value={docSearch}
                       onChange={(e) => setDocSearch(e.target.value)}
                     />
                     {docSearch && (
-                      <button type="button" className="doc-search-clear" onClick={() => setDocSearch("")}>✕</button>
+                      <button type="button" className="doc-search-clear" onClick={() => setDocSearch("")} aria-label="Effacer">✕</button>
                     )}
                   </div>
                   <div className="doc-sort-controls">
-                    <select className="doc-sort-select" value={docSortBy} onChange={(e) => setDocSortBy(e.target.value)}>
-                      <option value="date">Date</option>
-                      <option value="name">Nom</option>
-                      <option value="size">Taille</option>
+                    <select className="doc-sort-select" value={docSortBy} onChange={(e) => setDocSortBy(e.target.value)} aria-label="Trier par">
+                      <option value="date">📅 Date</option>
+                      <option value="name">🔤 Nom</option>
+                      <option value="size">📊 Taille</option>
                     </select>
                     <button
                       type="button"
                       className="doc-sort-order-btn"
                       onClick={() => setDocSortOrder((o) => o === "desc" ? "asc" : "desc")}
                       title={docSortOrder === "desc" ? "Plus récent d'abord" : "Plus ancien d'abord"}
+                      aria-label="Ordre de tri"
                     >
                       {docSortOrder === "desc" ? "↓" : "↑"}
                     </button>
@@ -347,6 +404,7 @@ export default function EditProfile() {
                     const count = cat.id === "all"
                       ? documents.length
                       : documents.filter((d) => d.category === cat.id).length;
+                    if (cat.id !== "all" && count === 0 && documents.length > 0) return null;
                     return (
                       <button
                         key={cat.id}
@@ -354,33 +412,57 @@ export default function EditProfile() {
                         className={`doc-category-chip ${docCategory === cat.id ? "is-active" : ""}`}
                         onClick={() => setDocCategory(cat.id)}
                       >
-                        <span>{cat.icon}</span>
-                        <span>{cat.label}</span>
-                        <span className="doc-chip-count">{count}</span>
+                        <span className="doc-chip-icon">{cat.icon}</span>
+                        <span className="doc-chip-label">{cat.label}</span>
+                        {count > 0 && <span className="doc-chip-count">{count}</span>}
                       </button>
                     );
                   })}
                 </div>
 
-                {/* Upload Zone with Category Selector */}
+                {/* Upload Zone */}
                 <div className="doc-upload-wrapper">
-                  <div className="doc-upload-category-select">
-                    <label>Catégorie :</label>
-                    <select value={uploadCategory} onChange={(e) => setUploadCategory(e.target.value)}>
-                      {DOC_CATEGORIES.filter((c) => c.id !== "all").map((c) => (
-                        <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
-                      ))}
-                    </select>
+                  <div className="doc-upload-header">
+                    <strong>Ajouter un document</strong>
+                    <div className="doc-upload-category-select">
+                      <select value={uploadCategory} onChange={(e) => setUploadCategory(e.target.value)} aria-label="Catégorie du document">
+                        {DOC_CATEGORIES.filter((c) => c.id !== "all").map((c) => (
+                          <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                  <label className="doc-upload-zone" htmlFor="doc-file-input">
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="17 8 12 3 7 8" />
-                      <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                    <strong>{isUploading ? "Upload en cours..." : "Ajouter un document"}</strong>
-                    <span>PDF, JPEG, PNG — Max 10MB</span>
-                  </label>
+
+                  {isUploading ? (
+                    <div className="doc-upload-progress">
+                      <div className="doc-upload-progress-info">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a5fb4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="17 8 12 3 7 8" />
+                          <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        <div className="doc-upload-progress-text">
+                          <strong>{uploadFileName}</strong>
+                          <span>Upload en cours... {uploadProgress}%</span>
+                        </div>
+                      </div>
+                      <div className="doc-upload-progress-bar">
+                        <div className="doc-upload-progress-fill" style={{ width: `${uploadProgress}%` }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <label className="doc-upload-zone" htmlFor="doc-file-input">
+                      <div className="doc-upload-icon-circle">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#1a5fb4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="17 8 12 3 7 8" />
+                          <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                      </div>
+                      <strong>Cliquez ou glissez un fichier ici</strong>
+                      <span>PDF, JPEG, PNG, WebP — Max 10MB</span>
+                    </label>
+                  )}
                   <input
                     id="doc-file-input"
                     type="file"
@@ -391,16 +473,22 @@ export default function EditProfile() {
                   />
                 </div>
 
+                {/* Upload success toast */}
+                {uploadSuccess && (
+                  <div className="doc-toast doc-toast-success">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <span>{uploadSuccess}</span>
+                  </div>
+                )}
+
                 {/* Documents list filtered & sorted */}
                 {(() => {
                   let filtered = [...documents];
 
-                  // Filter by category
                   if (docCategory !== "all") {
                     filtered = filtered.filter((d) => d.category === docCategory);
                   }
 
-                  // Filter by search
                   if (docSearch.trim()) {
                     const term = docSearch.toLowerCase();
                     filtered = filtered.filter((d) =>
@@ -410,7 +498,6 @@ export default function EditProfile() {
                     );
                   }
 
-                  // Sort
                   filtered.sort((a, b) => {
                     let cmp = 0;
                     if (docSortBy === "name") {
@@ -425,48 +512,66 @@ export default function EditProfile() {
 
                   if (filtered.length > 0) {
                     return (
-                      <>
-                        <div className="doc-results-count">
-                          {filtered.length} document{filtered.length > 1 ? "s" : ""} trouvé{filtered.length > 1 ? "s" : ""}
+                      <div className="doc-list-section">
+                        <div className="doc-list-header">
+                          <span className="doc-results-count">
+                            {filtered.length} document{filtered.length > 1 ? "s" : ""}
+                          </span>
                         </div>
                         <div className="doc-list">
                           {filtered.map((doc) => {
                             const catInfo = DOC_CATEGORIES.find((c) => c.id === doc.category) || DOC_CATEGORIES[DOC_CATEGORIES.length - 1];
+                            const isPdf = doc.file_type?.includes("pdf");
                             return (
                               <div key={doc.id} className="doc-item">
-                                <span className={`doc-item-icon doc-icon-${doc.file_type?.includes("pdf") ? "pdf" : "img"}`}>
+                                <div className={`doc-item-icon ${isPdf ? "doc-icon-pdf" : "doc-icon-img"}`}>
                                   {catInfo.icon}
-                                </span>
-                                <div className="doc-item-info">
-                                  <strong>{doc.file_name}</strong>
-                                  <span>
-                                    <span className="doc-item-category-badge">{catInfo.label}</span>
-                                    {" • "}
-                                    {(doc.file_size / 1024).toFixed(0)} KB
-                                    {doc.created_at && (" • " + new Date(doc.created_at).toLocaleDateString("fr-FR"))}
-                                  </span>
                                 </div>
-                                <div className="doc-item-actions">
-                                  <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-view-btn" title="Voir">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                  </a>
-                                  <button type="button" className="doc-delete-btn" onClick={() => handleDeleteDoc(doc.id)} title="Supprimer">✕</button>
+                                <div className="doc-item-body">
+                                  <div className="doc-item-info">
+                                    <strong className="doc-item-name">{doc.file_name}</strong>
+                                    <div className="doc-item-meta">
+                                      <span className="doc-item-category-badge">{catInfo.label}</span>
+                                      <span className="doc-item-size">{formatFileSize(doc.file_size)}</span>
+                                      {doc.created_at && <span className="doc-item-date">{formatDate(doc.created_at)}</span>}
+                                    </div>
+                                  </div>
+                                  <div className="doc-item-actions">
+                                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-action-btn doc-action-view" title="Ouvrir">
+                                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    </a>
+                                    {deleteConfirm === doc.id ? (
+                                      <div className="doc-delete-confirm">
+                                        <button type="button" className="doc-action-btn doc-action-confirm-yes" onClick={() => handleDeleteDoc(doc.id)} title="Confirmer">✓</button>
+                                        <button type="button" className="doc-action-btn doc-action-confirm-no" onClick={() => setDeleteConfirm(null)} title="Annuler">✕</button>
+                                      </div>
+                                    ) : (
+                                      <button type="button" className="doc-action-btn doc-action-delete" onClick={() => setDeleteConfirm(doc.id)} title="Supprimer">
+                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                      </button>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                      </>
+                      </div>
                     );
                   }
 
                   return (
-                    <div className="doc-empty">
-                      <span>📂</span>
+                    <div className="doc-empty-state">
+                      <div className="doc-empty-icon">📂</div>
+                      <strong>
+                        {docSearch || docCategory !== "all"
+                          ? "Aucun résultat"
+                          : "Aucun document"}
+                      </strong>
                       <p>
                         {docSearch || docCategory !== "all"
-                          ? "Aucun document trouvé pour cette recherche."
-                          : "Aucun document. Ajoutez vos ordonnances, analyses ou radios."}
+                          ? "Essayez de modifier votre recherche ou vos filtres."
+                          : "Commencez par ajouter vos ordonnances, analyses ou radios."}
                       </p>
                     </div>
                   );

@@ -78,7 +78,8 @@ LifeLine/
 1. Create a Supabase project.
 2. Open the Supabase SQL Editor.
 3. Paste and run [`supabase/schema.sql`](supabase/schema.sql).
-4. Copy your Supabase project URL, anon key, and service role key.
+4. Go to **Storage** in the Supabase dashboard → click **New bucket** → name it `medical-documents` → set it to **Public** → Create.
+5. Copy your Supabase project URL, anon key, and service role key.
 
 The service role key belongs only in backend/Vercel server environment variables. Never put it in `frontend/.env`.
 

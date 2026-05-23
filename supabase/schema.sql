@@ -223,6 +223,7 @@ create table if not exists public.medical_documents (
   file_url text not null default '',
   file_size integer not null default 0,
   notes text not null default '',
+  tags text[] not null default '{}',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -279,4 +280,8 @@ using (
 grant select, insert, delete on public.medical_documents to authenticated;
 
 -- Storage bucket policy (run separately in Storage settings)
--- Create bucket: medical-documents (public: false)
+-- Create bucket: medical-documents (public: true)
+-- ⚠️  IMPORTANT: Go to Supabase Dashboard → Storage → New bucket
+--    Name: medical-documents
+--    Public: ON
+--    Without this bucket, document uploads will fail with "Bucket not found"

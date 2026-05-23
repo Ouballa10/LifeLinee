@@ -1,8 +1,8 @@
-/* ═══════════════════════════════════════════════════════
-   PROFILE PAGE — LifeLine
-   ═══════════════════════════════════════════════════════ */
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PROFILE PAGE â€” LifeLine
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ─── Profile Card ─── */
+/* â”€â”€â”€ Profile Card â”€â”€â”€ */
 .prof-card {
   padding: 20px;
   border-radius: 18px;
@@ -103,7 +103,7 @@
   font-size: 0.78rem;
 }
 
-/* ─── Medical Badges ─── */
+/* â”€â”€â”€ Medical Badges â”€â”€â”€ */
 .prof-badges {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -168,7 +168,7 @@
   max-width: 100%;
 }
 
-/* ─── Completeness ─── */
+/* â”€â”€â”€ Completeness â”€â”€â”€ */
 .prof-completeness {
   display: flex;
   align-items: center;
@@ -246,7 +246,7 @@
   background: #143d7a;
 }
 
-/* ─── Menu Links ─── */
+/* â”€â”€â”€ Menu Links â”€â”€â”€ */
 .prof-menu-list {
   display: flex;
   flex-direction: column;
@@ -334,7 +334,7 @@
   flex-shrink: 0;
 }
 
-/* ─── Logout Button ─── */
+/* â”€â”€â”€ Logout Button â”€â”€â”€ */
 .prof-logout-btn {
   display: flex;
   align-items: center;
@@ -373,7 +373,7 @@
   color: #d63031;
 }
 
-/* ─── Responsive ─── */
+/* â”€â”€â”€ Responsive â”€â”€â”€ */
 @media (max-width: 380px) {
   .prof-badges {
     grid-template-columns: repeat(2, 1fr);
@@ -395,7 +395,7 @@
 }
 
 
-/* ─── Expandable Panels ─── */
+/* â”€â”€â”€ Expandable Panels â”€â”€â”€ */
 .prof-menu-item.is-active {
   background: #f0f7ff;
   border-color: #b8d4f0;
@@ -467,7 +467,7 @@
 }
 
 
-/* ─── Toggle Switch ─── */
+/* â”€â”€â”€ Toggle Switch â”€â”€â”€ */
 .prof-panel-row-toggle {
   align-items: center;
 }
@@ -505,11 +505,11 @@
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   EDIT PROFILE & MEDICAL FORM — New Theme
-   ═══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   EDIT PROFILE & MEDICAL FORM â€” New Theme
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ─── Tabs ─── */
+/* â”€â”€â”€ Tabs â”€â”€â”€ */
 .edit-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -542,7 +542,7 @@
   color: #1e3a5f;
 }
 
-/* ─── Form ─── */
+/* â”€â”€â”€ Form â”€â”€â”€ */
 .edit-form {
   display: flex;
   flex-direction: column;
@@ -597,7 +597,7 @@
   padding-right: 36px;
 }
 
-/* ─── Submit Button ─── */
+/* â”€â”€â”€ Submit Button â”€â”€â”€ */
 .edit-submit-btn {
   width: 100%;
   padding: 15px 20px;
@@ -624,7 +624,7 @@
   transform: none;
 }
 
-/* ─── Dark Mode ─── */
+/* â”€â”€â”€ Dark Mode â”€â”€â”€ */
 .dark-mode .edit-tabs {
   background: #0d1117;
   border-color: #30363d;
@@ -659,7 +659,7 @@
 }
 
 
-/* ─── Panel Call & Edit Buttons ─── */
+/* â”€â”€â”€ Panel Call & Edit Buttons â”€â”€â”€ */
 .prof-panel-call-btn {
   display: flex;
   align-items: center;
@@ -708,7 +708,7 @@
 }
 
 
-/* ─── Language Selector ─── */
+/* â”€â”€â”€ Language Selector â”€â”€â”€ */
 .prof-panel-row-lang {
   flex-direction: column;
   align-items: flex-start;
@@ -765,7 +765,7 @@
   color: #0d1117;
 }
 
-/* ─── RTL Support (Profile) ─── */
+/* â”€â”€â”€ RTL Support (Profile) â”€â”€â”€ */
 [dir="rtl"] .prof-card {
   direction: rtl;
   text-align: right;
@@ -850,9 +850,9 @@
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   EDIT PROFILE — Enhanced Sections
-   ═══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   EDIT PROFILE â€” Enhanced Sections
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Section Tabs */
 .edit-section-tabs {
@@ -1118,484 +1118,8 @@
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   DOCUMENTS SECTION
-   ═══════════════════════════════════════════════════════ */
 
-/* Toolbar: search + sort */
-.doc-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.doc-search-box {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: #f5f8fc;
-  border: 1px solid #e4eaf0;
-  transition: border-color 150ms ease;
-}
-
-.doc-search-box:focus-within {
-  border-color: #1a5fb4;
-  background: #fff;
-}
-
-.doc-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.8rem;
-  color: #102a4a;
-}
-
-.doc-search-input::placeholder {
-  color: #9bb0c4;
-}
-
-.doc-search-clear {
-  border: none;
-  background: none;
-  color: #6b8299;
-  font-size: 0.8rem;
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-.doc-search-clear:hover {
-  background: #e4eaf0;
-  color: #d63031;
-}
-
-.doc-sort-controls {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.doc-sort-select {
-  padding: 7px 10px;
-  border-radius: 8px;
-  border: 1px solid #e4eaf0;
-  background: #f5f8fc;
-  font-size: 0.72rem;
-  color: #102a4a;
-  cursor: pointer;
-  outline: none;
-}
-
-.doc-sort-select:focus {
-  border-color: #1a5fb4;
-}
-
-.doc-sort-order-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid #e4eaf0;
-  background: #f5f8fc;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #1a5fb4;
-  font-weight: 700;
-  transition: background 150ms ease;
-}
-
-.doc-sort-order-btn:hover {
-  background: #edf4ff;
-}
-
-/* Category Chips */
-.doc-category-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e4eaf0;
-}
-
-.doc-category-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  border-radius: 20px;
-  border: 1px solid #e4eaf0;
-  background: #f5f8fc;
-  font-size: 0.7rem;
-  color: #4a6580;
-  cursor: pointer;
-  transition: all 150ms ease;
-  white-space: nowrap;
-}
-
-.doc-category-chip:hover {
-  border-color: #1a5fb4;
-  background: #edf4ff;
-}
-
-.doc-category-chip.is-active {
-  background: #1a5fb4;
-  border-color: #1a5fb4;
-  color: #ffffff;
-}
-
-.doc-category-chip.is-active .doc-chip-count {
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-}
-
-.doc-chip-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 10px;
-  background: #e4eaf0;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: #4a6580;
-}
-
-/* Upload wrapper */
-.doc-upload-wrapper {
-  margin-bottom: 16px;
-}
-
-.doc-upload-category-select {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.doc-upload-category-select label {
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #4a6580;
-}
-
-.doc-upload-category-select select {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #e4eaf0;
-  background: #f5f8fc;
-  font-size: 0.72rem;
-  color: #102a4a;
-  cursor: pointer;
-  outline: none;
-}
-
-.doc-upload-category-select select:focus {
-  border-color: #1a5fb4;
-}
-
-.doc-upload-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 24px 16px;
-  border-radius: 14px;
-  border: 2px dashed #d0e2f2;
-  background: #f5f9ff;
-  cursor: pointer;
-  text-align: center;
-  transition: border-color 150ms ease, background 150ms ease;
-}
-
-.doc-upload-zone:hover {
-  border-color: #1a5fb4;
-  background: #edf4ff;
-}
-
-.doc-upload-zone strong {
-  color: #1a5fb4;
-  font-size: 0.86rem;
-  font-weight: 700;
-}
-
-.doc-upload-zone span {
-  color: #6b8299;
-  font-size: 0.72rem;
-}
-
-/* Results count */
-.doc-results-count {
-  font-size: 0.72rem;
-  color: #6b8299;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.doc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.doc-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: #f5f8fc;
-  border: 1px solid #e4eaf0;
-  transition: box-shadow 150ms ease, border-color 150ms ease;
-}
-
-.doc-item:hover {
-  border-color: #c8d8e8;
-  box-shadow: 0 2px 8px rgba(26, 95, 180, 0.06);
-}
-
-.doc-item-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.doc-icon-pdf {
-  background: #fdeced;
-}
-
-.doc-icon-img {
-  background: #e4f0fb;
-}
-
-.doc-item-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.doc-item-info strong {
-  display: block;
-  color: #102a4a;
-  font-size: 0.78rem;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.doc-item-info span {
-  display: block;
-  color: #6b8299;
-  font-size: 0.66rem;
-  margin-top: 2px;
-}
-
-.doc-item-category-badge {
-  display: inline-block;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: #e4f0fb;
-  color: #1a5fb4;
-  font-size: 0.6rem;
-  font-weight: 700;
-}
-
-.doc-item-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.doc-view-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: #1a5fb4;
-  color: #ffffff;
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.doc-view-btn:hover {
-  background: #154d94;
-}
-
-.doc-delete-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: none;
-  background: #fdeced;
-  color: #d63031;
-  font-size: 0.8rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.doc-delete-btn:hover {
-  background: #fad4d6;
-}
-
-.doc-empty {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 14px;
-  border-radius: 12px;
-  background: #f5f8fc;
-  border: 1px solid #e4eaf0;
-}
-
-.doc-empty span {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-
-.doc-empty p {
-  margin: 0;
-  color: #6b8299;
-  font-size: 0.76rem;
-  line-height: 1.4;
-}
-
-/* Dark mode */
-.dark-mode .doc-toolbar {
-  border-color: #30363d;
-}
-
-.dark-mode .doc-search-box {
-  background: #1c2128;
-  border-color: #30363d;
-}
-
-.dark-mode .doc-search-box:focus-within {
-  border-color: #58a6ff;
-  background: #0d1117;
-}
-
-.dark-mode .doc-search-input {
-  color: #f0f6fc;
-}
-
-.dark-mode .doc-search-input::placeholder {
-  color: #6b8299;
-}
-
-.dark-mode .doc-sort-select {
-  background: #1c2128;
-  border-color: #30363d;
-  color: #f0f6fc;
-}
-
-.dark-mode .doc-sort-order-btn {
-  background: #1c2128;
-  border-color: #30363d;
-  color: #58a6ff;
-}
-
-.dark-mode .doc-category-chips {
-  border-bottom-color: #30363d;
-}
-
-.dark-mode .doc-category-chip {
-  background: #1c2128;
-  border-color: #30363d;
-  color: #8b949e;
-}
-
-.dark-mode .doc-category-chip:hover {
-  border-color: #58a6ff;
-  background: #1a2d42;
-}
-
-.dark-mode .doc-category-chip.is-active {
-  background: #58a6ff;
-  border-color: #58a6ff;
-  color: #0d1117;
-}
-
-.dark-mode .doc-chip-count {
-  background: #30363d;
-  color: #8b949e;
-}
-
-.dark-mode .doc-upload-category-select label {
-  color: #8b949e;
-}
-
-.dark-mode .doc-upload-category-select select {
-  background: #1c2128;
-  border-color: #30363d;
-  color: #f0f6fc;
-}
-
-.dark-mode .doc-upload-zone {
-  background: #0d1117;
-  border-color: #30363d;
-}
-
-.dark-mode .doc-upload-zone:hover {
-  border-color: #58a6ff;
-  background: #1a2d42;
-}
-
-.dark-mode .doc-upload-zone strong {
-  color: #58a6ff;
-}
-
-.dark-mode .doc-results-count {
-  color: #8b949e;
-}
-
-.dark-mode .doc-item {
-  background: #1c2128;
-  border-color: #30363d;
-}
-
-.dark-mode .doc-item:hover {
-  border-color: #58a6ff;
-  box-shadow: 0 2px 8px rgba(88, 166, 255, 0.08);
-}
-
-.dark-mode .doc-item-info strong {
-  color: #f0f6fc;
-}
-
-.dark-mode .doc-item-category-badge {
-  background: #1a2d42;
-  color: #58a6ff;
-}
-
-.dark-mode .doc-empty {
-  background: #1c2128;
-  border-color: #30363d;
-}
-
-.dark-mode .doc-empty p {
-  color: #8b949e;
-}
+/* Documents section styles moved to doc-section.css */
 
 /* Responsive: 5 tabs */
 @media (max-width: 420px) {
