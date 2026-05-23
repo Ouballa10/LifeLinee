@@ -49,7 +49,7 @@ exports.getMyAccessLogs = async (req, res) => {
 
     const { data, error } = await getSupabaseAdmin()
       .from('emergency_logs')
-      .select('*')
+      .select('id, responder, location, opened_at')
       .eq('qr_token', medicalProfile.qrToken)
       .order('opened_at', { ascending: false })
       .limit(20);

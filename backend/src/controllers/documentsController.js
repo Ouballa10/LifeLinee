@@ -83,7 +83,7 @@ exports.getDocumentStats = async (req, res) => {
   try {
     const { data, error } = await getSupabaseAdmin()
       .from(TABLE)
-      .select('category, file_size')
+      .select('category, file_size', { count: 'exact' })
       .eq('user_profile_id', req.user.id);
 
     if (error) throw new Error(error.message);

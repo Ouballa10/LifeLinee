@@ -98,11 +98,13 @@ export default function EditProfile() {
     if (!isEditingRef.current) setForm(buildForm(user));
   }, [profileIdentity, user]);
 
-  // Load documents
+  // Load documents only when documents tab is active
+  const docsLoadedRef = useRef(false);
   useEffect(() => {
-    if (!token) return;
+    if (!token || activeSection !== "documents" || docsLoadedRef.current) return;
+    docsLoadedRef.current = true;
     loadDocuments();
-  }, [token]);
+  }, [token, activeSection]);
 
   function loadDocuments() {
     apiRequest("/documents", { token })

@@ -28,11 +28,21 @@ export default function Scanner() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [accessLogs, setAccessLogs] = useState([]);
 
-  // Fetch who scanned MY QR
+  // Fetch who scanned MY QR (use session cache)
   useEffect(() => {
     if (!isAuthenticated || !token) return;
+    const cacheKey = "lifeline.accessLogs";
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      try { setAccessLogs(JSON.parse(cached)); } catch {}
+    }
     apiRequest("/qr/access-logs", { token })
-      .then((data) => { if (data?.logs) setAccessLogs(data.logs); })
+      .then((data) => {
+        if (data?.logs) {
+          setAccessLogs(data.logs);
+          sessionStorage.setItem(cacheKey, JSON.stringify(data.logs));
+        }
+      })
       .catch(() => {});
   }, [isAuthenticated, token]);
 

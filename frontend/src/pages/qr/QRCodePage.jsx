@@ -61,7 +61,7 @@ export default function QRCodePage() {
     }
     loadQRCode();
     return () => { cancelled = true; };
-  }, [token, user]);
+  }, [token, user?.qrToken]);
 
   async function handleShare() {
     if (!qrData?.shareUrl) return;

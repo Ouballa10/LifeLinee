@@ -25,11 +25,21 @@ export default function Dashboard() {
     return () => { document.removeEventListener("mousedown", handleClick); document.removeEventListener("touchstart", handleClick); };
   }, [isMenuOpen]);
 
-  // Fetch access logs
+  // Fetch access logs (with simple cache to avoid refetch on quick navigation)
   useEffect(() => {
     if (!token) return;
+    const cacheKey = "lifeline.accessLogs";
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      try { setAccessLogs(JSON.parse(cached)); } catch {}
+    }
     apiRequest("/qr/access-logs", { token })
-      .then((data) => { if (data?.logs) setAccessLogs(data.logs); })
+      .then((data) => {
+        if (data?.logs) {
+          setAccessLogs(data.logs);
+          sessionStorage.setItem(cacheKey, JSON.stringify(data.logs));
+        }
+      })
       .catch(() => {});
   }, [token]);
 

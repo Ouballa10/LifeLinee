@@ -34,15 +34,19 @@ export default function Emergency() {
       .then((data) => {
         if (!cancelled) {
           setPreview(data.profile);
-          // Log this access
-          fetch(`/api/emergency/${encodeURIComponent(token)}/log`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              responder: "anonymous",
-              location: typeof window !== "undefined" ? window.location.origin : "",
-            }),
-          }).catch(() => {});
+          // Log this access (deduplicate: max once per token per session)
+          const logKey = `lifeline.emergencyLogged.${token}`;
+          if (!sessionStorage.getItem(logKey)) {
+            sessionStorage.setItem(logKey, "1");
+            fetch(`/api/emergency/${encodeURIComponent(token)}/log`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                responder: "anonymous",
+                location: typeof window !== "undefined" ? window.location.origin : "",
+              }),
+            }).catch(() => {});
+          }
         }
       })
       .catch((nextError) => {

@@ -320,7 +320,7 @@ export function AuthProvider({ children }) {
       refreshProfile,
       logout,
     }),
-    [isLoading, storedSession]
+    [isLoading, storedSession?.token, storedSession?.user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
