@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="470" viewBox="0 0 950 470">
+<rect width="100%" height="100%" fill="#F8FAFC"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0F172A"/></marker></defs>
+<text x="45" y="48" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#0F172A">Architecture generale LifeLine</text>
+<rect x="45" y="100" width="230" height="110" rx="18" fill="#DBEAFE" stroke="#94A3B8" stroke-width="2"/>
+<text x="67" y="145" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Utilisateur mobile</text>
+<text x="67" y="176" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#334155">React + Vite + PWA</text>
+<rect x="360" y="100" width="230" height="110" rx="18" fill="#DCFCE7" stroke="#94A3B8" stroke-width="2"/>
+<text x="382" y="145" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0F172A">API Backend</text>
+<text x="382" y="176" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#334155">Node.js + Express</text>
+<rect x="675" y="100" width="230" height="110" rx="18" fill="#FEF3C7" stroke="#94A3B8" stroke-width="2"/>
+<text x="697" y="145" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Services externes</text>
+<text x="697" y="176" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#334155">Firebase Auth</text>
+<rect x="360" y="300" width="230" height="110" rx="18" fill="#FCE7F3" stroke="#94A3B8" stroke-width="2"/>
+<text x="382" y="345" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Base de donnees</text>
+<text x="382" y="376" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#334155">Supabase PostgreSQL</text>
+<line x1="275" y1="155" x2="360" y2="155" stroke="#0F172A" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="285" y="145" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#334155">HTTP/JSON</text>
+<line x1="590" y1="155" x2="675" y2="155" stroke="#0F172A" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="600" y="145" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#334155">Token</text>
+<line x1="475" y1="210" x2="475" y2="300" stroke="#0F172A" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="485" y="200" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#334155">CRUD</text>
+</svg>

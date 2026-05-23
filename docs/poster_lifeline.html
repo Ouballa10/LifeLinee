@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster PFE - LifeLine</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        .poster {
+            width: 841mm;
+            height: 1189mm;
+            padding: 40mm;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative elements */
+        .poster::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 18mm;
+            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
+        }
+
+        .poster::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 18mm;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa);
+        }
+
+        .corner-decoration {
+            position: absolute;
+            width: 120mm;
+            height: 120mm;
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+
+        .corner-top-right {
+            top: -40mm;
+            right: -40mm;
+            background: #dc2626;
+        }
+
+        .corner-bottom-left {
+            bottom: -40mm;
+            left: -40mm;
+            background: #1e40af;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 20mm;
+            padding-bottom: 15mm;
+            border-bottom: 1.5px solid #e2e8f0;
+            position: relative;
+        }
+
+        .university-info {
+            font-size: 14pt;
+            color: #64748b;
+            margin-bottom: 8mm;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .project-title {
+            font-size: 52pt;
+            font-weight: 900;
+            color: #dc2626;
+            margin-bottom: 6mm;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .project-subtitle {
+            font-size: 22pt;
+            color: #475569;
+            font-weight: 400;
+            margin-bottom: 10mm;
+        }
+
+        .author-info {
+            font-size: 16pt;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .author-info span {
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        /* Grid Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12mm;
+            margin-top: 10mm;
+        }
+
+        .section {
+            background: #ffffff;
+            border-radius: 8mm;
+            padding: 14mm;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4mm;
+            border-radius: 8mm 8mm 0 0;
+        }
+
+        .section-red::before { background: linear-gradient(90deg, #dc2626, #ef4444); }
+        .section-blue::before { background: linear-gradient(90deg, #1e40af, #3b82f6); }
+        .section-green::before { background: linear-gradient(90deg, #059669, #10b981); }
+        .section-purple::before { background: linear-gradient(90deg, #7c3aed, #8b5cf6); }
+        .section-orange::before { background: linear-gradient(90deg, #ea580c, #f97316); }
+        .section-teal::before { background: linear-gradient(90deg, #0d9488, #14b8a6); }
+
+        .section-title {
+            font-size: 20pt;
+            font-weight: 700;
+            margin-bottom: 8mm;
+            margin-top: 4mm;
+            display: flex;
+            align-items: center;
+            gap: 4mm;
+        }
+
+        .section-title .icon {
+            width: 12mm;
+            height: 12mm;
+            border-radius: 3mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18pt;
+        }
+
+        .icon-red { background: #fef2f2; color: #dc2626; }
+        .icon-blue { background: #eff6ff; color: #1e40af; }
+        .icon-green { background: #ecfdf5; color: #059669; }
+        .icon-purple { background: #f5f3ff; color: #7c3aed; }
+        .icon-orange { background: #fff7ed; color: #ea580c; }
+        .icon-teal { background: #f0fdfa; color: #0d9488; }
+
+        .section-content {
+            font-size: 13pt;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .section-content p {
+            margin-bottom: 4mm;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section-content ul li {
+            padding: 2.5mm 0;
+            padding-left: 8mm;
+            position: relative;
+            font-size: 12.5pt;
+        }
+
+        .section-content ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        /* Full width sections */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .two-cols {
+            grid-column: span 2;
+        }
+
+        /* Architecture diagram */
+        .architecture-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8mm;
+            padding: 10mm 0;
+            flex-wrap: wrap;
+        }
+
+        .arch-box {
+            padding: 8mm 12mm;
+            border-radius: 5mm;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13pt;
+            min-width: 60mm;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .arch-frontend { background: #dbeafe; color: #1e40af; border: 2px solid #93c5fd; }
+        .arch-backend { background: #dcfce7; color: #166534; border: 2px solid #86efac; }
+        .arch-db { background: #fef3c7; color: #92400e; border: 2px solid #fcd34d; }
+        .arch-auth { background: #fee2e2; color: #991b1b; border: 2px solid #fca5a5; }
+        .arch-pwa { background: #f3e8ff; color: #6b21a8; border: 2px solid #c4b5fd; }
+
+        .arch-arrow {
+            font-size: 24pt;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        /* Tech stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5mm;
+        }
+
+        .tech-item {
+            background: #f8fafc;
+            padding: 5mm 7mm;
+            border-radius: 3mm;
+            border: 1px solid #e2e8f0;
+            font-size: 12pt;
+        }
+
+        .tech-item strong {
+            color: #1e293b;
+            display: block;
+            margin-bottom: 1mm;
+        }
+
+        .tech-item span {
+            color: #64748b;
+            font-size: 11pt;
+        }
+
+        /* Features list */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4mm;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 3mm;
+            padding: 4mm;
+            background: #f8fafc;
+            border-radius: 3mm;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .feature-item .feat-icon {
+            font-size: 14pt;
+            flex-shrink: 0;
+        }
+
+        .feature-item .feat-text {
+            font-size: 11.5pt;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        /* Security badges */
+        .security-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4mm;
+        }
+
+        .badge {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 4mm 7mm;
+            border-radius: 20mm;
+            font-size: 11.5pt;
+            color: #166534;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 2mm;
+        }
+
+        .badge::before {
+            content: '🛡️';
+            font-size: 12pt;
+        }
+
+        /* QR Flow */
+        .qr-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 8mm 0;
+        }
+
+        .qr-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .qr-step-icon {
+            font-size: 32pt;
+            margin-bottom: 4mm;
+        }
+
+        .qr-step-text {
+            font-size: 12pt;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .qr-step-arrow {
+            font-size: 24pt;
+            color: #cbd5e1;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 25mm;
+            left: 40mm;
+            right: 40mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8mm;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-left {
+            font-size: 12pt;
+            color: #64748b;
+        }
+
+        .footer-right {
+            font-size: 12pt;
+            color: #64748b;
+            text-align: right;
+        }
+
+        .keywords {
+            margin-top: 4mm;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3mm;
+        }
+
+        .keyword {
+            background: #f1f5f9;
+            padding: 2mm 5mm;
+            border-radius: 2mm;
+            font-size: 10.5pt;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Print styles */
+        @media print {
+            body { margin: 0; }
+            .poster { 
+                width: 100%;
+                height: 100%;
+                padding: 30mm;
+            }
+        }
+
+        @page {
+            size: A0 portrait;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="corner-decoration corner-top-right"></div>
+        <div class="corner-decoration corner-bottom-left"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="university-info">Projet de Fin d'Études — Année Universitaire 2025-2026</div>
+            <div class="project-title">LifeLine</div>
+            <div class="project-subtitle">Application Web Médicale d'Urgence basée sur QR Code</div>
+            <div class="author-info">
+                Réalisé par : <strong>Abdelmounaim Ouballa</strong> &nbsp;|&nbsp; 
+                <span>Encadré par : Pr. LAFHAM Mohamed</span>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+
+            <!-- Problématique -->
+            <div class="section section-red">
+                <div class="section-title">
+                    <div class="icon icon-red">⚠️</div>
+                    Problématique
+                </div>
+                <div class="section-content">
+                    <p>Lors d'une urgence médicale, une personne peut être inconsciente ou incapable de communiquer ses informations médicales critiques.</p>
+                    <p><strong>Comment permettre un accès rapide, simple et sécurisé aux informations médicales essentielles d'une personne en cas d'urgence ?</strong></p>
+                </div>
+            </div>
+
+            <!-- Solution -->
+            <div class="section section-blue">
+                <div class="section-title">
+                    <div class="icon icon-blue">💡</div>
+                    Solution Proposée
+                </div>
+                <div class="section-content">
+                    <p>LifeLine est une application web mobile-first qui permet à l'utilisateur de :</p>
+                    <ul>
+                        <li>Enregistrer ses informations médicales essentielles</li>
+                        <li>Générer un QR code personnel unique</li>
+                        <li>Rendre ces données accessibles aux secouristes via un simple scan</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Fonctionnalités -->
+            <div class="section section-green">
+                <div class="section-title">
+                    <div class="icon icon-green">✨</div>
+                    Fonctionnalités Clés
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>Authentification sécurisée (Email + Google)</li>
+                        <li>Profil médical complet et modifiable</li>
+                        <li>Génération de QR code stable et unique</li>
+                        <li>Scanner QR (caméra + import image)</li>
+                        <li>Fiche d'urgence publique accessible sans compte</li>
+                        <li>Appel direct du contact d'urgence</li>
+                        <li>Mode hors ligne (PWA)</li>
+                        <li>Interface responsive mobile-first</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Architecture - Full Width -->
+            <div class="section section-purple full-width">
+                <div class="section-title">
+                    <div class="icon icon-purple">🏗️</div>
+                    Architecture du Système
+                </div>
+                <div class="architecture-diagram">
+                    <div class="arch-box arch-pwa">
+                        📱<br>PWA<br><small>Service Worker + Offline</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box arch-frontend">
+                        🖥️<br>Frontend<br><small>React + Vite</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box arch-backend">
+                        ⚙️<br>Backend API<br><small>Express.js</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box arch-db">
+                        🗄️<br>Base de Données<br><small>Supabase / PostgreSQL</small>
+                    </div>
+                    <div class="arch-arrow" style="margin-left: 15mm;">↗</div>
+                    <div class="arch-box arch-auth">
+                        🔐<br>Authentification<br><small>Firebase Auth</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technologies -->
+            <div class="section section-orange">
+                <div class="section-title">
+                    <div class="icon icon-orange">🛠️</div>
+                    Technologies
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <strong>React 18</strong>
+                        <span>Interface utilisateur</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Vite 5</strong>
+                        <span>Build & Dev Server</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Express.js</strong>
+                        <span>API REST</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Supabase</strong>
+                        <span>BDD PostgreSQL</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Firebase</strong>
+                        <span>Authentification</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Vercel</strong>
+                        <span>Déploiement</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>qrcode</strong>
+                        <span>Génération QR</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>qr-scanner</strong>
+                        <span>Lecture QR</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flux QR Code -->
+            <div class="section section-teal two-cols">
+                <div class="section-title">
+                    <div class="icon icon-teal">📲</div>
+                    Flux d'Utilisation du QR Code
+                </div>
+                <div class="qr-flow">
+                    <div class="qr-step">
+                        <div class="qr-step-icon">👤</div>
+                        <div class="qr-step-text">L'utilisateur<br>remplit son profil<br>médical</div>
+                    </div>
+                    <div class="qr-step-arrow">➜</div>
+                    <div class="qr-step">
+                        <div class="qr-step-icon">📱</div>
+                        <div class="qr-step-text">Un QR code<br>unique est<br>généré</div>
+                    </div>
+                    <div class="qr-step-arrow">➜</div>
+                    <div class="qr-step">
+                        <div class="qr-step-icon">🔍</div>
+                        <div class="qr-step-text">Le secouriste<br>scanne le<br>QR code</div>
+                    </div>
+                    <div class="qr-step-arrow">➜</div>
+                    <div class="qr-step">
+                        <div class="qr-step-icon">🏥</div>
+                        <div class="qr-step-text">La fiche<br>médicale<br>s'affiche</div>
+                    </div>
+                    <div class="qr-step-arrow">➜</div>
+                    <div class="qr-step">
+                        <div class="qr-step-icon">📞</div>
+                        <div class="qr-step-text">Appel du<br>contact<br>d'urgence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Base de données -->
+            <div class="section section-blue">
+                <div class="section-title">
+                    <div class="icon icon-blue">🗄️</div>
+                    Base de Données
+                </div>
+                <div class="section-content">
+                    <p><strong>Tables principales :</strong></p>
+                    <ul>
+                        <li><strong>user_profiles</strong> — Données personnelles</li>
+                        <li><strong>medical_profiles</strong> — Données médicales + QR token</li>
+                        <li><strong>emergency_logs</strong> — Historique des accès</li>
+                    </ul>
+                    <p style="margin-top: 4mm;"><strong>Vue publique :</strong></p>
+                    <ul>
+                        <li><strong>public_emergency_profiles</strong> — Données limitées pour les secouristes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sécurité -->
+            <div class="section section-green two-cols">
+                <div class="section-title">
+                    <div class="icon icon-green">🔒</div>
+                    Sécurité
+                </div>
+                <div class="security-badges">
+                    <div class="badge">Firebase ID Token Verification</div>
+                    <div class="badge">Row Level Security (RLS)</div>
+                    <div class="badge">Séparation données privées / publiques</div>
+                    <div class="badge">Token QR aléatoire (pas d'ID exposé)</div>
+                    <div class="badge">Service Role Key côté serveur uniquement</div>
+                    <div class="badge">CORS configuré</div>
+                </div>
+            </div>
+
+            <!-- Résultats -->
+            <div class="section section-red">
+                <div class="section-title">
+                    <div class="icon icon-red">📊</div>
+                    Résultats
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>Application fonctionnelle et déployée</li>
+                        <li>Accès à la fiche médicale en &lt; 3 secondes</li>
+                        <li>Compatible tous smartphones modernes</li>
+                        <li>Fonctionne en mode hors ligne</li>
+                        <li>Interface intuitive et accessible</li>
+                        <li>Données médicales protégées par RLS</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Perspectives -->
+            <div class="section section-purple">
+                <div class="section-title">
+                    <div class="icon icon-purple">🚀</div>
+                    Perspectives
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>Notifications aux contacts d'urgence</li>
+                        <li>Géolocalisation lors du scan</li>
+                        <li>Export PDF de la fiche médicale</li>
+                        <li>Application mobile native (React Native)</li>
+                        <li>Espace administrateur</li>
+                        <li>Mode multilingue (FR / AR / EN)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="section section-teal">
+                <div class="section-title">
+                    <div class="icon icon-teal">✅</div>
+                    Conclusion
+                </div>
+                <div class="section-content">
+                    <p>LifeLine répond à un besoin réel en rendant les informations médicales essentielles accessibles rapidement via un QR code unique.</p>
+                    <p>L'architecture moderne (React, Express, Supabase, Firebase) assure performance, sécurité et maintenabilité.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                <strong>LifeLine</strong> — Projet de Fin d'Études 2025-2026
+                <div class="keywords">
+                    <span class="keyword">Urgence médicale</span>
+                    <span class="keyword">QR Code</span>
+                    <span class="keyword">React</span>
+                    <span class="keyword">Express.js</span>
+                    <span class="keyword">Firebase</span>
+                    <span class="keyword">Supabase</span>
+                    <span class="keyword">PostgreSQL</span>
+                    <span class="keyword">PWA</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <strong>Abdelmounaim Ouballa</strong><br>
+                Encadré par Pr. LAFHAM Mohamed
+            </div>
+        </div>
+    </div>
+</body>
+</html>

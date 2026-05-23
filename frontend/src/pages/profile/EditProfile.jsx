@@ -42,6 +42,17 @@ function buildForm(user) {
   };
 }
 
+const DOC_CATEGORIES = [
+  { id: "all", label: "Tous", icon: "📁" },
+  { id: "ordonnance", label: "Ordonnances", icon: "💊" },
+  { id: "analyse", label: "Analyses", icon: "🔬" },
+  { id: "radio", label: "Radios", icon: "🩻" },
+  { id: "certificat", label: "Certificats", icon: "📜" },
+  { id: "compte_rendu", label: "Comptes rendus", icon: "📝" },
+  { id: "vaccination", label: "Vaccinations", icon: "💉" },
+  { id: "other", label: "Autres", icon: "📎" },
+];
+
 export default function EditProfile() {
   const navigate = useNavigate();
   const { user, token, updateProfile } = useAuth();
@@ -53,6 +64,11 @@ export default function EditProfile() {
   const [activeSection, setActiveSection] = useState("personal");
   const [documents, setDocuments] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [docSearch, setDocSearch] = useState("");
+  const [docCategory, setDocCategory] = useState("all");
+  const [docSortBy, setDocSortBy] = useState("date");
+  const [docSortOrder, setDocSortOrder] = useState("desc");
+  const [uploadCategory, setUploadCategory] = useState("ordonnance");
   const activeProfileRef = useRef("");
   const isEditingRef = useRef(false);
   const profileIdentity = `${user?.authProvider || ""}:${user?.id || user?.email || ""}`;
@@ -97,8 +113,6 @@ export default function EditProfile() {
         reader.readAsDataURL(file);
       });
 
-      const category = file.type.startsWith("image/") ? "radio" : "ordonnance";
-
       await apiRequest("/documents/upload", {
         method: "POST",
         token,
@@ -106,7 +120,7 @@ export default function EditProfile() {
           fileName: file.name,
           fileType: file.type,
           fileBase64: base64,
-          category,
+          category: uploadCategory,
           notes: "",
         },
       });
@@ -292,50 +306,171 @@ export default function EditProfile() {
                   </div>
                 </div>
 
-                {/* Upload */}
-                <label className="doc-upload-zone" htmlFor="doc-file-input">
-                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="17 8 12 3 7 8" />
-                    <line x1="12" y1="3" x2="12" y2="15" />
-                  </svg>
-                  <strong>{isUploading ? "Upload en cours..." : "Ajouter un document"}</strong>
-                  <span>PDF, JPEG, PNG — Max 10MB</span>
-                </label>
-                <input
-                  id="doc-file-input"
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png,.webp"
-                  onChange={handleFileUpload}
-                  disabled={isUploading}
-                  style={{ display: "none" }}
-                />
+                {/* Search & Sort Bar */}
+                <div className="doc-toolbar">
+                  <div className="doc-search-box">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6b8299" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input
+                      type="text"
+                      className="doc-search-input"
+                      placeholder="Rechercher un document..."
+                      value={docSearch}
+                      onChange={(e) => setDocSearch(e.target.value)}
+                    />
+                    {docSearch && (
+                      <button type="button" className="doc-search-clear" onClick={() => setDocSearch("")}>✕</button>
+                    )}
+                  </div>
+                  <div className="doc-sort-controls">
+                    <select className="doc-sort-select" value={docSortBy} onChange={(e) => setDocSortBy(e.target.value)}>
+                      <option value="date">Date</option>
+                      <option value="name">Nom</option>
+                      <option value="size">Taille</option>
+                    </select>
+                    <button
+                      type="button"
+                      className="doc-sort-order-btn"
+                      onClick={() => setDocSortOrder((o) => o === "desc" ? "asc" : "desc")}
+                      title={docSortOrder === "desc" ? "Plus récent d'abord" : "Plus ancien d'abord"}
+                    >
+                      {docSortOrder === "desc" ? "↓" : "↑"}
+                    </button>
+                  </div>
+                </div>
 
-                {/* Documents list */}
-                {documents.length > 0 ? (
-                  <div className="doc-list">
-                    {documents.map((doc) => (
-                      <div key={doc.id} className="doc-item">
-                        <span className={`doc-item-icon doc-icon-${doc.file_type?.includes("pdf") ? "pdf" : "img"}`}>
-                          {doc.file_type?.includes("pdf") ? "📋" : "🖼️"}
-                        </span>
-                        <div className="doc-item-info">
-                          <strong>{doc.file_name}</strong>
-                          <span>{doc.category} • {(doc.file_size / 1024).toFixed(0)} KB</span>
-                        </div>
-                        <div className="doc-item-actions">
-                          <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-view-btn">Voir</a>
-                          <button type="button" className="doc-delete-btn" onClick={() => handleDeleteDoc(doc.id)}>✕</button>
-                        </div>
-                      </div>
-                    ))}
+                {/* Category Filter Chips */}
+                <div className="doc-category-chips">
+                  {DOC_CATEGORIES.map((cat) => {
+                    const count = cat.id === "all"
+                      ? documents.length
+                      : documents.filter((d) => d.category === cat.id).length;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        className={`doc-category-chip ${docCategory === cat.id ? "is-active" : ""}`}
+                        onClick={() => setDocCategory(cat.id)}
+                      >
+                        <span>{cat.icon}</span>
+                        <span>{cat.label}</span>
+                        <span className="doc-chip-count">{count}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Upload Zone with Category Selector */}
+                <div className="doc-upload-wrapper">
+                  <div className="doc-upload-category-select">
+                    <label>Catégorie :</label>
+                    <select value={uploadCategory} onChange={(e) => setUploadCategory(e.target.value)}>
+                      {DOC_CATEGORIES.filter((c) => c.id !== "all").map((c) => (
+                        <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                      ))}
+                    </select>
                   </div>
-                ) : (
-                  <div className="doc-empty">
-                    <span>📂</span>
-                    <p>Aucun document. Ajoutez vos ordonnances, analyses ou radios.</p>
-                  </div>
-                )}
+                  <label className="doc-upload-zone" htmlFor="doc-file-input">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <strong>{isUploading ? "Upload en cours..." : "Ajouter un document"}</strong>
+                    <span>PDF, JPEG, PNG — Max 10MB</span>
+                  </label>
+                  <input
+                    id="doc-file-input"
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png,.webp"
+                    onChange={handleFileUpload}
+                    disabled={isUploading}
+                    style={{ display: "none" }}
+                  />
+                </div>
+
+                {/* Documents list filtered & sorted */}
+                {(() => {
+                  let filtered = [...documents];
+
+                  // Filter by category
+                  if (docCategory !== "all") {
+                    filtered = filtered.filter((d) => d.category === docCategory);
+                  }
+
+                  // Filter by search
+                  if (docSearch.trim()) {
+                    const term = docSearch.toLowerCase();
+                    filtered = filtered.filter((d) =>
+                      d.file_name?.toLowerCase().includes(term) ||
+                      d.notes?.toLowerCase().includes(term) ||
+                      d.category?.toLowerCase().includes(term)
+                    );
+                  }
+
+                  // Sort
+                  filtered.sort((a, b) => {
+                    let cmp = 0;
+                    if (docSortBy === "name") {
+                      cmp = (a.file_name || "").localeCompare(b.file_name || "");
+                    } else if (docSortBy === "size") {
+                      cmp = (a.file_size || 0) - (b.file_size || 0);
+                    } else {
+                      cmp = new Date(a.created_at || 0) - new Date(b.created_at || 0);
+                    }
+                    return docSortOrder === "desc" ? -cmp : cmp;
+                  });
+
+                  if (filtered.length > 0) {
+                    return (
+                      <>
+                        <div className="doc-results-count">
+                          {filtered.length} document{filtered.length > 1 ? "s" : ""} trouvé{filtered.length > 1 ? "s" : ""}
+                        </div>
+                        <div className="doc-list">
+                          {filtered.map((doc) => {
+                            const catInfo = DOC_CATEGORIES.find((c) => c.id === doc.category) || DOC_CATEGORIES[DOC_CATEGORIES.length - 1];
+                            return (
+                              <div key={doc.id} className="doc-item">
+                                <span className={`doc-item-icon doc-icon-${doc.file_type?.includes("pdf") ? "pdf" : "img"}`}>
+                                  {catInfo.icon}
+                                </span>
+                                <div className="doc-item-info">
+                                  <strong>{doc.file_name}</strong>
+                                  <span>
+                                    <span className="doc-item-category-badge">{catInfo.label}</span>
+                                    {" • "}
+                                    {(doc.file_size / 1024).toFixed(0)} KB
+                                    {doc.created_at && (" • " + new Date(doc.created_at).toLocaleDateString("fr-FR"))}
+                                  </span>
+                                </div>
+                                <div className="doc-item-actions">
+                                  <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-view-btn" title="Voir">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                  </a>
+                                  <button type="button" className="doc-delete-btn" onClick={() => handleDeleteDoc(doc.id)} title="Supprimer">✕</button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    );
+                  }
+
+                  return (
+                    <div className="doc-empty">
+                      <span>📂</span>
+                      <p>
+                        {docSearch || docCategory !== "all"
+                          ? "Aucun document trouvé pour cette recherche."
+                          : "Aucun document. Ajoutez vos ordonnances, analyses ou radios."}
+                      </p>
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

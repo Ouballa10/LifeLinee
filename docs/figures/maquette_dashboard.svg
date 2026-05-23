@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="410" height="570" viewBox="0 0 410 570">
+<rect width="100%" height="100%" fill="#F8FAFC"/>
+<rect x="80" y="25" width="250" height="520" rx="34" fill="#111827" stroke="#111827" stroke-width="2"/>
+<rect x="98" y="52" width="214" height="466" rx="24" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+<circle cx="205" cy="39" r="5" fill="#374151"/>
+<rect x="116" y="75" width="178" height="92" rx="18" fill="#0F766E" stroke="#0F766E" stroke-width="2"/>
+<text x="132" y="110" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF">LifeLine</text>
+<text x="132" y="138" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#E0F2FE">Tableau de bord</text>
+<rect x="116" y="190" width="178" height="58" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+<text x="132" y="214" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#475569">Dossier medical</text>
+<text x="132" y="235" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#111827">Complet a 86%</text>
+<rect x="116" y="266" width="178" height="58" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+<text x="132" y="290" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#475569">Groupe sanguin</text>
+<text x="132" y="311" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#111827">O+</text>
+<rect x="116" y="342" width="178" height="58" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+<text x="132" y="366" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#475569">Actions</text>
+<text x="132" y="387" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#111827">QR, profil, scanner</text>
+<rect x="116" y="418" width="178" height="58" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+<text x="132" y="442" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#475569">Etat</text>
+<text x="132" y="463" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#111827">Compte actif</text>
+<rect x="140" y="474" width="130" height="12" rx="8" fill="#E5E7EB" stroke="#E5E7EB" stroke-width="2"/>
+</svg>

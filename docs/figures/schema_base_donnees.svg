@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="410" viewBox="0 0 920 410">
+<rect width="100%" height="100%" fill="#F8FAFC"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0F172A"/></marker></defs>
+<text x="45" y="45" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#172033">Schema conceptuel de la base de donnees</text>
+<rect x="55" y="95" width="220" height="250" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<rect x="55" y="95" width="220" height="42" rx="12" fill="#0F766E" stroke="#0F766E" stroke-width="2"/>
+<text x="73" y="123" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">user_profiles</text>
+<text x="73" y="165" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">id</text>
+<text x="73" y="193" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">firebase_uid</text>
+<text x="73" y="221" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">full_name</text>
+<text x="73" y="249" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">email</text>
+<text x="73" y="277" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">phone</text>
+<text x="73" y="305" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">city</text>
+<rect x="350" y="95" width="220" height="250" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<rect x="350" y="95" width="220" height="42" rx="12" fill="#0F766E" stroke="#0F766E" stroke-width="2"/>
+<text x="368" y="123" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">medical_profiles</text>
+<text x="368" y="165" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">id</text>
+<text x="368" y="193" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">user_profile_id</text>
+<text x="368" y="221" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">blood_type</text>
+<text x="368" y="249" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">allergies</text>
+<text x="368" y="277" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">medications</text>
+<text x="368" y="305" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">qr_token</text>
+<rect x="645" y="95" width="220" height="250" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<rect x="645" y="95" width="220" height="42" rx="12" fill="#0F766E" stroke="#0F766E" stroke-width="2"/>
+<text x="663" y="123" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">emergency_logs</text>
+<text x="663" y="165" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">id</text>
+<text x="663" y="193" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">qr_token</text>
+<text x="663" y="221" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">responder</text>
+<text x="663" y="249" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">location</text>
+<text x="663" y="277" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#334155">opened_at</text>
+<line x1="275" y1="220" x2="350" y2="220" stroke="#0F172A" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="285" y="205" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#172033">1 - 1</text>
+<line x1="570" y1="260" x2="645" y2="260" stroke="#0F172A" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="586" y="245" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#172033">qr_token</text>
+</svg>
