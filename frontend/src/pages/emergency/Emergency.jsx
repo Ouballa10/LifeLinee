@@ -119,37 +119,33 @@ export default function Emergency() {
               </span>
             </div>
 
-            {visibility === "full" && (
-              <>
-                <div className="emer-vital-row">
-                  <span className="emer-vital-icon">💜</span>
-                  <span className="emer-vital-label">Maladies chroniques</span>
-                  <span className={`emer-vital-value ${!formatList(profile.chronicDiseases) ? "emer-vital-value-muted" : ""}`}>
-                    {formatList(profile.chronicDiseases) || "Aucune connue"}
-                  </span>
-                </div>
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">💜</span>
+              <span className="emer-vital-label">Maladies chroniques</span>
+              <span className={`emer-vital-value ${!formatList(profile.chronicDiseases) ? "emer-vital-value-muted" : ""}`}>
+                {formatList(profile.chronicDiseases) || "Aucune connue"}
+              </span>
+            </div>
 
-                <div className="emer-vital-row">
-                  <span className="emer-vital-icon">💊</span>
-                  <span className="emer-vital-label">Médicaments en cours</span>
-                  <span className={`emer-vital-value ${!formatList(profile.medications) ? "emer-vital-value-muted" : ""}`}>
-                    {formatList(profile.medications) || "Aucun"}
-                  </span>
-                </div>
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">💊</span>
+              <span className="emer-vital-label">Médicaments en cours</span>
+              <span className={`emer-vital-value ${!formatList(profile.medications) ? "emer-vital-value-muted" : ""}`}>
+                {formatList(profile.medications) || "Aucun"}
+              </span>
+            </div>
 
-                {(profile.weight || profile.height) && (
-                  <div className="emer-vital-row">
-                    <span className="emer-vital-icon">📏</span>
-                    <span className="emer-vital-label">Poids / Taille</span>
-                    <span className="emer-vital-value">
-                      {[profile.weight && `${profile.weight} kg`, profile.height && `${profile.height} cm`].filter(Boolean).join(" / ")}
-                    </span>
-                  </div>
-                )}
-              </>
+            {(profile.weight || profile.height) && (
+              <div className="emer-vital-row">
+                <span className="emer-vital-icon">📏</span>
+                <span className="emer-vital-label">Poids / Taille</span>
+                <span className="emer-vital-value">
+                  {[profile.weight && `${profile.weight} kg`, profile.height && `${profile.height} cm`].filter(Boolean).join(" / ")}
+                </span>
+              </div>
             )}
 
-            {(visibility === "full" || visibility === "contact") && profile.criticalInstructions && (
+            {profile.criticalInstructions && (
               <div className="emer-vital-row emer-vital-row-alert">
                 <span className="emer-vital-icon">🚨</span>
                 <span className="emer-vital-label">Consignes critiques</span>
@@ -179,7 +175,7 @@ export default function Emergency() {
           )}
 
           {/* ═══ AUTRES CONTACTS ═══ */}
-          {visibility === "full" && (doctorPhone || profile.doctorName) && (
+          {(doctorPhone || profile.doctorName) && (
             <div className="emer-section">
               <div className="emer-section-title">
                 <span className="emer-section-title-icon">👥</span>
