@@ -43,10 +43,10 @@ export default function Emergency() {
 
   if (loading) {
     return (
-      <main className="emer-page">
-        <div className="emer-loader">
-          <div className="emer-loader-ring" />
-          <p>Chargement...</p>
+      <main className="emer-screen">
+        <div className="emer-loading">
+          <div className="emer-loading-pulse" />
+          <p>Chargement de la fiche d'urgence...</p>
         </div>
       </main>
     );
@@ -54,122 +54,176 @@ export default function Emergency() {
 
   if (error) {
     return (
-      <main className="emer-page">
-        <div className="emer-wrap">
-          <div className="emer-top">
-            <span className="emer-top-cross">+</span>
-            <h1>Fiche introuvable</h1>
+      <main className="emer-screen">
+        <div className="emer-card">
+          <div className="emer-header">
+            <div className="emer-header-cross">✚</div>
+            <div className="emer-header-text">
+              <h1>Fiche introuvable</h1>
+              <p>INFORMATIONS D'URGENCE</p>
+            </div>
           </div>
-          <div className="emer-content">
-            <p style={{ textAlign: "center", padding: 24, color: "#666" }}>{error}</p>
-            <Link to="/" className="emer-btn-return">Retour à l'application</Link>
+          <div className="emer-body">
+            <div className="emer-section">
+              <p style={{ textAlign: "center", padding: "20px", color: "#666" }}>{error}</p>
+            </div>
           </div>
         </div>
       </main>
     );
   }
 
-  const p = data?.profile || {};
-  const contactPhone = p.emergencyContact?.phone || "";
-  const contactName = p.emergencyContact?.name || "";
-  const doctorPhone = p.doctorPhone || "";
+  const profile = data?.profile || {};
+  const visibility = data?.visibility || "full";
+  const contactPhone = profile.emergencyContact?.phone || "";
+  const contactName = profile.emergencyContact?.name || "";
+  const doctorPhone = profile.doctorPhone || "";
+  const now = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 
   return (
-    <main className="emer-page">
-      <div className="emer-wrap">
+    <main className="emer-screen">
+      <div className="emer-card">
 
-        {/* TOP BANNER */}
-        <div className="emer-top">
-          <span className="emer-top-cross">+</span>
-          <div className="emer-top-avatar">{(p.fullName || "?")[0]}</div>
-          <h1 className="emer-top-name">{p.fullName || "Patient"}</h1>
-          <p className="emer-top-sub">FICHE MÉDICALE D'URGENCE</p>
+        {/* ═══ HEADER ═══ */}
+        <div className="emer-header">
+          <div className="emer-header-cross">✚</div>
+          <div className="emer-header-avatar">
+            {(profile.fullName || "U").slice(0, 1).toUpperCase()}
+          </div>
+          <h1 className="emer-header-name">{profile.fullName || "Patient"}</h1>
+          <p className="emer-header-subtitle">INFORMATIONS D'URGENCE</p>
+          <p className="emer-header-note">Ces informations peuvent sauver une vie.</p>
+          <div className="emer-header-badge">⚡ ACCÈS D'URGENCE</div>
         </div>
 
-        <div className="emer-content">
+        <div className="emer-body">
 
-          {/* GROUPE SANGUIN */}
-          <div className="emer-blood">
-            <span className="emer-blood-label">Groupe sanguin</span>
-            <span className="emer-blood-value">{p.bloodType || "—"}</span>
-          </div>
+          {/* ═══ INFORMATIONS VITALES ═══ */}
+          <div className="emer-section">
+            <div className="emer-section-title">
+              <span className="emer-section-title-icon">❤️</span>
+              INFORMATIONS VITALES
+            </div>
 
-          {/* INFOS VITALES */}
-          <div className="emer-grid">
-            <div className="emer-grid-item">
-              <span className="emer-grid-label">Allergies</span>
-              <span className="emer-grid-value">{formatList(p.allergies) || "Aucune"}</span>
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">🩸</span>
+              <span className="emer-vital-label">Groupe sanguin</span>
+              <strong className="emer-vital-value emer-vital-value-red">{profile.bloodType || "—"}</strong>
             </div>
-            <div className="emer-grid-item">
-              <span className="emer-grid-label">Maladies chroniques</span>
-              <span className="emer-grid-value">{formatList(p.chronicDiseases) || "Aucune"}</span>
+
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">⚠️</span>
+              <span className="emer-vital-label">Allergies</span>
+              <span className={`emer-vital-value ${!formatList(profile.allergies) ? "emer-vital-value-muted" : "emer-vital-value-red"}`}>
+                {formatList(profile.allergies) || "Aucune connue"}
+              </span>
             </div>
-            <div className="emer-grid-item emer-grid-item-full">
-              <span className="emer-grid-label">Médicaments</span>
-              <span className="emer-grid-value">{formatList(p.medications) || "Aucun"}</span>
+
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">💜</span>
+              <span className="emer-vital-label">Maladies chroniques</span>
+              <span className={`emer-vital-value ${!formatList(profile.chronicDiseases) ? "emer-vital-value-muted" : ""}`}>
+                {formatList(profile.chronicDiseases) || "Aucune connue"}
+              </span>
             </div>
-            {p.criticalInstructions && (
-              <div className="emer-grid-item emer-grid-item-full emer-grid-item-alert">
-                <span className="emer-grid-label">Consignes critiques</span>
-                <span className="emer-grid-value">{p.criticalInstructions}</span>
+
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">💊</span>
+              <span className="emer-vital-label">Médicaments en cours</span>
+              <span className={`emer-vital-value ${!formatList(profile.medications) ? "emer-vital-value-muted" : ""}`}>
+                {formatList(profile.medications) || "Aucun"}
+              </span>
+            </div>
+
+            {profile.criticalInstructions && (
+              <div className="emer-vital-row emer-vital-row-alert">
+                <span className="emer-vital-icon">🚨</span>
+                <span className="emer-vital-label">Consignes critiques</span>
+                <span className="emer-vital-value emer-vital-value-red">{profile.criticalInstructions}</span>
               </div>
             )}
           </div>
 
-          {/* CONTACTS */}
-          <div className="emer-contacts">
-            <h3 className="emer-contacts-title">Contacts d'urgence</h3>
-
-            {contactPhone && (
-              <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="emer-contact-card">
-                <div className="emer-contact-left">
-                  <div className="emer-contact-dot emer-contact-dot-red" />
-                  <div>
-                    <strong>{contactName || "Contact principal"}</strong>
-                    <span>{contactPhone}</span>
-                  </div>
+          {/* ═══ CONTACT D'URGENCE PRINCIPAL ═══ */}
+          {contactPhone && (
+            <div className="emer-section">
+              <div className="emer-section-title">
+                <span className="emer-section-title-icon">📞</span>
+                CONTACT D'URGENCE PRINCIPAL
+              </div>
+              <div className="emer-contact-row">
+                <div className="emer-contact-avatar">👤</div>
+                <div className="emer-contact-info">
+                  <strong>{contactName || "Contact"}</strong>
+                  <span>Contact principal</span>
                 </div>
-                <div className="emer-contact-call">Appeler</div>
-              </a>
-            )}
+                <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
+                  📞 {contactPhone}
+                </a>
+              </div>
+            </div>
+          )}
 
-            {doctorPhone && (
-              <a href={`tel:${doctorPhone.replace(/\s/g, "")}`} className="emer-contact-card">
-                <div className="emer-contact-left">
-                  <div className="emer-contact-dot emer-contact-dot-blue" />
-                  <div>
-                    <strong>{p.doctorName || "Médecin"}</strong>
-                    <span>{doctorPhone}</span>
+          {/* ═══ AUTRES CONTACTS ═══ */}
+          {(doctorPhone || profile.doctorName) && (
+            <div className="emer-section">
+              <div className="emer-section-title">
+                <span className="emer-section-title-icon">👥</span>
+                AUTRES CONTACTS D'URGENCE
+              </div>
+              {doctorPhone && (
+                <div className="emer-contact-row">
+                  <div className="emer-contact-avatar emer-contact-avatar-blue">👨‍⚕️</div>
+                  <div className="emer-contact-info">
+                    <strong>{profile.doctorName || "Médecin"}</strong>
+                    <span>Numéro du médecin</span>
                   </div>
+                  <a href={`tel:${doctorPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
+                    📞 {doctorPhone}
+                  </a>
                 </div>
-                <div className="emer-contact-call">Appeler</div>
-              </a>
-            )}
-          </div>
+              )}
+            </div>
+          )}
 
-          {/* NUMÉROS D'URGENCE */}
-          <div className="emer-nums">
-            <h3 className="emer-nums-title">Appel d'urgence</h3>
-            <div className="emer-nums-row">
-              <a href="tel:15" className="emer-num">
-                <strong>15</strong><span>SAMU</span>
-              </a>
-              <a href="tel:150" className="emer-num">
-                <strong>150</strong><span>Ambulance</span>
-              </a>
-              <a href="tel:19" className="emer-num">
-                <strong>19</strong><span>Pompiers</span>
-              </a>
-              <a href="tel:112" className="emer-num emer-num-main">
-                <strong>112</strong><span>Urgence</span>
-              </a>
+          {/* ═══ NUMÉROS D'URGENCE ═══ */}
+          <div className="emer-section">
+            <div className="emer-section-title">
+              <span className="emer-section-title-icon">🚨</span>
+              NUMÉROS D'URGENCE
+            </div>
+            <div className="emer-nums-grid">
+              <a href="tel:15" className="emer-num-card"><strong>15</strong><span>SAMU</span></a>
+              <a href="tel:150" className="emer-num-card"><strong>150</strong><span>Ambulance</span></a>
+              <a href="tel:19" className="emer-num-card"><strong>19</strong><span>Pompiers</span></a>
+              <a href="tel:112" className="emer-num-card emer-num-card-main"><strong>112</strong><span>Urgence</span></a>
             </div>
           </div>
 
-          {/* RETURN */}
-          <Link to="/" className="emer-btn-return">← Retour à l'application</Link>
+          {/* ═══ IMPORTANT ═══ */}
+          <div className="emer-emergency-box">
+            <div className="emer-emergency-box-left">
+              <strong className="emer-emergency-box-title">⚠️ IMPORTANT</strong>
+              <p>En cas d'urgence, contactez immédiatement le service médical et le contact d'urgence.</p>
+            </div>
+            <a href="tel:112" className="emer-emergency-box-call">
+              <span className="emer-emergency-box-call-icon">📞</span>
+              <strong>112</strong>
+              <span>APPELER</span>
+            </a>
+          </div>
+
+          {/* ═══ RETOUR ═══ */}
+          <Link to="/" className="emer-return-btn">← Retour à l'application</Link>
 
         </div>
+
+        {/* ═══ FOOTER ═══ */}
+        <div className="emer-footer">
+          <p>🩺 Informations fournies par le titulaire du profil LifeLine</p>
+          <p>Dernière mise à jour : {now}</p>
+        </div>
+
       </div>
     </main>
   );

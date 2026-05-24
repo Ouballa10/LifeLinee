@@ -1,320 +1,427 @@
-/* ═══ EMERGENCY PAGE — Clean Professional UX/UI ═══ */
+/* ═══════════════════════════════════════════════════════
+   EMERGENCY PAGE — Professional Medical Card Design
+   ═══════════════════════════════════════════════════════ */
 
-.emer-page {
+.emer-screen {
   min-height: 100vh;
   min-height: 100dvh;
-  background: #f5f5f7;
-  padding: 0;
+  background: #f0f2f5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px;
 }
 
-.emer-wrap {
-  max-width: 480px;
-  margin: 0 auto;
+.emer-card {
+  width: 100%;
+  max-width: 420px;
   background: #fff;
-  min-height: 100vh;
-  box-shadow: 0 0 40px rgba(0,0,0,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
 }
 
-/* ─── Top Banner ─── */
-.emer-top {
-  background: linear-gradient(160deg, #c62828 0%, #e53935 100%);
-  padding: 32px 24px 28px;
+/* ─── Header ─── */
+.emer-header {
+  background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+  padding: 24px 20px 28px;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
-.emer-top-cross {
+.emer-header::before {
+  content: "";
   position: absolute;
-  top: 14px;
-  left: 18px;
-  font-size: 32px;
-  font-weight: 300;
-  color: rgba(255,255,255,0.5);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40'%3E%3Cpath d='M0 20 Q25 5 50 20 T100 20 T150 20 T200 20' fill='none' stroke='rgba(255,255,255,0.08)' stroke-width='2'/%3E%3C/svg%3E") repeat-x;
+  background-size: 200px 40px;
+  animation: emerWave 4s linear infinite;
 }
 
-.emer-top-avatar {
-  width: 52px;
-  height: 52px;
+@keyframes emerWave {
+  from { background-position-x: 0; }
+  to { background-position-x: 200px; }
+}
+
+.emer-header-cross {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 28px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 900;
+}
+
+.emer-header-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.emer-header-avatar {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.4);
-  margin: 0 auto 12px;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.5);
   display: grid;
   place-items: center;
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
-}
-
-.emer-top-name {
-  margin: 0;
+  margin: 0 auto 10px;
   font-size: 22px;
   font-weight: 800;
   color: #fff;
-  letter-spacing: 0.3px;
 }
 
-.emer-top-sub {
-  margin: 4px 0 0;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: rgba(255,255,255,0.7);
-}
-
-/* ─── Content ─── */
-.emer-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* ─── Blood Type ─── */
-.emer-blood {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  background: #fff5f5;
-  border: 1px solid #ffcdd2;
-  border-radius: 12px;
-}
-
-.emer-blood-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-}
-
-.emer-blood-value {
-  font-size: 24px;
+.emer-header-name {
+  font-size: 20px;
   font-weight: 900;
-  color: #c62828;
-}
-
-/* ─── Info Grid ─── */
-.emer-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.emer-grid-item {
-  padding: 14px;
-  background: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 10px;
-}
-
-.emer-grid-item-full {
-  grid-column: 1 / -1;
-}
-
-.emer-grid-item-alert {
-  background: #fff8e1;
-  border-color: #ffe082;
-}
-
-.emer-grid-label {
-  display: block;
-  font-size: 10px;
-  font-weight: 700;
-  color: #999;
+  color: #fff;
+  margin: 0 0 2px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 4px;
 }
 
-.emer-grid-value {
-  display: block;
-  font-size: 14px;
+.emer-header-subtitle {
+  font-size: 11px;
   font-weight: 600;
-  color: #222;
-  line-height: 1.4;
-  word-break: break-word;
-}
-
-.emer-grid-item-alert .emer-grid-value {
-  color: #e65100;
-  font-weight: 700;
-}
-
-/* ─── Contacts ─── */
-.emer-contacts {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.emer-contacts-title,
-.emer-nums-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: #c62828;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 1.5px;
   margin: 0 0 4px;
 }
 
-.emer-contact-card {
+.emer-header-note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  font-style: italic;
+}
+
+/* ─── Body ─── */
+.emer-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── Sections ─── */
+.emer-section {
+  background: #fff;
+  border: 1px solid #e8ecf0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.emer-section-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: box-shadow 0.2s, transform 0.1s;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #d32f2f;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
-.emer-contact-card:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+.emer-section-title-icon {
+  font-size: 16px;
 }
 
-.emer-contact-left {
+/* ─── Vital Rows ─── */
+.emer-vital-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f5f5f5;
 }
 
-.emer-contact-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.emer-vital-row:last-child {
+  border-bottom: none;
+}
+
+.emer-vital-row-alert {
+  background: #fff5f5;
+  border-radius: 8px;
+  border-bottom: none;
+  margin-top: 4px;
+}
+
+.emer-vital-icon {
+  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: #f8f9fa;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 
-.emer-contact-dot-red { background: #e53935; }
-.emer-contact-dot-blue { background: #1e88e5; }
+.emer-vital-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
 
-.emer-contact-left strong {
+.emer-vital-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: right;
+  max-width: 45%;
+  word-break: break-word;
+}
+
+.emer-vital-value-red {
+  color: #d32f2f;
+  font-weight: 800;
+}
+
+.emer-vital-value-muted {
+  color: #999;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* ─── Contact Rows ─── */
+.emer-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.emer-contact-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fdecea;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.emer-contact-avatar-blue {
+  background: #e3f2fd;
+}
+
+.emer-contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.emer-contact-info strong {
   display: block;
   font-size: 13px;
   font-weight: 700;
-  color: #222;
+  color: #1a1a1a;
 }
 
-.emer-contact-left span {
+.emer-contact-info span {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   color: #888;
 }
 
-.emer-contact-call {
-  padding: 6px 14px;
-  background: #e53935;
-  color: #fff;
+.emer-contact-phone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
-  border-radius: 20px;
+  color: #d32f2f;
+  text-decoration: none;
   white-space: nowrap;
+  transition: background 0.2s;
 }
 
-/* ─── Emergency Numbers ─── */
-.emer-nums {
+.emer-contact-phone-btn:active {
+  background: #fdecea;
+}
+
+/* ─── Emergency Box (112) ─── */
+.emer-emergency-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fff;
+  border: 2px solid #d32f2f;
+  border-radius: 12px;
+}
+
+.emer-emergency-box-left {
+  flex: 1;
+}
+
+.emer-emergency-box-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #d32f2f;
+  margin-bottom: 4px;
+}
+
+.emer-emergency-box-left p {
+  font-size: 11px;
+  color: #555;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.emer-emergency-box-call {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fdecea;
+  flex-shrink: 0;
 }
 
-.emer-nums-row {
+.emer-emergency-box-call-icon {
+  font-size: 18px;
+}
+
+.emer-emergency-box-call strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: #d32f2f;
+  line-height: 1.1;
+}
+
+.emer-emergency-box-call span {
+  font-size: 8px;
+  font-weight: 700;
+  color: #d32f2f;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Footer ─── */
+.emer-footer {
+  padding: 14px 16px;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.emer-footer p {
+  font-size: 11px;
+  color: #999;
+  margin: 0 0 2px;
+}
+
+/* ─── Loading ─── */
+.emer-loading {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emer-loading p {
+  color: #666;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.emer-loading-pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #d32f2f;
+  margin: 0 auto;
+  animation: emerPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes emerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* ─── Print ─── */
+@media print {
+  .emer-screen { background: #fff; padding: 0; }
+  .emer-card { box-shadow: none; max-width: 100%; }
+}
+
+
+/* ─── Emergency Numbers Grid ─── */
+.emer-nums-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
 
-.emer-num {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 4px;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: transform 0.1s, border-color 0.2s;
-}
-
-.emer-num:active {
-  transform: scale(0.92);
-  border-color: #e53935;
-}
-
-.emer-num strong {
-  font-size: 20px;
-  font-weight: 900;
-  color: #333;
-}
-
-.emer-num span {
-  font-size: 9px;
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-.emer-num-main {
-  background: #e53935;
-  border-color: #e53935;
-}
-
-.emer-num-main strong { color: #fff; }
-.emer-num-main span { color: rgba(255,255,255,0.85); }
-
-/* ─── Return Button ─── */
-.emer-btn-return {
-  display: block;
-  text-align: center;
-  padding: 14px;
-  background: #1a237e;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.emer-btn-return:active {
-  opacity: 0.85;
-}
-
-/* ─── Loader ─── */
-.emer-loader {
+.emer-num-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  padding: 12px 4px;
+  border-radius: 10px;
+  background: #fef4f4;
+  border: 1.5px solid #fecaca;
+  text-decoration: none;
+  transition: transform 0.15s;
 }
 
-.emer-loader p {
-  margin-top: 14px;
+.emer-num-card:active {
+  transform: scale(0.92);
+}
+
+.emer-num-card strong {
+  font-size: 20px;
+  font-weight: 900;
+  color: #d32f2f;
+}
+
+.emer-num-card span {
+  font-size: 9px;
+  font-weight: 700;
+  color: #b71c1c;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.emer-num-card-main {
+  background: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.emer-num-card-main strong { color: #fff; }
+.emer-num-card-main span { color: rgba(255,255,255,0.85); }
+
+/* ─── Return Button ─── */
+.emer-return-btn {
+  display: block;
+  text-align: center;
+  padding: 14px 20px;
+  background: #1a5fb4;
+  color: #fff;
   font-size: 14px;
-  color: #888;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 4px;
 }
 
-.emer-loader-ring {
-  width: 36px;
-  height: 36px;
-  border: 3px solid #eee;
-  border-top-color: #e53935;
-  border-radius: 50%;
-  animation: emerSpin 0.8s linear infinite;
-}
-
-@keyframes emerSpin {
-  to { transform: rotate(360deg); }
-}
-
-/* ─── Print ─── */
-@media print {
-  .emer-page { background: #fff; }
-  .emer-wrap { box-shadow: none; }
-  .emer-btn-return, .emer-nums { display: none; }
+.emer-return-btn:active {
+  opacity: 0.85;
 }
