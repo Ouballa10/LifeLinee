@@ -346,3 +346,83 @@
     display: none;
   }
 }
+
+
+/* ─── Emergency Numbers Grid ─── */
+.emer-emergency-numbers {
+  margin-top: 8px;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.emer-emergency-numbers-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.emer-emergency-numbers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.emer-num-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.emer-num-btn:active {
+  transform: scale(0.93);
+}
+
+.emer-num-btn strong {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.emer-num-btn span {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+.emer-num-samu {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  color: #dc2626;
+}
+
+.emer-num-ambulance {
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  color: #ea580c;
+}
+
+.emer-num-pompiers {
+  background: #fef9c3;
+  border: 1.5px solid #fde047;
+  color: #ca8a04;
+}
+
+.emer-num-police {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  color: #2563eb;
+}

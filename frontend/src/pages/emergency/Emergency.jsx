@@ -172,6 +172,29 @@ export default function Emergency() {
               Appeler le médecin
             </a>
           )}
+
+          {/* Numéros d'urgence nationaux */}
+          <div className="emer-emergency-numbers">
+            <span className="emer-emergency-numbers-title">🚨 Numéros d'urgence</span>
+            <div className="emer-emergency-numbers-grid">
+              <a href="tel:15" className="emer-num-btn emer-num-samu">
+                <strong>15</strong>
+                <span>SAMU</span>
+              </a>
+              <a href="tel:150" className="emer-num-btn emer-num-ambulance">
+                <strong>150</strong>
+                <span>Ambulance</span>
+              </a>
+              <a href="tel:19" className="emer-num-btn emer-num-pompiers">
+                <strong>19</strong>
+                <span>Pompiers</span>
+              </a>
+              <a href="tel:177" className="emer-num-btn emer-num-police">
+                <strong>177</strong>
+                <span>Police</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Footer */}
