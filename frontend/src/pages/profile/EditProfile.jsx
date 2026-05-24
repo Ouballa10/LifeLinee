@@ -105,8 +105,16 @@ export default function EditProfile() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [activeSection, setActiveSection] = useState("personal");
+  // Persist active section in sessionStorage so refresh keeps the same tab
+  const [activeSection, setActiveSectionRaw] = useState(() => {
+    try { return sessionStorage.getItem("lifeline.editTab") || "personal"; } catch { return "personal"; }
+  });
+  const setActiveSection = (section) => {
+    setActiveSectionRaw(section);
+    try { sessionStorage.setItem("lifeline.editTab", section); } catch {}
+  };
   const [documents, setDocuments] = useState([]);
+  const [docsLoading, setDocsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadFileName, setUploadFileName] = useState("");
@@ -140,6 +148,7 @@ export default function EditProfile() {
 
   function loadDocuments() {
     const loadId = ++docLoadIdRef.current;
+    setDocsLoading(true);
     apiRequest("/documents", { token })
       .then((data) => {
         // Only update if this is still the latest request (prevents stale data)
@@ -147,7 +156,10 @@ export default function EditProfile() {
           setDocuments(data.documents);
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (loadId === docLoadIdRef.current) setDocsLoading(false);
+      });
   }
 
   async function handleFileUpload(event) {
@@ -798,17 +810,26 @@ export default function EditProfile() {
 
                   return (
                     <div className="doc-empty-state">
-                      <div className="doc-empty-icon">📂</div>
-                      <strong>
-                        {docSearch || docCategory !== "all"
-                          ? "Aucun résultat"
-                          : "Aucun document"}
-                      </strong>
-                      <p>
-                        {docSearch || docCategory !== "all"
-                          ? "Essayez de modifier votre recherche ou vos filtres."
-                          : "Commencez par ajouter vos ordonnances, analyses ou radios."}
-                      </p>
+                      {docsLoading ? (
+                        <>
+                          <div className="doc-empty-icon">⏳</div>
+                          <strong>Chargement des documents...</strong>
+                        </>
+                      ) : (
+                        <>
+                          <div className="doc-empty-icon">📂</div>
+                          <strong>
+                            {docSearch || docCategory !== "all"
+                              ? "Aucun résultat"
+                              : "Aucun document"}
+                          </strong>
+                          <p>
+                            {docSearch || docCategory !== "all"
+                              ? "Essayez de modifier votre recherche ou vos filtres."
+                              : "Commencez par ajouter vos ordonnances, analyses ou radios."}
+                          </p>
+                        </>
+                      )}
                     </div>
                   );
                 })()}
