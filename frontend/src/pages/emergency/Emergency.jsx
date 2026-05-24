@@ -8,19 +8,6 @@ function formatList(items) {
   return items.filter(Boolean).join(", ") || null;
 }
 
-function EmergencyInfoRow({ icon, label, value, urgent }) {
-  if (!value) return null;
-  return (
-    <div className={`emer-row ${urgent ? "emer-row-urgent" : ""}`}>
-      <div className="emer-row-icon">{icon}</div>
-      <div className="emer-row-content">
-        <span className="emer-row-label">{label}</span>
-        <span className="emer-row-value">{value}</span>
-      </div>
-    </div>
-  );
-}
-
 export default function Emergency() {
   const { token } = useParams();
   const [data, setData] = useState(null);
@@ -37,7 +24,6 @@ export default function Emergency() {
       .then((result) => {
         if (!cancelled) {
           setData(result);
-          // Log access once per session
           const logKey = `lifeline.emergencyLogged.${token}`;
           if (!sessionStorage.getItem(logKey)) {
             sessionStorage.setItem(logKey, "1");
@@ -69,10 +55,19 @@ export default function Emergency() {
   if (error) {
     return (
       <main className="emer-screen">
-        <div className="emer-card emer-card-error">
-          <div className="emer-error-icon">⚠️</div>
-          <h1>Fiche introuvable</h1>
-          <p>{error}</p>
+        <div className="emer-card">
+          <div className="emer-header">
+            <div className="emer-header-cross">✚</div>
+            <div className="emer-header-text">
+              <h1>Fiche introuvable</h1>
+              <p>INFORMATIONS D'URGENCE</p>
+            </div>
+          </div>
+          <div className="emer-body">
+            <div className="emer-section">
+              <p style={{ textAlign: "center", padding: "20px", color: "#666" }}>{error}</p>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -80,135 +75,152 @@ export default function Emergency() {
 
   const profile = data?.profile || {};
   const visibility = data?.visibility || "full";
-  const phoneHref = profile.emergencyContact?.phone
-    ? `tel:${profile.emergencyContact.phone.replace(/\s/g, "")}`
-    : null;
-  const doctorPhoneHref = profile.doctorPhone
-    ? `tel:${profile.doctorPhone.replace(/\s/g, "")}`
-    : null;
+  const contactPhone = profile.emergencyContact?.phone || "";
+  const contactName = profile.emergencyContact?.name || "";
+  const doctorPhone = profile.doctorPhone || "";
+  const now = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 
   return (
     <main className="emer-screen">
       <div className="emer-card">
-        {/* Header */}
-        <header className="emer-header">
-          <div className="emer-header-badge">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2v20M2 12h20" />
-            </svg>
-          </div>
-          <div className="emer-header-text">
-            <span className="emer-header-label">URGENCE MÉDICALE</span>
-            <h1 className="emer-header-name">{profile.fullName || "Patient"}</h1>
-          </div>
-          {profile.bloodType && profile.bloodType !== "Unknown" && (
-            <div className="emer-blood-badge">{profile.bloodType}</div>
-          )}
-        </header>
 
-        {/* Blood type banner */}
-        <div className="emer-blood-banner">
-          <span className="emer-blood-banner-icon">🩸</span>
-          <div>
-            <strong>Groupe sanguin</strong>
-            <span>{profile.bloodType || "Non renseigné"}</span>
+        {/* ═══ HEADER ═══ */}
+        <div className="emer-header">
+          <div className="emer-header-cross">✚</div>
+          <div className="emer-header-avatar">
+            {(profile.fullName || "U").slice(0, 1).toUpperCase()}
           </div>
+          <h1 className="emer-header-name">{profile.fullName || "Patient"}</h1>
+          <p className="emer-header-subtitle">INFORMATIONS D'URGENCE</p>
+          <p className="emer-header-note">Ces informations peuvent sauver une vie.</p>
+          <div className="emer-header-badge">⚡ ACCÈS D'URGENCE</div>
         </div>
 
-        {/* Info sections based on visibility */}
         <div className="emer-body">
-          {/* Allergies — always shown (life-critical) */}
-          <EmergencyInfoRow icon="⚠️" label="Allergies" value={formatList(profile.allergies)} urgent />
 
-          {/* Full mode: show all medical details */}
-          {visibility === "full" && (
-            <>
-              <EmergencyInfoRow icon="🏥" label="Maladies chroniques" value={formatList(profile.chronicDiseases)} />
-              <EmergencyInfoRow icon="💊" label="Médicaments en cours" value={formatList(profile.medications)} />
-              <EmergencyInfoRow icon="📋" label="Consignes critiques" value={profile.criticalInstructions} urgent />
-              {(profile.weight || profile.height) && (
-                <EmergencyInfoRow
-                  icon="📏"
-                  label="Morphologie"
-                  value={[profile.weight && `${profile.weight} kg`, profile.height && `${profile.height} cm`].filter(Boolean).join(" — ")}
-                />
-              )}
-              <EmergencyInfoRow icon="👨‍⚕️" label="Médecin référent" value={profile.doctorName} />
-            </>
-          )}
+          {/* ═══ INFORMATIONS VITALES ═══ */}
+          <div className="emer-section">
+            <div className="emer-section-title">
+              <span className="emer-section-title-icon">❤️</span>
+              INFORMATIONS VITALES
+            </div>
 
-          {/* Contact mode: show critical instructions */}
-          {visibility === "contact" && (
-            <EmergencyInfoRow icon="📋" label="Consignes critiques" value={profile.criticalInstructions} urgent />
-          )}
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">🩸</span>
+              <span className="emer-vital-label">Groupe sanguin</span>
+              <strong className="emer-vital-value emer-vital-value-red">{profile.bloodType || "—"}</strong>
+            </div>
 
-          {/* Emergency contact — always shown */}
-          {profile.emergencyContact?.phone && (
-            <div className="emer-contact-section">
-              <div className="emer-contact-info">
-                <span className="emer-contact-label">Contact d'urgence</span>
-                <strong className="emer-contact-name">{profile.emergencyContact.name || "Contact"}</strong>
-                <span className="emer-contact-phone">{profile.emergencyContact.phone}</span>
+            <div className="emer-vital-row">
+              <span className="emer-vital-icon">⚠️</span>
+              <span className="emer-vital-label">Allergies</span>
+              <span className={`emer-vital-value ${!formatList(profile.allergies) ? "emer-vital-value-muted" : "emer-vital-value-red"}`}>
+                {formatList(profile.allergies) || "Aucune connue"}
+              </span>
+            </div>
+
+            {visibility === "full" && (
+              <>
+                <div className="emer-vital-row">
+                  <span className="emer-vital-icon">💜</span>
+                  <span className="emer-vital-label">Maladies chroniques</span>
+                  <span className={`emer-vital-value ${!formatList(profile.chronicDiseases) ? "emer-vital-value-muted" : ""}`}>
+                    {formatList(profile.chronicDiseases) || "Aucune connue"}
+                  </span>
+                </div>
+
+                <div className="emer-vital-row">
+                  <span className="emer-vital-icon">💊</span>
+                  <span className="emer-vital-label">Médicaments en cours</span>
+                  <span className={`emer-vital-value ${!formatList(profile.medications) ? "emer-vital-value-muted" : ""}`}>
+                    {formatList(profile.medications) || "Aucun"}
+                  </span>
+                </div>
+
+                {(profile.weight || profile.height) && (
+                  <div className="emer-vital-row">
+                    <span className="emer-vital-icon">📏</span>
+                    <span className="emer-vital-label">Poids / Taille</span>
+                    <span className="emer-vital-value">
+                      {[profile.weight && `${profile.weight} kg`, profile.height && `${profile.height} cm`].filter(Boolean).join(" / ")}
+                    </span>
+                  </div>
+                )}
+              </>
+            )}
+
+            {(visibility === "full" || visibility === "contact") && profile.criticalInstructions && (
+              <div className="emer-vital-row emer-vital-row-alert">
+                <span className="emer-vital-icon">🚨</span>
+                <span className="emer-vital-label">Consignes critiques</span>
+                <span className="emer-vital-value emer-vital-value-red">{profile.criticalInstructions}</span>
+              </div>
+            )}
+          </div>
+
+          {/* ═══ CONTACT D'URGENCE PRINCIPAL ═══ */}
+          {contactPhone && (
+            <div className="emer-section">
+              <div className="emer-section-title">
+                <span className="emer-section-title-icon">📞</span>
+                CONTACT D'URGENCE PRINCIPAL
+              </div>
+              <div className="emer-contact-row">
+                <div className="emer-contact-avatar">👤</div>
+                <div className="emer-contact-info">
+                  <strong>{contactName || "Contact"}</strong>
+                  <span>Contact principal</span>
+                </div>
+                <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
+                  📞 {contactPhone}
+                </a>
               </div>
             </div>
           )}
-        </div>
 
-        {/* Action buttons */}
-        <div className="emer-actions">
-          {phoneHref && (
-            <a href={phoneHref} className="emer-btn emer-btn-call">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              Appeler le contact d'urgence
-            </a>
-          )}
-          {visibility === "full" && doctorPhoneHref && (
-            <a href={doctorPhoneHref} className="emer-btn emer-btn-doctor">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              Appeler le médecin
-            </a>
-          )}
-
-          {/* Numéros d'urgence nationaux */}
-          <div className="emer-emergency-numbers">
-            <span className="emer-emergency-numbers-title">🚨 Numéros d'urgence</span>
-            <div className="emer-emergency-numbers-grid">
-              <a href="tel:15" className="emer-num-btn emer-num-samu">
-                <strong>15</strong>
-                <span>SAMU</span>
-              </a>
-              <a href="tel:150" className="emer-num-btn emer-num-ambulance">
-                <strong>150</strong>
-                <span>Ambulance</span>
-              </a>
-              <a href="tel:19" className="emer-num-btn emer-num-pompiers">
-                <strong>19</strong>
-                <span>Pompiers</span>
-              </a>
-              <a href="tel:177" className="emer-num-btn emer-num-police">
-                <strong>177</strong>
-                <span>Police</span>
-              </a>
+          {/* ═══ AUTRES CONTACTS ═══ */}
+          {visibility === "full" && (doctorPhone || profile.doctorName) && (
+            <div className="emer-section">
+              <div className="emer-section-title">
+                <span className="emer-section-title-icon">👥</span>
+                AUTRES CONTACTS D'URGENCE
+              </div>
+              {doctorPhone && (
+                <div className="emer-contact-row">
+                  <div className="emer-contact-avatar emer-contact-avatar-blue">👨‍⚕️</div>
+                  <div className="emer-contact-info">
+                    <strong>{profile.doctorName || "Médecin"}</strong>
+                    <span>Numéro du médecin</span>
+                  </div>
+                  <a href={`tel:${doctorPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
+                    📞 {doctorPhone}
+                  </a>
+                </div>
+              )}
             </div>
+          )}
+
+          {/* ═══ NUMÉRO D'URGENCE 112 ═══ */}
+          <div className="emer-emergency-box">
+            <div className="emer-emergency-box-left">
+              <strong className="emer-emergency-box-title">⚠️ IMPORTANT</strong>
+              <p>En cas d'urgence, contactez immédiatement le service médical et le contact d'urgence.</p>
+            </div>
+            <a href="tel:112" className="emer-emergency-box-call">
+              <span className="emer-emergency-box-call-icon">📞</span>
+              <strong>112</strong>
+              <span>NUMÉRO D'URGENCE</span>
+            </a>
           </div>
+
         </div>
 
-        {/* Footer */}
-        <footer className="emer-footer">
-          <div className="emer-footer-logo">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M2 12h20" /></svg>
-            <span>LifeLine</span>
-          </div>
-          <p className="emer-footer-note">
-            {visibility === "minimal" && "Mode minimal — infos vitales uniquement."}
-            {visibility === "contact" && "Mode contact — infos vitales + contact d'urgence."}
-            {visibility === "full" && "Fiche d'urgence complète."}
-          </p>
-        </footer>
+        {/* ═══ FOOTER ═══ */}
+        <div className="emer-footer">
+          <p>🩺 Informations fournies par le titulaire du profil LifeLine</p>
+          <p>Dernière mise à jour : {now}</p>
+        </div>
+
       </div>
     </main>
   );
