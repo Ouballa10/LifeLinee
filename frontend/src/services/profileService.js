@@ -289,33 +289,12 @@ export async function updateProfile(token, updates) {
 }
 
 export async function getEmergencyProfile(qrToken) {
-  if (isSupabaseConfigured && supabase) {
-    const { data, error } = await supabase
-      .from("public_emergency_profiles")
-      .select(
-        "full_name,blood_type,allergies,chronic_diseases,medications,emergency_contact_name,emergency_contact_phone,critical_instructions,qr_token"
-      )
-      .eq("qr_token", qrToken)
-      .maybeSingle();
-
-    if (error) {
-      throw new Error(error.message || "Impossible de charger la fiche d'urgence.");
-    }
-
-    if (!data) {
-      throw new Error("Aucune fiche medicale d'urgence n'a ete trouvee pour ce QR.");
-    }
-
-    return {
-      token: qrToken,
-      profile: mapEmergencyProfileFromSupabase(data),
-    };
-  }
-
+  // Always use the backend API — it respects qrVisibility settings
   const response = await apiRequest(`/emergency/${encodeURIComponent(qrToken)}`);
 
   return {
     token: response.token,
-    profile: mapEmergencyProfileFromApi(response.profile),
+    visibility: response.visibility || 'full',
+    profile: response.profile || {},
   };
 }
