@@ -9,11 +9,11 @@ import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 const SECTIONS = [
-  { id: "personal", label: "Informations personnelles" },
-  { id: "health", label: "Informations médicales" },
-  { id: "emergency", label: "Contacts d'urgence" },
-  { id: "documents", label: "Documents" },
-  { id: "privacy", label: "Sécurité" },
+  { id: "personal", icon: "👤", label: "Informations personnelles" },
+  { id: "health", icon: "🩺", label: "Informations médicales" },
+  { id: "emergency", icon: "🚨", label: "Contacts d'urgence" },
+  { id: "documents", icon: "📄", label: "Documents" },
+  { id: "privacy", icon: "🔒", label: "Sécurité" },
 ];
 
 function buildForm(user) {
@@ -395,6 +395,7 @@ export default function EditProfile() {
                 className={`edit-section-tab ${activeSection === s.id ? "is-active" : ""}`}
                 onClick={() => setActiveSection(s.id)}
               >
+                <span className="edit-section-tab-icon">{s.icon}</span>
                 <span className="edit-section-tab-label">{s.label}</span>
               </button>
             ))}
@@ -406,6 +407,7 @@ export default function EditProfile() {
             {activeSection === "personal" && (
               <div className="edit-section-card">
                 <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-blue">👤</span>
                   <div>
                     <strong>Informations personnelles</strong>
                     <span>Identité et coordonnées</span>
@@ -506,6 +508,7 @@ export default function EditProfile() {
             {activeSection === "health" && (
               <div className="edit-section-card">
                 <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-teal">🩺</span>
                   <div>
                     <strong>Informations médicales</strong>
                     <span>Données critiques pour les secouristes</span>
@@ -538,6 +541,7 @@ export default function EditProfile() {
             {activeSection === "emergency" && (
               <div className="edit-section-card">
                 <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-red">🚨</span>
                   <div>
                     <strong>Contacts d'urgence</strong>
                     <span>Personnes à contacter en cas d'urgence</span>
@@ -568,6 +572,7 @@ export default function EditProfile() {
             {activeSection === "documents" && (
               <div className="edit-section-card doc-section">
                 <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-blue">📄</span>
                   <div>
                     <strong>Dossier médical</strong>
                     <span>Gérez vos documents médicaux en toute sécurité</span>
@@ -835,6 +840,7 @@ export default function EditProfile() {
             {activeSection === "privacy" && (
               <div className="edit-section-card">
                 <div className="edit-section-header">
+                  <span className="edit-section-icon edit-section-icon-purple">🔒</span>
                   <div>
                     <strong>Sécurité et confidentialité</strong>
                     <span>Contrôlez la visibilité de vos données</span>
@@ -854,18 +860,21 @@ export default function EditProfile() {
 
                   <div className="edit-privacy-info">
                     <div className="edit-privacy-row">
+                      <span>🛡️</span>
                       <div>
                         <strong>Autorisations de partage</strong>
                         <span>Seules les personnes qui scannent votre QR peuvent voir vos infos d'urgence.</span>
                       </div>
                     </div>
                     <div className="edit-privacy-row">
+                      <span>📊</span>
                       <div>
                         <strong>Historique des scans</strong>
                         <span>Consultez qui a scanné votre QR dans le tableau de bord.</span>
                       </div>
                     </div>
                     <div className="edit-privacy-row">
+                      <span>🔐</span>
                       <div>
                         <strong>Paramètres de confidentialité</strong>
                         <span>Vos données sont chiffrées et stockées de manière sécurisée.</span>
