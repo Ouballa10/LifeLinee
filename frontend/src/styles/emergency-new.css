@@ -360,3 +360,76 @@
   .emer-screen { background: #fff; padding: 0; }
   .emer-card { box-shadow: none; max-width: 100%; }
 }
+
+
+/* ─── Emergency Numbers Grid ─── */
+.emer-nums-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.emer-num-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 6px;
+  border-radius: 10px;
+  background: #fef4f4;
+  border: 1.5px solid #fecaca;
+  text-decoration: none;
+  transition: transform 0.15s;
+}
+
+.emer-num-card:active {
+  transform: scale(0.93);
+}
+
+.emer-num-card strong {
+  font-size: 20px;
+  font-weight: 900;
+  color: #d32f2f;
+  line-height: 1.2;
+}
+
+.emer-num-card span {
+  font-size: 9px;
+  font-weight: 700;
+  color: #b71c1c;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+.emer-num-card-main {
+  background: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.emer-num-card-main strong {
+  color: #fff;
+}
+
+.emer-num-card-main span {
+  color: rgba(255,255,255,0.85);
+}
+
+/* ─── Return Button ─── */
+.emer-return-btn {
+  display: block;
+  text-align: center;
+  padding: 14px 20px;
+  background: #1a5fb4;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.emer-return-btn:active {
+  transform: scale(0.97);
+  background: #154a8f;
+}

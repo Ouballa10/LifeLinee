@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getEmergencyProfile } from "../../services/profileService.js";
 
 function formatList(items) {
@@ -196,7 +196,33 @@ export default function Emergency() {
             </div>
           )}
 
-          {/* ═══ NUMÉRO D'URGENCE 112 ═══ */}
+          {/* ═══ NUMÉROS D'URGENCE NATIONAUX ═══ */}
+          <div className="emer-section">
+            <div className="emer-section-title">
+              <span className="emer-section-title-icon">🚨</span>
+              NUMÉROS D'URGENCE
+            </div>
+            <div className="emer-nums-grid">
+              <a href="tel:15" className="emer-num-card">
+                <strong>15</strong>
+                <span>SAMU</span>
+              </a>
+              <a href="tel:150" className="emer-num-card">
+                <strong>150</strong>
+                <span>Ambulance</span>
+              </a>
+              <a href="tel:19" className="emer-num-card">
+                <strong>19</strong>
+                <span>Pompiers</span>
+              </a>
+              <a href="tel:112" className="emer-num-card emer-num-card-main">
+                <strong>112</strong>
+                <span>Urgence EU</span>
+              </a>
+            </div>
+          </div>
+
+          {/* ═══ IMPORTANT BOX ═══ */}
           <div className="emer-emergency-box">
             <div className="emer-emergency-box-left">
               <strong className="emer-emergency-box-title">⚠️ IMPORTANT</strong>
@@ -205,9 +231,14 @@ export default function Emergency() {
             <a href="tel:112" className="emer-emergency-box-call">
               <span className="emer-emergency-box-call-icon">📞</span>
               <strong>112</strong>
-              <span>NUMÉRO D'URGENCE</span>
+              <span>APPELER</span>
             </a>
           </div>
+
+          {/* ═══ RETURN BUTTON ═══ */}
+          <Link to="/" className="emer-return-btn">
+            ← Retour à l'application
+          </Link>
 
         </div>
 
