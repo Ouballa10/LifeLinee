@@ -893,9 +893,11 @@
 }
 
 .edit-section-tab-icon {
-  font-size: 1.1rem;
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  line-height: 1;
+  font-size: 1.5rem;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
 }
 
 .edit-section-tab-label {
@@ -928,16 +930,15 @@
 }
 
 .edit-section-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
   flex-shrink: 0;
-  text-align: center;
-  line-height: 1;
 }
 
 .edit-section-icon-blue {
