@@ -14,7 +14,19 @@ function splitCsv(value) {
 }
 
 function normalizePhone(value = '') {
-  return String(value || '').trim();
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+
+  // Remove all non-digit characters except leading +
+  const hasPlus = raw.startsWith('+');
+  const digits = raw.replace(/\D/g, '');
+
+  // Reject if less than 8 digits or more than 15
+  if (digits.length < 8 || digits.length > 15) {
+    return raw; // Return as-is, let frontend handle display
+  }
+
+  return hasPlus ? `+${digits}` : digits;
 }
 
 function extractPhoneNumber(value = '') {

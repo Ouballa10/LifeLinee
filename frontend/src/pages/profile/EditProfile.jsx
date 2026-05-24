@@ -282,11 +282,68 @@ export default function EditProfile() {
     setForm((c) => ({ ...c, [name]: value }));
   }
 
+  function validateForm() {
+    // Phone validation: must be digits (with optional + and spaces), min 8 chars
+    const phoneFields = [
+      { key: "phone", label: "Téléphone" },
+      { key: "doctorPhone", label: "Numéro du médecin" },
+    ];
+    for (const { key, label } of phoneFields) {
+      const val = form[key]?.trim();
+      if (val) {
+        const digitsOnly = val.replace(/[\s\-().+]/g, "");
+        if (!/^\d+$/.test(digitsOnly)) {
+          return `${label}: uniquement des chiffres (ex: 0612345678)`;
+        }
+        if (digitsOnly.length < 8) {
+          return `${label}: minimum 8 chiffres`;
+        }
+        if (digitsOnly.length > 15) {
+          return `${label}: maximum 15 chiffres`;
+        }
+      }
+    }
+
+    // CIN validation: alphanumeric, min 4 chars
+    const cin = form.cin?.trim();
+    if (cin) {
+      if (!/^[A-Za-z0-9]+$/.test(cin)) {
+        return "CIN: uniquement lettres et chiffres (ex: EE682529)";
+      }
+      if (cin.length < 4) {
+        return "CIN: minimum 4 caractères";
+      }
+    }
+
+    // Weight/Height: must be positive numbers
+    if (form.weight && (isNaN(form.weight) || Number(form.weight) <= 0 || Number(form.weight) > 500)) {
+      return "Poids: entrez une valeur valide (1-500 kg)";
+    }
+    if (form.height && (isNaN(form.height) || Number(form.height) <= 0 || Number(form.height) > 300)) {
+      return "Taille: entrez une valeur valide (1-300 cm)";
+    }
+
+    // Full name required
+    if (!form.fullName?.trim()) {
+      return "Le nom complet est obligatoire.";
+    }
+
+    return null;
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setIsSaving(true);
     setError("");
     setSuccess("");
+
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      setIsSaving(false);
+      return;
+    }
+
     try {
       await updateProfile(form);
       isEditingRef.current = false;
@@ -416,7 +473,7 @@ export default function EditProfile() {
 
                 <div className="edit-fields">
                   <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
-                  <Input label="Téléphone" name="phone" type="tel" value={form.phone} onChange={handleChange} />
+                  <Input label="Téléphone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
                   <Input label="Date de naissance" name="birthDate" type="date" value={form.birthDate} onChange={handleChange} />
                   <div className="edit-field-group">
                     <label className="field-group">
@@ -430,7 +487,7 @@ export default function EditProfile() {
                   </div>
                   <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
                   <Input label="Adresse complète" name="address" value={form.address} onChange={handleChange} />
-                  <Input label="CIN / ID médical" name="cin" value={form.cin} onChange={handleChange} />
+                  <Input label="CIN / ID médical" name="cin" value={form.cin} onChange={handleChange} placeholder="EE682529" minLength={4} maxLength={20} />
                 </div>
               </div>
             )}
@@ -459,8 +516,8 @@ export default function EditProfile() {
                   <Input label="Médicaments" name="medications" as="textarea" rows="2" value={form.medications} onChange={handleChange} />
                   <Input label="Antécédents médicaux" name="medicalHistory" as="textarea" rows="2" value={form.medicalHistory} onChange={handleChange} />
                   <div className="edit-row-2">
-                    <Input label="Poids (kg)" name="weight" type="number" value={form.weight} onChange={handleChange} />
-                    <Input label="Taille (cm)" name="height" type="number" value={form.height} onChange={handleChange} />
+                    <Input label="Poids (kg)" name="weight" type="number" value={form.weight} onChange={handleChange} placeholder="70" min="1" max="500" />
+                    <Input label="Taille (cm)" name="height" type="number" value={form.height} onChange={handleChange} placeholder="175" min="30" max="300" />
                   </div>
                   <Input label="Médecin référent" name="doctorName" value={form.doctorName} onChange={handleChange} />
                   <Input label="Consignes médicales" name="criticalInstructions" as="textarea" rows="3" value={form.criticalInstructions} onChange={handleChange} />
@@ -481,7 +538,7 @@ export default function EditProfile() {
                 <div className="edit-fields">
                   <Input label="Contact d'urgence principal" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
                   <Input label="Contact d'urgence secondaire" name="secondaryContact" value={form.secondaryContact} onChange={handleChange} />
-                  <Input label="Numéro du médecin" name="doctorPhone" type="tel" value={form.doctorPhone} onChange={handleChange} />
+                  <Input label="Numéro du médecin" name="doctorPhone" type="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
                 </div>
 
                 {form.emergencyContact && (() => {
