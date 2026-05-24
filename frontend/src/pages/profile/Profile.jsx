@@ -211,7 +211,11 @@ export default function Profile() {
             <div className="prof-card-top">
               <div className="prof-avatar-wrap">
                 <div className="prof-avatar">
-                  <span>{getInitials(user?.fullName || "LL")}</span>
+                  {user?.photoUrl ? (
+                    <img src={user.photoUrl} alt={user.fullName || "Photo"} className="prof-avatar-img" />
+                  ) : (
+                    <span>{getInitials(user?.fullName || "LL")}</span>
+                  )}
                 </div>
               </div>
               <div className="prof-card-info">
