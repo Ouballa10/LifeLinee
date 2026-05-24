@@ -135,16 +135,6 @@ export default function Emergency() {
               </span>
             </div>
 
-            {(profile.weight || profile.height) && (
-              <div className="emer-vital-row">
-                <span className="emer-vital-icon">📏</span>
-                <span className="emer-vital-label">Poids / Taille</span>
-                <span className="emer-vital-value">
-                  {[profile.weight && `${profile.weight} kg`, profile.height && `${profile.height} cm`].filter(Boolean).join(" / ")}
-                </span>
-              </div>
-            )}
-
             {profile.criticalInstructions && (
               <div className="emer-vital-row emer-vital-row-alert">
                 <span className="emer-vital-icon">🚨</span>
