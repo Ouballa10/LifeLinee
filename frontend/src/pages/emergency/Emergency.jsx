@@ -117,9 +117,12 @@ export default function Emergency() {
 
         {/* Info sections based on visibility */}
         <div className="emer-body">
+          {/* Allergies — always shown (life-critical) */}
+          <EmergencyInfoRow icon="⚠️" label="Allergies" value={formatList(profile.allergies)} urgent />
+
+          {/* Full mode: show all medical details */}
           {visibility === "full" && (
             <>
-              <EmergencyInfoRow icon="⚠️" label="Allergies" value={formatList(profile.allergies)} urgent />
               <EmergencyInfoRow icon="🏥" label="Maladies chroniques" value={formatList(profile.chronicDiseases)} />
               <EmergencyInfoRow icon="💊" label="Médicaments en cours" value={formatList(profile.medications)} />
               <EmergencyInfoRow icon="📋" label="Consignes critiques" value={profile.criticalInstructions} urgent />
@@ -134,8 +137,13 @@ export default function Emergency() {
             </>
           )}
 
-          {/* Emergency contact — shown in "full" and "contact" modes */}
-          {(visibility === "full" || visibility === "contact") && profile.emergencyContact?.phone && (
+          {/* Contact mode: show critical instructions */}
+          {visibility === "contact" && (
+            <EmergencyInfoRow icon="📋" label="Consignes critiques" value={profile.criticalInstructions} urgent />
+          )}
+
+          {/* Emergency contact — always shown */}
+          {profile.emergencyContact?.phone && (
             <div className="emer-contact-section">
               <div className="emer-contact-info">
                 <span className="emer-contact-label">Contact d'urgence</span>
@@ -173,9 +181,9 @@ export default function Emergency() {
             <span>LifeLine</span>
           </div>
           <p className="emer-footer-note">
-            {visibility === "minimal" && "Mode minimal — seules les infos essentielles sont affichées."}
-            {visibility === "contact" && "Mode contact — seul le contact d'urgence est visible."}
-            {visibility === "full" && "Fiche d'urgence complète — données partagées par le patient."}
+            {visibility === "minimal" && "Mode minimal — infos vitales uniquement."}
+            {visibility === "contact" && "Mode contact — infos vitales + contact d'urgence."}
+            {visibility === "full" && "Fiche d'urgence complète."}
           </p>
         </footer>
       </div>

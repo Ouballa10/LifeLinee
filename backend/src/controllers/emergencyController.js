@@ -4,35 +4,36 @@ const User = require('../models/User');
 const { getSupabaseAdmin } = require('../config/supabase');
 
 function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
+  // In emergency, ALWAYS show critical life-saving info regardless of visibility setting
   const base = {
     fullName: user?.fullName || user?.full_name || '',
     bloodType: medicalProfile?.bloodType || medicalProfile?.blood_type || 'Unknown',
+    // Always show allergies — they are life-critical
+    allergies: medicalProfile?.allergies || [],
+    emergencyContact: {
+      name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
+      phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
+    },
   };
 
   if (qrVisibility === 'minimal') {
+    // Minimal: name + blood + allergies + contact (minimum vital)
     return base;
   }
 
   if (qrVisibility === 'contact') {
+    // Contact: base + critical instructions
     return {
       ...base,
-      emergencyContact: {
-        name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
-        phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
-      },
+      criticalInstructions: medicalProfile?.criticalInstructions || medicalProfile?.critical_instructions || '',
     };
   }
 
   // "full" — all emergency-relevant info
   return {
     ...base,
-    allergies: medicalProfile?.allergies || [],
     chronicDiseases: medicalProfile?.chronicDiseases || medicalProfile?.chronic_diseases || [],
     medications: medicalProfile?.medications || [],
-    emergencyContact: {
-      name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
-      phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
-    },
     doctorName: medicalProfile?.doctorName || medicalProfile?.doctor_name || '',
     doctorPhone: medicalProfile?.doctorPhone || medicalProfile?.doctor_phone || '',
     criticalInstructions: medicalProfile?.criticalInstructions || medicalProfile?.critical_instructions || '',
