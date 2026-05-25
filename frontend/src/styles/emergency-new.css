@@ -741,3 +741,40 @@
 .emer-contact-call-phone-blue {
   color: #2563eb !important;
 }
+
+
+/* ─── Secondary Call Button (backup number) ─── */
+.emer-secondary-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 2px solid #fecaca;
+  color: #991b1b;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 200ms ease;
+}
+
+.emer-secondary-call-btn:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.12);
+}
+
+.emer-secondary-call-btn svg {
+  flex-shrink: 0;
+}
+
+.emer-secondary-call-btn span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
