@@ -782,7 +782,7 @@ export default function EditProfile() {
                                       <span className="doc-item-size">{formatFileSize(doc.file_size)}</span>
                                       {doc.created_at && <span className="doc-item-date">{formatDate(doc.created_at)}</span>}
                                     </div>
-                                    {doc.notes && <div className="doc-item-notes">{doc.notes}</div>}
+                                    {doc.notes && <div className="doc-item-notes">📋 {doc.notes}</div>}
                                   </div>
                                   <div className="doc-item-actions">
                                     <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="doc-action-btn doc-action-view" title="Ouvrir">

@@ -8,6 +8,23 @@ function formatList(items) {
   return items.filter(Boolean).join(", ") || null;
 }
 
+function formatPhone(phone) {
+  if (!phone) return "";
+  const clean = phone.replace(/[^\d+]/g, "");
+  // Format marocain: +212 6XX XX XX XX ou 06XX XX XX XX
+  if (clean.startsWith("+212") && clean.length >= 12) {
+    return `+212 ${clean.slice(4, 5)} ${clean.slice(5, 7)} ${clean.slice(7, 9)} ${clean.slice(9, 11)} ${clean.slice(11)}`.trim();
+  }
+  if (clean.startsWith("0") && clean.length >= 10) {
+    return `${clean.slice(0, 4)} ${clean.slice(4, 6)} ${clean.slice(6, 8)} ${clean.slice(8)}`.trim();
+  }
+  // Format international générique
+  if (clean.length > 8) {
+    return clean.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
+  }
+  return phone;
+}
+
 export default function Emergency() {
   const { token } = useParams();
   const [data, setData] = useState(null);
@@ -74,11 +91,18 @@ export default function Emergency() {
   }
 
   const profile = data?.profile || {};
-  const visibility = data?.visibility || "full";
   const contactPhone = profile.emergencyContact?.phone || "";
   const contactName = profile.emergencyContact?.name || "";
   const doctorPhone = profile.doctorPhone || "";
   const now = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+
+  // Determine the primary emergency number to call
+  const primaryCallNumber = contactPhone || doctorPhone || "112";
+  const primaryCallLabel = contactPhone
+    ? (contactName || "Contact d'urgence")
+    : doctorPhone
+      ? (profile.doctorName || "Médecin")
+      : "Urgences (112)";
 
   return (
     <main className="emer-screen">
@@ -91,12 +115,28 @@ export default function Emergency() {
             {(profile.fullName || "U").slice(0, 1).toUpperCase()}
           </div>
           <h1 className="emer-header-name">{profile.fullName || "Patient"}</h1>
-          <p className="emer-header-subtitle">INFORMATIONS D'URGENCE</p>
-          <p className="emer-header-note">Ces informations peuvent sauver une vie.</p>
+          <p className="emer-header-subtitle">FICHE D'URGENCE MÉDICALE</p>
           <div className="emer-header-badge">⚡ ACCÈS D'URGENCE</div>
         </div>
 
         <div className="emer-body">
+
+          {/* ═══ GROS BOUTON APPEL URGENCE ═══ */}
+          <a
+            href={`tel:${primaryCallNumber.replace(/\s/g, "")}`}
+            className="emer-big-call-btn"
+          >
+            <div className="emer-big-call-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </div>
+            <div className="emer-big-call-text">
+              <strong>APPELER URGENCE</strong>
+              <span>{primaryCallLabel}</span>
+              <span className="emer-big-call-number">{formatPhone(primaryCallNumber)}</span>
+            </div>
+          </a>
 
           {/* ═══ INFORMATIONS VITALES ═══ */}
           <div className="emer-section">
@@ -144,86 +184,100 @@ export default function Emergency() {
             )}
           </div>
 
-          {/* ═══ CONTACT D'URGENCE PRINCIPAL ═══ */}
-          {contactPhone && (
-            <div className="emer-section">
-              <div className="emer-section-title">
-                <span className="emer-section-title-icon">📞</span>
-                CONTACT D'URGENCE PRINCIPAL
-              </div>
-              <div className="emer-contact-row">
-                <div className="emer-contact-avatar">👤</div>
-                <div className="emer-contact-info">
-                  <strong>{contactName || "Contact"}</strong>
-                  <span>Contact principal</span>
-                </div>
-                <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
-                  📞 {contactPhone}
-                </a>
-              </div>
+          {/* ═══ CONTACTS D'URGENCE ═══ */}
+          <div className="emer-section">
+            <div className="emer-section-title">
+              <span className="emer-section-title-icon">📞</span>
+              CONTACTS D'URGENCE
             </div>
-          )}
 
-          {/* ═══ AUTRES CONTACTS ═══ */}
-          {(doctorPhone || profile.doctorName) && (
-            <div className="emer-section">
-              <div className="emer-section-title">
-                <span className="emer-section-title-icon">👥</span>
-                AUTRES CONTACTS D'URGENCE
-              </div>
-              {doctorPhone && (
-                <div className="emer-contact-row">
-                  <div className="emer-contact-avatar emer-contact-avatar-blue">👨‍⚕️</div>
-                  <div className="emer-contact-info">
-                    <strong>{profile.doctorName || "Médecin"}</strong>
-                    <span>Numéro du médecin</span>
+            {contactPhone && (
+              <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="emer-contact-call-card">
+                <div className="emer-contact-call-left">
+                  <div className="emer-contact-call-avatar">👤</div>
+                  <div className="emer-contact-call-info">
+                    <strong>{contactName || "Contact principal"}</strong>
+                    <span>Contact d'urgence</span>
                   </div>
-                  <a href={`tel:${doctorPhone.replace(/\s/g, "")}`} className="emer-contact-phone-btn">
-                    📞 {doctorPhone}
-                  </a>
                 </div>
-              )}
-            </div>
-          )}
+                <div className="emer-contact-call-right">
+                  <span className="emer-contact-call-phone">{formatPhone(contactPhone)}</span>
+                  <span className="emer-contact-call-action">APPELER →</span>
+                </div>
+              </a>
+            )}
 
-          {/* ═══ NUMÉROS D'URGENCE ═══ */}
+            {doctorPhone && (
+              <a href={`tel:${doctorPhone.replace(/\s/g, "")}`} className="emer-contact-call-card emer-contact-call-card-blue">
+                <div className="emer-contact-call-left">
+                  <div className="emer-contact-call-avatar emer-contact-call-avatar-blue">👨‍⚕️</div>
+                  <div className="emer-contact-call-info">
+                    <strong>{profile.doctorName || "Médecin traitant"}</strong>
+                    <span>Médecin</span>
+                  </div>
+                </div>
+                <div className="emer-contact-call-right">
+                  <span className="emer-contact-call-phone">{formatPhone(doctorPhone)}</span>
+                  <span className="emer-contact-call-action">APPELER →</span>
+                </div>
+              </a>
+            )}
+
+            {!contactPhone && !doctorPhone && (
+              <div className="emer-no-contact">
+                <span>⚠️</span>
+                <p>Aucun contact d'urgence enregistré. Appelez le 112.</p>
+              </div>
+            )}
+          </div>
+
+          {/* ═══ NUMÉROS D'URGENCE NATIONAUX ═══ */}
           <div className="emer-section">
             <div className="emer-section-title">
               <span className="emer-section-title-icon">🚨</span>
               NUMÉROS D'URGENCE
             </div>
             <div className="emer-nums-grid">
-              <a href="tel:15" className="emer-num-card"><strong>15</strong><span>SAMU</span></a>
-              <a href="tel:150" className="emer-num-card"><strong>150</strong><span>Ambulance</span></a>
-              <a href="tel:19" className="emer-num-card"><strong>19</strong><span>Pompiers</span></a>
-              <a href="tel:112" className="emer-num-card emer-num-card-main"><strong>112</strong><span>Urgence</span></a>
+              <a href="tel:15" className="emer-num-card">
+                <strong>15</strong>
+                <span>SAMU</span>
+              </a>
+              <a href="tel:150" className="emer-num-card">
+                <strong>150</strong>
+                <span>Ambulance</span>
+              </a>
+              <a href="tel:19" className="emer-num-card">
+                <strong>19</strong>
+                <span>Pompiers</span>
+              </a>
+              <a href="tel:112" className="emer-num-card emer-num-card-main">
+                <strong>112</strong>
+                <span>Urgence EU</span>
+              </a>
             </div>
           </div>
 
           {/* ═══ IMPORTANT ═══ */}
           <div className="emer-emergency-box">
-            <div className="emer-emergency-box-left">
-              <strong className="emer-emergency-box-title">⚠️ IMPORTANT</strong>
-              <p>En cas d'urgence, contactez immédiatement le service médical et le contact d'urgence.</p>
-            </div>
-            <a href="tel:112" className="emer-emergency-box-call">
-              <span className="emer-emergency-box-call-icon">📞</span>
-              <strong>112</strong>
-              <span>APPELER</span>
+            <strong>⚠️ EN CAS D'URGENCE VITALE</strong>
+            <p>Appelez immédiatement les secours et le contact d'urgence du patient.</p>
+            <a href="tel:112" className="emer-emergency-box-call-btn">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              APPELER LE 112
             </a>
           </div>
 
           {/* ═══ RETOUR ═══ */}
           <Link to="/" className="emer-return-btn">← Retour à l'application</Link>
-
         </div>
 
         {/* ═══ FOOTER ═══ */}
         <div className="emer-footer">
-          <p>🩺 Informations fournies par le titulaire du profil LifeLine</p>
-          <p>Dernière mise à jour : {now}</p>
+          <p>🩺 Fiche médicale LifeLine — {now}</p>
+          <p>Ces informations sont fournies par le titulaire du profil.</p>
         </div>
-
       </div>
     </main>
   );

@@ -425,3 +425,261 @@
 .emer-return-btn:active {
   opacity: 0.85;
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   EMERGENCY — BIG CALL BUTTON & CONTACT CARDS
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Big Call Button ─── */
+.emer-big-call-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow:
+    0 12px 32px rgba(220, 38, 38, 0.4),
+    0 4px 12px rgba(220, 38, 38, 0.2);
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: emerPulseGlow 2s ease-in-out infinite;
+}
+
+.emer-big-call-btn:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 16px 40px rgba(220, 38, 38, 0.5),
+    0 6px 16px rgba(220, 38, 38, 0.3);
+}
+
+.emer-big-call-btn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+@keyframes emerPulseGlow {
+  0%, 100% { box-shadow: 0 12px 32px rgba(220, 38, 38, 0.4), 0 4px 12px rgba(220, 38, 38, 0.2); }
+  50% { box-shadow: 0 12px 40px rgba(220, 38, 38, 0.55), 0 4px 16px rgba(220, 38, 38, 0.3); }
+}
+
+.emer-big-call-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: emerPhoneRing 1.5s ease-in-out infinite;
+}
+
+@keyframes emerPhoneRing {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-8deg); }
+  20% { transform: rotate(8deg); }
+  30% { transform: rotate(-6deg); }
+  40% { transform: rotate(6deg); }
+  50% { transform: rotate(0deg); }
+}
+
+.emer-big-call-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.emer-big-call-text strong {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.emer-big-call-text > span {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.emer-big-call-number {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* ─── Contact Call Cards ─── */
+.emer-contact-call-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 2px solid #fecaca;
+  text-decoration: none;
+  color: inherit;
+  transition: all 180ms ease;
+}
+
+.emer-contact-call-card:hover {
+  border-color: #dc2626;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.12);
+  transform: translateY(-1px);
+}
+
+.emer-contact-call-card-blue {
+  border-color: #bfdbfe;
+}
+
+.emer-contact-call-card-blue:hover {
+  border-color: #2563eb;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+}
+
+.emer-contact-call-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.emer-contact-call-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fecaca, #fca5a5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.emer-contact-call-avatar-blue {
+  background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+}
+
+.emer-contact-call-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.emer-contact-call-info strong {
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emer-contact-call-info span {
+  color: #64748b;
+  font-size: 0.72rem;
+  margin-top: 1px;
+}
+
+.emer-contact-call-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.emer-contact-call-phone {
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.emer-contact-call-action {
+  color: #dc2626;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.emer-contact-call-card-blue .emer-contact-call-action {
+  color: #2563eb;
+}
+
+/* ─── No Contact State ─── */
+.emer-no-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+}
+
+.emer-no-contact span {
+  font-size: 1.4rem;
+}
+
+.emer-no-contact p {
+  margin: 0;
+  color: #92400e;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ─── Emergency Box Redesign ─── */
+.emer-emergency-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fef2f2, #fff1f2);
+  border: 2px solid #fecaca;
+  text-align: center;
+}
+
+.emer-emergency-box strong {
+  color: #991b1b;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.emer-emergency-box p {
+  margin: 0;
+  color: #7f1d1d;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.emer-emergency-box-call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+  transition: all 200ms ease;
+  margin-top: 4px;
+}
+
+.emer-emergency-box-call-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.4);
+}

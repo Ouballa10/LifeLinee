@@ -609,10 +609,15 @@
 }
 
 .doc-item-notes {
-  font-size: 0.62rem;
-  color: #4a6580;
-  font-style: italic;
-  margin-top: 2px;
+  font-size: 0.72rem;
+  color: #1e3a5f;
+  font-weight: 600;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: #f0f7ff;
+  border-radius: 6px;
+  border-left: 3px solid #1a5fb4;
+  line-height: 1.4;
 }
 
 .dark-mode .doc-upload-notes {
@@ -632,7 +637,9 @@
 }
 
 .dark-mode .doc-item-notes {
-  color: #8b949e;
+  color: #c9d1d9;
+  background: #1a2d42;
+  border-left-color: #58a6ff;
 }
 
 
