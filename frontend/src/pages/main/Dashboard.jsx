@@ -96,10 +96,10 @@ export default function Dashboard() {
           <section className="dash-progress-card">
             <div className="dash-ring-wrap">
               <svg viewBox="0 0 120 120" width="100" height="100" className="dash-ring-svg">
-                <circle cx="60" cy="60" r="50" fill="none" stroke="#e4eaf0" strokeWidth="10" />
+                <circle cx="60" cy="60" r="50" fill="none" strokeWidth="10" />
                 <circle
                   cx="60" cy="60" r="50" fill="none"
-                  stroke="#1a5fb4" strokeWidth="10"
+                  strokeWidth="10"
                   strokeLinecap="round"
                   strokeDasharray={`${completenessPercent * 3.14} 314`}
                   transform="rotate(-90 60 60)"
@@ -111,10 +111,11 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="dash-progress-info">
+              <span className="dash-kicker">✓ {completenessPercent === 100 ? "DOSSIER COMPLET" : "DOSSIER MÉDICAL"}</span>
               <strong>{t.completeness}</strong>
               <p>
                 {completenessPercent === 100
-                  ? t.allComplete
+                  ? "Votre dossier médical est complet. Bravo !"
                   : `${missingFields} ${t.fieldsRemaining}`}
               </p>
               <button type="button" className="dash-complete-btn" onClick={() => navigate(ROUTES.editProfile)}>
@@ -182,7 +183,7 @@ export default function Dashboard() {
             <h2 className="home-section-heading">{t.quickEdit}</h2>
             <div className="dash-shortcuts-grid">
               {shortcuts.map((item) => (
-                <button key={item.route} type="button" className="dash-shortcut-item" onClick={() => navigate(item.route)}>
+                <button key={item.route + item.label} type="button" className="dash-shortcut-item" onClick={() => navigate(item.route)}>
                   <span className="dash-shortcut-icon">{item.icon}</span>
                   <strong>{item.label}</strong>
                   <small>{item.sub}</small>
@@ -190,6 +191,16 @@ export default function Dashboard() {
               ))}
             </div>
           </section>
+
+          {/* Last Update */}
+          <button type="button" className="dash-update-row" onClick={() => navigate(ROUTES.editProfile)}>
+            <span className="dash-update-icon">🕐</span>
+            <div className="dash-update-info">
+              <strong>Dernière mise à jour</strong>
+              <span>Dossier mis à jour aujourd'hui</span>
+            </div>
+            <span className="dash-update-arrow">&rsaquo;</span>
+          </button>
         </div>
 
         <BottomNav />
