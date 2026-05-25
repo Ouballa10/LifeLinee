@@ -132,6 +132,9 @@ export function mapEmergencyProfileFromApi(profile = {}) {
 
   return {
     fullName: profile?.fullName || "",
+    photoUrl: profile?.photoUrl || "",
+    phone: profile?.phone || "",
+    city: profile?.city || "",
     bloodType: profile?.bloodType || "Unknown",
     allergies,
     conditions: chronicDiseases,
@@ -140,6 +143,10 @@ export function mapEmergencyProfileFromApi(profile = {}) {
     emergencyContact,
     emergencyContactLabel: buildEmergencyContactLabel(emergencyContact),
     criticalInstructions: String(profile?.criticalInstructions || "").trim(),
+    doctorName: profile?.doctorName || "",
+    doctorPhone: profile?.doctorPhone || "",
+    weight: profile?.weight || "",
+    height: profile?.height || "",
   };
 }
 

@@ -8,6 +8,9 @@ function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
   // qrVisibility only controls minor details, not life-critical data
   return {
     fullName: user?.fullName || user?.full_name || '',
+    photoUrl: user?.photo_url || user?.photoUrl || '',
+    phone: user?.phone || '',
+    city: user?.city || '',
     bloodType: medicalProfile?.bloodType || medicalProfile?.blood_type || 'Unknown',
     allergies: medicalProfile?.allergies || [],
     chronicDiseases: medicalProfile?.chronicDiseases || medicalProfile?.chronic_diseases || [],
@@ -31,7 +34,7 @@ exports.getEmergencyInfo = async (req, res) => {
     // Fetch medical profile with user info via service role (bypasses RLS)
     const { data: mpRow, error: mpError } = await getSupabaseAdmin()
       .from('medical_profiles')
-      .select('*, user_profiles!inner(full_name, phone, city)')
+      .select('*, user_profiles!inner(full_name, phone, city, photo_url)')
       .eq('qr_token', qrToken)
       .maybeSingle();
 
