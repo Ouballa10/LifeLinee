@@ -9,214 +9,237 @@
 
 /* ─── Root overrides ─── */
 .dark-mode body {
-  background: #0d1117;
-  color: #c9d1d9;
+  background: #060d14;
+  color: #e6fff8;
 }
 
 .dark-mode #root {
-  background: #0d1117;
+  background: #060d14;
 }
 
 /* ─── Home & Dashboard Pages ─── */
 .dark-mode .home-screen {
-  background: #0d1117;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(0, 200, 170, 0.12), transparent 42%),
+    radial-gradient(circle at 88% 6%, rgba(0, 180, 200, 0.1), transparent 38%),
+    linear-gradient(180deg, #060d14 0%, #0a1a22 100%);
 }
 
 .dark-mode .home-shell {
-  background: #161b22;
+  background: #0a1520;
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-topbar-btn {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
   box-shadow: none;
 }
 
 .dark-mode .home-hamburger-line {
-  background: #c9d1d9;
+  background: #6aaa9e;
 }
 
 .dark-mode .home-topbar-btn svg {
-  stroke: #c9d1d9;
+  stroke: #6aaa9e;
 }
 
 .dark-mode .home-greeting {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-greeting-sub {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 /* Hero Banner */
 .dark-mode .home-hero-banner {
-  background: linear-gradient(135deg, #1c2d42 0%, #1a2940 45%, #1f3350 100%);
+  background: linear-gradient(135deg, #0a2030 0%, #0d2a38 45%, #0a2530 100%);
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-hero-text h2 {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-hero-text p {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 .dark-mode .home-hero-cta {
-  background: linear-gradient(135deg, #2f81f7, #1a5fb4);
+  background: linear-gradient(135deg, #00c9a7, #00a88a);
+  color: #0a1520;
 }
 
 .dark-mode .home-hero-phone {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-hero-phone-screen {
-  background: #21262d;
+  background: #0a1520;
 }
 
 .dark-mode .home-hero-shield-float {
-  background: #1c2128;
+  background: #0d1f2d;
 }
 
 /* Sections */
 .dark-mode .home-section-heading {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 /* Quick Actions */
 .dark-mode .home-action-item {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
+}
+
+.dark-mode .home-action-item:hover {
+  border-color: #00c9a7;
+  box-shadow: 0 6px 16px rgba(0, 200, 170, 0.12);
 }
 
 .dark-mode .home-action-item strong {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-action-item small {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 .dark-mode .home-action-icon-blue {
-  background: #1a2d42;
+  background: #0a2040;
   color: #58a6ff;
 }
 
 .dark-mode .home-action-icon-indigo {
-  background: #1e1f3d;
+  background: #1a1a3d;
   color: #a5b4fc;
 }
 
 .dark-mode .home-action-icon-red {
-  background: #2d1b1b;
+  background: #2d1020;
   color: #f87171;
 }
 
 .dark-mode .home-action-icon-purple {
-  background: #261b3d;
+  background: #1a1030;
   color: #c4b5fd;
 }
 
 /* Medical Items */
 .dark-mode .home-medical-row {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-med-info strong {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-med-info span {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
-.dark-mode .home-med-icon-red { background: #2d1b1b; color: #f87171; }
-.dark-mode .home-med-icon-blue { background: #1a2d42; color: #58a6ff; }
-.dark-mode .home-med-icon-teal { background: #1a2d2a; color: #34d399; }
-.dark-mode .home-med-icon-orange { background: #2d2518; color: #fbbf24; }
-.dark-mode .home-med-icon-purple { background: #261b3d; color: #c4b5fd; }
+.dark-mode .home-med-icon-red { background: #2d1020; color: #f87171; }
+.dark-mode .home-med-icon-blue { background: #0a2040; color: #58a6ff; }
+.dark-mode .home-med-icon-teal { background: #0a2a30; color: #34d399; }
+.dark-mode .home-med-icon-orange { background: #2d2010; color: #fbbf24; }
+.dark-mode .home-med-icon-purple { background: #1a1030; color: #c4b5fd; }
 
 /* Contacts */
 .dark-mode .home-contacts-btn {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-arrow {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 /* Security Banner */
 .dark-mode .home-security {
-  background: linear-gradient(135deg, #0d1b2a 0%, #1a3050 100%);
+  background: linear-gradient(135deg, #0a2030 0%, #00c9a7 100%);
 }
 
 /* Completeness */
 .dark-mode .home-completeness {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
 }
 
 .dark-mode .home-completeness-text strong {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-completeness-text > span {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 .dark-mode .home-progress-bar {
-  background: #30363d;
+  background: #1a3a4a;
+}
+
+.dark-mode .home-progress-fill {
+  background: linear-gradient(90deg, #00c9a7, #00e6c3);
 }
 
 .dark-mode .home-completeness-link {
-  color: #58a6ff;
+  color: #00c9a7;
 }
 
 /* Link button */
 .dark-mode .home-link-btn {
-  color: #58a6ff;
+  color: #00c9a7;
 }
 
 /* Dropdown */
 .dark-mode .home-dropdown-menu {
-  background: #1c2128;
-  border-color: #30363d;
+  background: #0d1f2d;
+  border-color: #1a3a4a;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
 }
 
 .dark-mode .home-dropdown-header strong {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-dropdown-header span {
-  color: #8b949e;
+  color: #6aaa9e;
+}
+
+.dark-mode .home-dropdown-links {
+  border-bottom-color: #1a3a4a;
 }
 
 .dark-mode .home-dropdown-link {
-  color: #f0f6fc;
+  color: #e6fff8;
 }
 
 .dark-mode .home-dropdown-link:hover {
-  background: #21262d;
+  background: rgba(0, 200, 170, 0.1);
+  color: #00e6c3;
 }
 
 /* Bottom Nav */
 .dark-mode .home-screen .home-shell .bottom-nav {
-  background: #161b22;
-  border-top-color: #30363d;
+  background: #0a1520;
+  border-top-color: #1a3a4a;
 }
 
 .dark-mode .home-screen .home-shell .bottom-nav-link {
-  color: #8b949e;
+  color: #6aaa9e;
 }
 
 .dark-mode .home-screen .home-shell .bottom-nav-link.is-active {
-  color: #58a6ff;
+  color: #00e6c3;
 }
 
 .dark-mode .home-screen .home-shell .bottom-nav-link.is-active .bottom-nav-icon {
-  color: #58a6ff;
+  color: #00e6c3;
+  background: rgba(0, 200, 170, 0.15);
+  box-shadow: 0 0 12px rgba(0, 200, 170, 0.3);
 }
 
 /* ─── Profile Page ─── */
