@@ -14,6 +14,7 @@ import "./styles/profile-new.css";
 import "./styles/doc-section.css";
 import "./styles/qr-scanner.css";
 import "./styles/dark-mode.css";
+import "./styles/luxury.css";
 import "./styles/home-luxury.css";
 
 function OfflineNotice() {
