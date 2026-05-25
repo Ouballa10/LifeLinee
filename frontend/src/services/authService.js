@@ -293,7 +293,7 @@ export async function loginUser({ email, password }) {
 export async function registerUser(formValues) {
   const { fullName, email, phone, bloodType, password, confirmPassword } = formValues;
 
-  if (!fullName?.trim() || !email?.trim() || !phone?.trim() || !password?.trim()) {
+  if (!fullName?.trim() || !email?.trim() || !password?.trim()) {
     throw new Error("Please complete all required fields.");
   }
 
