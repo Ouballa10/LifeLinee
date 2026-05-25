@@ -866,20 +866,23 @@
 .edit-section-tabs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 10px;
+  justify-items: center;
 }
 
 .edit-section-tab {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 14px 6px 12px;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 6px 14px;
   border-radius: 14px;
   border: 1.5px solid #e4eaf0;
   background: #ffffff;
   cursor: pointer;
   transition: all 150ms ease;
+  text-align: center;
 }
 
 .edit-section-tab:hover {
@@ -893,18 +896,18 @@
 }
 
 .edit-section-tab-icon {
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
 }
 
 .edit-section-tab-label {
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.25;
   color: #4a6d8c;
 }
 
@@ -930,14 +933,14 @@
 }
 
 .edit-section-icon {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  min-height: 48px;
-  border-radius: 12px;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
   flex-shrink: 0;
 }
 
