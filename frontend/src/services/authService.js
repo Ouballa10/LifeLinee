@@ -313,7 +313,7 @@ export async function registerUser(formValues) {
     return await syncFirebaseSession(result.user, {}, {
       provider: AUTH_PROVIDERS.firebase,
       fullName: fullName.trim(),
-      phone: phone.trim(),
+      phone: (phone || "").trim(),
       bloodType,
     });
   } catch (error) {
