@@ -8,6 +8,7 @@ import { ROUTES } from "../utils/constants.js";
 const Splash = lazy(() => import("../pages/Splash.jsx"));
 const Login = lazy(() => import("../pages/auth/Login.jsx"));
 const Register = lazy(() => import("../pages/auth/Register.jsx"));
+const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword.jsx"));
 const Emergency = lazy(() => import("../pages/emergency/Emergency.jsx"));
 const Dashboard = lazy(() => import("../pages/main/Dashboard.jsx"));
 const Home = lazy(() => import("../pages/main/Home.jsx"));
@@ -54,6 +55,14 @@ export default function AppRoutes() {
           element={
             <PublicOnlyRoute>
               <Register />
+            </PublicOnlyRoute>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicOnlyRoute>
+              <ForgotPassword />
             </PublicOnlyRoute>
           }
         />
