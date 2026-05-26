@@ -8,7 +8,10 @@
   display: flex;
   justify-content: center;
   padding: 0;
-  background: #eef3f9;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(0, 200, 170, 0.1), transparent 42%),
+    radial-gradient(circle at 88% 6%, rgba(0, 180, 200, 0.08), transparent 38%),
+    linear-gradient(180deg, #f4fdfb 0%, #eef9f6 100%);
 }
 
 .home-shell {
@@ -16,7 +19,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f5f8fc;
+  background: #f8fdfb;
   border-radius: 0;
   border: none;
   box-shadow: none;
