@@ -320,7 +320,7 @@ export default function EditProfile() {
     const cin = form.cin?.trim();
     if (cin) {
       if (!/^[A-Za-z0-9]+$/.test(cin)) {
-        return "CIN: uniquement lettres et chiffres (ex: EE682529)";
+        return "CIN: uniquement lettres et chiffres (ex: AB123456)";
       }
       if (cin.length < 4) {
         return "CIN: minimum 4 caractères";
@@ -499,7 +499,7 @@ export default function EditProfile() {
                   </div>
                   <Input label="Ville" name="city" value={form.city} onChange={handleChange} />
                   <Input label="Adresse complète" name="address" value={form.address} onChange={handleChange} />
-                  <Input label="CIN / ID médical" name="cin" value={form.cin} onChange={handleChange} placeholder="EE682529" minLength={4} maxLength={20} />
+                  <Input label="CIN / ID médical" name="cin" value={form.cin} onChange={handleChange} placeholder="AB123456" minLength={4} maxLength={20} />
                 </div>
               </div>
             )}

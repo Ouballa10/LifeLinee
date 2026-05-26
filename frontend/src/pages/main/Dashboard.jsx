@@ -55,7 +55,7 @@ export default function Dashboard() {
 
   const shortcuts = [
     { label: t.identity, sub: t.identitySub, route: ROUTES.editProfile, icon: "👤" },
-    { label: t.medical, sub: t.medicalSub, route: ROUTES.editProfile, icon: "💊" },
+    { label: "Ma fiche urgence", sub: "", route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.editProfile, icon: "🚑" },
     { label: t.myQr, sub: t.myQrSub, route: ROUTES.qr, icon: "📱" },
   ];
 

@@ -20,6 +20,29 @@
   animation: slideUp 0.35s ease-out;
 }
 
+.install-banner--ios {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 16px 20px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.install-banner--ios .install-banner__content {
+  flex: 1;
+}
+
+.install-banner--ios .install-banner__actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.install-banner__share-icon {
+  display: inline-block;
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(100%);
