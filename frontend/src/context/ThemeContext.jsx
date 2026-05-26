@@ -20,6 +20,14 @@ function readInitialTheme() {
     if (stored === "dark" || stored === "light") {
       return stored;
     }
+
+    // Fallback: check old storage key for backward compatibility
+    const oldKey = window.localStorage.getItem("lifeline.darkMode");
+    if (oldKey === "true") {
+      // Migrate to new key
+      window.localStorage.setItem(STORAGE_KEY, "dark");
+      return "dark";
+    }
   } catch {
     // ignore
   }
