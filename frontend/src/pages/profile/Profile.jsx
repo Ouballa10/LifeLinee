@@ -125,10 +125,10 @@ export default function Profile() {
 
   const menuLinks = [
     { icon: <PersonIcon />, label: t.personalInfo, sub: t.personalInfoSub, route: ROUTES.editProfile, color: "blue", id: "personal" },
-    { icon: <MedicalIcon />, label: t.medicalInfo, sub: t.medicalInfoSub, route: ROUTES.editProfile, color: "red", id: "medical" },
-    { icon: <ContactIcon />, label: t.emergencyContacts, sub: t.emergencyContactsSub2, route: null, color: "purple", id: "contacts" },
-    { icon: <LockIcon />, label: t.security, sub: t.securitySub2, route: null, color: "orange", id: "security" },
-    { icon: <SettingsIcon />, label: t.appSettings, sub: t.appSettingsSub, route: null, color: "pink", id: "settings" },
+    { icon: <LockIcon />, label: "Dossier médical", sub: "Mon carnet de santé complet", route: ROUTES.dossier, color: "red", id: "dossier" },
+    { icon: <SettingsIcon />, label: "Page urgence", sub: "Ce que les secouristes voient", route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.editProfile, color: "orange", id: "urgence" },
+    { icon: <MedicalIcon />, label: t.security, sub: t.securitySub2, route: null, color: "purple", id: "security" },
+    { icon: <ContactIcon />, label: t.appSettings, sub: t.appSettingsSub, route: null, color: "pink", id: "settings" },
   ];
 
   return (
