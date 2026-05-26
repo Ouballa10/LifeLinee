@@ -207,6 +207,20 @@ function pwaAssetManifestPlugin() {
 
 export default defineConfig({
   plugins: [react(), pwaAssetManifestPlugin()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom"],
+          firebase: ["firebase/app", "firebase/auth"],
+          supabase: ["@supabase/supabase-js"],
+          qr: ["qrcode", "qr-scanner"],
+        },
+      },
+    },
+    // Inline small assets to reduce HTTP requests
+    assetsInlineLimit: 4096,
+  },
   server: {
     proxy: {
       "/api": {
