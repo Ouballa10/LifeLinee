@@ -40,7 +40,7 @@ export default function Login() {
 
     try {
       await login(form);
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.home, { replace: true });
     } catch (nextError) {
       setError(nextError.message);
     }
@@ -58,7 +58,7 @@ export default function Login() {
 
     try {
       await loginGoogle();
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.home, { replace: true });
     } catch (nextError) {
       setError(nextError.message);
     }

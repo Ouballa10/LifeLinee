@@ -304,14 +304,6 @@ export default function Profile() {
                 {/* Security Panel */}
                 {item.id === "security" && openPanel === "security" && (
                   <div className="prof-panel">
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">🛡️</span>
-                      <div>
-                        <strong>{t.authentication}</strong>
-                        <span>{user?.authProvider === "google" ? "Google (OAuth 2.0)" : "Email / Password"}</span>
-                      </div>
-                    </div>
-                    {/* Password change - only for email/password users */}
                     {user?.authProvider !== "google" && (
                       <div className="prof-panel-row prof-panel-row-action">
                         <span className="prof-panel-icon">🔒</span>
@@ -344,7 +336,7 @@ export default function Profile() {
                         <span className="prof-panel-icon">🔒</span>
                         <div>
                           <strong>{t.password}</strong>
-                          <span>Géré par Google</span>
+                          <span>Géré par Google — modifiez-le depuis votre compte Google</span>
                         </div>
                       </div>
                     )}

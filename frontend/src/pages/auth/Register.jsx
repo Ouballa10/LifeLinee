@@ -62,7 +62,7 @@ export default function Register() {
 
     try {
       await loginGoogle();
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.home, { replace: true });
     } catch (nextError) {
       setError(nextError.message);
     }
