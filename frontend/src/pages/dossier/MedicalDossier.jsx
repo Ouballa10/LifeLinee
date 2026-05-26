@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import AppMenu from "../../components/layout/AppMenu.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useLang } from "../../context/LanguageContext.jsx";
 import { apiRequest } from "../../services/api.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
@@ -47,6 +48,7 @@ function formatDate(dateStr) {
 export default function MedicalDossier() {
   const navigate = useNavigate();
   const { user, token } = useAuth();
+  const { t } = useLang();
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -99,14 +101,14 @@ export default function MedicalDossier() {
         <div className="home-scroll-content">
           {/* Header */}
           <section className="dossier-header">
-            <h1 className="dossier-title">📋 Mon Dossier Médical</h1>
-            <p className="dossier-subtitle">Votre carnet de santé numérique complet</p>
+            <h1 className="dossier-title">📋 {t.dossierTitle}</h1>
+            <p className="dossier-subtitle">{t.dossierSubtitle}</p>
             <button
               type="button"
               className="dossier-edit-btn"
               onClick={() => navigate(ROUTES.editProfile)}
             >
-              ✏️ Modifier
+              ✏️ {t.dossierEdit}
             </button>
           </section>
 
@@ -114,36 +116,36 @@ export default function MedicalDossier() {
           <section className="dossier-section">
             <div className="dossier-section-header">
               <span className="dossier-section-icon">👤</span>
-              <h2>Identité</h2>
+              <h2>{t.dossierIdentity}</h2>
             </div>
             <div className="dossier-card">
               <div className="dossier-row">
-                <span className="dossier-label">Nom complet</span>
+                <span className="dossier-label">{t.dossierFullName}</span>
                 <strong className="dossier-value">{user?.fullName || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">Téléphone</span>
+                <span className="dossier-label">{t.dossierPhone}</span>
                 <strong className="dossier-value">{user?.phone || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">Email</span>
+                <span className="dossier-label">{t.dossierEmail}</span>
                 <strong className="dossier-value">{user?.email || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">Date de naissance</span>
+                <span className="dossier-label">{t.dossierBirthDate}</span>
                 <strong className="dossier-value">{user?.birthDate || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">Sexe</span>
+                <span className="dossier-label">{t.dossierGender}</span>
                 <strong className="dossier-value">{user?.gender || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">Ville</span>
+                <span className="dossier-label">{t.dossierCity}</span>
                 <strong className="dossier-value">{user?.city || "—"}</strong>
               </div>
               {user?.address && (
                 <div className="dossier-row">
-                  <span className="dossier-label">Adresse</span>
+                  <span className="dossier-label">{t.dossierAddress}</span>
                   <strong className="dossier-value">{user.address}</strong>
                 </div>
               )}
@@ -154,28 +156,28 @@ export default function MedicalDossier() {
           <section className="dossier-section">
             <div className="dossier-section-header">
               <span className="dossier-section-icon">❤️</span>
-              <h2>Informations vitales</h2>
+              <h2>{t.dossierVitalInfo}</h2>
             </div>
             <div className="dossier-card">
               <div className="dossier-row dossier-row-highlight">
-                <span className="dossier-label">🩸 Groupe sanguin</span>
+                <span className="dossier-label">🩸 {t.dossierBloodType}</span>
                 <strong className="dossier-value dossier-value-red">{user?.bloodType || "—"}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">⚠️ Allergies</span>
-                <strong className="dossier-value">{formatList(user?.allergies, "Aucune connue")}</strong>
+                <span className="dossier-label">⚠️ {t.dossierAllergies}</span>
+                <strong className="dossier-value">{formatList(user?.allergies, t.dossierNoneKnown)}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">💜 Maladies chroniques</span>
-                <strong className="dossier-value">{formatList(user?.conditions, "Aucune")}</strong>
+                <span className="dossier-label">💜 {t.dossierDiseases}</span>
+                <strong className="dossier-value">{formatList(user?.conditions, t.dossierNoneKnown)}</strong>
               </div>
               <div className="dossier-row">
-                <span className="dossier-label">💊 Médicaments en cours</span>
-                <strong className="dossier-value">{formatList(user?.medications, "Aucun")}</strong>
+                <span className="dossier-label">💊 {t.dossierMedications}</span>
+                <strong className="dossier-value">{formatList(user?.medications, t.dossierNone)}</strong>
               </div>
               {(user?.weight || user?.height) && (
                 <div className="dossier-row">
-                  <span className="dossier-label">📏 Poids / Taille</span>
+                  <span className="dossier-label">📏 {t.dossierWeightHeight}</span>
                   <strong className="dossier-value">
                     {user?.weight ? `${user.weight} kg` : "—"} / {user?.height ? `${user.height} cm` : "—"}
                   </strong>
@@ -183,7 +185,7 @@ export default function MedicalDossier() {
               )}
               {user?.medicalHistory && (
                 <div className="dossier-row">
-                  <span className="dossier-label">📖 Antécédents</span>
+                  <span className="dossier-label">📖 {t.dossierHistory}</span>
                   <strong className="dossier-value">{user.medicalHistory}</strong>
                 </div>
               )}
@@ -195,7 +197,7 @@ export default function MedicalDossier() {
             <section className="dossier-section">
               <div className="dossier-section-header">
                 <span className="dossier-section-icon">🚨</span>
-                <h2>Consignes critiques</h2>
+                <h2>{t.dossierCritical}</h2>
               </div>
               <div className="dossier-card dossier-card-alert">
                 <p className="dossier-alert-text">{user?.criticalInstructions || user?.notes}</p>
@@ -207,7 +209,7 @@ export default function MedicalDossier() {
           <section className="dossier-section">
             <div className="dossier-section-header">
               <span className="dossier-section-icon">📞</span>
-              <h2>Contacts d'urgence</h2>
+              <h2>{t.dossierContacts}</h2>
             </div>
             <div className="dossier-card dossier-contacts-card">
               {user?.emergencyContact && (() => {
@@ -215,7 +217,7 @@ export default function MedicalDossier() {
                 return (
                   <div className="dossier-contact-row">
                     <div className="dossier-contact-info">
-                      <strong>Contact principal</strong>
+                      <strong>{t.dossierPrimaryContact}</strong>
                       <span>{user.emergencyContact}</span>
                     </div>
                     {phone && (
@@ -233,7 +235,7 @@ export default function MedicalDossier() {
                 <div className="dossier-contact-row">
                   <div className="dossier-contact-info">
                     <strong>Contact principal</strong>
-                    <span>Non renseigné</span>
+                    <span>—</span>
                   </div>
                 </div>
               )}
@@ -242,7 +244,7 @@ export default function MedicalDossier() {
                 return (
                   <div className="dossier-contact-row">
                     <div className="dossier-contact-info">
-                      <strong>Contact secondaire</strong>
+                      <strong>{t.dossierSecondaryContact}</strong>
                       <span>{user.secondaryContact}</span>
                     </div>
                     {phone && (
@@ -259,7 +261,7 @@ export default function MedicalDossier() {
               {user?.doctorName && (
                 <div className="dossier-contact-row">
                   <div className="dossier-contact-info">
-                    <strong>Médecin référent</strong>
+                    <strong>{t.dossierDoctor}</strong>
                     <span>{user.doctorName}</span>
                   </div>
                   {user?.doctorPhone && (
@@ -275,8 +277,8 @@ export default function MedicalDossier() {
               {!user?.doctorName && (
                 <div className="dossier-contact-row">
                   <div className="dossier-contact-info">
-                    <strong>Médecin référent</strong>
-                    <span>Non renseigné</span>
+                    <strong>{t.dossierDoctor}</strong>
+                    <span>—</span>
                   </div>
                 </div>
               )}
@@ -287,7 +289,7 @@ export default function MedicalDossier() {
           <section className="dossier-section">
             <div className="dossier-section-header">
               <span className="dossier-section-icon">📁</span>
-              <h2>Documents médicaux</h2>
+              <h2>{t.dossierDocuments}</h2>
               <span className="dossier-doc-count">{documents.length}</span>
             </div>
 
@@ -296,13 +298,13 @@ export default function MedicalDossier() {
             ) : documents.length === 0 ? (
               <div className="dossier-empty">
                 <span>📂</span>
-                <p>Aucun document ajouté</p>
+                <p>{t.dossierNoDoc}</p>
                 <button
                   type="button"
                   className="dossier-add-doc-btn"
                   onClick={() => navigate(ROUTES.editProfile)}
                 >
-                  + Ajouter un document
+                  + {t.dossierAddDoc}
                 </button>
               </div>
             ) : (

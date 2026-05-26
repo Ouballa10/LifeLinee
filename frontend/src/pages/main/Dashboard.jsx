@@ -46,8 +46,8 @@ export default function Dashboard() {
 
   const shortcuts = [
     { label: t.identity, sub: t.identitySub, route: ROUTES.editProfile, icon: "👤" },
-    { label: "Dossier médical", sub: "Mon carnet de santé", route: ROUTES.dossier, icon: "📋" },
-    { label: "Ma fiche urgence", sub: "", route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.editProfile, icon: "🚑" },
+    { label: t.medicalDossier || "Dossier médical", sub: t.medicalDossierSub || "Mon carnet de santé", route: ROUTES.dossier, icon: "📋" },
+    { label: t.emergencyPage || "Ma fiche urgence", sub: "", route: user?.qrToken ? `${ROUTES.emergency}/${user.qrToken}` : ROUTES.editProfile, icon: "🚑" },
   ];
 
   return (
@@ -140,7 +140,7 @@ export default function Dashboard() {
 
             {accessLogs.length > 0 ? (
               <div className="dash-logs-list">
-                {accessLogs.slice(0, 4).map((log) => {
+                {accessLogs.slice(0, 3).map((log) => {
                   const logDate = new Date(log.openedAt);
                   return (
                     <div key={log.id} className="dash-log-item">
