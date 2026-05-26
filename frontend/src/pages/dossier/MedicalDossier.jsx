@@ -209,25 +209,75 @@ export default function MedicalDossier() {
               <span className="dossier-section-icon">📞</span>
               <h2>Contacts d'urgence</h2>
             </div>
-            <div className="dossier-card">
-              <div className="dossier-row">
-                <span className="dossier-label">Contact principal</span>
-                <strong className="dossier-value">{user?.emergencyContact || "—"}</strong>
-              </div>
-              {user?.secondaryContact && (
-                <div className="dossier-row">
-                  <span className="dossier-label">Contact secondaire</span>
-                  <strong className="dossier-value">{user.secondaryContact}</strong>
+            <div className="dossier-card dossier-contacts-card">
+              {user?.emergencyContact && (() => {
+                const phone = (user.emergencyContact.match(/[\d+][\d\s\-().]+/)?.[0] || "").replace(/\s/g, "");
+                return (
+                  <div className="dossier-contact-row">
+                    <div className="dossier-contact-info">
+                      <strong>Contact principal</strong>
+                      <span>{user.emergencyContact}</span>
+                    </div>
+                    {phone && (
+                      <a href={`tel:${phone}`} className="dossier-call-btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Appeler
+                      </a>
+                    )}
+                  </div>
+                );
+              })()}
+              {!user?.emergencyContact && (
+                <div className="dossier-contact-row">
+                  <div className="dossier-contact-info">
+                    <strong>Contact principal</strong>
+                    <span>Non renseigné</span>
+                  </div>
                 </div>
               )}
-              <div className="dossier-row">
-                <span className="dossier-label">Médecin référent</span>
-                <strong className="dossier-value">{user?.doctorName || "—"}</strong>
-              </div>
-              {user?.doctorPhone && (
-                <div className="dossier-row">
-                  <span className="dossier-label">Tél. médecin</span>
-                  <strong className="dossier-value">{user.doctorPhone}</strong>
+              {user?.secondaryContact && (() => {
+                const phone = (user.secondaryContact.match(/[\d+][\d\s\-().]+/)?.[0] || "").replace(/\s/g, "");
+                return (
+                  <div className="dossier-contact-row">
+                    <div className="dossier-contact-info">
+                      <strong>Contact secondaire</strong>
+                      <span>{user.secondaryContact}</span>
+                    </div>
+                    {phone && (
+                      <a href={`tel:${phone}`} className="dossier-call-btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Appeler
+                      </a>
+                    )}
+                  </div>
+                );
+              })()}
+              {user?.doctorName && (
+                <div className="dossier-contact-row">
+                  <div className="dossier-contact-info">
+                    <strong>Médecin référent</strong>
+                    <span>{user.doctorName}</span>
+                  </div>
+                  {user?.doctorPhone && (
+                    <a href={`tel:${user.doctorPhone.replace(/\s/g, "")}`} className="dossier-call-btn dossier-call-btn-blue">
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                      </svg>
+                      Appeler
+                    </a>
+                  )}
+                </div>
+              )}
+              {!user?.doctorName && (
+                <div className="dossier-contact-row">
+                  <div className="dossier-contact-info">
+                    <strong>Médecin référent</strong>
+                    <span>Non renseigné</span>
+                  </div>
                 </div>
               )}
             </div>

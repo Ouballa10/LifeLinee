@@ -314,6 +314,102 @@
   box-shadow: 0 2px 8px rgba(75, 149, 255, 0.3);
 }
 
+/* Call rows & buttons */
+.dossier-contacts-card {
+  padding: 6px 0;
+}
+
+.dossier-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+  gap: 12px;
+}
+
+.dossier-contact-row:last-child {
+  border-bottom: none;
+}
+
+.dossier-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dossier-contact-info strong {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.dossier-contact-info span {
+  font-size: 0.85rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.dossier-call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
+  transition: all 200ms ease;
+  flex-shrink: 0;
+}
+
+.dossier-call-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(34, 197, 94, 0.4);
+}
+
+.dossier-call-btn:active {
+  transform: scale(0.95);
+}
+
+.dossier-call-btn-blue {
+  background: linear-gradient(135deg, #4b95ff, #2563eb);
+  box-shadow: 0 3px 10px rgba(75, 149, 255, 0.3);
+}
+
+.dossier-call-btn-blue:hover {
+  box-shadow: 0 5px 16px rgba(75, 149, 255, 0.4);
+}
+
+/* Dark mode contacts */
+.dark-mode .dossier-contact-row {
+  border-bottom-color: rgba(26, 58, 74, 0.6) !important;
+}
+
+.dark-mode .dossier-contact-info strong {
+  color: #6aaa9e !important;
+}
+
+.dark-mode .dossier-contact-info span {
+  color: #e6fff8 !important;
+}
+
+.dark-mode .dossier-call-btn {
+  background: linear-gradient(135deg, #00c9a7, #00a88a) !important;
+  box-shadow: 0 3px 10px rgba(0, 200, 170, 0.3) !important;
+}
+
+.dark-mode .dossier-call-btn-blue {
+  background: linear-gradient(135deg, #4b95ff, #2563eb) !important;
+  box-shadow: 0 3px 10px rgba(75, 149, 255, 0.3) !important;
+}
+
 /* Footer */
 .dossier-footer {
   text-align: center;
