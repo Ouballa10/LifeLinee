@@ -265,6 +265,10 @@
   color: #fff;
 }
 
+.dark-mode .home-topbar-avatar {
+  border-color: rgba(0, 200, 170, 0.4);
+}
+
 /* Bottom Nav */
 .dark-mode .home-screen .home-shell .bottom-nav {
   background: #0a1520;

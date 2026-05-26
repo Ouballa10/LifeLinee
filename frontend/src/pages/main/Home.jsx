@@ -196,7 +196,20 @@ export default function Home() {
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
 
-          <div style={{ width: 48 }}></div>
+          <button
+            type="button"
+            className="home-topbar-avatar"
+            onClick={() => navigate(ROUTES.profile)}
+            aria-label="Mon profil"
+          >
+            {user?.photoUrl ? (
+              <img src={user.photoUrl} alt="" className="home-topbar-avatar-img" />
+            ) : (
+              <span className="home-topbar-avatar-initials">
+                {(user?.fullName || "U").slice(0, 1).toUpperCase()}
+              </span>
+            )}
+          </button>
         </header>
 
         <div className="home-scroll-content">
