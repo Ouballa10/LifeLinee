@@ -107,24 +107,24 @@ export default function AppMenu() {
 
           {/* Paramètres */}
           <div className="home-dropdown-section">
-            <span className="home-dropdown-section-label">Paramètres</span>
+            <span className="home-dropdown-section-label">{t.appSettings || "Paramètres"}</span>
             <button type="button" className="home-dropdown-link home-dropdown-link-toggle" onClick={toggleTheme}>
               <span className="home-dropdown-link-icon">{isDark ? "☀️" : "🌙"}</span>
-              Mode sombre
+              {t.darkMode}
               <span className={`home-dropdown-toggle ${isDark ? "is-active" : ""}`}>
                 <span className="home-dropdown-toggle-dot" />
               </span>
             </button>
             {isAuthenticated && (
               <button type="button" className="home-dropdown-link" onClick={() => goTo(ROUTES.editProfile)}>
-                <span className="home-dropdown-link-icon">⚙️</span> Paramètres du profil
+                <span className="home-dropdown-link-icon">⚙️</span> {t.navEditProfile || "Paramètres du profil"}
               </button>
             )}
           </div>
 
           {/* Langue */}
           <div className="home-dropdown-section">
-            <span className="home-dropdown-section-label">Langue</span>
+            <span className="home-dropdown-section-label">{t.language}</span>
             <div className="home-dropdown-lang-row">
               {LANGUAGES.map((l) => (
                 <button
