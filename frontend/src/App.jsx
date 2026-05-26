@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AppRoutes from "./routes/AppRoutes.jsx";
+import InstallBanner from "./components/ui/InstallBanner.jsx";
 import "./styles/variables.css";
 import "./styles/main.css";
 import "./styles/auth.css";
@@ -16,6 +17,7 @@ import "./styles/qr-scanner.css";
 import "./styles/dark-mode.css";
 import "./styles/luxury.css";
 import "./styles/home-luxury.css";
+import "./styles/pwa.css";
 
 function OfflineNotice() {
   const [isOffline, setIsOffline] = useState(() =>
@@ -57,6 +59,7 @@ function App() {
     <>
       <OfflineNotice />
       <AppRoutes />
+      <InstallBanner />
     </>
   );
 }

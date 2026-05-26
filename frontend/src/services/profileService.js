@@ -1,6 +1,10 @@
 import { apiRequest } from "./api.js";
 import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 import { splitList } from "../utils/helpers.js";
+import {
+  saveEmergencyProfileOffline,
+  getEmergencyProfileOffline,
+} from "../pwa/offlineDb.js";
 
 export function buildEmergencyContactLabel(contact = {}) {
   return [contact?.name, contact?.phone].filter(Boolean).join(" - ") || "Non renseigne";
@@ -296,12 +300,28 @@ export async function updateProfile(token, updates) {
 }
 
 export async function getEmergencyProfile(qrToken) {
-  // Always use the backend API — it respects qrVisibility settings
-  const response = await apiRequest(`/emergency/${encodeURIComponent(qrToken)}`);
+  try {
+    // Always use the backend API — it respects qrVisibility settings
+    const response = await apiRequest(`/emergency/${encodeURIComponent(qrToken)}`);
 
-  return {
-    token: response.token,
-    visibility: response.visibility || 'full',
-    profile: response.profile || {},
-  };
+    const result = {
+      token: response.token,
+      visibility: response.visibility || 'full',
+      profile: response.profile || {},
+    };
+
+    // Cache for offline access
+    await saveEmergencyProfileOffline(qrToken, result);
+
+    return result;
+  } catch (error) {
+    // If offline, try to return cached emergency profile
+    if (!navigator.onLine) {
+      const cached = await getEmergencyProfileOffline(qrToken);
+      if (cached) {
+        return cached;
+      }
+    }
+    throw error;
+  }
 }

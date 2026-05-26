@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════
+   PWA: Install Banner & Offline Indicators
+   ═══════════════════════════════════════════════════════ */
+
+/* Install Banner */
+.install-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #163f8f 0%, #1a5276 100%);
+  color: #ffffff;
+  box-shadow: 0 -4px 20px rgba(22, 63, 143, 0.25);
+  animation: slideUp 0.35s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.install-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.install-banner__icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.install-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.install-banner__text strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.install-banner__text span {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.install-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.install-banner__btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.install-banner__btn:active {
+  transform: scale(0.95);
+}
+
+.install-banner__btn--install {
+  padding: 10px 20px;
+  background: #53bf87;
+  color: #ffffff;
+}
+
+.install-banner__btn--install:hover {
+  background: #45a876;
+}
+
+.install-banner__btn--dismiss {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.install-banner__btn--dismiss:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Offline Notice (top bar) */
+.offline-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: #ffffff;
+  font-size: 0.85rem;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(243, 156, 18, 0.3);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.offline-notice strong {
+  font-weight: 700;
+}
+
+.offline-notice span {
+  opacity: 0.9;
+}
+
+/* Offline badge on profile */
+.offline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(243, 156, 18, 0.12);
+  color: #e67e22;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.offline-badge::before {
+  content: "●";
+  font-size: 0.5rem;
+}
+
+/* Sync indicator */
+.sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(83, 191, 135, 0.12);
+  color: #53bf87;
+  font-size: 0.75rem;
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.sync-indicator::before {
+  content: "↻";
+  font-size: 0.85rem;
+}
+
+/* Dark mode overrides */
+.dark-mode .install-banner {
+  background: linear-gradient(135deg, #0d2b5e 0%, #0f3460 100%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .offline-notice {
+  background: linear-gradient(135deg, #b8860b 0%, #a0522d 100%);
+}

@@ -2,9 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 function buildServiceWorkerSource(assetPaths) {
-  return `const APP_VERSION = "lifeline-v3";
+  return `const APP_VERSION = "lifeline-v4";
 const APP_SHELL_CACHE = \`\${APP_VERSION}-shell\`;
 const RUNTIME_CACHE = \`\${APP_VERSION}-runtime\`;
+const API_CACHE = \`\${APP_VERSION}-api\`;
 const OFFLINE_URL = "/offline.html";
 const PRECACHE_URLS = ${JSON.stringify(
     [
@@ -23,6 +24,10 @@ function isSameOrigin(url) {
   return url.origin === self.location.origin;
 }
 
+function isApiRequest(url) {
+  return url.pathname.startsWith("/api/");
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
@@ -39,7 +44,7 @@ self.addEventListener("activate", (event) => {
       const keys = await caches.keys();
       await Promise.all(
         keys
-          .filter((key) => ![APP_SHELL_CACHE, RUNTIME_CACHE].includes(key))
+          .filter((key) => ![APP_SHELL_CACHE, RUNTIME_CACHE, API_CACHE].includes(key))
           .map((key) => caches.delete(key))
       );
       await self.clients.claim();
@@ -91,6 +96,30 @@ async function networkFirst(request) {
   }
 }
 
+async function apiNetworkFirst(request) {
+  try {
+    const response = await fetch(request);
+
+    if (response.ok) {
+      const cache = await caches.open(API_CACHE);
+      await cache.put(request, response.clone());
+    }
+
+    return response;
+  } catch {
+    const cachedResponse = await caches.match(request);
+
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    return new Response(
+      JSON.stringify({ error: "offline", message: "Vous êtes hors ligne" }),
+      { status: 503, headers: { "Content-Type": "application/json" } }
+    );
+  }
+}
+
 async function navigationCacheFirst(request) {
   const cachedResponse = await caches.match(request);
 
@@ -117,6 +146,12 @@ self.addEventListener("fetch", (event) => {
   const requestUrl = new URL(request.url);
 
   if (!isSameOrigin(requestUrl)) {
+    return;
+  }
+
+  // API requests: network-first with cache fallback
+  if (isApiRequest(requestUrl)) {
+    event.respondWith(apiNetworkFirst(request));
     return;
   }
 

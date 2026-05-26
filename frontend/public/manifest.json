@@ -1,6 +1,6 @@
 {
   "id": "/",
-  "name": "LifeLine",
+  "name": "LifeLine - Urgence Médicale",
   "short_name": "LifeLine",
   "start_url": "/",
   "scope": "/",
@@ -10,7 +10,8 @@
   "lang": "fr",
   "background_color": "#f2f3f5",
   "theme_color": "#53bf87",
-  "description": "Emergency medical profile with QR access and rapid response information.",
+  "description": "Profil médical d'urgence avec accès QR Code. Fonctionne hors ligne.",
+  "categories": ["health", "medical", "utilities"],
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -24,5 +25,21 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Mon Profil",
+      "short_name": "Profil",
+      "url": "/profile",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Scanner QR",
+      "short_name": "Scanner",
+      "url": "/scan",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
 }

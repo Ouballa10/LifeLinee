@@ -16,6 +16,12 @@ import {
 } from "../services/authService.js";
 import { getProfile as fetchProfile, updateProfile as persistProfile } from "../services/profileService.js";
 import { AUTH_PROVIDERS, STORAGE_KEYS } from "../utils/constants.js";
+import {
+  saveProfileOffline,
+  getProfileOffline,
+  queueProfileUpdate,
+} from "../pwa/offlineDb.js";
+import { registerBackgroundSync } from "../pwa/offlineSync.js";
 
 export const AuthContext = createContext(null);
 
@@ -115,11 +121,23 @@ export function AuthProvider({ children }) {
 
     fetchProfile(currentToken)
       .then((user) => {
+        // Save to IndexedDB for offline access
+        saveProfileOffline(user);
         startTransition(() => {
           setStoredSession((current) => (current ? { ...current, user } : current));
         });
       })
-      .catch(() => {
+      .catch(async () => {
+        // If offline, try to load from IndexedDB
+        if (!navigator.onLine) {
+          const cachedProfile = await getProfileOffline();
+          if (cachedProfile) {
+            startTransition(() => {
+              setStoredSession((current) => (current ? { ...current, user: cachedProfile } : current));
+            });
+            return;
+          }
+        }
         clearCurrentSession();
         startTransition(() => {
           setStoredSession(null);
@@ -195,6 +213,21 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, [setStoredSession, storedSession?.authProvider]);
 
+  // Register background sync for offline updates
+  useEffect(() => {
+    if (!storedSession?.token) return;
+
+    const cleanup = registerBackgroundSync(
+      getSessionToken,
+      () => {
+        // After sync completes, refresh the profile to get latest data
+        refreshProfile().catch(() => {});
+      }
+    );
+
+    return cleanup;
+  }, [storedSession?.token]);
+
   async function login(formValues) {
     setIsLoading(true);
 
@@ -242,6 +275,19 @@ export function AuthProvider({ children }) {
       throw new Error("You must be connected to update the profile.");
     }
 
+    // If offline, queue the update and apply optimistically
+    if (!navigator.onLine) {
+      await queueProfileUpdate(updates);
+      const optimisticUser = { ...(storedSession.user || {}), ...updates };
+      await saveProfileOffline(optimisticUser);
+      startTransition(() => {
+        setStoredSession((current) =>
+          current ? { ...current, user: optimisticUser } : current
+        );
+      });
+      return optimisticUser;
+    }
+
     setIsLoading(true);
     isUpdatingProfileRef.current = true;
 
@@ -261,6 +307,9 @@ export function AuthProvider({ children }) {
       if (isFirebaseProvider) {
         saveGoogleProfile(nextUser);
       }
+
+      // Save to IndexedDB
+      await saveProfileOffline(nextUser);
 
       startTransition(() => {
         setStoredSession((current) =>
@@ -286,6 +335,12 @@ export function AuthProvider({ children }) {
       return null;
     }
 
+    // If offline, return cached profile
+    if (!navigator.onLine) {
+      const cachedProfile = await getProfileOffline();
+      return cachedProfile || storedSession?.user || null;
+    }
+
     const isFirebaseProvider = isFirebaseSessionProvider(storedSession?.authProvider);
     const nextToken = await getSessionToken();
     const user = await fetchProfile(nextToken);
@@ -301,6 +356,9 @@ export function AuthProvider({ children }) {
     if (isFirebaseProvider) {
       saveGoogleProfile(nextUser);
     }
+
+    // Save to IndexedDB
+    await saveProfileOffline(nextUser);
 
     startTransition(() => {
       setStoredSession((current) =>
