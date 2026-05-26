@@ -348,27 +348,6 @@ export default function Profile() {
                         </div>
                       </div>
                     )}
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">📱</span>
-                      <div>
-                        <strong>{t.activeSessions}</strong>
-                        <span>{t.activeSessionsSub}</span>
-                      </div>
-                    </div>
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">🔐</span>
-                      <div>
-                        <strong>{t.medicalData}</strong>
-                        <span>{t.medicalDataSub}</span>
-                      </div>
-                    </div>
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">👁️</span>
-                      <div>
-                        <strong>{t.qrVisibility}</strong>
-                        <span>{t.qrVisibilitySub}</span>
-                      </div>
-                    </div>
                   </div>
                 )}
 
