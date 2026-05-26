@@ -8,7 +8,7 @@ import { ROUTES } from "../../utils/constants.js";
 export default function AppMenu() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
-  const { t } = useLang();
+  const { lang, t, changeLang, LANGUAGES } = useLang();
   const { isDark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -122,15 +122,21 @@ export default function AppMenu() {
             )}
           </div>
 
-          {/* Informations */}
+          {/* Langue */}
           <div className="home-dropdown-section">
-            <span className="home-dropdown-section-label">Informations</span>
-            <div className="home-dropdown-info-row">
-              <span className="home-dropdown-link-icon">ℹ️</span>
-              <div className="home-dropdown-info-text">
-                <strong>LifeLine v1.2</strong>
-                <span>Urgence médicale avec QR</span>
-              </div>
+            <span className="home-dropdown-section-label">Langue</span>
+            <div className="home-dropdown-lang-row">
+              {LANGUAGES.map((l) => (
+                <button
+                  key={l.code}
+                  type="button"
+                  className={`home-dropdown-lang-btn ${lang === l.code ? "is-active" : ""}`}
+                  onClick={() => changeLang(l.code)}
+                >
+                  <span>{l.flag}</span>
+                  <span>{l.label}</span>
+                </button>
+              ))}
             </div>
           </div>
 

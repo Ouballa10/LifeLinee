@@ -290,6 +290,40 @@
   color: #94a3b8;
 }
 
+/* Language selector */
+.home-dropdown-lang-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  flex-wrap: wrap;
+}
+
+.home-dropdown-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.home-dropdown-lang-btn:hover {
+  border-color: #53bf87;
+  color: #1e3a5f;
+}
+
+.home-dropdown-lang-btn.is-active {
+  background: #53bf87;
+  border-color: #53bf87;
+  color: #fff;
+}
+
 .home-dropdown-links {
   display: flex;
   flex-direction: column;

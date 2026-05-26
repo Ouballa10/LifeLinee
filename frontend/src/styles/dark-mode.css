@@ -249,6 +249,22 @@
   color: #4a7a6e;
 }
 
+.dark-mode .home-dropdown-lang-btn {
+  border-color: #1a3a4a;
+  color: #6aaa9e;
+}
+
+.dark-mode .home-dropdown-lang-btn:hover {
+  border-color: #53bf87;
+  color: #e6fff8;
+}
+
+.dark-mode .home-dropdown-lang-btn.is-active {
+  background: #53bf87;
+  border-color: #53bf87;
+  color: #fff;
+}
+
 /* Bottom Nav */
 .dark-mode .home-screen .home-shell .bottom-nav {
   background: #0a1520;
