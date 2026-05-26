@@ -478,7 +478,7 @@ export default function EditProfile() {
                         const { supabase, isSupabaseConfigured } = await import("../../services/supabaseClient.js");
 
                         if (isSupabaseConfigured && supabase) {
-                          // Direct upload to Supabase Storage
+                          // Direct upload to Supabase Storage (no document record)
                           const ext = "jpg";
                           const path = `avatars/${Date.now().toString(36)}.${ext}`;
                           const { error: upErr } = await supabase.storage.from("medical-documents").upload(path, compressed, { contentType: "image/jpeg", upsert: true });
@@ -488,7 +488,7 @@ export default function EditProfile() {
                           isEditingRef.current = true;
                           setForm((f) => ({ ...f, photoUrl }));
                         } else {
-                          // Fallback: upload via backend as base64
+                          // Fallback: upload via backend upload-meta (storage only, no document record)
                           const base64 = await new Promise((resolve, reject) => {
                             const reader = new FileReader();
                             reader.onload = () => resolve(reader.result.split(",")[1]);
@@ -502,7 +502,7 @@ export default function EditProfile() {
                               fileName: `avatar_${Date.now()}.jpg`,
                               fileType: "image/jpeg",
                               fileBase64: base64,
-                              category: "other",
+                              category: "avatar",
                               notes: "Photo de profil",
                             },
                           });

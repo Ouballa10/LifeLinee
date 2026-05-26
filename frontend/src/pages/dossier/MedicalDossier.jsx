@@ -53,7 +53,13 @@ export default function MedicalDossier() {
   useEffect(() => {
     if (!token) return;
     apiRequest("/documents", { token })
-      .then((data) => setDocuments(data?.documents || []))
+      .then((data) => {
+        // Filter out avatar/profile photos from documents list
+        const docs = (data?.documents || []).filter(
+          (doc) => !doc.file_name?.startsWith("avatar_") && doc.category !== "avatar"
+        );
+        setDocuments(docs);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [token]);
