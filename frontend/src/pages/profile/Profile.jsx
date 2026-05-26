@@ -305,19 +305,49 @@ export default function Profile() {
                 {item.id === "security" && openPanel === "security" && (
                   <div className="prof-panel">
                     <div className="prof-panel-row">
-                      <span className="prof-panel-icon">🔒</span>
-                      <div>
-                        <strong>{t.password}</strong>
-                        <span>{t.passwordSub}</span>
-                      </div>
-                    </div>
-                    <div className="prof-panel-row">
                       <span className="prof-panel-icon">🛡️</span>
                       <div>
                         <strong>{t.authentication}</strong>
                         <span>{user?.authProvider === "google" ? "Google (OAuth 2.0)" : "Email / Password"}</span>
                       </div>
                     </div>
+                    {/* Password change - only for email/password users */}
+                    {user?.authProvider !== "google" && (
+                      <div className="prof-panel-row prof-panel-row-action">
+                        <span className="prof-panel-icon">🔒</span>
+                        <div style={{ flex: 1 }}>
+                          <strong>{t.password}</strong>
+                          <span>Modifier votre mot de passe</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="prof-change-pwd-btn"
+                          onClick={async () => {
+                            try {
+                              const { auth } = await import("../../services/firebase.js");
+                              const { sendPasswordResetEmail } = await import("firebase/auth");
+                              if (auth && user?.email) {
+                                await sendPasswordResetEmail(auth, user.email);
+                                alert("Un email de réinitialisation a été envoyé à " + user.email);
+                              }
+                            } catch (err) {
+                              alert("Erreur: " + (err.message || "Réessayez plus tard."));
+                            }
+                          }}
+                        >
+                          Changer
+                        </button>
+                      </div>
+                    )}
+                    {user?.authProvider === "google" && (
+                      <div className="prof-panel-row">
+                        <span className="prof-panel-icon">🔒</span>
+                        <div>
+                          <strong>{t.password}</strong>
+                          <span>Géré par Google</span>
+                        </div>
+                      </div>
+                    )}
                     <div className="prof-panel-row">
                       <span className="prof-panel-icon">📱</span>
                       <div>
