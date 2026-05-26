@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import AppMenu from "../../components/layout/AppMenu.jsx";
@@ -385,20 +385,6 @@ export default function Profile() {
                       >
                         <span className="prof-toggle-knob"></span>
                       </button>
-                    </div>
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">📲</span>
-                      <div>
-                        <strong>{t.pwApp}</strong>
-                        <span>{t.pwAppSub}</span>
-                      </div>
-                    </div>
-                    <div className="prof-panel-row">
-                      <span className="prof-panel-icon">ℹ️</span>
-                      <div>
-                        <strong>{t.version}</strong>
-                        <span>LifeLine v1.0.0</span>
-                      </div>
                     </div>
                   </div>
                 )}
