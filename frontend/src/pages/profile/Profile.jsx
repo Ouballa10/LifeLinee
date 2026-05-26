@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
+import AppMenu from "../../components/layout/AppMenu.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 import { formatList, getInitials } from "../../utils/helpers.js";
@@ -97,21 +99,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { lang, t, changeLang, LANGUAGES } = useLang();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    if (!isMenuOpen) return undefined;
-    function handleClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setIsMenuOpen(false);
-    }
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("touchstart", handleClick);
-    };
-  }, [isMenuOpen]);
+  const { isDark, toggleTheme } = useTheme();
 
   async function handleLogout() {
     await logout();
@@ -134,24 +122,6 @@ export default function Profile() {
   ];
 
   const [openPanel, setOpenPanel] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return document.documentElement.classList.contains("dark-mode");
-    }
-    return false;
-  });
-
-  function toggleDarkMode() {
-    const next = !isDarkMode;
-    setIsDarkMode(next);
-    if (next) {
-      document.documentElement.classList.add("dark-mode");
-      localStorage.setItem("lifeline.darkMode", "true");
-    } else {
-      document.documentElement.classList.remove("dark-mode");
-      localStorage.setItem("lifeline.darkMode", "false");
-    }
-  }
 
   const menuLinks = [
     { icon: <PersonIcon />, label: t.personalInfo, sub: t.personalInfoSub, route: ROUTES.editProfile, color: "blue", id: "personal" },
@@ -166,33 +136,7 @@ export default function Profile() {
       <section className="home-shell">
         {/* Top Bar */}
         <header className="home-topbar">
-          <div className="home-menu-wrap" ref={menuRef}>
-            <button
-              type="button"
-              className={`home-topbar-btn ${isMenuOpen ? "is-open" : ""}`}
-              aria-label="Menu"
-              onClick={() => setIsMenuOpen((v) => !v)}
-            >
-              <span className="home-hamburger-line"></span>
-              <span className="home-hamburger-line"></span>
-              <span className="home-hamburger-line"></span>
-            </button>
-            {isMenuOpen && (
-              <div className="home-dropdown-menu">
-                <div className="home-dropdown-header">
-                  <strong>{user?.fullName || "LifeLine"}</strong>
-                  <span>{user?.email || ""}</span>
-                </div>
-                <div className="home-dropdown-links">
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>{t.navHome}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>{t.navDashboard}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>{t.navQr}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.scanner); setIsMenuOpen(false); }}>{t.navScanner}</button>
-                </div>
-                <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={handleLogout}>{t.logout}</button>
-              </div>
-            )}
-          </div>
+          <AppMenu />
           <div className="home-topbar-center">
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
@@ -418,12 +362,12 @@ export default function Profile() {
                       <span className="prof-panel-icon">🌙</span>
                       <div>
                         <strong>{t.darkMode}</strong>
-                        <span>{isDarkMode ? t.darkModeOn : t.darkModeOff}</span>
+                        <span>{isDark ? t.darkModeOn : t.darkModeOff}</span>
                       </div>
                       <button
                         type="button"
-                        className={`prof-toggle ${isDarkMode ? "is-on" : ""}`}
-                        onClick={toggleDarkMode}
+                        className={`prof-toggle ${isDark ? "is-on" : ""}`}
+                        onClick={toggleTheme}
                         aria-label="Activer le mode sombre"
                       >
                         <span className="prof-toggle-knob"></span>

@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
+import AppMenu from "../../components/layout/AppMenu.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { apiRequest } from "../../services/api.js";
@@ -10,20 +11,10 @@ import { firstName, formatList } from "../../utils/helpers.js";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { user, token, logout } = useAuth();
+  const { user, token } = useAuth();
   const { t } = useLang();
   const profileName = firstName(user?.fullName);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [accessLogs, setAccessLogs] = useState([]);
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    if (!isMenuOpen) return;
-    function handleClick(e) { if (menuRef.current && !menuRef.current.contains(e.target)) setIsMenuOpen(false); }
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-    return () => { document.removeEventListener("mousedown", handleClick); document.removeEventListener("touchstart", handleClick); };
-  }, [isMenuOpen]);
 
   // Fetch access logs (with simple cache to avoid refetch on quick navigation)
   useEffect(() => {
@@ -64,23 +55,7 @@ export default function Dashboard() {
       <section className="home-shell">
         {/* Top Bar */}
         <header className="home-topbar">
-          <div className="home-menu-wrap" ref={menuRef}>
-            <button type="button" className={`home-topbar-btn ${isMenuOpen ? "is-open" : ""}`} onClick={() => setIsMenuOpen(v => !v)} aria-label="Menu">
-              <span className="home-hamburger-line"></span><span className="home-hamburger-line"></span><span className="home-hamburger-line"></span>
-            </button>
-            {isMenuOpen && (
-              <div className="home-dropdown-menu">
-                <div className="home-dropdown-header"><strong>{user?.fullName || "LifeLine"}</strong><span>{user?.email || ""}</span></div>
-                <div className="home-dropdown-links">
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>{t.navHome}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.profile); setIsMenuOpen(false); }}>{t.navProfile}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>{t.navQr}</button>
-                  <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.scanner); setIsMenuOpen(false); }}>{t.navScanner}</button>
-                </div>
-                <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={async () => { await logout(); navigate(ROUTES.login, { replace: true }); }}>{t.logout}</button>
-              </div>
-            )}
-          </div>
+          <AppMenu />
           <div className="home-topbar-center"><img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" /></div>
           <div style={{ width: 42 }}></div>
         </header>

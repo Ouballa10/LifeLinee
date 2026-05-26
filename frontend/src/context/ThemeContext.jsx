@@ -41,6 +41,13 @@ export function ThemeProvider({ children }) {
 
     document.documentElement.setAttribute("data-theme", theme);
 
+    // Toggle dark-mode class for CSS compatibility
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
     } catch {

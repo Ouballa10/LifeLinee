@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
+import AppMenu from "../../components/layout/AppMenu.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
@@ -101,33 +102,6 @@ export default function Home() {
   const { user, logout } = useAuth();
   const { t } = useLang();
   const profileName = firstName(user?.fullName);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-
-  // Close menu on outside click
-  useEffect(() => {
-    if (!isMenuOpen) return undefined;
-    function handleClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("touchstart", handleClick);
-    };
-  }, [isMenuOpen]);
-
-  const menuItems = [
-    { label: t.navHome, route: ROUTES.home },
-    { label: t.navDashboard, route: ROUTES.dashboard },
-    { label: t.navProfile, route: ROUTES.profile },
-    { label: t.navQr, route: ROUTES.qr },
-    { label: t.navScanner, route: ROUTES.scanner },
-    { label: t.navEditProfile, route: ROUTES.editProfile },
-  ];
 
   async function handleLogout() {
     await logout();
@@ -216,50 +190,7 @@ export default function Home() {
       <section className="home-shell">
         {/* Top Bar */}
         <header className="home-topbar">
-          <div className="home-menu-wrap" ref={menuRef}>
-            <button
-              type="button"
-              className={`home-topbar-btn ${isMenuOpen ? "is-open" : ""}`}
-              aria-label="Menu"
-              aria-expanded={isMenuOpen}
-              onClick={() => setIsMenuOpen((v) => !v)}
-            >
-              <span className="home-hamburger-line"></span>
-              <span className="home-hamburger-line"></span>
-              <span className="home-hamburger-line"></span>
-            </button>
-
-            {isMenuOpen && (
-              <div className="home-dropdown-menu">
-                <div className="home-dropdown-header">
-                  <strong>{user?.fullName || "LifeLine"}</strong>
-                  <span>{user?.email || "Menu"}</span>
-                </div>
-                <div className="home-dropdown-links">
-                  {menuItems.map((item) => (
-                    <button
-                      key={item.route}
-                      type="button"
-                      className="home-dropdown-link"
-                      onClick={() => {
-                        navigate(item.route);
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  className="home-dropdown-link home-dropdown-link-danger"
-                  onClick={handleLogout}
-                >
-                  Deconnexion
-                </button>
-              </div>
-            )}
-          </div>
+          <AppMenu />
 
           <div className="home-topbar-center">
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />

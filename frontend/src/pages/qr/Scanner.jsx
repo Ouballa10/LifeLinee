@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import QrScanner from "qr-scanner";
 import BottomNav from "../../components/layout/BottomNav.jsx";
+import AppMenu from "../../components/layout/AppMenu.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
 import { useLang } from "../../context/LanguageContext.jsx";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
@@ -18,14 +19,12 @@ export default function Scanner() {
   const videoRef = useRef(null);
   const overlayRef = useRef(null);
   const scannerRef = useRef(null);
-  const menuRef = useRef(null);
   const [hasCamera, setHasCamera] = useState(true);
   const [isPreparingCamera, setIsPreparingCamera] = useState(true);
   const [isScannerActive, setIsScannerActive] = useState(false);
   const [isReadingFile, setIsReadingFile] = useState(false);
   const [scannerError, setScannerError] = useState("");
   const [detectedValue, setDetectedValue] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [accessLogs, setAccessLogs] = useState([]);
 
   // Fetch who scanned MY QR (use session cache)
@@ -45,14 +44,6 @@ export default function Scanner() {
       })
       .catch(() => {});
   }, [isAuthenticated, token]);
-
-  useEffect(() => {
-    if (!isMenuOpen) return;
-    function handleClick(e) { if (menuRef.current && !menuRef.current.contains(e.target)) setIsMenuOpen(false); }
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-    return () => { document.removeEventListener("mousedown", handleClick); document.removeEventListener("touchstart", handleClick); };
-  }, [isMenuOpen]);
 
   useEffect(() => {
     let mounted = true;
@@ -107,24 +98,7 @@ export default function Scanner() {
     <main className="home-screen">
       <section className="home-shell">
         <header className="home-topbar">
-          <div className="home-menu-wrap" ref={menuRef}>
-            <button type="button" className={`home-topbar-btn ${isMenuOpen ? "is-open" : ""}`} onClick={() => setIsMenuOpen(v => !v)} aria-label="Menu">
-              <span className="home-hamburger-line"></span><span className="home-hamburger-line"></span><span className="home-hamburger-line"></span>
-            </button>
-            {isMenuOpen && (
-              <div className="home-dropdown-menu">
-                <div className="home-dropdown-header"><strong>{user?.fullName || "LifeLine"}</strong><span>{user?.email || "Scanner public"}</span></div>
-                <div className="home-dropdown-links">
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.home); setIsMenuOpen(false); }}>{t.navHome}</button>}
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.dashboard); setIsMenuOpen(false); }}>{t.navDashboard}</button>}
-                  {isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.qr); setIsMenuOpen(false); }}>{t.navQr}</button>}
-                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.login); setIsMenuOpen(false); }}>{t.signIn}</button>}
-                  {!isAuthenticated && <button type="button" className="home-dropdown-link" onClick={() => { navigate(ROUTES.register); setIsMenuOpen(false); }}>{t.createAccount}</button>}
-                </div>
-                {isAuthenticated && <button type="button" className="home-dropdown-link home-dropdown-link-danger" onClick={async () => { await logout(); navigate(ROUTES.login, { replace: true }); }}>{t.logout}</button>}
-              </div>
-            )}
-          </div>
+          <AppMenu />
           <div className="home-topbar-center"><img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" /></div>
           <div style={{ width: 42 }}></div>
         </header>

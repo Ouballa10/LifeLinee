@@ -11,8 +11,9 @@ import { registerSW } from "./pwa/registerSW.js";
 registerSW();
 
 // Initialize dark mode from localStorage
-if (localStorage.getItem("lifeline.darkMode") === "true") {
+if (localStorage.getItem("lifeline.theme") === "dark") {
   document.documentElement.classList.add("dark-mode");
+  document.documentElement.setAttribute("data-theme", "dark");
 }
 
 // Initialize language direction
