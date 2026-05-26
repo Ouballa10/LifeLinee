@@ -19,6 +19,7 @@ export const ROUTES = {
   profile: "/profile",
   editProfile: "/edit-profile",
   medicalForm: "/profile/medical",
+  dossier: "/dossier",
   qr: "/qr",
   scanner: "/scanner",
   emergency: "/emergency",

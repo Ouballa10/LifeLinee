@@ -131,7 +131,7 @@ export default function Home() {
       icon: <ProfileIcon />,
       title: t.myMedicalProfile,
       subtitle: t.myInfoSub,
-      route: ROUTES.profile,
+      route: ROUTES.dossier,
       color: "blue",
     },
     {

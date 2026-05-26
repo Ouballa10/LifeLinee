@@ -291,7 +291,44 @@ export default function EditProfile() {
   function handleChange(event) {
     const { name, value } = event.target;
     isEditingRef.current = true;
-    setForm((c) => ({ ...c, [name]: value }));
+
+    // Real-time input restrictions
+    switch (name) {
+      case "phone":
+      case "doctorPhone": {
+        // Only allow digits, +, spaces, dashes, parentheses
+        const cleaned = value.replace(/[^0-9+\s\-()]/g, "");
+        setForm((c) => ({ ...c, [name]: cleaned }));
+        return;
+      }
+      case "weight":
+      case "height": {
+        // Only allow digits and one decimal point
+        const cleaned = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+        setForm((c) => ({ ...c, [name]: cleaned }));
+        return;
+      }
+      case "cin": {
+        // Only allow alphanumeric, uppercase
+        const cleaned = value.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+        setForm((c) => ({ ...c, [name]: cleaned }));
+        return;
+      }
+      case "fullName": {
+        // Only allow letters, spaces, hyphens, apostrophes
+        const cleaned = value.replace(/[^A-Za-zÀ-ÿ\s\-']/g, "");
+        setForm((c) => ({ ...c, [name]: cleaned }));
+        return;
+      }
+      case "city": {
+        // Only allow letters, spaces, hyphens
+        const cleaned = value.replace(/[^A-Za-zÀ-ÿ\s\-']/g, "");
+        setForm((c) => ({ ...c, [name]: cleaned }));
+        return;
+      }
+      default:
+        setForm((c) => ({ ...c, [name]: value }));
+    }
   }
 
   function validateForm() {
@@ -485,7 +522,7 @@ export default function EditProfile() {
 
                 <div className="edit-fields">
                   <Input label="Nom complet" name="fullName" value={form.fullName} onChange={handleChange} />
-                  <Input label="Téléphone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
+                  <Input label="Téléphone" name="phone" type="tel" inputMode="tel" value={form.phone} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
                   <Input label="Date de naissance" name="birthDate" type="date" value={form.birthDate} onChange={handleChange} />
                   <div className="edit-field-group">
                     <label className="field-group">
@@ -528,8 +565,8 @@ export default function EditProfile() {
                   <Input label="Médicaments" name="medications" as="textarea" rows="2" value={form.medications} onChange={handleChange} />
                   <Input label="Antécédents médicaux" name="medicalHistory" as="textarea" rows="2" value={form.medicalHistory} onChange={handleChange} />
                   <div className="edit-row-2">
-                    <Input label="Poids (kg)" name="weight" type="number" value={form.weight} onChange={handleChange} placeholder="70" min="1" max="500" />
-                    <Input label="Taille (cm)" name="height" type="number" value={form.height} onChange={handleChange} placeholder="175" min="30" max="300" />
+                    <Input label="Poids (kg)" name="weight" inputMode="decimal" value={form.weight} onChange={handleChange} placeholder="70" />
+                    <Input label="Taille (cm)" name="height" inputMode="decimal" value={form.height} onChange={handleChange} placeholder="175" />
                   </div>
                   <Input label="Médecin référent" name="doctorName" value={form.doctorName} onChange={handleChange} />
                   <Input label="Consignes médicales" name="criticalInstructions" as="textarea" rows="3" value={form.criticalInstructions} onChange={handleChange} />
@@ -550,7 +587,7 @@ export default function EditProfile() {
                 <div className="edit-fields">
                   <Input label="Contact d'urgence principal" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
                   <Input label="Contact d'urgence secondaire" name="secondaryContact" value={form.secondaryContact} onChange={handleChange} />
-                  <Input label="Numéro du médecin" name="doctorPhone" type="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
+                  <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
                 </div>
 
                 {form.emergencyContact && (() => {

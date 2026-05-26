@@ -16,6 +16,7 @@ const MedicalForm = lazy(() => import("../pages/profile/MedicalForm.jsx"));
 const Profile = lazy(() => import("../pages/profile/Profile.jsx"));
 const QRCodePage = lazy(() => import("../pages/qr/QRCodePage.jsx"));
 const Scanner = lazy(() => import("../pages/qr/Scanner.jsx"));
+const MedicalDossier = lazy(() => import("../pages/dossier/MedicalDossier.jsx"));
 
 function PageLoader() {
   return (
@@ -77,6 +78,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.dossier}
+          element={
+            <ProtectedRoute>
+              <MedicalDossier />
             </ProtectedRoute>
           }
         />
