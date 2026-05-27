@@ -84,6 +84,7 @@ export default function Emergency() {
   }
 
   const profile = data?.profile || {};
+  const visibility = data?.visibility || 'full';
   const contactPhone = profile.emergencyContact?.phone || "";
   const contactName = profile.emergencyContact?.name || "";
   const doctorPhone = profile.doctorPhone || "";
@@ -125,6 +126,17 @@ export default function Emergency() {
         </div>
 
         <div className="emer-body">
+
+          {/* Visibility level indicator */}
+          {visibility !== 'full' && (
+            <div className="emer-visibility-notice">
+              <span className="emer-visibility-icon">🔒</span>
+              <span>
+                {visibility === 'minimal' && "Mode minimal — Seuls le nom et le groupe sanguin sont visibles."}
+                {visibility === 'contact' && "Mode contact — Seuls les contacts d'urgence sont visibles."}
+              </span>
+            </div>
+          )}
 
           {/* ═══ GROS BOUTON APPEL — Contact d'urgence du dossier ═══ */}
           <a href={`tel:${cleanPhoneForTel(primaryPhone)}`} className="emer-big-call-btn">

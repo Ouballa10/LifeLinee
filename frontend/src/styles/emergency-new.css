@@ -778,3 +778,24 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+/* ─── Visibility Notice Banner ─── */
+.emer-visibility-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #fef3c7;
+  border: 1.5px solid #f59e0b;
+  color: #92400e;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.emer-visibility-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}

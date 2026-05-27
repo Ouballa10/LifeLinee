@@ -4,21 +4,65 @@ const User = require('../models/User');
 const { getSupabaseAdmin } = require('../config/supabase');
 
 function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
-  // In a real emergency, ALL medical info must be visible to save lives
-  // qrVisibility only controls minor details, not life-critical data
+  const fullName = user?.fullName || user?.full_name || '';
+  const photoUrl = user?.photo_url || user?.photoUrl || '';
+  const bloodType = medicalProfile?.bloodType || medicalProfile?.blood_type || 'Unknown';
+  const emergencyContact = {
+    name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
+    phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
+  };
+
+  // "minimal" = only name + blood type
+  if (qrVisibility === 'minimal') {
+    return {
+      fullName,
+      photoUrl,
+      phone: '',
+      city: '',
+      bloodType,
+      allergies: [],
+      chronicDiseases: [],
+      medications: [],
+      emergencyContact: { name: '', phone: '' },
+      doctorName: '',
+      doctorPhone: '',
+      criticalInstructions: '',
+      weight: '',
+      height: '',
+    };
+  }
+
+  // "contact" = only emergency contact info
+  if (qrVisibility === 'contact') {
+    return {
+      fullName,
+      photoUrl,
+      phone: '',
+      city: '',
+      bloodType: '',
+      allergies: [],
+      chronicDiseases: [],
+      medications: [],
+      emergencyContact,
+      doctorName: medicalProfile?.doctorName || medicalProfile?.doctor_name || '',
+      doctorPhone: medicalProfile?.doctorPhone || medicalProfile?.doctor_phone || '',
+      criticalInstructions: '',
+      weight: '',
+      height: '',
+    };
+  }
+
+  // "full" = all emergency info
   return {
-    fullName: user?.fullName || user?.full_name || '',
-    photoUrl: user?.photo_url || user?.photoUrl || '',
+    fullName,
+    photoUrl,
     phone: user?.phone || '',
     city: user?.city || '',
-    bloodType: medicalProfile?.bloodType || medicalProfile?.blood_type || 'Unknown',
+    bloodType,
     allergies: medicalProfile?.allergies || [],
     chronicDiseases: medicalProfile?.chronicDiseases || medicalProfile?.chronic_diseases || [],
     medications: medicalProfile?.medications || [],
-    emergencyContact: {
-      name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
-      phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
-    },
+    emergencyContact,
     doctorName: medicalProfile?.doctorName || medicalProfile?.doctor_name || '',
     doctorPhone: medicalProfile?.doctorPhone || medicalProfile?.doctor_phone || '',
     criticalInstructions: medicalProfile?.criticalInstructions || medicalProfile?.critical_instructions || '',
