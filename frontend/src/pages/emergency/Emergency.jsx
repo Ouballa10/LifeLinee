@@ -87,12 +87,19 @@ export default function Emergency() {
   const visibility = data?.visibility || 'full';
   const contactPhone = profile.emergencyContact?.phone || "";
   const contactName = profile.emergencyContact?.name || "";
+  const secondaryContact = profile.secondaryContact || "";
   const doctorPhone = profile.doctorPhone || "";
   const doctorName = profile.doctorName || "";
   const photoUrl = profile.photoUrl || "";
   const weight = profile.weight || "";
   const height = profile.height || "";
   const now = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+
+  // Parse secondary contact (format: "Name - Phone" or "Name - Phone (Relation)")
+  const secParts = secondaryContact.split(/\s*-\s*/);
+  const secName = secParts[0]?.replace(/\s*\(.*\)\s*$/, "").trim() || "";
+  const secPhoneRaw = secParts[1]?.replace(/\s*\(.*\)\s*$/, "").trim() || "";
+  const secPhone = secPhoneRaw.replace(/[^\d+]/g, "");
 
   // Primary call = contact d'urgence du dossier, fallback = docteur, fallback = 112
   const primaryPhone = contactPhone || doctorPhone || "112";
@@ -236,27 +243,46 @@ export default function Emergency() {
           )}
 
           {/* ═══ AUTRES CONTACTS ═══ */}
-          {doctorPhone && (
+          {(secondaryContact || doctorPhone) && (
             <div className="emer-section">
               <div className="emer-section-title">
                 <span className="emer-section-title-icon">👥</span>
                 AUTRES CONTACTS D'URGENCE
               </div>
-              <a href={`tel:${cleanPhoneForTel(doctorPhone)}`} className="emer-contact-call-card emer-contact-call-card-blue">
-                <div className="emer-contact-call-left">
-                  <div className="emer-contact-call-avatar emer-contact-call-avatar-blue">👨‍⚕️</div>
-                  <div className="emer-contact-call-info">
-                    <strong>{doctorName || "Médecin"}</strong>
-                    <span>Numéro du médecin</span>
+              {secPhone && (
+                <a href={`tel:${secPhone}`} className="emer-contact-call-card">
+                  <div className="emer-contact-call-left">
+                    <div className="emer-contact-call-avatar">👤</div>
+                    <div className="emer-contact-call-info">
+                      <strong>{secName || "Contact secondaire"}</strong>
+                      <span>Contact secondaire</span>
+                    </div>
                   </div>
-                </div>
-                <div className="emer-contact-call-right">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                  <span className="emer-contact-call-phone emer-contact-call-phone-blue">{formatPhone(doctorPhone)}</span>
-                </div>
-              </a>
+                  <div className="emer-contact-call-right">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <span className="emer-contact-call-phone">{formatPhone(secPhoneRaw || secPhone)}</span>
+                  </div>
+                </a>
+              )}
+              {doctorPhone && (
+                <a href={`tel:${cleanPhoneForTel(doctorPhone)}`} className="emer-contact-call-card emer-contact-call-card-blue">
+                  <div className="emer-contact-call-left">
+                    <div className="emer-contact-call-avatar emer-contact-call-avatar-blue">👨‍⚕️</div>
+                    <div className="emer-contact-call-info">
+                      <strong>{doctorName || "Médecin"}</strong>
+                      <span>Médecin référent</span>
+                    </div>
+                  </div>
+                  <div className="emer-contact-call-right">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <span className="emer-contact-call-phone emer-contact-call-phone-blue">{formatPhone(doctorPhone)}</span>
+                  </div>
+                </a>
+              )}
             </div>
           )}
 

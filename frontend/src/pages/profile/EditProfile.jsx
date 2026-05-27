@@ -36,7 +36,13 @@ function buildForm(user) {
     doctorName: user?.doctorName || "",
     criticalInstructions: user?.criticalInstructions || user?.notes || "",
     emergencyContact: user?.emergencyContact || "",
+    emergencyContactName: user?.emergencyContactName || "",
+    emergencyContactPhone: user?.emergencyContactPhone || "",
+    emergencyContactRelation: user?.emergencyContactRelationship || "",
     secondaryContact: user?.secondaryContact || "",
+    secondaryContactName: user?.secondaryContactName || "",
+    secondaryContactPhone: user?.secondaryContactPhone || "",
+    secondaryContactRelation: user?.secondaryContactRelation || "",
     doctorPhone: user?.doctorPhone || "",
     qrVisibility: user?.qrVisibility || "full",
     photoUrl: user?.photoUrl || "",
@@ -295,7 +301,9 @@ export default function EditProfile() {
     // Real-time input restrictions
     switch (name) {
       case "phone":
-      case "doctorPhone": {
+      case "doctorPhone":
+      case "emergencyContactPhone":
+      case "secondaryContactPhone": {
         // Only allow digits, +, spaces, dashes, parentheses
         const cleaned = value.replace(/[^0-9+\s\-()]/g, "");
         setForm((c) => ({ ...c, [name]: cleaned }));
@@ -336,6 +344,8 @@ export default function EditProfile() {
     const phoneFields = [
       { key: "phone", label: "Téléphone" },
       { key: "doctorPhone", label: "Numéro du médecin" },
+      { key: "emergencyContactPhone", label: "Numéro contact principal" },
+      { key: "secondaryContactPhone", label: "Numéro contact secondaire" },
     ];
     for (const { key, label } of phoneFields) {
       const val = form[key]?.trim();
@@ -585,23 +595,47 @@ export default function EditProfile() {
                   </div>
                 </div>
                 <div className="edit-fields">
-                  <Input label="Contact d'urgence principal" name="emergencyContact" value={form.emergencyContact} onChange={handleChange} />
-                  <Input label="Contact d'urgence secondaire" name="secondaryContact" value={form.secondaryContact} onChange={handleChange} />
-                  <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
+                  <div className="edit-contact-group">
+                    <strong className="edit-contact-group-title">👤 Contact principal</strong>
+                    <Input label="Nom du contact" name="emergencyContactName" value={form.emergencyContactName || ""} onChange={handleChange} placeholder="Ex: Sofia Ghazali" />
+                    <Input label="Numéro du contact" name="emergencyContactPhone" type="tel" inputMode="tel" value={form.emergencyContactPhone || ""} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
+                    <Input label="Relation" name="emergencyContactRelation" value={form.emergencyContactRelation || ""} onChange={handleChange} placeholder="Ex: Mère, Frère, Ami..." />
+                  </div>
+
+                  <div className="edit-contact-group">
+                    <strong className="edit-contact-group-title">👥 Contact secondaire</strong>
+                    <Input label="Nom du contact" name="secondaryContactName" value={form.secondaryContactName || ""} onChange={handleChange} placeholder="Ex: Ahmed Ouballa" />
+                    <Input label="Numéro du contact" name="secondaryContactPhone" type="tel" inputMode="tel" value={form.secondaryContactPhone || ""} onChange={handleChange} placeholder="0622334455" minLength={8} maxLength={15} />
+                    <Input label="Relation" name="secondaryContactRelation" value={form.secondaryContactRelation || ""} onChange={handleChange} placeholder="Ex: Père, Sœur, Collègue..." />
+                  </div>
+
+                  <div className="edit-contact-group">
+                    <strong className="edit-contact-group-title">👨‍⚕️ Médecin référent</strong>
+                    <Input label="Nom du médecin" name="doctorName" value={form.doctorName} onChange={handleChange} placeholder="Dr. Mohammed Alami" />
+                    <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
+                  </div>
                 </div>
 
-                {form.emergencyContact && (() => {
-                  const phoneMatch = form.emergencyContact.match(/(\+?\d[\d\s\-.]{6,})/);
-                  const phone = phoneMatch ? phoneMatch[1].replace(/\s/g, "") : null;
-                  return phone ? (
-                    <a href={`tel:${phone}`} className="edit-emergency-call">
-                      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                      </svg>
-                      Appeler maintenant
-                    </a>
-                  ) : null;
-                })()}
+                {(form.emergencyContactPhone || form.secondaryContactPhone) && (
+                  <div className="edit-emergency-contacts-preview">
+                    {form.emergencyContactPhone && (
+                      <a href={`tel:${form.emergencyContactPhone.replace(/\s/g, "")}`} className="edit-emergency-call">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                        Appeler {form.emergencyContactName || "contact principal"}
+                      </a>
+                    )}
+                    {form.secondaryContactPhone && (
+                      <a href={`tel:${form.secondaryContactPhone.replace(/\s/g, "")}`} className="edit-emergency-call edit-emergency-call-secondary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                        Appeler {form.secondaryContactName || "contact secondaire"}
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 

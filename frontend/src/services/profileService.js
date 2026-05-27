@@ -90,6 +90,10 @@ export function mapProfileFromApi(profile = {}) {
   const emergencyContact = parseEmergencyContact(profile?.emergencyContact);
   const criticalInstructions = String(profile?.criticalInstructions || "").trim();
 
+  // Parse secondary contact the same way
+  const secondaryContactRaw = profile?.secondaryContact || "";
+  const secondaryParsed = parseEmergencyContact(secondaryContactRaw);
+
   return {
     id: profile?.id || profile?._id || "",
     userId: profile?.userId || "",
@@ -113,13 +117,16 @@ export function mapProfileFromApi(profile = {}) {
     emergencyContactName: emergencyContact.name,
     emergencyContactPhone: emergencyContact.phone,
     emergencyContactRelationship: emergencyContact.relationship,
+    secondaryContact: typeof secondaryContactRaw === "string" ? secondaryContactRaw : buildEmergencyContactLabel(secondaryParsed),
+    secondaryContactName: secondaryParsed.name,
+    secondaryContactPhone: secondaryParsed.phone,
+    secondaryContactRelation: secondaryParsed.relationship,
     doctorName: profile?.doctorName || profile?.doctor_name || "",
     criticalInstructions,
     notes: criticalInstructions,
     medicalHistory: profile?.medicalHistory || "",
     weight: profile?.weight || "",
     height: profile?.height || "",
-    secondaryContact: profile?.secondaryContact || "",
     doctorPhone: profile?.doctorPhone || "",
     qrVisibility: profile?.qrVisibility || "full",
     qrToken: profile?.qrToken || "",
@@ -237,14 +244,23 @@ function mapProfileUpdatesToApi(updates = {}) {
     updates.emergencyContactName !== undefined ||
     updates.emergencyContactPhone !== undefined
   ) {
-    payload.emergencyContact =
-      updates.emergencyContact !== undefined
-        ? parseEmergencyContact(updates.emergencyContact)
-        : parseEmergencyContact({
-            name: updates.emergencyContactName,
-            phone: updates.emergencyContactPhone,
-            relationship: updates.emergencyContactRelationship,
-        });
+    // If separate name/phone fields are provided, use them directly
+    if (updates.emergencyContactName !== undefined || updates.emergencyContactPhone !== undefined) {
+      payload.emergencyContact = {
+        name: String(updates.emergencyContactName || "").trim(),
+        phone: String(updates.emergencyContactPhone || "").trim(),
+        relationship: String(updates.emergencyContactRelation || updates.emergencyContactRelationship || "").trim(),
+      };
+    } else {
+      payload.emergencyContact =
+        updates.emergencyContact !== undefined
+          ? parseEmergencyContact(updates.emergencyContact)
+          : parseEmergencyContact({
+              name: updates.emergencyContactName,
+              phone: updates.emergencyContactPhone,
+              relationship: updates.emergencyContactRelationship,
+          });
+    }
   }
 
   if (updates.doctorName !== undefined) {
@@ -269,8 +285,20 @@ function mapProfileUpdatesToApi(updates = {}) {
     payload.height = String(updates.height || "").trim();
   }
 
-  if (updates.secondaryContact !== undefined) {
-    payload.secondaryContact = String(updates.secondaryContact || "").trim();
+  if (updates.secondaryContact !== undefined || updates.secondaryContactName !== undefined || updates.secondaryContactPhone !== undefined) {
+    // Build secondaryContact as "Name - Phone" string for backend storage
+    const secName = String(updates.secondaryContactName || "").trim();
+    const secPhone = String(updates.secondaryContactPhone || "").trim();
+    const secRelation = String(updates.secondaryContactRelation || "").trim();
+    if (secName || secPhone) {
+      const parts = [secName, secPhone].filter(Boolean);
+      payload.secondaryContact = parts.join(" - ");
+      if (secRelation) payload.secondaryContact += ` (${secRelation})`;
+    } else if (updates.secondaryContact !== undefined) {
+      payload.secondaryContact = String(updates.secondaryContact || "").trim();
+    } else {
+      payload.secondaryContact = "";
+    }
   }
 
   if (updates.doctorPhone !== undefined) {

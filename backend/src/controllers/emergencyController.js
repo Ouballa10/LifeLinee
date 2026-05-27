@@ -11,6 +11,7 @@ function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
     name: medicalProfile?.emergencyContact?.name || medicalProfile?.emergency_contact_name || '',
     phone: medicalProfile?.emergencyContact?.phone || medicalProfile?.emergency_contact_phone || '',
   };
+  const secondaryContact = medicalProfile?.secondaryContact || medicalProfile?.secondary_contact || '';
 
   // "minimal" = only name + blood type
   if (qrVisibility === 'minimal') {
@@ -24,6 +25,7 @@ function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
       chronicDiseases: [],
       medications: [],
       emergencyContact: { name: '', phone: '' },
+      secondaryContact: '',
       doctorName: '',
       doctorPhone: '',
       criticalInstructions: '',
@@ -44,6 +46,7 @@ function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
       chronicDiseases: [],
       medications: [],
       emergencyContact,
+      secondaryContact,
       doctorName: medicalProfile?.doctorName || medicalProfile?.doctor_name || '',
       doctorPhone: medicalProfile?.doctorPhone || medicalProfile?.doctor_phone || '',
       criticalInstructions: '',
@@ -63,6 +66,7 @@ function buildEmergencyResponse(user, medicalProfile, qrVisibility) {
     chronicDiseases: medicalProfile?.chronicDiseases || medicalProfile?.chronic_diseases || [],
     medications: medicalProfile?.medications || [],
     emergencyContact,
+    secondaryContact,
     doctorName: medicalProfile?.doctorName || medicalProfile?.doctor_name || '',
     doctorPhone: medicalProfile?.doctorPhone || medicalProfile?.doctor_phone || '',
     criticalInstructions: medicalProfile?.criticalInstructions || medicalProfile?.critical_instructions || '',
@@ -101,6 +105,7 @@ exports.getEmergencyInfo = async (req, res) => {
         name: mpRow.emergency_contact_name || '',
         phone: mpRow.emergency_contact_phone || '',
       },
+      secondaryContact: mpRow.secondary_contact || '',
       doctorName: mpRow.doctor_name || '',
       doctorPhone: mpRow.doctor_phone || '',
       criticalInstructions: mpRow.critical_instructions || '',
