@@ -26,7 +26,7 @@ function DashboardIcon() {
 
 function QrIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="bottom-nav-svg bottom-nav-svg-qr" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="bottom-nav-svg" aria-hidden="true">
       <path
         d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm2 2v2h2v-2zm0-10v2h2V6zm10 0v2h2V6zm2 10h2v4h-4v-2h2zm-4-4h2v2h-2zm2 2h2v2h-2zm-4-4h2v2h-2zm0 4h2v6h-2zm4 4h2v2h-2z"
         fill="currentColor"
@@ -73,29 +73,23 @@ function ProfileIcon() {
 }
 
 const navItems = [
-  { label: "Accueil", Icon: HomeIcon, to: ROUTES.home, isCenter: false },
-  { label: "Bord", Icon: DashboardIcon, to: ROUTES.dashboard, isCenter: false },
-  { label: "QR", Icon: QrIcon, to: ROUTES.qr, isCenter: true },
-  { label: "Scan", Icon: ScanIcon, to: ROUTES.scanner, isCenter: false },
-  { label: "Profil", Icon: ProfileIcon, to: ROUTES.profile, isCenter: false },
+  { label: "Accueil", Icon: HomeIcon, to: ROUTES.home },
+  { label: "Bord", Icon: DashboardIcon, to: ROUTES.dashboard },
+  { label: "QR", Icon: QrIcon, to: ROUTES.qr },
+  { label: "Scan", Icon: ScanIcon, to: ROUTES.scanner },
+  { label: "Profil", Icon: ProfileIcon, to: ROUTES.profile },
 ];
 
 export default function BottomNav() {
   return (
     <nav className="bottom-nav" aria-label="Navigation principale">
-      {navItems.map(({ label, Icon, to, isCenter }) => (
+      {navItems.map(({ label, Icon, to }) => (
         <NavLink
           key={to}
           to={to}
-          className={({ isActive }) =>
-            classNames(
-              "bottom-nav-link",
-              isActive && "is-active",
-              isCenter && "bottom-nav-center"
-            )
-          }
+          className={({ isActive }) => classNames("bottom-nav-link", isActive && "is-active")}
         >
-          <span className={classNames("bottom-nav-icon", isCenter && "bottom-nav-icon-center")} aria-hidden="true">
+          <span className="bottom-nav-icon" aria-hidden="true">
             <Icon />
           </span>
           <span className="bottom-nav-label">{label}</span>
