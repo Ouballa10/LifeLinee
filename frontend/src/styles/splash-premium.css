@@ -1,0 +1,182 @@
+/* ===================================================================
+ * SPLASH PREMIUM ANIMATIONS & EFFECTS
+ * Floating elements, smooth transitions, animated gradient,
+ * staggered entrances, progress bar.
+ * =================================================================== */
+
+/* === Animated Gradient Background === */
+.splash-animated-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(14, 165, 233, 0.12), transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.1), transparent 50%),
+    radial-gradient(ellipse at 60% 10%, rgba(56, 189, 248, 0.08), transparent 40%);
+  background-size: 200% 200%;
+  animation: splashGradientMove 8s ease-in-out infinite;
+}
+
+@keyframes splashGradientMove {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  75% {
+    background-position: 0% 50%;
+  }
+}
+
+/* === Floating Medical Elements === */
+.splash-floating-elements {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.splash-float {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(14, 165, 233, 0.25);
+  animation: splashFloat 6s ease-in-out infinite;
+}
+
+.splash-float-1 {
+  top: 8%;
+  left: 12%;
+  animation-duration: 7s;
+  animation-delay: 0s;
+}
+
+.splash-float-2 {
+  top: 14%;
+  right: 15%;
+  animation-duration: 5.5s;
+  animation-delay: 1s;
+  color: rgba(6, 182, 212, 0.2);
+}
+
+.splash-float-3 {
+  top: 35%;
+  left: 6%;
+  animation-duration: 8s;
+  animation-delay: 2s;
+  color: rgba(56, 189, 248, 0.2);
+}
+
+.splash-float-4 {
+  top: 28%;
+  right: 8%;
+  animation-duration: 6.5s;
+  animation-delay: 0.5s;
+  color: rgba(14, 165, 233, 0.18);
+}
+
+.splash-float-5 {
+  bottom: 30%;
+  left: 10%;
+  animation-duration: 9s;
+  animation-delay: 3s;
+  color: rgba(6, 182, 212, 0.15);
+}
+
+.splash-float-6 {
+  bottom: 22%;
+  right: 12%;
+  animation-duration: 7.5s;
+  animation-delay: 1.5s;
+  color: rgba(56, 189, 248, 0.18);
+}
+
+@keyframes splashFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translateY(-12px) rotate(5deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-6px) rotate(-3deg);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-14px) rotate(2deg);
+    opacity: 0.9;
+  }
+}
+
+/* === Slide Transitions === */
+.splash-slide-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.splash-enter {
+  opacity: 1;
+  transform: translateX(0);
+  animation: splashSlideIn 500ms ease-out;
+}
+
+.splash-exit-next {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.splash-exit-prev {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+@keyframes splashSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === Staggered Feature Cards Entrance === */
+.splash-stagger-1 {
+  animation: splashStaggerIn 600ms ease-out 100ms both;
+}
+
+.splash-stagger-2 {
+  animation: splashStaggerIn 600ms ease-out 250ms both;
+}
+
+.splash-stagger-3 {
+  animation: splashStaggerIn 600ms ease-out 400ms both;
+}
+
+@keyframes splashStaggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* === Old dots remain visible === */
