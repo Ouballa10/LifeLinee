@@ -164,7 +164,7 @@ export default function Profile() {
         <div className="home-scroll-content">
           {/* Page Title */}
           <section className="home-welcome">
-            <h1 className="home-greeting">{t.profileTitle}</h1>
+            <h1 className="home-greeting dash-title-gradient">{t.profileTitle}</h1>
             <p className="home-greeting-sub">{t.profileSub}</p>
           </section>
 
@@ -183,7 +183,7 @@ export default function Profile() {
               <div className="prof-card-info">
                 <div className="prof-name-row">
                   <strong>{user?.fullName || "Utilisateur"}</strong>
-                  <svg viewBox="0 0 20 20" width="16" height="16" fill="#1a5fb4"><circle cx="10" cy="10" r="10" /><path d="M6 10l3 3 5-5" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg viewBox="0 0 20 20" width="16" height="16" fill="#0ea5e9"><circle cx="10" cy="10" r="10" /><path d="M6 10l3 3 5-5" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </div>
                 <span className="prof-verified">{t.verifiedAccount}</span>
                 <button type="button" className="prof-edit-btn" onClick={() => navigate(ROUTES.editProfile)}>
@@ -311,7 +311,11 @@ export default function Profile() {
                   <div className="prof-panel">
                     {user?.authProvider !== "google" && (
                       <div className="prof-panel-row prof-panel-row-action">
-                        <span className="prof-panel-icon">🔒</span>
+                        <span className="prof-panel-icon prof-panel-icon-svg">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                          </svg>
+                        </span>
                         <div style={{ flex: 1 }}>
                           <strong>{t.password}</strong>
                           <span>Modifier votre mot de passe</span>
@@ -338,7 +342,11 @@ export default function Profile() {
                     )}
                     {user?.authProvider === "google" && (
                       <div className="prof-panel-row">
-                        <span className="prof-panel-icon">🔒</span>
+                        <span className="prof-panel-icon prof-panel-icon-svg">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                          </svg>
+                        </span>
                         <div>
                           <strong>{t.password}</strong>
                           <span>Géré par Google — modifiez-le depuis votre compte Google</span>
@@ -352,7 +360,11 @@ export default function Profile() {
                 {item.id === "settings" && openPanel === "settings" && (
                   <div className="prof-panel">
                     <div className="prof-panel-row prof-panel-row-lang">
-                      <span className="prof-panel-icon">🌐</span>
+                      <span className="prof-panel-icon prof-panel-icon-svg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                      </span>
                       <div>
                         <strong>{t.language}</strong>
                         <div className="prof-lang-options">
@@ -363,7 +375,7 @@ export default function Profile() {
                               className={`prof-lang-btn ${lang === l.code ? "is-active" : ""}`}
                               onClick={() => changeLang(l.code)}
                             >
-                              <span>{l.flag}</span>
+                              <span className="prof-lang-code">{l.code.toUpperCase()}</span>
                               <span>{l.label}</span>
                             </button>
                           ))}
@@ -371,14 +383,22 @@ export default function Profile() {
                       </div>
                     </div>
                     <div className="prof-panel-row">
-                      <span className="prof-panel-icon">🔔</span>
+                      <span className="prof-panel-icon prof-panel-icon-svg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                      </span>
                       <div>
                         <strong>{t.notifications}</strong>
                         <span>{t.notificationsSub}</span>
                       </div>
                     </div>
                     <div className="prof-panel-row prof-panel-row-toggle">
-                      <span className="prof-panel-icon">🌙</span>
+                      <span className="prof-panel-icon prof-panel-icon-svg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+                      </span>
                       <div>
                         <strong>{t.darkMode}</strong>
                         <span>{isDark ? t.darkModeOn : t.darkModeOff}</span>

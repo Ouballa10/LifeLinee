@@ -5,41 +5,50 @@
 /* ─── QR Code Page ─── */
 .qr-main-card {
   padding: 24px 20px;
-  border-radius: 20px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
-  box-shadow: 0 2px 8px rgba(0, 20, 60, 0.04);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  box-shadow: 0 8px 28px rgba(14, 165, 233, 0.08);
+  backdrop-filter: blur(8px);
 }
 
 .qr-main-header {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 20px;
-  text-align: left;
 }
 
 .qr-main-header-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #e4f0fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
+  color: #0ea5e9;
+}
+
+.qr-main-header-icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-top: 9px;
 }
 
 .qr-main-header strong {
   display: block;
-  color: #102a4a;
+  color: #0f172a;
   font-size: 0.95rem;
   font-weight: 800;
 }
 
 .qr-main-header span {
   display: block;
-  color: #6b8299;
+  color: #64748b;
   font-size: 0.76rem;
   margin-top: 2px;
 }
@@ -55,8 +64,105 @@
   width: 220px;
   height: 220px;
   padding: 12px;
-  border: 2px solid #0ea5e9;
+  border: none;
   border-radius: 18px;
+  background: #ffffff;
+  box-shadow:
+    0 12px 32px rgba(14, 165, 233, 0.12),
+    0 0 0 1px rgba(14, 165, 233, 0.08);
+  animation: qrGlow 3s ease-in-out infinite;
+}
+
+@keyframes qrGlow {
+  0%, 100% { box-shadow: 0 12px 32px rgba(14, 165, 233, 0.12), 0 0 0 1px rgba(14, 165, 233, 0.08); }
+  50% { box-shadow: 0 12px 32px rgba(14, 165, 233, 0.2), 0 0 0 3px rgba(14, 165, 233, 0.1), 0 0 20px rgba(14, 165, 233, 0.08); }
+}
+
+/* Corner decorations */
+.qr-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #0ea5e9;
+  border-style: solid;
+  border-width: 0;
+}
+
+.qr-corner-tl {
+  top: 8px;
+  left: 8px;
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-radius: 6px 0 0 0;
+}
+
+.qr-corner-tr {
+  top: 8px;
+  right: 8px;
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-radius: 0 6px 0 0;
+}
+
+.qr-corner-bl {
+  bottom: 8px;
+  left: 8px;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-radius: 0 0 0 6px;
+}
+
+.qr-corner-br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+  border-radius: 0 0 6px 0;
+}
+
+/* User card below QR */
+.qr-user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  margin-bottom: 16px;
+}
+
+.qr-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qr-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.qr-user-info strong {
+  display: block;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.qr-user-info span {
+  display: block;
+  color: #0ea5e9;
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .qr-main-corners::before,
@@ -96,8 +202,9 @@
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  border-radius: 10px;
-  background: #f5f8fc;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid rgba(14, 165, 233, 0.08);
   margin-bottom: 18px;
 }
 
@@ -105,15 +212,16 @@
   flex-shrink: 0;
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  background: #e4f0fb;
+  border-radius: 8px;
+  background: rgba(14, 165, 233, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #0ea5e9;
 }
 
 .qr-main-notice span {
-  color: #4a6d8c;
+  color: #475569;
   font-size: 0.7rem;
   line-height: 1.4;
 }
@@ -130,32 +238,39 @@
   justify-content: center;
   gap: 8px;
   padding: 14px 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 0.84rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: transform 150ms ease;
+  transition: all 200ms ease;
 }
 
 .qr-main-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .qr-main-btn-share {
   background: #ffffff;
-  color: #1e3a5f;
-  border: 1.5px solid #d6e4f0;
+  color: #0f172a;
+  border: 1.5px solid rgba(14, 165, 233, 0.15);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.06);
 }
 
 .qr-main-btn-share:hover {
-  background: #f5f8fc;
+  background: #f0f9ff;
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.1);
 }
 
 .qr-main-btn-download {
-  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(26, 95, 180, 0.25);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3);
+}
+
+.qr-main-btn-download:hover {
+  box-shadow: 0 10px 24px rgba(14, 165, 233, 0.4);
 }
 
 .qr-main-error {
@@ -197,8 +312,15 @@
   gap: 12px;
   padding: 16px 14px;
   border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.04);
+  transition: all 200ms ease;
+}
+
+.qr-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.08);
 }
 
 .qr-info-item-icon {
@@ -212,13 +334,13 @@
 }
 
 .qr-info-item-icon-blue {
-  background: #e4f0fb;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   color: #0ea5e9;
 }
 
 .qr-info-item-icon-navy {
-  background: #eaecfb;
-  color: #3b4cc0;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe);
+  color: #0891b2;
 }
 
 .qr-info-item-text {
@@ -261,10 +383,12 @@
 
 /* ─── Scanner Page ─── */
 .scan-camera-card {
-  border-radius: 18px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  box-shadow: 0 8px 28px rgba(14, 165, 233, 0.08);
   overflow: hidden;
+  backdrop-filter: blur(8px);
 }
 
 .scan-video-wrap {
@@ -417,10 +541,11 @@
 
 /* Scanner CTA */
 .scan-cta-card {
-  padding: 18px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  padding: 20px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.06);
 }
 
 .scan-cta-card strong {
@@ -504,9 +629,10 @@
   align-items: flex-start;
   gap: 14px;
   padding: 18px 16px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.05);
 }
 
 .scan-howto-icon {
@@ -540,8 +666,8 @@
 .scan-howto-num {
   width: 24px;
   height: 24px;
-  border-radius: 50%;
-  background: #e4f0fb;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   color: #0ea5e9;
   font-size: 0.72rem;
   font-weight: 800;
@@ -577,15 +703,23 @@
   gap: 12px;
   padding: 16px;
   border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.04);
+  transition: all 200ms ease;
+}
+
+.scan-recent-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.08);
 }
 
 .scan-recent-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #e4f0fb;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  color: #0284c7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -679,8 +813,8 @@
   gap: 12px;
   padding: 18px 16px;
   border-radius: 16px;
-  background: #ffffff;
-  border: 1.5px solid #e4eaf0;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.08);
 }
 
 .scan-recent-empty span {

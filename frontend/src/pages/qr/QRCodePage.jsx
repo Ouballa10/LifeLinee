@@ -91,7 +91,7 @@ export default function QRCodePage() {
         <div className="home-scroll-content">
           {/* Title */}
           <section className="home-welcome">
-            <h1 className="home-greeting">{t.qrTitle}</h1>
+            <h1 className="home-greeting dash-title-gradient">{t.qrTitle}</h1>
             <p className="home-greeting-sub">{t.qrSub}</p>
           </section>
 
@@ -102,9 +102,11 @@ export default function QRCodePage() {
                 {/* Header */}
                 <div className="qr-main-header">
                   <span className="qr-main-header-icon">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a5fb4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                      <path d="M9 12l2 2 4-4" />
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1" />
+                      <rect x="14" y="3" width="7" height="7" rx="1" />
+                      <rect x="3" y="14" width="7" height="7" rx="1" />
+                      <path d="M14 14h3v3h-3zM20 14v3h-3M20 20h-3v-3" />
                     </svg>
                   </span>
                   <div>
@@ -116,7 +118,22 @@ export default function QRCodePage() {
                 {/* QR Image */}
                 <div className="qr-main-frame">
                   <div className="qr-main-corners">
+                    <span className="qr-corner qr-corner-tl"></span>
+                    <span className="qr-corner qr-corner-tr"></span>
+                    <span className="qr-corner qr-corner-bl"></span>
+                    <span className="qr-corner qr-corner-br"></span>
                     <img src={qrImageUrl} alt="QR Code LifeLine" className="qr-main-image" />
+                  </div>
+                </div>
+
+                {/* User info */}
+                <div className="qr-user-card">
+                  <span className="qr-user-avatar">
+                    {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
+                  </span>
+                  <div className="qr-user-info">
+                    <strong>{user?.fullName || "LifeLine"}</strong>
+                    <span>QR médical actif</span>
                   </div>
                 </div>
 

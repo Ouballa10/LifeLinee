@@ -9,12 +9,17 @@ import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 const SECTIONS = [
-  { id: "personal", icon: "👤", label: "Informations personnelles" },
-  { id: "health", icon: "🩺", label: "Informations médicales" },
-  { id: "emergency", icon: "🚨", label: "Contacts d'urgence" },
-  { id: "documents", icon: "📄", label: "Documents" },
-  { id: "privacy", icon: "🔒", label: "Sécurité" },
+  { id: "personal", label: "Personnel", color: "#0ea5e9" },
+  { id: "health", label: "Médical", color: "#06b6d4" },
+  { id: "emergency", label: "Urgence", color: "#ef4444" },
+  { id: "documents", label: "Documents", color: "#0891b2" },
+  { id: "privacy", label: "Sécurité", color: "#64748b" },
 ];
+
+/* Section tab SVG icons */
+function SectionTabIcon({ type }) {
+  return null; // Pills don't use icons anymore
+}
 
 function buildForm(user) {
   return {
@@ -50,14 +55,14 @@ function buildForm(user) {
 }
 
 const DOC_CATEGORIES = [
-  { id: "all", label: "Tous", icon: "📁" },
-  { id: "ordonnance", label: "Ordonnances", icon: "💊" },
-  { id: "analyse", label: "Analyses", icon: "🔬" },
-  { id: "radio", label: "Radios", icon: "🩻" },
-  { id: "certificat", label: "Certificats", icon: "📜" },
-  { id: "compte_rendu", label: "Comptes rendus", icon: "📝" },
-  { id: "vaccination", label: "Vaccinations", icon: "💉" },
-  { id: "other", label: "Autres", icon: "📎" },
+  { id: "all", label: "Tous", icon: "" },
+  { id: "ordonnance", label: "Ordonnances", icon: "" },
+  { id: "analyse", label: "Analyses", icon: "" },
+  { id: "radio", label: "Radios", icon: "" },
+  { id: "certificat", label: "Certificats", icon: "" },
+  { id: "compte_rendu", label: "Comptes rendus", icon: "" },
+  { id: "vaccination", label: "Vaccinations", icon: "" },
+  { id: "other", label: "Autres", icon: "" },
 ];
 
 function formatFileSize(bytes) {
@@ -429,21 +434,24 @@ export default function EditProfile() {
 
         <div className="home-scroll-content">
           <section className="home-welcome">
-            <h1 className="home-greeting">{t.editProfileTitle}</h1>
+            <h1 className="home-greeting dash-title-gradient">{t.editProfileTitle}</h1>
             <p className="home-greeting-sub">{t.editProfileSub}</p>
           </section>
 
-          {/* Section Tabs */}
-          <div className="edit-section-tabs">
+          {/* Progress + Section Pills */}
+          <div className="edit-progress-bar">
+            <div className="edit-progress-fill" style={{ width: `${((SECTIONS.findIndex(s => s.id === activeSection) + 1) / SECTIONS.length) * 100}%` }}></div>
+          </div>
+          <div className="edit-pills-row">
             {SECTIONS.map((s) => (
               <button
                 key={s.id}
                 type="button"
-                className={`edit-section-tab ${activeSection === s.id ? "is-active" : ""}`}
+                className={`edit-pill ${activeSection === s.id ? "is-active" : ""}`}
                 onClick={() => setActiveSection(s.id)}
               >
-                <span className="edit-section-tab-icon">{s.icon}</span>
-                <span className="edit-section-tab-label">{s.label}</span>
+                <span className="edit-pill-dot" style={{ background: s.color }}></span>
+                <span className="edit-pill-label">{s.label}</span>
               </button>
             ))}
           </div>
@@ -453,13 +461,8 @@ export default function EditProfile() {
             {/* ═══ SECTION 1: PERSONAL ═══ */}
             {activeSection === "personal" && (
               <div className="edit-section-card">
-                <div className="edit-section-header">
-                  <span className="edit-section-icon edit-section-icon-blue">👤</span>
-                  <div>
-                    <strong>Informations personnelles</strong>
-                    <span>Identité et coordonnées</span>
-                  </div>
-                </div>
+                <h3 className="edit-section-title">Informations personnelles</h3>
+                <p className="edit-section-subtitle">Identité et coordonnées</p>
 
                 {/* Profile Photo */}
                 <div className="edit-photo-section">
@@ -554,13 +557,8 @@ export default function EditProfile() {
             {/* ═══ SECTION 2: HEALTH ═══ */}
             {activeSection === "health" && (
               <div className="edit-section-card">
-                <div className="edit-section-header">
-                  <span className="edit-section-icon edit-section-icon-teal">🩺</span>
-                  <div>
-                    <strong>Informations médicales</strong>
-                    <span>Données critiques pour les secouristes</span>
-                  </div>
-                </div>
+                <h3 className="edit-section-title">Informations médicales</h3>
+                <p className="edit-section-subtitle">Données critiques pour les secouristes</p>
                 <div className="edit-fields">
                   <div className="edit-field-group">
                     <label className="field-group">
@@ -587,30 +585,25 @@ export default function EditProfile() {
             {/* ═══ SECTION 3: EMERGENCY ═══ */}
             {activeSection === "emergency" && (
               <div className="edit-section-card">
-                <div className="edit-section-header">
-                  <span className="edit-section-icon edit-section-icon-red">🚨</span>
-                  <div>
-                    <strong>Contacts d'urgence</strong>
-                    <span>Personnes à contacter en cas d'urgence</span>
-                  </div>
-                </div>
+                <h3 className="edit-section-title">Contacts d'urgence</h3>
+                <p className="edit-section-subtitle">Personnes à contacter en cas d'urgence</p>
                 <div className="edit-fields">
                   <div className="edit-contact-group">
-                    <strong className="edit-contact-group-title">👤 Contact principal</strong>
+                    <strong className="edit-contact-group-title">Contact principal</strong>
                     <Input label="Nom du contact" name="emergencyContactName" value={form.emergencyContactName || ""} onChange={handleChange} placeholder="Ex: Sofia Ghazali" />
                     <Input label="Numéro du contact" name="emergencyContactPhone" type="tel" inputMode="tel" value={form.emergencyContactPhone || ""} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
                     <Input label="Relation" name="emergencyContactRelation" value={form.emergencyContactRelation || ""} onChange={handleChange} placeholder="Ex: Mère, Frère, Ami..." />
                   </div>
 
                   <div className="edit-contact-group">
-                    <strong className="edit-contact-group-title">👥 Contact secondaire</strong>
+                    <strong className="edit-contact-group-title">Contact secondaire</strong>
                     <Input label="Nom du contact" name="secondaryContactName" value={form.secondaryContactName || ""} onChange={handleChange} placeholder="Ex: Ahmed Ouballa" />
                     <Input label="Numéro du contact" name="secondaryContactPhone" type="tel" inputMode="tel" value={form.secondaryContactPhone || ""} onChange={handleChange} placeholder="0622334455" minLength={8} maxLength={15} />
                     <Input label="Relation" name="secondaryContactRelation" value={form.secondaryContactRelation || ""} onChange={handleChange} placeholder="Ex: Père, Sœur, Collègue..." />
                   </div>
 
                   <div className="edit-contact-group">
-                    <strong className="edit-contact-group-title">👨‍⚕️ Médecin référent</strong>
+                    <strong className="edit-contact-group-title">Médecin référent</strong>
                     <Input label="Nom du médecin" name="doctorName" value={form.doctorName} onChange={handleChange} placeholder="Dr. Mohammed Alami" />
                     <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
                   </div>
@@ -642,13 +635,8 @@ export default function EditProfile() {
             {/* ═══ SECTION 4: DOCUMENTS ═══ */}
             {activeSection === "documents" && (
               <div className="edit-section-card doc-section">
-                <div className="edit-section-header">
-                  <span className="edit-section-icon edit-section-icon-blue">📄</span>
-                  <div>
-                    <strong>Dossier médical</strong>
-                    <span>Gérez vos documents médicaux en toute sécurité</span>
-                  </div>
-                </div>
+                <h3 className="edit-section-title">Dossier médical</h3>
+                <p className="edit-section-subtitle">Gérez vos documents médicaux en toute sécurité</p>
 
                 {/* Stats summary */}
                 {documents.length > 0 && (
@@ -910,13 +898,9 @@ export default function EditProfile() {
             {/* ═══ SECTION 5: PRIVACY ═══ */}
             {activeSection === "privacy" && (
               <div className="edit-section-card">
-                <div className="edit-section-header">
-                  <span className="edit-section-icon edit-section-icon-purple">🔒</span>
-                  <div>
-                    <strong>Sécurité et confidentialité</strong>
-                    <span>Contrôlez la visibilité de vos données</span>
-                  </div>
-                </div>
+                <h3 className="edit-section-title">Sécurité et confidentialité</h3>
+                <p className="edit-section-subtitle">Contrôlez la visibilité de vos données</p>
+
                 <div className="edit-fields">
                   <div className="edit-field-group">
                     <label className="field-group">
@@ -929,25 +913,38 @@ export default function EditProfile() {
                     </label>
                   </div>
 
-                  <div className="edit-privacy-info">
-                    <div className="edit-privacy-row">
-                      <span>🛡️</span>
+                  <div className="edit-privacy-cards">
+                    <div className="edit-privacy-card">
+                      <span className="edit-privacy-card-icon edit-privacy-icon-blue">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                          <path d="M9 12l2 2 4-4" />
+                        </svg>
+                      </span>
                       <div>
                         <strong>Autorisations de partage</strong>
-                        <span>Seules les personnes qui scannent votre QR peuvent voir vos infos d'urgence.</span>
+                        <span>Seules les personnes qui scannent votre QR peuvent voir vos infos.</span>
                       </div>
                     </div>
-                    <div className="edit-privacy-row">
-                      <span>📊</span>
+                    <div className="edit-privacy-card">
+                      <span className="edit-privacy-card-icon edit-privacy-icon-cyan">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                        </svg>
+                      </span>
                       <div>
                         <strong>Historique des scans</strong>
                         <span>Consultez qui a scanné votre QR dans le tableau de bord.</span>
                       </div>
                     </div>
-                    <div className="edit-privacy-row">
-                      <span>🔐</span>
+                    <div className="edit-privacy-card">
+                      <span className="edit-privacy-card-icon edit-privacy-icon-green">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                      </span>
                       <div>
-                        <strong>Paramètres de confidentialité</strong>
+                        <strong>Données chiffrées</strong>
                         <span>Vos données sont chiffrées et stockées de manière sécurisée.</span>
                       </div>
                     </div>

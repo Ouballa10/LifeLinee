@@ -118,7 +118,7 @@ export default function Scanner() {
 
         <div className="home-scroll-content">
           <section className="home-welcome">
-            <h1 className="home-greeting">{t.scannerTitle}</h1>
+            <h1 className="home-greeting dash-title-gradient">{t.scannerTitle}</h1>
             <p className="home-greeting-sub">{t.scannerSub}</p>
           </section>
 
