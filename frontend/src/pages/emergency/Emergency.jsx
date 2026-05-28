@@ -301,7 +301,7 @@ export default function Emergency() {
             </a>
           </div>
 
-          <Link to="/" className="emer-return-btn">← Retour à l'application</Link>
+          <Link to="/home" className="emer-return-btn">← Retour à l'application</Link>
         </div>
 
         {/* ═══ FOOTER ═══ */}
