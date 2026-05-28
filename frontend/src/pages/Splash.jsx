@@ -332,7 +332,7 @@ export default function Splash() {
 
     const timeoutId = window.setTimeout(() => {
       goToSlide(currentSlide + 1, "next");
-    }, 6000);
+    }, 3000);
 
     return () => window.clearTimeout(timeoutId);
   }, [currentSlide, goToSlide]);
