@@ -554,6 +554,36 @@
   font-weight: 500;
 }
 
+/* ===== FORGOT PASSWORD SUCCESS ===== */
+
+.forgot-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.forgot-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.forgot-success p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #3d5474;
+  line-height: 1.6;
+}
+
+.forgot-back-btn {
+  text-align: center;
+  justify-content: center;
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 400px) {

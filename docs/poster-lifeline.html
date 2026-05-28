@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poster - LifeLine</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1e293b;
+    }
+
+    .poster {
+      width: 841mm;
+      height: 1189mm;
+      padding: 40mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 20mm;
+      background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #eff6ff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12mm;
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4);
+    }
+
+    .poster::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 12mm;
+      background: linear-gradient(90deg, #06b6d4, #3b82f6, #1e3a8a);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 15mm 20mm;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+      border-radius: 12px;
+      color: white;
+      box-shadow: 0 8px 32px rgba(30, 58, 138, 0.3);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10mm;
+    }
+
+    .university-info {
+      text-align: left;
+      font-size: 11pt;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .university-info strong {
+      font-size: 12pt;
+      display: block;
+    }
+
+    .logo-placeholder {
+      width: 50mm;
+      height: 50mm;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28pt;
+      font-weight: 800;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    .project-title {
+      font-size: 52pt;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 5mm;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .project-subtitle {
+      font-size: 20pt;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-bottom: 8mm;
+    }
+
+    .authors {
+      font-size: 13pt;
+      opacity: 0.85;
+      line-height: 1.8;
+    }
+
+    .authors strong {
+      font-weight: 600;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      background: white;
+      border-radius: 10px;
+      padding: 12mm;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+    }
+
+    .section-title {
+      font-size: 18pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6mm;
+      padding-bottom: 3mm;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+    }
+
+    .section-icon {
+      width: 10mm;
+      height: 10mm;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14pt;
+    }
+
+    .section p, .section li {
+      font-size: 12pt;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      padding: 2mm 0;
+      padding-left: 6mm;
+      position: relative;
+    }
+
+    .section ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+      font-weight: bold;
+    }
+
+    /* ===== SPECIFIC SECTIONS ===== */
+    .introduction {
+      grid-column: 1 / -1;
+    }
+
+    .problematique {
+      grid-column: 1 / 2;
+    }
+
+    .objectifs {
+      grid-column: 2 / 3;
+    }
+
+    .fonctionnalites {
+      grid-column: 3 / 4;
+    }
+
+    .architecture {
+      grid-column: 1 / 3;
+    }
+
+    .technologies {
+      grid-column: 3 / 4;
+    }
+
+    .resultats {
+      grid-column: 1 / 2;
+    }
+
+    .securite {
+      grid-column: 2 / 3;
+    }
+
+    .conclusion {
+      grid-column: 3 / 4;
+    }
+
+    /* ===== TECH STACK ===== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+      margin-top: 4mm;
+    }
+
+    .tech-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 4mm;
+      text-align: center;
+    }
+
+    .tech-item .tech-name {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .tech-item .tech-role {
+      font-size: 9pt;
+      color: #64748b;
+      margin-top: 1mm;
+    }
+
+    /* ===== ARCHITECTURE DIAGRAM ===== */
+    .arch-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8mm;
+      margin-top: 6mm;
+      flex-wrap: wrap;
+    }
+
+    .arch-box {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #3b82f6;
+      border-radius: 10px;
+      padding: 6mm 8mm;
+      text-align: center;
+      min-width: 50mm;
+    }
+
+    .arch-box.frontend-box {
+      border-color: #10b981;
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    }
+
+    .arch-box.backend-box {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    }
+
+    .arch-box.db-box {
+      border-color: #8b5cf6;
+      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    }
+
+    .arch-box.auth-box {
+      border-color: #ef4444;
+      background: linear-gradient(135deg, #fef2f2, #fecaca);
+    }
+
+    .arch-box-title {
+      font-size: 11pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+    }
+
+    .arch-box-desc {
+      font-size: 9pt;
+      color: #475569;
+    }
+
+    .arch-arrow {
+      font-size: 20pt;
+      color: #94a3b8;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 8mm;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .footer p {
+      font-size: 11pt;
+      color: #64748b;
+    }
+
+    .footer strong {
+      color: #1e3a8a;
+    }
+
+    /* ===== HIGHLIGHTS ===== */
+    .highlight-box {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-left: 4px solid #1e3a8a;
+      padding: 4mm 6mm;
+      border-radius: 0 6px 6px 0;
+      margin: 4mm 0;
+    }
+
+    .highlight-box p {
+      font-size: 11pt;
+      font-weight: 500;
+      color: #1e3a8a;
+    }
+
+    /* Print styles */
+    @media print {
+      body { margin: 0; }
+      .poster { 
+        width: 100%;
+        height: 100%;
+        page-break-inside: avoid;
+      }
+    }
+
+    @page {
+      size: A0 portrait;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+      <div class="header-top">
+        <div class="university-info">
+          <strong>Université [Nom de l'Université]</strong>
+          Faculté / École d'Ingénierie<br>
+          Département Informatique<br>
+          Année universitaire 2024–2025
+        </div>
+        <div class="logo-placeholder">L</div>
+        <div class="university-info" style="text-align: right;">
+          <strong>Projet de Fin d'Études</strong>
+          Filière : Génie Informatique<br>
+          Encadré par : Pr. [Nom Encadrant]<br>
+          Soutenu le : [Date]
+        </div>
+      </div>
+      <div class="project-title">🏥 LifeLine</div>
+      <div class="project-subtitle">Application Web Progressive d'Urgence Médicale par QR Code</div>
+      <div class="authors">
+        <strong>Réalisé par :</strong> [Nom Étudiant 1] &nbsp;•&nbsp; [Nom Étudiant 2] &nbsp;•&nbsp; [Nom Étudiant 3]
+      </div>
+    </div>
+
+    <!-- ===== INTRODUCTION ===== -->
+    <div class="section introduction">
+      <div class="section-title">
+        <div class="section-icon">📋</div>
+        Introduction & Contexte
+      </div>
+      <p>
+        Dans un contexte d'urgence médicale, l'accès rapide aux informations vitales d'un patient peut faire la différence entre la vie et la mort. 
+        <strong>LifeLine</strong> est une application web progressive (PWA) mobile-first qui permet à chaque utilisateur de stocker son profil médical 
+        (groupe sanguin, allergies, maladies chroniques, médicaments, contacts d'urgence) et de le rendre accessible instantanément via un <strong>QR Code personnel</strong>. 
+        En cas d'urgence, un secouriste ou toute personne tierce peut scanner ce QR Code pour accéder aux informations médicales critiques sans nécessiter 
+        d'authentification, permettant ainsi une prise en charge rapide et informée.
+      </p>
+    </div>
+
+    <!-- ===== PROBLÉMATIQUE ===== -->
+    <div class="section problematique">
+      <div class="section-title">
+        <div class="section-icon">❓</div>
+        Problématique
+      </div>
+      <ul>
+        <li>Difficulté d'accès aux données médicales en situation d'urgence</li>
+        <li>Absence de solution numérique portable et universelle au Maroc</li>
+        <li>Risques liés à l'administration de traitements sans connaissance des antécédents</li>
+        <li>Barrière linguistique dans les situations d'urgence (FR/AR/EN)</li>
+        <li>Nécessité d'une solution fonctionnant hors ligne</li>
+      </ul>
+      <div class="highlight-box">
+        <p>💡 Comment permettre un accès instantané et sécurisé aux informations médicales vitales en situation d'urgence ?</p>
+      </div>
+    </div>
+
+    <!-- ===== OBJECTIFS ===== -->
+    <div class="section objectifs">
+      <div class="section-title">
+        <div class="section-icon">🎯</div>
+        Objectifs
+      </div>
+      <ul>
+        <li>Créer un profil médical numérique complet et sécurisé</li>
+        <li>Générer un QR Code unique lié au profil médical</li>
+        <li>Permettre l'accès d'urgence sans authentification via scan QR</li>
+        <li>Offrir un contrôle de visibilité des données par l'utilisateur</li>
+        <li>Supporter le mode hors ligne (PWA)</li>
+        <li>Proposer une interface multilingue (FR, AR, EN)</li>
+        <li>Journaliser les accès d'urgence pour traçabilité</li>
+        <li>Permettre le stockage de documents médicaux</li>
+      </ul>
+    </div>
+
+    <!-- ===== FONCTIONNALITÉS ===== -->
+    <div class="section fonctionnalites">
+      <div class="section-title">
+        <div class="section-icon">⚙️</div>
+        Fonctionnalités Principales
+      </div>
+      <ul>
+        <li><strong>Authentification</strong> — Email/mot de passe + Google OAuth via Firebase</li>
+        <li><strong>Profil médical</strong> — Groupe sanguin, allergies, maladies, médicaments, contacts d'urgence</li>
+        <li><strong>QR Code</strong> — Génération, partage et téléchargement du QR personnel</li>
+        <li><strong>Scanner QR</strong> — Lecture de QR LifeLine via caméra</li>
+        <li><strong>Accès d'urgence</strong> — Fiche médicale publique + appel contact d'urgence</li>
+        <li><strong>Documents</strong> — Upload et gestion de documents médicaux</li>
+        <li><strong>Historique</strong> — Journal des accès d'urgence</li>
+        <li><strong>PWA</strong> — Installation sur mobile, mode hors ligne</li>
+        <li><strong>Mode sombre</strong> — Interface adaptative</li>
+        <li><strong>Multilingue</strong> — Français, Arabe, Anglais</li>
+      </ul>
+    </div>
+
+    <!-- ===== ARCHITECTURE ===== -->
+    <div class="section architecture">
+      <div class="section-title">
+        <div class="section-icon">🏗️</div>
+        Architecture du Système
+      </div>
+      <p style="margin-bottom: 4mm;">
+        LifeLine adopte une architecture <strong>3-tiers</strong> découplée, déployée sur Vercel avec une base de données PostgreSQL hébergée sur Supabase.
+      </p>
+      <div class="arch-diagram">
+        <div class="arch-box frontend-box">
+          <div class="arch-box-title">Frontend (PWA)</div>
+          <div class="arch-box-desc">React 18 + Vite<br>React Router v6<br>Service Worker</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box backend-box">
+          <div class="arch-box-title">Backend (API REST)</div>
+          <div class="arch-box-desc">Express.js<br>Vercel Serverless<br>Middleware Auth</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box db-box">
+          <div class="arch-box-title">Base de Données</div>
+          <div class="arch-box-desc">Supabase<br>PostgreSQL<br>Storage (Documents)</div>
+        </div>
+      </div>
+      <div class="arch-diagram" style="margin-top: 6mm;">
+        <div class="arch-box auth-box">
+          <div class="arch-box-title">Authentification</div>
+          <div class="arch-box-desc">Firebase Auth<br>Google OAuth 2.0<br>ID Token Verification</div>
+        </div>
+        <div class="arch-arrow">↔</div>
+        <div class="arch-box">
+          <div class="arch-box-title">QR Code Engine</div>
+          <div class="arch-box-desc">Génération côté client<br>Token unique par profil<br>Accès public sécurisé</div>
+        </div>
+        <div class="arch-arrow">↔</div>
+        <div class="arch-box frontend-box">
+          <div class="arch-box-title">PWA / Offline</div>
+          <div class="arch-box-desc">Service Worker<br>Cache Strategy<br>Manifest.json</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TECHNOLOGIES ===== -->
+    <div class="section technologies">
+      <div class="section-title">
+        <div class="section-icon">🛠️</div>
+        Technologies Utilisées
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-name">React 18</div>
+          <div class="tech-role">Interface utilisateur</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Vite 5</div>
+          <div class="tech-role">Build & Dev Server</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Express.js</div>
+          <div class="tech-role">API REST</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Supabase</div>
+          <div class="tech-role">BDD PostgreSQL</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Firebase Auth</div>
+          <div class="tech-role">Authentification</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Vercel</div>
+          <div class="tech-role">Déploiement</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">QRCode.js</div>
+          <div class="tech-role">Génération QR</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">PWA</div>
+          <div class="tech-role">Mode hors ligne</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RÉSULTATS ===== -->
+    <div class="section resultats">
+      <div class="section-title">
+        <div class="section-icon">📊</div>
+        Résultats & Réalisations
+      </div>
+      <ul>
+        <li>Application fonctionnelle déployée sur Vercel</li>
+        <li>Authentification sécurisée (Firebase + Google)</li>
+        <li>Profil médical complet avec contrôle de visibilité</li>
+        <li>QR Code unique et stable par utilisateur</li>
+        <li>Page d'urgence publique accessible sans login</li>
+        <li>Scanner QR intégré via caméra du téléphone</li>
+        <li>Journalisation des accès d'urgence</li>
+        <li>Upload de documents médicaux</li>
+        <li>Interface responsive mobile-first</li>
+        <li>Support PWA avec mode hors ligne</li>
+      </ul>
+    </div>
+
+    <!-- ===== SÉCURITÉ ===== -->
+    <div class="section securite">
+      <div class="section-title">
+        <div class="section-icon">🔒</div>
+        Sécurité & Confidentialité
+      </div>
+      <ul>
+        <li><strong>Authentification</strong> — Firebase ID Token vérifié côté serveur</li>
+        <li><strong>Autorisation</strong> — Supabase Service Role Key (serveur uniquement)</li>
+        <li><strong>Visibilité QR</strong> — L'utilisateur contrôle quelles données sont exposées</li>
+        <li><strong>Séparation</strong> — Clé anon (frontend) vs Service Role (backend)</li>
+        <li><strong>Traçabilité</strong> — Chaque scan d'urgence est journalisé (EmergencyLog)</li>
+        <li><strong>CORS</strong> — Politique restrictive sur l'API</li>
+      </ul>
+      <div class="highlight-box">
+        <p>🛡️ Les données sensibles ne transitent jamais côté client sans consentement explicite de l'utilisateur.</p>
+      </div>
+    </div>
+
+    <!-- ===== CONCLUSION ===== -->
+    <div class="section conclusion">
+      <div class="section-title">
+        <div class="section-icon">✅</div>
+        Conclusion & Perspectives
+      </div>
+      <p style="margin-bottom: 4mm;">
+        LifeLine répond au besoin critique d'accès rapide aux informations médicales en situation d'urgence, 
+        tout en respectant la vie privée des utilisateurs.
+      </p>
+      <p style="font-weight: 600; margin-bottom: 3mm;">Perspectives d'évolution :</p>
+      <ul>
+        <li>Intégration avec les systèmes hospitaliers (HL7/FHIR)</li>
+        <li>Notifications push aux contacts d'urgence</li>
+        <li>Géolocalisation en temps réel lors d'un scan</li>
+        <li>Application native (React Native)</li>
+        <li>Bracelet NFC complémentaire au QR Code</li>
+        <li>Partenariats avec la Protection Civile</li>
+      </ul>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+      <p>
+        <strong>Projet de Fin d'Études — Année Universitaire 2024–2025</strong><br>
+        Université [Nom] • Département Informatique • Encadré par Pr. [Nom Encadrant]<br>
+        📧 contact@lifeline-app.ma &nbsp;|&nbsp; 🌐 lifeline-app.vercel.app &nbsp;|&nbsp; 📱 PWA installable sur mobile
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

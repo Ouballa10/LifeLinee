@@ -1,0 +1,36 @@
+@startuml LifeLine - Diagramme de Séquence : Générer QR Code
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequence {
+  ArrowColor #1e3a8a
+  LifeLineBorderColor #1e3a8a
+  ParticipantBorderColor #1e3a8a
+  ParticipantBackgroundColor #e8f4fd
+}
+
+title Diagramme de Séquence - Générer et Partager le QR Code
+
+actor Utilisateur as U
+participant "Application\nLifeLine" as App
+participant "API LifeLine" as API
+database "Supabase" as DB
+
+U -> App : Accéder à la page QR Code
+App -> API : GET /qr/me
+API -> DB : Charger profil médical (qr_token)
+DB --> API : Retourner qr_token
+
+API --> App : Retourner URL d'urgence\n(/emergency/{qr_token})
+App --> U : Afficher QR Code généré
+
+alt Partager
+  U -> App : Cliquer "Partager"
+  App --> U : Ouvrir menu de partage natif
+else Télécharger
+  U -> App : Cliquer "Télécharger"
+  App --> U : Télécharger image QR Code
+end
+
+@enduml

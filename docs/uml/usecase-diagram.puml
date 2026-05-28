@@ -1,0 +1,72 @@
+@startuml LifeLine - Diagramme de Cas d'Utilisation
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam usecase {
+  BackgroundColor #e8f4fd
+  BorderColor #1e3a8a
+  ArrowColor #1e3a8a
+}
+skinparam actor {
+  BorderColor #1e3a8a
+}
+skinparam rectangle {
+  BorderColor #1e3a8a
+}
+
+left to right direction
+
+title Diagramme de Cas d'Utilisation - LifeLine
+
+actor "Utilisateur" as User
+actor "Secouriste" as Responder
+
+rectangle "LifeLine" {
+
+  usecase "S'inscrire" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Se connecter avec Google" as UC3
+  usecase "Se déconnecter" as UC4
+
+  usecase "Consulter son profil médical" as UC5
+  usecase "Modifier son profil médical" as UC6
+  usecase "Gérer les contacts d'urgence" as UC7
+
+  usecase "Générer son QR Code" as UC8
+  usecase "Partager / Télécharger le QR" as UC9
+  usecase "Scanner un QR Code" as UC10
+
+  usecase "Accéder à la fiche médicale d'urgence" as UC11
+  usecase "Consulter l'historique des accès" as UC12
+
+  usecase "Uploader un document médical" as UC13
+  usecase "Consulter ses documents" as UC14
+  usecase "Supprimer un document" as UC15
+
+  usecase "Changer la langue" as UC16
+  usecase "Activer le mode sombre" as UC17
+
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC12
+User --> UC13
+User --> UC14
+User --> UC15
+User --> UC16
+User --> UC17
+
+Responder --> UC10
+Responder --> UC11
+
+@enduml

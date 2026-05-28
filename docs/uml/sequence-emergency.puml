@@ -1,0 +1,35 @@
+@startuml LifeLine - Diagramme de Séquence : Accès Urgence
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequence {
+  ArrowColor #1e3a8a
+  LifeLineBorderColor #1e3a8a
+  ParticipantBorderColor #1e3a8a
+  ParticipantBackgroundColor #e8f4fd
+}
+
+title Diagramme de Séquence - Accès d'Urgence via QR Code
+
+actor Secouriste as S
+participant "Navigateur Web" as Nav
+participant "API LifeLine" as API
+database "Supabase" as DB
+
+S -> Nav : Scanner le QR Code
+Nav -> API : GET /emergency/{qr_token}
+API -> DB : Rechercher profil médical par qr_token
+DB --> API : Retourner données médicales publiques
+
+API --> Nav : Afficher fiche d'urgence\n(groupe sanguin, allergies,\nmédicaments, contact urgence)
+
+Nav --> S : Visualiser les informations médicales
+
+S -> Nav : Cliquer "Appeler contact d'urgence"
+Nav --> S : Lancer appel téléphonique
+
+API -> DB : Enregistrer log d'accès\n(date, localisation)
+DB --> API : Confirmation
+
+@enduml

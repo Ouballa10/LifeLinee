@@ -60,7 +60,7 @@ export default function ForgotPassword() {
             <span className="forgot-success-icon">📧</span>
             <p>Vérifiez votre boîte de réception (et les spams) puis cliquez sur le lien pour créer un nouveau mot de passe.</p>
           </div>
-          <Link to={ROUTES.login} className="login-submit-btn" style={{ textDecoration: "none", textAlign: "center", display: "block" }}>
+          <Link to={ROUTES.login} className="login-submit-btn forgot-back-btn" style={{ textDecoration: "none" }}>
             ← Retour à la connexion
           </Link>
         </section>

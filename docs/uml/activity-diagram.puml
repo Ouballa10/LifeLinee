@@ -1,0 +1,135 @@
+@startuml LifeLine - Diagramme d'Activité
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam activity {
+  BackgroundColor #e8f4fd
+  BorderColor #1e3a8a
+  ArrowColor #1e3a8a
+  DiamondBackgroundColor #fef3c7
+  DiamondBorderColor #92400e
+}
+
+title Diagramme d'Activité - Flux Principal de l'Application
+
+start
+
+:Ouvrir l'application LifeLine;
+
+if (Utilisateur authentifié ?) then (Oui)
+  :Afficher page d'accueil (Home);
+else (Non)
+  :Afficher écran Splash / Onboarding;
+  
+  if (Choix de l'utilisateur) then (Se connecter)
+    :Afficher page Login;
+    
+    if (Méthode de connexion) then (Email/Password)
+      :Saisir email et mot de passe;
+      :Firebase signInWithEmailAndPassword();
+    else (Google)
+      :Firebase signInWithPopup(Google);
+    endif
+    
+    :Obtenir idToken Firebase;
+    :Envoyer idToken au backend;
+    :Backend vérifie le token;
+    
+    if (Token valide ?) then (Oui)
+      :Créer/Mettre à jour profil en BDD;
+      :Retourner session + profil;
+    else (Non)
+      :Afficher erreur d'authentification;
+      stop
+    endif
+    
+  else (S'inscrire)
+    :Afficher page Register;
+    :Saisir nom, email, téléphone, mot de passe;
+    :Firebase createUserWithEmailAndPassword();
+    :Envoyer idToken + infos au backend;
+    :Créer user_profile + medical_profile;
+    :Générer qr_token unique;
+  endif
+  
+  :Afficher page d'accueil (Home);
+endif
+
+' ═══ NAVIGATION PRINCIPALE ═══
+
+fork
+  :Consulter profil médical;
+  :Voir résumé (sang, allergies,\nmaladies, médicaments);
+  
+  if (Profil complet ?) then (Non)
+    :Modifier le profil;
+    :Enregistrer les modifications;
+    :PUT /api/users/me;
+  else (Oui)
+    :Profil à jour ✓;
+  endif
+
+fork again
+  :Afficher QR Code;
+  :Générer image QR\n(URL d'urgence);
+  
+  fork
+    :Partager le QR;
+  fork again
+    :Télécharger le QR;
+  end fork
+
+fork again
+  :Scanner un QR LifeLine;
+  
+  if (Caméra disponible ?) then (Oui)
+    :Démarrer caméra;
+    :Détecter QR automatiquement;
+  else (Non)
+    :Importer image QR;
+    :Lire QR depuis l'image;
+  endif
+  
+  :Extraire token d'urgence;
+  :Naviguer vers /emergency/:token;
+  :Charger fiche médicale publique;
+  :Afficher infos d'urgence;
+  
+  if (Contact d'urgence disponible ?) then (Oui)
+    :Proposer "Appeler maintenant";
+  else (Non)
+    :Afficher "Aucun numéro";
+  endif
+  
+  :Logger l'accès (emergency_logs);
+
+fork again
+  :Consulter Dashboard;
+  :Voir complétude du profil;
+  :Voir historique des scans;
+  :Voir statistiques;
+
+fork again
+  :Gérer documents médicaux;
+  
+  if (Action) then (Upload)
+    :Sélectionner fichier (PDF/Image);
+    :Valider type et taille (≤ 10MB);
+    :Convertir en Base64;
+    :Envoyer au backend;
+    :Stocker dans Supabase Storage;
+  else (Supprimer)
+    :Confirmer suppression;
+    :Supprimer du Storage + BDD;
+  endif
+
+end fork
+
+:Se déconnecter;
+:Effacer session locale;
+:Firebase signOut();
+:Rediriger vers Login;
+
+stop
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml LifeLine - Diagramme de Séquence : Modifier Profil
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequence {
+  ArrowColor #1e3a8a
+  LifeLineBorderColor #1e3a8a
+  ParticipantBorderColor #1e3a8a
+  ParticipantBackgroundColor #e8f4fd
+}
+
+title Diagramme de Séquence - Modifier le Profil Médical
+
+actor Utilisateur as U
+participant "Application\nLifeLine" as App
+participant "API LifeLine" as API
+database "Supabase" as DB
+
+U -> App : Modifier informations médicales\n(groupe sanguin, allergies, médicaments...)
+App -> API : PUT /users/me (données modifiées)
+
+API -> DB : Mettre à jour user_profiles
+DB --> API : Confirmation
+
+API -> DB : Mettre à jour medical_profiles
+DB --> API : Confirmation
+
+API --> App : Retourner profil mis à jour
+App --> U : Afficher confirmation de sauvegarde
+
+@enduml

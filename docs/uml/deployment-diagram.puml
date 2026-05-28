@@ -1,0 +1,102 @@
+@startuml LifeLine - Diagramme de Déploiement
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam node {
+  BackgroundColor #e8f4fd
+  BorderColor #1e3a8a
+}
+skinparam component {
+  BackgroundColor #f1f5f9
+  BorderColor #334155
+}
+
+title Diagramme de Déploiement - LifeLine
+
+' ═══════════════════════════════════════
+' NŒUDS
+' ═══════════════════════════════════════
+
+node "Client (Navigateur / PWA)" as Client {
+  component [React SPA\n(Vite Build)] as ReactApp
+  component [Service Worker\n(Cache Offline)] as SW
+  component [Firebase SDK\n(Auth Client)] as FirebaseSDK
+  component [Supabase Client\n(Lectures publiques)] as SupaClient
+}
+
+cloud "Vercel" as Vercel {
+  node "CDN / Edge Network" as CDN {
+    component [Fichiers statiques\n(HTML, JS, CSS, Assets)] as Static
+  }
+  node "Serverless Functions" as Serverless {
+    component [api/[...path].js\n(Express Proxy)] as APIProxy
+    component [Express App\n(Controllers, Routes)] as ExpressApp
+  }
+}
+
+cloud "Firebase" as FirebaseCloud {
+  node "Firebase Auth" as FirebaseAuth {
+    component [Email/Password\nProvider] as EmailAuth
+    component [Google OAuth\nProvider] as GoogleAuth
+  }
+  node "Identity Toolkit API" as IdentityAPI {
+    component [Token Verification\n(REST API)] as TokenVerify
+  }
+}
+
+cloud "Supabase" as SupabaseCloud {
+  node "PostgreSQL" as PostgreSQL {
+    database "user_profiles" as TableUsers
+    database "medical_profiles" as TableMedical
+    database "emergency_logs" as TableLogs
+    database "medical_documents" as TableDocs
+  }
+  node "Storage" as Storage {
+    component [Bucket:\nmedical-documents] as Bucket
+  }
+  node "Views" as Views {
+    component [public_emergency_profiles\n(Vue publique)] as PublicView
+  }
+}
+
+' ═══════════════════════════════════════
+' CONNEXIONS
+' ═══════════════════════════════════════
+
+Client -down-> CDN : HTTPS\n(fichiers statiques)
+ReactApp -down-> APIProxy : HTTPS\n/api/*
+FirebaseSDK -right-> FirebaseAuth : Auth SDK
+SupaClient -down-> PublicView : HTTPS\n(lectures publiques)
+
+APIProxy -down-> ExpressApp : Proxy interne
+ExpressApp -right-> TokenVerify : Vérification tokens\n(REST API)
+ExpressApp -down-> PostgreSQL : Supabase JS\n(Service Role Key)
+ExpressApp -down-> Bucket : Upload/Delete fichiers
+
+SW .left.> Static : Cache assets
+
+' ═══════════════════════════════════════
+' NOTES
+' ═══════════════════════════════════════
+
+note right of Client
+  PWA installable
+  Mode offline supporté
+  Langues: FR, AR (RTL), EN
+end note
+
+note bottom of Serverless
+  Variables d'environnement:
+  - SUPABASE_URL
+  - SUPABASE_SERVICE_ROLE_KEY
+  - FIREBASE_API_KEY
+  - FRONTEND_URL
+end note
+
+note bottom of SupabaseCloud
+  Row Level Security (RLS)
+  Vue publique pour urgences
+  Stockage sécurisé des fichiers
+end note
+
+@enduml
