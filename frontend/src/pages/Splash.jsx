@@ -40,11 +40,24 @@ function FeatureIcon({ type }) {
         <circle cx="24" cy="28" r="2.5" fill="currentColor" />
       </svg>
     ),
+    lockRed: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="14" y="21" width="20" height="16" rx="5" fill="none" stroke="#dc2626" strokeWidth="3.2" />
+        <path
+          d="M18 21V17.5C18 14.2 20.7 11.5 24 11.5C27.3 11.5 30 14.2 30 17.5V21"
+          fill="none"
+          stroke="#dc2626"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+        />
+        <circle cx="24" cy="28" r="2.5" fill="#dc2626" />
+      </svg>
+    ),
     heart: (
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <path
           d="M24 36C15 30.4 10 24.7 10 18.7C10 14.7 13 12 16.8 12C20 12 22.3 13.6 24 16C25.7 13.6 28 12 31.2 12C35 12 38 14.7 38 18.7C38 24.7 33 30.4 24 36Z"
-          fill="currentColor"
+          fill="#dc2626"
         />
         <path
           d="M15.5 23.5H21L23.4 19L26 27L28.6 22.7H32.5"
@@ -152,12 +165,12 @@ function ControlChecklistIcon({ type }) {
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <path
           d="M24 10C18.8 10 14.5 14.3 14.5 19.5V24.5C14.5 27.1 13.6 29.7 11.8 31.6L10 33.5H38L36.2 31.6C34.4 29.7 33.5 27.1 33.5 24.5V19.5C33.5 14.3 29.2 10 24 10Z"
-          fill="currentColor"
+          fill="#dc2626"
         />
         <path
           d="M20 37C20.7 39 22.2 40 24 40C25.8 40 27.3 39 28 37"
           fill="none"
-          stroke="currentColor"
+          stroke="#dc2626"
           strokeWidth="3.2"
           strokeLinecap="round"
         />
@@ -256,7 +269,7 @@ export default function Splash() {
       panelType: "phone",
       features: [
         { title: "Accessible", text: "Disponibles pour les secours au bon moment.", icon: "refresh" },
-        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lock" },
+        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lockRed" },
         { title: "Instantane", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
       ],
     },
@@ -402,7 +415,7 @@ export default function Splash() {
                     key={feature.title}
                     className={`onboarding-feature-card onboarding-feature-card-${slide.panelType} splash-stagger-${index + 1}`}
                   >
-                    <span className="onboarding-feature-icon">
+                    <span className={`onboarding-feature-icon ${feature.iconColor ? `onboarding-feature-icon-${feature.iconColor}` : ""}`}>
                       <FeatureIcon type={feature.icon} />
                     </span>
                     <strong>{feature.title}</strong>

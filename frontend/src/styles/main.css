@@ -1681,6 +1681,16 @@
   background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
 }
 
+.onboarding-feature-icon-red {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+  color: #dc2626 !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15) !important;
+}
+
+.onboarding-feature-card:hover .onboarding-feature-icon-red {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%) !important;
+}
+
 .onboarding-feature-icon svg {
   width: 26px;
   height: 26px;
