@@ -418,28 +418,28 @@
 
 .aurora-screen .aurora-card {
   border-radius: 26px !important;
-  border: 1px solid rgba(79, 70, 229, 0.12) !important;
+  border: 1px solid rgba(26, 95, 180, 0.12) !important;
   background: rgba(255, 255, 255, 0.94) !important;
   backdrop-filter: blur(16px) saturate(150%);
   box-shadow:
-    0 24px 56px rgba(79, 70, 229, 0.14),
-    0 8px 20px rgba(79, 70, 229, 0.08) !important;
+    0 24px 56px rgba(26, 95, 180, 0.14),
+    0 8px 20px rgba(26, 95, 180, 0.08) !important;
 }
 
 .aurora-screen .aurora-field-input-wrapper {
-  border: 1.5px solid rgba(79, 70, 229, 0.14) !important;
+  border: 1.5px solid rgba(26, 95, 180, 0.14) !important;
   border-radius: 14px !important;
 }
 
 .aurora-screen .aurora-field-input-wrapper:focus-within {
-  border-color: #4f46e5 !important;
+  border-color: #1a5fb4 !important;
   box-shadow:
-    0 0 0 4px rgba(79, 70, 229, 0.12),
-    0 8px 22px rgba(79, 70, 229, 0.14) !important;
+    0 0 0 4px rgba(26, 95, 180, 0.12),
+    0 8px 22px rgba(26, 95, 180, 0.14) !important;
 }
 
 .aurora-screen .aurora-field-input-wrapper:focus-within .aurora-field-icon {
-  color: #4f46e5 !important;
+  color: #1a5fb4 !important;
 }
 
 /* ─── Submit Button ─── */
