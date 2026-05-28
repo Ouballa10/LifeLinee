@@ -405,14 +405,14 @@
 
 .aurora-screen {
   background:
-    radial-gradient(circle at 12% 8%, rgba(79, 70, 229, 0.2), transparent 42%),
-    radial-gradient(circle at 88% 6%, rgba(124, 58, 237, 0.18), transparent 38%),
+    radial-gradient(circle at 12% 8%, rgba(26, 95, 180, 0.15), transparent 42%),
+    radial-gradient(circle at 88% 6%, rgba(14, 165, 233, 0.12), transparent 38%),
     radial-gradient(circle at 50% 95%, rgba(6, 182, 212, 0.14), transparent 44%),
     linear-gradient(180deg, #f5f7fb 0%, #eef2ff 100%) !important;
 }
 
 .aurora-screen .aurora-title {
-  color: #1e3a8a !important;
+  color: #1a5fb4 !important;
   font-weight: 800 !important;
 }
 
@@ -461,13 +461,13 @@
 /* ─── Google Button ─── */
 .aurora-screen .aurora-google-btn {
   border-radius: 14px !important;
-  border: 1.5px solid rgba(79, 70, 229, 0.14) !important;
+  border: 1.5px solid rgba(26, 95, 180, 0.14) !important;
   background: rgba(255, 255, 255, 0.9) !important;
 }
 
 .aurora-screen .aurora-google-btn:hover:not(:disabled) {
-  border-color: rgba(79, 70, 229, 0.35) !important;
-  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.16) !important;
+  border-color: rgba(26, 95, 180, 0.35) !important;
+  box-shadow: 0 10px 28px rgba(26, 95, 180, 0.16) !important;
   transform: translateY(-2px);
 }
 
@@ -490,17 +490,17 @@
 }
 
 .aurora-screen .aurora-forgot-link {
-  color: #4f46e5 !important;
+  color: #1a5fb4 !important;
 }
 
 .aurora-screen .aurora-divider::before,
 .aurora-screen .aurora-divider::after {
-  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.2), transparent) !important;
+  background: linear-gradient(90deg, transparent, rgba(26, 95, 180, 0.2), transparent) !important;
 }
 
 .aurora-screen .aurora-privacy-icon {
-  color: #4f46e5 !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
+  color: #1a5fb4 !important;
+  border: 1px solid rgba(26, 95, 180, 0.14) !important;
 }
 
 /* ═══════════════════════════════════════════════════════

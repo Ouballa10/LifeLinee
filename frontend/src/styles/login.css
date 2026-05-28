@@ -222,7 +222,10 @@
   margin: 0 0 8px;
   font-size: 1.85rem;
   font-weight: 700;
-  color: #1a5fb4;
+  background: linear-gradient(135deg, #1a5fb4 0%, #2980d9 50%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   letter-spacing: -0.02em;
 }
 
