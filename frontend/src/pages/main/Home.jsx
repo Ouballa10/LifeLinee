@@ -268,7 +268,7 @@ export default function Home() {
             <div className="home-greeting-card-content">
               <span className="home-greeting-date">{today}</span>
               <h1 className="home-greeting">{t.homeGreeting}, {profileName} 👋</h1>
-              <p className="home-greeting-sub">{t.homeSub}</p>
+              <p className="home-greeting-sub">Vos données médicales à portée de main.</p>
             </div>
             <div className="home-greeting-ring">
               <CompletenessRing percent={completenessPercent} />
