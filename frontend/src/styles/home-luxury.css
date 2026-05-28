@@ -26,38 +26,38 @@
 @media (min-width: 431px) {
   .home-screen .home-shell {
     border-radius: 28px !important;
-    border: 1px solid rgba(79, 70, 229, 0.14) !important;
+    border: 1px solid rgba(14, 165, 233, 0.14) !important;
     box-shadow:
-      0 24px 60px rgba(79, 70, 229, 0.14),
-      0 8px 24px rgba(124, 58, 237, 0.08) !important;
+      0 24px 60px rgba(14, 165, 233, 0.14),
+      0 8px 24px rgba(6, 182, 212, 0.08) !important;
   }
 }
 
 /* ─── Top Bar ─── */
 .home-screen .home-topbar-btn {
   border-radius: 14px !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
+  border: 1px solid rgba(14, 165, 233, 0.14) !important;
   background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08) !important;
 }
 
 .home-screen .home-topbar-btn:hover,
 .home-screen .home-topbar-btn.is-open {
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
-  border-color: rgba(79, 70, 229, 0.3) !important;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe) !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
 }
 
 .home-screen .home-hamburger-line {
-  background: #1e3a8a !important;
+  background: #0284c7 !important;
 }
 
 /* ─── Dropdown Menu ─── */
 .home-screen .home-dropdown-menu {
   border-radius: 18px !important;
-  border: 1px solid rgba(79, 70, 229, 0.12) !important;
+  border: 1px solid rgba(14, 165, 233, 0.12) !important;
   background: rgba(255, 255, 255, 0.97) !important;
   backdrop-filter: blur(20px) saturate(160%);
-  box-shadow: 0 22px 50px rgba(79, 70, 229, 0.18) !important;
+  box-shadow: 0 22px 50px rgba(14, 165, 233, 0.18) !important;
 }
 
 .home-screen .home-dropdown-header strong {
@@ -70,8 +70,8 @@
 }
 
 .home-screen .home-dropdown-link:hover {
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
-  color: #1e3a8a !important;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe) !important;
+  color: #0284c7 !important;
 }
 
 .home-screen .home-dropdown-link-danger {
@@ -97,13 +97,13 @@
 /* ─── Hero Banner ─── */
 .home-screen .home-hero-banner {
   border-radius: 22px !important;
-  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 50%, #cffafe 100%) !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.1) !important;
+  background: linear-gradient(135deg, #e0f2fe 0%, #cffafe 50%, #a5f3fc 100%) !important;
+  border: 1px solid rgba(14, 165, 233, 0.14) !important;
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.1) !important;
 }
 
 .home-screen .home-hero-circle {
-  background: rgba(79, 70, 229, 0.08) !important;
+  background: rgba(14, 165, 233, 0.08) !important;
 }
 
 .home-screen .home-hero-text h2 {
@@ -117,21 +117,21 @@
 
 .home-screen .home-hero-cta {
   border-radius: 12px !important;
-  background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 55%, #7c3aed 100%) !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.34) !important;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.34) !important;
   transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-screen .home-hero-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.44) !important;
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.44) !important;
 }
 
 .home-screen .home-hero-phone {
-  border: 2px solid rgba(79, 70, 229, 0.2) !important;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12) !important;
+  border: 2px solid rgba(14, 165, 233, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12) !important;
 }
 
 /* ─── Section Headings ─── */
@@ -141,37 +141,37 @@
 }
 
 .home-screen .home-link-btn {
-  color: #4f46e5 !important;
+  color: #0ea5e9 !important;
   font-weight: 700 !important;
 }
 
 .home-screen .home-link-btn:hover {
-  background: #e0e7ff !important;
+  background: #e0f2fe !important;
 }
 
 /* ─── Quick Action Cards ─── */
 .home-screen .home-action-item {
   border-radius: 18px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.06) !important;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.06) !important;
   transition: all 240ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .home-screen .home-action-item:hover {
   transform: translateY(-4px) !important;
-  border-color: rgba(79, 70, 229, 0.3) !important;
-  box-shadow: 0 14px 32px rgba(79, 70, 229, 0.16) !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
+  box-shadow: 0 14px 32px rgba(14, 165, 233, 0.16) !important;
 }
 
 .home-screen .home-action-icon-blue {
-  background: linear-gradient(135deg, #e0e7ff, #c7d2fe) !important;
-  color: #1e3a8a !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0284c7 !important;
 }
 
 .home-screen .home-action-icon-indigo {
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
-  color: #4f46e5 !important;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe) !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .home-action-icon-red {
@@ -180,8 +180,8 @@
 }
 
 .home-screen .home-action-icon-purple {
-  background: linear-gradient(135deg, #ede9fe, #ddd6fe) !important;
-  color: #7c3aed !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0891b2 !important;
 }
 
 .home-screen .home-action-item strong {
@@ -195,15 +195,15 @@
 /* ─── Medical Summary Cards ─── */
 .home-screen .home-medical-row {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.04) !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.04) !important;
   transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-screen .home-medical-row:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.1) !important;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1) !important;
 }
 
 .home-screen .home-med-icon-red {
@@ -212,8 +212,8 @@
 }
 
 .home-screen .home-med-icon-blue {
-  background: linear-gradient(135deg, #e0e7ff, #c7d2fe) !important;
-  color: #1e3a8a !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0284c7 !important;
 }
 
 .home-screen .home-med-icon-teal {
@@ -227,8 +227,8 @@
 }
 
 .home-screen .home-med-icon-purple {
-  background: linear-gradient(135deg, #ede9fe, #ddd6fe) !important;
-  color: #7c3aed !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0891b2 !important;
 }
 
 .home-screen .home-med-info strong {
@@ -242,20 +242,20 @@
 /* ─── Contacts Button ─── */
 .home-screen .home-contacts-btn {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .home-screen .home-contacts-btn:hover {
-  background: linear-gradient(135deg, #f5f3ff, #ffffff) !important;
-  border-color: rgba(79, 70, 229, 0.2) !important;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff) !important;
+  border-color: rgba(14, 165, 233, 0.2) !important;
 }
 
 /* ─── Security Banner ─── */
 .home-screen .home-security {
   border-radius: 20px !important;
-  background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 55%, #7c3aed 100%) !important;
-  box-shadow: 0 16px 36px rgba(79, 70, 229, 0.32) !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%) !important;
+  box-shadow: 0 16px 36px rgba(14, 165, 233, 0.32) !important;
 }
 
 .home-screen .home-security-copy strong {
@@ -267,31 +267,7 @@
 }
 
 /* ─── Bottom Nav ─── */
-.home-screen .home-shell .bottom-nav {
-  border-top: 1px solid rgba(79, 70, 229, 0.1) !important;
-  background: rgba(255, 255, 255, 0.97) !important;
-  backdrop-filter: blur(16px);
-}
-
-.home-screen .home-shell .bottom-nav-link {
-  color: #475569 !important;
-}
-
-.home-screen .home-shell .bottom-nav-icon {
-  color: #94a3b8 !important;
-  background: transparent !important;
-}
-
-.home-screen .home-shell .bottom-nav-link.is-active {
-  color: #4f46e5 !important;
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
-}
-
-.home-screen .home-shell .bottom-nav-link.is-active .bottom-nav-icon {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-  color: #ffffff !important;
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.32) !important;
-}
+/* ─── Bottom Nav — handled in main.css now ─── */
 
 /* ═══════════════════════════════════════════════════════
    DASHBOARD — LUXURY OVERRIDE
@@ -299,21 +275,21 @@
 
 .home-screen .dash-progress-card {
   border-radius: 22px !important;
-  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 50%, #cffafe 100%) !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.1) !important;
+  background: linear-gradient(135deg, #e0f2fe 0%, #cffafe 50%, #a5f3fc 100%) !important;
+  border: 1px solid rgba(14, 165, 233, 0.14) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.1) !important;
 }
 
 .home-screen .dash-ring-pct {
-  color: #4f46e5 !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .dash-ring-svg circle:first-child {
-  stroke: rgba(79, 70, 229, 0.15) !important;
+  stroke: rgba(14, 165, 233, 0.15) !important;
 }
 
 .home-screen .dash-ring-svg circle:last-child {
-  stroke: #4f46e5 !important;
+  stroke: #0ea5e9 !important;
 }
 
 .home-screen .dash-progress-info strong {
@@ -326,26 +302,26 @@
 
 .home-screen .dash-complete-btn {
   border-radius: 10px !important;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28) !important;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.28) !important;
 }
 
 .home-screen .dash-complete-btn:hover {
-  background: linear-gradient(135deg, #1e3a8a, #4f46e5) !important;
+  background: linear-gradient(135deg, #0284c7, #06b6d4) !important;
 }
 
 /* ─── Stats Cards ─── */
 .home-screen .dash-stat-card {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.06) !important;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.06) !important;
   transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-screen .dash-stat-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.14) !important;
+  box-shadow: 0 10px 24px rgba(14, 165, 233, 0.14) !important;
 }
 
 .home-screen .dash-stat-card strong {
@@ -359,12 +335,12 @@
 /* ─── Access Logs ─── */
 .home-screen .dash-log-item {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .home-screen .dash-log-avatar {
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe) !important;
 }
 
 .home-screen .dash-log-info strong {
@@ -378,21 +354,21 @@
 
 .home-screen .dash-logs-empty {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
 }
 
 /* ─── Shortcuts ─── */
 .home-screen .dash-shortcut-item {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
   transition: all 240ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .home-screen .dash-shortcut-item:hover {
   transform: translateY(-4px) !important;
-  border-color: rgba(79, 70, 229, 0.3) !important;
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.16) !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.16) !important;
 }
 
 .home-screen .dash-shortcut-item strong {
@@ -509,13 +485,13 @@
 
 .home-screen .prof-card {
   border-radius: 22px !important;
-  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 50%, #cffafe 100%) !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
+  background: linear-gradient(135deg, #e0f2fe 0%, #cffafe 50%, #a5f3fc 100%) !important;
+  border: 1px solid rgba(14, 165, 233, 0.14) !important;
 }
 
 .home-screen .prof-avatar {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.28) !important;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28) !important;
 }
 
 .home-screen .prof-name-row strong {
@@ -523,28 +499,28 @@
 }
 
 .home-screen .prof-edit-btn {
-  border: 1.5px solid rgba(79, 70, 229, 0.16) !important;
-  color: #4f46e5 !important;
+  border: 1.5px solid rgba(14, 165, 233, 0.16) !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .prof-edit-btn:hover {
-  background: #e0e7ff !important;
+  background: #e0f2fe !important;
 }
 
 .home-screen .prof-menu-item {
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 70, 229, 0.1) !important;
+  border: 1px solid rgba(14, 165, 233, 0.1) !important;
   background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .home-screen .prof-menu-item:hover {
-  background: linear-gradient(135deg, #f5f3ff, #ffffff) !important;
-  border-color: rgba(79, 70, 229, 0.2) !important;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff) !important;
+  border-color: rgba(14, 165, 233, 0.2) !important;
 }
 
 .home-screen .prof-menu-icon-blue {
-  background: linear-gradient(135deg, #e0e7ff, #c7d2fe) !important;
-  color: #1e3a8a !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0284c7 !important;
 }
 
 .home-screen .prof-menu-icon-red {
@@ -553,8 +529,8 @@
 }
 
 .home-screen .prof-menu-icon-purple {
-  background: linear-gradient(135deg, #ede9fe, #ddd6fe) !important;
-  color: #7c3aed !important;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+  color: #0891b2 !important;
 }
 
 .home-screen .prof-menu-icon-orange {
@@ -568,21 +544,21 @@
 
 .home-screen .prof-completeness {
   border-radius: 18px !important;
-  background: linear-gradient(135deg, #e0e7ff, #ede9fe) !important;
-  border: 1px solid rgba(79, 70, 229, 0.14) !important;
+  background: linear-gradient(135deg, #e0f2fe, #cffafe) !important;
+  border: 1px solid rgba(14, 165, 233, 0.14) !important;
 }
 
 .home-screen .prof-completeness-ring {
-  border-color: #4f46e5 !important;
+  border-color: #0ea5e9 !important;
 }
 
 .home-screen .prof-completeness-ring span {
-  color: #4f46e5 !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .prof-complete-btn {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28) !important;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.28) !important;
 }
 
 .home-screen .prof-logout-btn {
@@ -594,30 +570,30 @@
 /* ─── Edit Profile ─── */
 .home-screen .edit-submit-btn {
   border-radius: 14px !important;
-  background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 55%, #7c3aed 100%) !important;
-  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.3) !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%) !important;
+  box-shadow: 0 8px 22px rgba(14, 165, 233, 0.3) !important;
 }
 
 .home-screen .edit-section-tab.is-active {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
   border-color: transparent !important;
 }
 
 /* ─── Progress Bar ─── */
 .home-screen .home-progress-fill {
-  background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
+  background: linear-gradient(90deg, #0284c7, #0ea5e9) !important;
 }
 
 .home-screen .home-progress-pct {
-  color: #4f46e5 !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .home-completeness-link {
-  color: #4f46e5 !important;
+  color: #0ea5e9 !important;
 }
 
 .home-screen .home-completeness-link:hover {
-  background: #e0e7ff !important;
+  background: #e0f2fe !important;
 }
 
 
