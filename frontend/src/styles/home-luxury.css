@@ -748,6 +748,14 @@
   box-shadow: 0 6px 16px rgba(14, 165, 233, 0.28) !important;
 }
 
+.home-screen .prof-lang-btn {
+  margin-top: 4px !important;
+}
+
+.home-screen .prof-lang-code {
+  margin-top: 0 !important;
+}
+
 .home-screen .prof-logout-btn {
   border-radius: 16px !important;
   background: linear-gradient(135deg, #fff1f2, #ffe4e6) !important;

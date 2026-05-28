@@ -755,7 +755,7 @@
 .prof-lang-options {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 19px !important;
   flex-wrap: wrap;
 }
 
@@ -763,7 +763,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 12px 14px;
+  margin-top: 4px;
   border-radius: 10px;
   border: 1.5px solid #e2e8f0;
   background: #f8fafc;

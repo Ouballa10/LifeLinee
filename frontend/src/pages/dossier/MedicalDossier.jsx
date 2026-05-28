@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
-import AppMenu from "../../components/layout/AppMenu.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { apiRequest } from "../../services/api.js";
@@ -66,7 +65,9 @@ export default function MedicalDossier() {
     <main className="home-screen">
       <section className="home-shell">
         <header className="home-topbar">
-          <AppMenu />
+          <button type="button" className="home-topbar-btn" onClick={() => navigate(-1)} aria-label="Retour">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#0f172a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
           <div className="home-topbar-center">
             <img src={lifelineLogo} alt="LifeLine" className="home-topbar-logo" />
           </div>
