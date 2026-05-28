@@ -1020,11 +1020,15 @@
   margin: 0;
   font-size: clamp(1.75rem, 5.2vw, 2.55rem);
   line-height: 1.12;
-  color: #173f8f;
+  background: linear-gradient(135deg, #1a5fb4 0%, #2980d9 50%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .onboarding-title-accent-red {
   color: #df4f5e;
+  -webkit-text-fill-color: #df4f5e;
 }
 
 .onboarding-card-hero .onboarding-brand .brand-copy strong {
