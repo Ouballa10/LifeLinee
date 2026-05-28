@@ -318,4 +318,12 @@
   animation: splashGradientMove 8s ease-in-out infinite;
 }
 
+/* ─── Dashboard Title Gradient ─── */
+.dash-title-gradient {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ─── Old actions row stays visible ─── */

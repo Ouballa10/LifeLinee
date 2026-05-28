@@ -10,9 +10,9 @@
   gap: 18px;
   padding: 24px 22px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #e6faf4 0%, #eef9f6 50%, #f0fffe 100%);
-  border: 1.5px solid #c2ede2;
-  box-shadow: 0 4px 16px rgba(0, 200, 150, 0.08);
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #cffafe 100%);
+  border: 1.5px solid rgba(14, 165, 233, 0.15);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
 }
 
 .dash-ring-wrap {
@@ -24,15 +24,15 @@
 
 .dash-ring-svg {
   display: block;
-  filter: drop-shadow(0 0 8px rgba(0, 200, 170, 0.3));
+  filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.25));
 }
 
 .dash-ring-svg circle:first-child {
-  stroke: #d4f0ea;
+  stroke: rgba(14, 165, 233, 0.1);
 }
 
 .dash-ring-svg circle:last-child {
-  stroke: #00c9a7;
+  stroke: #0ea5e9;
 }
 
 .dash-ring-text {
@@ -45,14 +45,14 @@
 }
 
 .dash-ring-pct {
-  color: #00a88a;
+  color: #0ea5e9;
   font-size: 1.4rem;
   font-weight: 900;
   line-height: 1;
 }
 
 .dash-ring-label {
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.65rem;
   font-weight: 600;
   margin-top: 2px;
@@ -67,7 +67,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #00a88a;
+  color: #0ea5e9;
   font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -77,14 +77,14 @@
 
 .dash-progress-info strong {
   display: block;
-  color: #0f2b26;
+  color: #0f172a;
   font-size: 1.05rem;
   font-weight: 800;
 }
 
 .dash-progress-info p {
   margin: 6px 0 14px;
-  color: #4a7a6e;
+  color: #475569;
   font-size: 0.78rem;
   line-height: 1.45;
 }
@@ -95,20 +95,20 @@
   gap: 6px;
   padding: 10px 18px;
   border-radius: 10px;
-  background: #0f2b26;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
   border: none;
   color: #ffffff;
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 180ms ease;
-  box-shadow: 0 4px 12px rgba(15, 43, 38, 0.2);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
 }
 
 .dash-complete-btn:hover {
-  background: #00a88a;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0, 168, 138, 0.3);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.35);
 }
 
 /* ─── Stats Cards ─── */
@@ -126,21 +126,21 @@
   padding: 18px 10px;
   border-radius: 16px;
   background: #ffffff;
-  border: 1.5px solid #e8f4f0;
+  border: 1.5px solid rgba(14, 165, 233, 0.08);
   text-align: center;
   transition: all 200ms ease;
 }
 
 .dash-stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 200, 150, 0.1);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.1);
 }
 
 .dash-stat-icon {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #e6faf4;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,13 +148,13 @@
 }
 
 .dash-stat-card strong {
-  color: #0f2b26;
+  color: #0f172a;
   font-size: 1.1rem;
   font-weight: 800;
 }
 
 .dash-stat-card > span:last-child {
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.68rem;
   font-weight: 600;
   line-height: 1.3;
@@ -180,14 +180,14 @@
   padding: 14px;
   border-radius: 14px;
   background: #ffffff;
-  border: 1.5px solid #e8f4f0;
+  border: 1.5px solid rgba(14, 165, 233, 0.08);
 }
 
 .dash-log-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #e6faf4;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,14 +201,14 @@
 
 .dash-log-info strong {
   display: block;
-  color: #0f2b26;
+  color: #0f172a;
   font-size: 0.82rem;
   font-weight: 700;
 }
 
 .dash-log-info span {
   display: block;
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.7rem;
   margin-top: 2px;
 }
@@ -234,7 +234,7 @@
   padding: 18px 16px;
   border-radius: 14px;
   background: #ffffff;
-  border: 1.5px solid #e8f4f0;
+  border: 1.5px solid rgba(14, 165, 233, 0.08);
 }
 
 .dash-logs-empty span {
@@ -244,7 +244,7 @@
 
 .dash-logs-empty p {
   margin: 0;
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.78rem;
   line-height: 1.45;
 }
@@ -270,7 +270,7 @@
   padding: 18px 8px 16px;
   border-radius: 16px;
   background: #ffffff;
-  border: 1.5px solid #e8f4f0;
+  border: 1.5px solid rgba(14, 165, 233, 0.08);
   cursor: pointer;
   text-align: center;
   transition: all 200ms ease;
@@ -278,8 +278,8 @@
 
 .dash-shortcut-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 200, 150, 0.12);
-  border-color: #00c9a7;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.12);
+  border-color: #0ea5e9;
 }
 
 .dash-shortcut-icon {
@@ -290,32 +290,32 @@
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  background: #e6faf4;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
 }
 
 .dash-shortcut-item:nth-child(1) .dash-shortcut-icon {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #1d4ed8;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  color: #0284c7;
 }
 
 .dash-shortcut-item:nth-child(2) .dash-shortcut-icon {
-  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
-  color: #be185d;
+  background: linear-gradient(135deg, #cffafe, #a5f3fc);
+  color: #0891b2;
 }
 
 .dash-shortcut-item:nth-child(3) .dash-shortcut-icon {
-  background: linear-gradient(135deg, #ccfbf1, #99f6e4);
-  color: #0d9488;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #dc2626;
 }
 
 .dash-shortcut-item strong {
-  color: #0f2b26;
+  color: #0f172a;
   font-size: 0.78rem;
   font-weight: 700;
 }
 
 .dash-shortcut-item small {
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.64rem;
   line-height: 1.3;
 }
@@ -328,20 +328,20 @@
   padding: 16px;
   border-radius: 14px;
   background: #ffffff;
-  border: 1.5px solid #e8f4f0;
+  border: 1.5px solid rgba(14, 165, 233, 0.08);
   cursor: pointer;
   transition: all 180ms ease;
 }
 
 .dash-update-row:hover {
-  border-color: #00c9a7;
+  border-color: #0ea5e9;
 }
 
 .dash-update-icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #e6faf4;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -355,20 +355,20 @@
 
 .dash-update-info strong {
   display: block;
-  color: #0f2b26;
+  color: #0f172a;
   font-size: 0.86rem;
   font-weight: 700;
 }
 
 .dash-update-info span {
   display: block;
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 0.72rem;
   margin-top: 2px;
 }
 
 .dash-update-arrow {
-  color: #5a8a7e;
+  color: #64748b;
   font-size: 1.2rem;
 }
 
@@ -379,7 +379,7 @@
 .dark-mode .dash-progress-card {
   background: linear-gradient(135deg, #0a1f2e 0%, #0d2438 50%, #0a2a30 100%);
   border-color: #1a3a4a;
-  box-shadow: 0 4px 20px rgba(0, 200, 170, 0.08);
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.08);
 }
 
 .dark-mode .dash-ring-svg circle:first-child { stroke: #1a3a4a; }
@@ -391,9 +391,9 @@
 .dark-mode .dash-progress-info strong { color: #e6fff8; }
 .dark-mode .dash-progress-info p { color: #6aaa9e; }
 .dark-mode .dash-complete-btn {
-  background: #00c9a7;
+  background: #0ea5e9;
   color: #0a1f2e;
-  box-shadow: 0 4px 16px rgba(0, 200, 170, 0.3);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
 }
 .dark-mode .dash-complete-btn:hover {
   background: #00e6c3;
@@ -405,8 +405,8 @@
   border-color: #1a3a4a;
 }
 .dark-mode .dash-stat-card:hover {
-  border-color: #00c9a7;
-  box-shadow: 0 6px 16px rgba(0, 200, 170, 0.15);
+  border-color: #0ea5e9;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.15);
 }
 .dark-mode .dash-stat-icon { background: #0a2a30; }
 .dark-mode .dash-stat-card strong { color: #e6fff8; }
@@ -432,8 +432,8 @@
   border-color: #1a3a4a;
 }
 .dark-mode .dash-shortcut-item:hover {
-  border-color: #00c9a7;
-  box-shadow: 0 8px 20px rgba(0, 200, 170, 0.15);
+  border-color: #0ea5e9;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
 }
 .dark-mode .dash-shortcut-item:nth-child(1) .dash-shortcut-icon {
   background: linear-gradient(135deg, #1a2d4a, #1e3a5f);
@@ -451,7 +451,7 @@
   background: #0d1f2d;
   border-color: #1a3a4a;
 }
-.dark-mode .dash-update-row:hover { border-color: #00c9a7; }
+.dark-mode .dash-update-row:hover { border-color: #0ea5e9; }
 .dark-mode .dash-update-icon { background: #0a2a30; }
 .dark-mode .dash-update-info strong { color: #e6fff8; }
 .dark-mode .dash-update-info span { color: #6aaa9e; }
