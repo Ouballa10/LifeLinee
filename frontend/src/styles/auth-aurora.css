@@ -103,21 +103,24 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 14px;
-  border-radius: 0;
-  background: none;
-  backdrop-filter: none;
-  border: none;
-  box-shadow: none;
+  border-radius: 0 !important;
+  background: none !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
 }
 
 .aurora-logo-wrapper::before {
-  display: none;
+  display: none !important;
 }
 
 .aurora-logo-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: scale(2) !important;
+  filter: drop-shadow(0 8px 16px rgba(40, 80, 140, 0.15)) !important;
   transform: scale(2);
   pointer-events: none;
   filter: drop-shadow(0 6px 12px rgba(26, 95, 180, 0.2));
