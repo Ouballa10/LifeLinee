@@ -229,9 +229,9 @@ export default function Splash() {
       cta: "Suivant",
       panelType: "hero",
       features: [
+        { title: "Toujours la", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
         { title: "Rapide", text: "Accedez a vos informations en un instant.", icon: "shield" },
         { title: "Securise", text: "Vos donnees sont protegees et privees.", icon: "lock" },
-        { title: "Toujours la", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
       ],
     },
     {
@@ -255,8 +255,8 @@ export default function Splash() {
       cta: "Suivant",
       panelType: "phone",
       features: [
-        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lock" },
         { title: "Accessible", text: "Disponibles pour les secours au bon moment.", icon: "refresh" },
+        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lock" },
         { title: "Instantane", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
       ],
     },
