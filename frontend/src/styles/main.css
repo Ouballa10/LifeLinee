@@ -517,13 +517,14 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: rgba(101, 123, 111, 0.25);
+  background: rgba(26, 95, 180, 0.2);
+  transition: width 300ms ease, background 300ms ease;
 }
 
 .splash-dot.is-active,
 .footer-dot.is-active {
-  width: 24px;
-  background: var(--color-primary);
+  width: 28px;
+  background: linear-gradient(135deg, #1a5fb4, #0ea5e9);
 }
 
 .splash-actions {
@@ -823,38 +824,41 @@
   padding: 28px 22px 26px;
   gap: 18px;
   background:
-    radial-gradient(circle at top left, rgba(74, 147, 255, 0.1), transparent 24%),
-    radial-gradient(circle at bottom right, rgba(69, 195, 155, 0.1), transparent 24%),
-    linear-gradient(180deg, #fbfdff, #eef5ff 56%, #f8fbff 100%);
+    radial-gradient(circle at 20% 10%, rgba(14, 165, 233, 0.08), transparent 30%),
+    radial-gradient(circle at 80% 15%, rgba(26, 95, 180, 0.06), transparent 28%),
+    radial-gradient(circle at 50% 90%, rgba(6, 182, 212, 0.06), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #eef5ff 50%, #f0f9ff 100%);
 }
 
 .onboarding-ornaments {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .onboarding-plus,
 .onboarding-dot-grid {
   position: absolute;
-  color: rgba(68, 135, 238, 0.4);
+  color: rgba(26, 95, 180, 0.2);
 }
 
 .onboarding-plus {
-  font-size: 2.8rem;
-  font-weight: 700;
+  font-size: 2.4rem;
+  font-weight: 300;
   line-height: 1;
 }
 
 .onboarding-plus-left {
   top: 96px;
   left: 28px;
+  opacity: 0.5;
 }
 
 .onboarding-plus-right {
   top: 112px;
   right: 34px;
-  opacity: 0.45;
+  opacity: 0.3;
 }
 
 .onboarding-dot-grid {
@@ -862,8 +866,8 @@
   right: 24px;
   width: 58px;
   height: 58px;
-  opacity: 0.35;
-  background-image: radial-gradient(circle, rgba(84, 133, 220, 0.4) 2px, transparent 2px);
+  opacity: 0.25;
+  background-image: radial-gradient(circle, rgba(26, 95, 180, 0.35) 1.5px, transparent 1.5px);
   background-size: 14px 14px;
 }
 
@@ -884,12 +888,13 @@
 }
 
 .onboarding-logo-shell {
-  width: min(100%, 220px);
-  height: 110px;
+  width: min(100%, 200px);
+  height: 100px;
   margin-top: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 8px 20px rgba(26, 95, 180, 0.12));
 }
 
 .onboarding-logo-image {
@@ -897,7 +902,7 @@
   height: auto;
   display: block;
   mix-blend-mode: multiply;
-  opacity: 0.98;
+  opacity: 1;
 }
 
 .hero-intro-header {
@@ -1081,7 +1086,7 @@
 }
 
 .onboarding-copy-accent-blue {
-  color: #2f6fdd;
+  color: #0ea5e9;
   font-weight: 700;
 }
 
@@ -1631,33 +1636,54 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .onboarding-feature-card {
-  padding: 16px 12px;
-  border-radius: 24px;
+  padding: 20px 12px 18px;
+  border-radius: 20px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.84);
-  box-shadow: 0 14px 24px rgba(84, 130, 199, 0.08);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 32px rgba(26, 95, 180, 0.1),
+    0 2px 8px rgba(26, 95, 180, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.onboarding-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 40px rgba(26, 95, 180, 0.16),
+    0 4px 12px rgba(14, 165, 233, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .onboarding-feature-icon {
-  width: 44px;
-  height: 44px;
-  margin: 0 auto 12px;
-  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(72, 135, 241, 0.12);
-  color: #2f6fdd;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0284c7;
   font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+  transition: transform 300ms ease, background 300ms ease;
+}
+
+.onboarding-feature-card:hover .onboarding-feature-icon {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
 }
 
 .onboarding-feature-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   display: block;
 }
 
@@ -1667,15 +1693,17 @@
 }
 
 .onboarding-feature-card strong {
-  color: #163f8f;
-  font-size: 0.95rem;
+  color: #1a5fb4;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .onboarding-feature-card p {
-  margin: 8px 0 0;
-  color: #617aa9;
-  font-size: 0.82rem;
-  line-height: 1.55;
+  margin: 6px 0 0;
+  color: #5a7094;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 .onboarding-feature-card-phone {
@@ -1696,30 +1724,50 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .onboarding-check-item {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 12px;
   align-items: center;
-  padding: 16px 14px 16px 12px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 14px 24px rgba(84, 130, 199, 0.08);
+  padding: 16px 16px 16px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 24px rgba(26, 95, 180, 0.08),
+    0 2px 6px rgba(26, 95, 180, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.onboarding-check-item:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 32px rgba(26, 95, 180, 0.12),
+    0 4px 10px rgba(14, 165, 233, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .onboarding-check-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(72, 135, 241, 0.12);
-  color: #2f6fdd;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0284c7;
   font-weight: 700;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.12);
+  transition: transform 300ms ease;
+}
+
+.onboarding-check-item:hover .onboarding-check-icon {
+  transform: scale(1.06);
 }
 
 .onboarding-check-icon svg {
@@ -1762,16 +1810,26 @@
 .onboarding-cta {
   flex: none;
   gap: 12px;
-  min-height: 52px;
+  min-height: 54px;
   width: min(100%, 340px);
   margin: 0 auto;
   padding-inline: 30px;
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(180deg, #3f92ff 0%, #2d78ee 100%);
-  box-shadow: 0 10px 20px rgba(45, 120, 238, 0.18);
+  background: linear-gradient(135deg, #3a7bd5 0%, #2563b0 50%, #1d4f99 100%);
+  box-shadow:
+    0 12px 28px rgba(37, 99, 176, 0.28),
+    0 4px 10px rgba(26, 95, 180, 0.12);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.onboarding-cta:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 36px rgba(37, 99, 176, 0.36),
+    0 6px 14px rgba(26, 95, 180, 0.16);
 }
 
 .onboarding-cta-arrow {
