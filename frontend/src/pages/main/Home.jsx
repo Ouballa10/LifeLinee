@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import AppMenu from "../../components/layout/AppMenu.jsx";
@@ -8,6 +8,7 @@ import { useAuth } from "../../hooks/useAuth.js";
 import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 import { firstName, formatList } from "../../utils/helpers.js";
+import { buildEmergencyUrl, generateQRCodeImage } from "../../services/qrService.js";
 
 /* ─── Icons ─── */
 function ProfileIcon() {
@@ -147,6 +148,16 @@ export default function Home() {
   const profileName = firstName(user?.fullName);
 
   const [showContacts, setShowContacts] = useState(false);
+  const [qrImageUrl, setQrImageUrl] = useState("");
+
+  // Generate QR code image
+  useEffect(() => {
+    if (!user?.qrToken) return;
+    const url = buildEmergencyUrl(user.qrToken);
+    generateQRCodeImage(url)
+      .then((img) => setQrImageUrl(img))
+      .catch(() => {});
+  }, [user?.qrToken]);
 
   // Profile completeness
   const profileFields = [
@@ -301,7 +312,11 @@ export default function Home() {
             <div className="home-hero-visual">
               <div className="home-hero-phone">
                 <div className="home-hero-phone-screen">
-                  <div className="home-hero-phone-qr"></div>
+                  {qrImageUrl ? (
+                    <img src={qrImageUrl} alt="Mon QR" className="home-hero-qr-real" />
+                  ) : (
+                    <div className="home-hero-phone-qr"></div>
+                  )}
                   <span className="home-hero-phone-label">{t.navQr}</span>
                 </div>
               </div>

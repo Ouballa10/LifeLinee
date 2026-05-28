@@ -434,6 +434,28 @@
 /* ─── Bottom Nav ─── */
 /* ─── Bottom Nav — handled in main.css now ─── */
 
+.home-screen .home-shell .bottom-nav-link.is-active {
+  color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+  border-radius: 18px;
+}
+
+.home-screen .home-shell .bottom-nav-link.is-active .bottom-nav-icon {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3) !important;
+}
+
+.home-screen .home-shell .bottom-nav-icon {
+  background: transparent !important;
+  color: #475569 !important;
+}
+
+.home-screen .home-shell .bottom-nav-link {
+  color: #475569 !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    DASHBOARD — LUXURY OVERRIDE
    ═══════════════════════════════════════════════════════ */

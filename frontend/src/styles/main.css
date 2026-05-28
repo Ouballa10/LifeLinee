@@ -2513,9 +2513,9 @@
 .bottom-nav {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
+  gap: 4px;
   margin: 0 12px 12px;
-  padding: 12px 10px 14px;
+  padding: 14px 10px 14px;
   border: 1px solid rgba(14, 165, 233, 0.08);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.96);
@@ -2528,24 +2528,24 @@
   align-items: center;
   gap: 8px;
   padding: 10px 6px 8px;
-  border-radius: 20px;
+  border-radius: 18px;
   text-decoration: none;
-  color: #94a3b8;
+  color: #475569;
   font-size: 0.72rem;
   font-weight: 600;
-  transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+  transition: all 200ms ease;
 }
 
 .bottom-nav-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 18px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #f0f9ff, #e0f2fe);
-  color: #94a3b8;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: transparent;
+  color: #475569;
+  transition: all 200ms ease;
 }
 
 .bottom-nav-svg {
@@ -2557,16 +2557,23 @@
   letter-spacing: -0.01em;
 }
 
+/* Active state — colored icon square + light bg on link */
 .bottom-nav-link.is-active {
   color: #0ea5e9;
-  background: linear-gradient(180deg, rgba(14, 165, 233, 0.08), rgba(14, 165, 233, 0.03));
-  transform: translateY(-2px);
+  background: rgba(14, 165, 233, 0.08);
+  border-radius: 18px;
 }
 
 .bottom-nav-link.is-active .bottom-nav-icon {
-  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
   color: #ffffff;
-  box-shadow: 0 12px 24px rgba(14, 165, 233, 0.32);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3);
+}
+
+.bottom-nav-link.is-active .bottom-nav-label {
+  color: #0ea5e9;
+  font-weight: 700;
 }
 
 @keyframes spin {
