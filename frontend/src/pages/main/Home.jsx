@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import AppMenu from "../../components/layout/AppMenu.jsx";
@@ -9,6 +9,7 @@ import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { ROUTES } from "../../utils/constants.js";
 import { firstName, formatList } from "../../utils/helpers.js";
 
+/* ─── Icons ─── */
 function ProfileIcon() {
   return (
     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -90,11 +91,53 @@ function ContactsIcon() {
 function ShieldCheckIcon() {
   return (
     <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0,185,242,0.2)" stroke="#00b9f2" strokeWidth="1.5" />
-      <path d="M9 12l2 2 4-4" stroke="#00b9f2" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(14,165,233,0.15)" stroke="#0ea5e9" strokeWidth="1.5" />
+      <path d="M9 12l2 2 4-4" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
+
+/* ─── Completeness Ring SVG ─── */
+function CompletenessRing({ percent }) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
+
+  return (
+    <svg width="48" height="48" viewBox="0 0 48 48" className="home-completeness-ring-svg">
+      <circle cx="24" cy="24" r={radius} fill="none" stroke="rgba(14,165,233,0.12)" strokeWidth="4" />
+      <circle
+        cx="24" cy="24" r={radius}
+        fill="none"
+        stroke="url(#ringGrad)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        transform="rotate(-90 24 24)"
+        className="home-ring-progress"
+      />
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#0ea5e9" />
+          <stop offset="100%" stopColor="#06b6d4" />
+        </linearGradient>
+      </defs>
+      <text x="24" y="26" textAnchor="middle" fontSize="10" fontWeight="700" fill="#0ea5e9">
+        {percent}%
+      </text>
+    </svg>
+  );
+}
+
+/* ─── Health tips ─── */
+const HEALTH_TIPS = [
+  "Pensez à mettre à jour vos allergies régulièrement.",
+  "Partagez votre QR avec vos proches en cas d'urgence.",
+  "Vérifiez que votre contact d'urgence est toujours joignable.",
+  "Un profil complet peut sauver des vies en situation critique.",
+  "Ajoutez vos traitements en cours pour une prise en charge rapide.",
+];
 
 export default function Home() {
   const navigate = useNavigate();
@@ -103,12 +146,9 @@ export default function Home() {
   const { t } = useLang();
   const profileName = firstName(user?.fullName);
 
-  async function handleLogout() {
-    await logout();
-    navigate(ROUTES.login, { replace: true });
-  }
+  const [showContacts, setShowContacts] = useState(false);
 
-  // Calculate profile completeness
+  // Profile completeness
   const profileFields = [
     user?.fullName,
     user?.bloodType,
@@ -124,7 +164,12 @@ export default function Home() {
   const completedFields = profileFields.filter(Boolean).length;
   const completenessPercent = Math.round((completedFields / profileFields.length) * 100);
 
-  const [showContacts, setShowContacts] = useState(false);
+  // Daily tip (based on day of year)
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  const dailyTip = HEALTH_TIPS[dayOfYear % HEALTH_TIPS.length];
+
+  // Today's date formatted
+  const today = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
 
   const quickActions = [
     {
@@ -164,24 +209,28 @@ export default function Home() {
       label: t.bloodType,
       value: user?.bloodType || t.notSpecified,
       color: "red",
+      filled: !!user?.bloodType,
     },
     {
       icon: <AllergyIcon />,
       label: t.allergies,
       value: formatList(user?.allergies, t.none),
       color: "blue",
+      filled: !!user?.allergies,
     },
     {
       icon: <HeartIcon />,
       label: t.chronicDiseases,
       value: formatList(user?.conditions, t.none),
       color: "teal",
+      filled: !!user?.conditions,
     },
     {
       icon: <PillIcon />,
       label: t.treatments,
       value: formatList(user?.medications, t.noneM),
       color: "orange",
+      filled: !!user?.medications,
     },
   ];
 
@@ -213,21 +262,24 @@ export default function Home() {
         </header>
 
         <div className="home-scroll-content">
-          {/* Welcome */}
-          <section className="home-welcome">
-            <div className="home-welcome-left">
+
+          {/* ─── Premium Greeting Card ─── */}
+          <section className="home-greeting-card">
+            <div className="home-greeting-card-content">
+              <span className="home-greeting-date">{today}</span>
               <h1 className="home-greeting">{t.homeGreeting}, {profileName} 👋</h1>
               <p className="home-greeting-sub">{t.homeSub}</p>
             </div>
+            <div className="home-greeting-ring">
+              <CompletenessRing percent={completenessPercent} />
+            </div>
           </section>
 
-          {/* Hero Banner */}
+          {/* ─── Hero Banner ─── */}
           <section className="home-hero-banner">
             <div className="home-hero-bg-shapes">
               <div className="home-hero-circle home-hero-circle-1"></div>
               <div className="home-hero-circle home-hero-circle-2"></div>
-              <div className="home-hero-tree home-hero-tree-left"></div>
-              <div className="home-hero-tree home-hero-tree-right"></div>
             </div>
             <div className="home-hero-text">
               <h2>{t.heroTitle}</h2>
@@ -253,16 +305,38 @@ export default function Home() {
                   <span className="home-hero-phone-label">{t.navQr}</span>
                 </div>
               </div>
-              <div className="home-hero-shield-float">
-                <svg viewBox="0 0 32 36" width="32" height="36" fill="none">
-                  <path d="M16 2L4 7v9c0 10 12 16 12 16s12-6 12-16V7L16 2z" fill="#00b9f2" opacity="0.9" />
-                  <path d="M13 18h6M16 15v6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
             </div>
           </section>
 
-          {/* Quick Actions */}
+          {/* ─── Stat Cards Row ─── */}
+          <section className="home-stats-row">
+            <div className="home-stat-chip">
+              <span className="home-stat-chip-icon home-stat-chip-blue">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                </svg>
+              </span>
+              <span className="home-stat-chip-text">Profil {completenessPercent}%</span>
+            </div>
+            <div className="home-stat-chip" onClick={() => navigate(ROUTES.qr)}>
+              <span className="home-stat-chip-icon home-stat-chip-green">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </span>
+              <span className="home-stat-chip-text">QR actif</span>
+            </div>
+            <div className="home-stat-chip" onClick={() => navigate(ROUTES.dashboard)}>
+              <span className="home-stat-chip-icon home-stat-chip-cyan">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </span>
+              <span className="home-stat-chip-text">Sécurisé</span>
+            </div>
+          </section>
+
+          {/* ─── Quick Actions Row ─── */}
           <section className="home-section">
             <h2 className="home-section-heading">{t.quickActions}</h2>
             <div className="home-actions-row">
@@ -283,7 +357,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Medical Summary */}
+          {/* ─── Medical Summary ─── */}
           <section className="home-section">
             <div className="home-section-header-row">
               <h2 className="home-section-heading">{t.medicalSummary}</h2>
@@ -306,6 +380,9 @@ export default function Home() {
                     <strong>{item.label}</strong>
                     <span>{item.value}</span>
                   </div>
+                  <span className={`home-med-status ${item.filled ? "is-filled" : ""}`}>
+                    {item.filled ? "✓" : "—"}
+                  </span>
                 </div>
               ))}
             </div>
@@ -327,9 +404,9 @@ export default function Home() {
             </button>
           </section>
 
-          {/* Security Banner */}
+          {/* ─── Security Banner ─── */}
           <section className="home-security">
-            <div className="home-security-icon">
+            <div className="home-security-icon home-security-icon-pulse">
               <ShieldCheckIcon />
             </div>
             <div className="home-security-copy">
@@ -339,7 +416,7 @@ export default function Home() {
           </section>
         </div>
 
-        {/* Contacts Modal */}
+        {/* ─── Contacts Modal ─── */}
         {showContacts && (
           <div className="contacts-overlay" onClick={() => setShowContacts(false)}>
             <div className="contacts-modal" onClick={(e) => e.stopPropagation()}>
@@ -354,7 +431,7 @@ export default function Home() {
                 <div className="contacts-list">
                   <div className="contacts-item">
                     <div className="contacts-item-icon">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a5fb4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0ea5e9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                       </svg>
                     </div>
@@ -364,7 +441,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Extract phone number if present */}
                   {(() => {
                     const phoneMatch = user.emergencyContact.match(/(\+?\d[\d\s\-.]{6,})/);
                     const phone = phoneMatch ? phoneMatch[1].replace(/\s/g, "") : null;
@@ -381,7 +457,7 @@ export default function Home() {
               ) : (
                 <div className="contacts-empty">
                   <span>📞</span>
-                  <p>Aucun contact d'urgence enregistre.</p>
+                  <p>Aucun contact d'urgence enregistré.</p>
                   <button type="button" className="contacts-add-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.editProfile); }}>
                     Ajouter un contact
                   </button>

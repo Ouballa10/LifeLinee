@@ -1,0 +1,321 @@
+/* ===================================================================
+ * HOME PAGE — PREMIUM ADDITIONS
+ * Greeting card, stat chips, 2x2 grid, completeness ring,
+ * health tip, emergency FAB, medical status indicators.
+ * =================================================================== */
+
+/* ─── Greeting Card ─── */
+.home-greeting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.06);
+  animation: homeFadeInUp 500ms ease-out;
+}
+
+.home-greeting-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-greeting-date {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0ea5e9;
+  text-transform: capitalize;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.home-greeting-card .home-greeting {
+  font-size: 1.3rem !important;
+  margin: 0 0 4px !important;
+}
+
+.home-greeting-card .home-greeting-sub {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.home-greeting-ring {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+/* Completeness Ring */
+.home-completeness-ring-svg {
+  display: block;
+}
+
+.home-ring-progress {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Stat Chips Row ─── */
+.home-stats-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 2px;
+  animation: homeFadeInUp 500ms ease-out 100ms both;
+}
+
+.home-stat-chip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(14, 165, 233, 0.06);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.04);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.home-stat-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.1);
+}
+
+.home-stat-chip-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-stat-chip-blue {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  color: #0284c7;
+}
+
+.home-stat-chip-green {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #059669;
+}
+
+.home-stat-chip-cyan {
+  background: linear-gradient(135deg, #cffafe, #a5f3fc);
+  color: #0891b2;
+}
+
+.home-stat-chip-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #334155;
+  white-space: nowrap;
+}
+
+/* ─── Quick Actions 2x2 Grid ─── */
+.home-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.home-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(14, 165, 233, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.05);
+  cursor: pointer;
+  text-align: left;
+  transition: all 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.2);
+}
+
+.home-action-card:active {
+  transform: translateY(-1px);
+}
+
+.home-action-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 250ms ease;
+}
+
+.home-action-card:hover .home-action-card-icon {
+  transform: scale(1.08);
+}
+
+.home-action-card strong {
+  font-size: 0.85rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.home-action-card small {
+  font-size: 0.72rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* ─── Medical Status Indicator ─── */
+.home-med-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #94a3b8;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.home-med-status.is-filled {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #059669;
+}
+
+/* ─── Health Tip Card ─── */
+.home-tip-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  animation: homeFadeInUp 500ms ease-out 300ms both;
+}
+
+.home-tip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 165, 233, 0.12);
+  color: #0ea5e9;
+  flex-shrink: 0;
+}
+
+.home-tip-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-tip-content strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 2px;
+}
+
+.home-tip-content p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* ─── Emergency FAB ─── */
+.home-emergency-fab {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 50;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow:
+    0 8px 24px rgba(239, 68, 68, 0.35),
+    0 2px 8px rgba(220, 38, 38, 0.2);
+  transition: all 200ms ease;
+  animation: fabPulse 3s ease-in-out infinite;
+}
+
+.home-emergency-fab:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 12px 32px rgba(239, 68, 68, 0.45),
+    0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+.home-emergency-fab:active {
+  transform: scale(0.95);
+}
+
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35), 0 2px 8px rgba(220, 38, 38, 0.2); }
+  50% { box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35), 0 2px 8px rgba(220, 38, 38, 0.2), 0 0 0 8px rgba(239, 68, 68, 0.1); }
+}
+
+/* ─── Security Icon Pulse ─── */
+.home-security-icon-pulse {
+  animation: shieldPulse 3s ease-in-out infinite;
+}
+
+@keyframes shieldPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ─── Fade In Animation ─── */
+@keyframes homeFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Hero Banner Glassmorphism Enhancement ─── */
+.home-hero-banner {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.08), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.06), transparent 50%);
+  pointer-events: none;
+  animation: splashGradientMove 8s ease-in-out infinite;
+}
+
+/* ─── Old actions row stays visible ─── */

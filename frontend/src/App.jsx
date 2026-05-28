@@ -20,6 +20,7 @@ import "./styles/luxury.css";
 import "./styles/home-luxury.css";
 import "./styles/pwa.css";
 import "./styles/splash-premium.css";
+import "./styles/home-premium.css";
 
 function OfflineNotice() {
   const [isOffline, setIsOffline] = useState(() =>
