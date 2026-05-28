@@ -1,0 +1,29 @@
+@startuml LifeLine - Diagramme de Séquence : Inscription
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam sequence {
+  ArrowColor #1e3a8a
+  LifeLineBorderColor #1e3a8a
+  ParticipantBorderColor #1e3a8a
+  ParticipantBackgroundColor #e8f4fd
+}
+
+title Diagramme de Séquence - Inscription
+
+actor Utilisateur as U
+participant "Application\nLifeLine" as App
+participant "Firebase Auth" as FB
+database "Supabase" as DB
+
+U -> App : Remplir formulaire (nom, email, mot de passe)
+App -> FB : Créer compte Firebase
+FB --> App : Retourner idToken + firebaseUid
+App -> DB : Créer profil utilisateur (user_profiles)
+DB --> App : Confirmation
+App -> DB : Créer profil médical vide + générer qr_token
+DB --> App : Confirmation
+App --> U : Inscription réussie + redirection Dashboard
+
+@enduml

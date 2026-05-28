@@ -1,0 +1,90 @@
+@startuml LifeLine - Diagramme de Classes
+
+skinparam classAttributeIconSize 0
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam class {
+  BackgroundColor #f8fafc
+  BorderColor #1e3a8a
+  ArrowColor #1e3a8a
+  FontColor #1e293b
+}
+
+title Diagramme de Classes - LifeLine
+
+class Utilisateur {
+  id : UUID <<PK>>
+  firebase_uid : String
+  nom_complet : String
+  email : String
+  telephone : String
+  ville : String
+  adresse : String
+  date_naissance : Date
+  sexe : String
+  cin : String
+  --
+  creer(donnees) : Utilisateur
+  modifier(id, donnees) : Utilisateur
+  rechercherParEmail(email) : Utilisateur
+  rechercherParId(id) : Utilisateur
+}
+
+class ProfilMedical {
+  id : UUID <<PK>>
+  utilisateur_id : UUID <<FK>>
+  qr_token : String <<UNIQUE>>
+  groupe_sanguin : String
+  allergies : String[]
+  maladies_chroniques : String[]
+  medicaments : String[]
+  contact_urgence_nom : String
+  contact_urgence_tel : String
+  contact_urgence_relation : String
+  medecin_traitant : String
+  tel_medecin : String
+  instructions_critiques : Text
+  historique_medical : Text
+  poids : String
+  taille : String
+  visibilite_qr : String
+  --
+  creer(donnees) : ProfilMedical
+  modifier(id, donnees) : ProfilMedical
+  rechercherParUtilisateur(userId) : ProfilMedical
+  rechercherParQrToken(token) : ProfilMedical
+}
+
+class JournalUrgence {
+  id : UUID <<PK>>
+  qr_token : String <<FK>>
+  intervenant : String
+  localisation : String
+  date_ouverture : DateTime
+  --
+  creer(donnees) : JournalUrgence
+}
+
+class DocumentMedical {
+  id : UUID <<PK>>
+  utilisateur_id : UUID <<FK>>
+  nom_fichier : String
+  type_fichier : String
+  categorie : String
+  url_fichier : String
+  taille_fichier : Integer
+  notes : String
+  date_creation : DateTime
+  --
+  lister(userId) : DocumentMedical[]
+  telecharger(donnees) : DocumentMedical
+  supprimer(id) : void
+}
+
+Utilisateur "1" -- "1" ProfilMedical : possède >
+Utilisateur "1" -- "0..*" DocumentMedical : stocke >
+ProfilMedical "1" -- "0..*" JournalUrgence : génère >
+
+@enduml
