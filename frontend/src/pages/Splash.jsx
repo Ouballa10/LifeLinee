@@ -232,19 +232,19 @@ export default function Splash() {
       eyebrow: "LifeLine",
       title: (
         <>
-          Vos informations medicales
+          Vos informations médicales
           <br />
-          en cas d'urgence
+          <span className="onboarding-title-accent-red">en cas d'urgence</span>
         </>
       ),
       description:
-        "Accedez rapidement a votre profil medical, votre QR et vos donnees essentielles en quelques secondes.",
+        "Accédez rapidement à votre profil médical, votre QR et vos données essentielles en quelques secondes.",
       cta: "Suivant",
       panelType: "hero",
       features: [
-        { title: "Toujours la", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
-        { title: "Rapide", text: "Accedez a vos informations en un instant.", icon: "shield" },
-        { title: "Securise", text: "Vos donnees sont protegees et privees.", icon: "lock" },
+        { title: "Toujours là", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
+        { title: "Rapide", text: "Accédez à vos informations en un instant.", icon: "shield" },
+        { title: "Sécurisé", text: "Vos données sont protégées et privées.", icon: "lock" },
       ],
     },
     {
@@ -252,7 +252,7 @@ export default function Splash() {
       eyebrow: "Urgence",
       title: (
         <>
-          Vos donnees,
+          Vos données,
           <br />
           <span className="onboarding-title-accent-red">sauvent des vies</span>
         </>
@@ -269,8 +269,8 @@ export default function Splash() {
       panelType: "phone",
       features: [
         { title: "Accessible", text: "Disponibles pour les secours au bon moment.", icon: "refresh" },
-        { title: "Confidentiel", text: "Les donnees restent privees et securisees.", icon: "lockRed" },
-        { title: "Instantane", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
+        { title: "Confidentiel", text: "Les données restent privées et sécurisées.", icon: "lockRed" },
+        { title: "Instantané", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
       ],
     },
     {
@@ -459,7 +459,7 @@ export default function Splash() {
                   Se connecter
                 </Link>
                 <Link to={ROUTES.register} className="text-link">
-                  Creer un compte
+                  Créer un compte
                 </Link>
                 </>
               ) : null}
@@ -473,7 +473,7 @@ export default function Splash() {
                 key={item.id}
                 type="button"
                 className={`splash-dot onboarding-dot ${index === currentSlide ? "is-active" : ""}`}
-                aria-label={`Aller a la page ${index + 1}`}
+                aria-label={`Aller à la page ${index + 1}`}
                 onClick={() => {
                   const dir = index > currentSlide ? "next" : "prev";
                   goToSlide(index, dir);
