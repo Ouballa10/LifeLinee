@@ -442,16 +442,20 @@
 }
 
 .prof-panel-icon {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   background: linear-gradient(135deg, #e0f2fe, #bae6fd);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   font-size: 0.9rem;
   flex-shrink: 0;
   color: #0ea5e9;
+}
+
+.prof-panel-icon svg {
+  display: block;
+  margin-top: 9px;
 }
 
 .prof-panel-icon-svg {
@@ -469,6 +473,7 @@
   color: #0ea5e9;
   font-size: 0.65rem;
   font-weight: 800;
+  margin-top: 0;
 }
 
 .prof-lang-btn.is-active .prof-lang-code {
@@ -750,7 +755,7 @@
 .prof-lang-options {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
 
