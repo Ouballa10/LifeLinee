@@ -75,6 +75,12 @@
   transform: scale(1.2);
 }
 
+.edit-pill-emoji {
+  font-size: 0.82rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .edit-pill-label {
   font-size: 0.76rem;
   font-weight: 600;
@@ -353,10 +359,14 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
+}
+
+.edit-privacy-card-icon svg {
+  display: block;
+  margin-top: 7px;
 }
 
 .edit-privacy-icon-blue {

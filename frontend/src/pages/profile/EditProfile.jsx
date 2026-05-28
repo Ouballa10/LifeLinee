@@ -9,11 +9,11 @@ import lifelineLogo from "../../assets/images/lifeline-logo.png";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 const SECTIONS = [
-  { id: "personal", label: "Personnel", color: "#0ea5e9" },
-  { id: "health", label: "Médical", color: "#06b6d4" },
-  { id: "emergency", label: "Urgence", color: "#ef4444" },
-  { id: "documents", label: "Documents", color: "#0891b2" },
-  { id: "privacy", label: "Sécurité", color: "#64748b" },
+  { id: "personal", label: "Personnel", emoji: "👤" },
+  { id: "health", label: "Médical", emoji: "🩺" },
+  { id: "emergency", label: "Urgence", emoji: "🚨" },
+  { id: "documents", label: "Documents", emoji: "📂" },
+  { id: "privacy", label: "Sécurité", emoji: "🔒" },
 ];
 
 /* Section tab SVG icons */
@@ -450,7 +450,7 @@ export default function EditProfile() {
                 className={`edit-pill ${activeSection === s.id ? "is-active" : ""}`}
                 onClick={() => setActiveSection(s.id)}
               >
-                <span className="edit-pill-dot" style={{ background: s.color }}></span>
+                <span className="edit-pill-emoji">{s.emoji}</span>
                 <span className="edit-pill-label">{s.label}</span>
               </button>
             ))}
