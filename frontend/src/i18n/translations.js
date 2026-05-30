@@ -183,6 +183,16 @@ export const translations = {
     navQrShort: "QR",
     navScanShort: "Scan",
     navProfileShort: "Profil",
+    // Stat chips
+    statProfile: "Profil",
+    statQrActive: "QR actif",
+    statSecure: "Sécurisé",
+    // Health tips
+    healthTip1: "Pensez à mettre à jour vos allergies régulièrement.",
+    healthTip2: "Partagez votre QR avec vos proches en cas d'urgence.",
+    healthTip3: "Vérifiez que votre contact d'urgence est toujours joignable.",
+    healthTip4: "Un profil complet peut sauver des vies en situation critique.",
+    healthTip5: "Ajoutez vos traitements en cours pour une prise en charge rapide.",
 
     // Dossier & Urgence (Profile menu)
     medicalDossier: "Dossier médical",
@@ -472,6 +482,16 @@ export const translations = {
     navQrShort: "QR",
     navScanShort: "مسح",
     navProfileShort: "ملفي",
+    // Stat chips
+    statProfile: "الملف",
+    statQrActive: "QR نشط",
+    statSecure: "آمن",
+    // Health tips
+    healthTip1: "تذكر تحديث حساسيتك بانتظام.",
+    healthTip2: "شارك رمز QR مع أقاربك في حالة الطوارئ.",
+    healthTip3: "تأكد أن جهة اتصال الطوارئ يمكن الوصول إليها دائماً.",
+    healthTip4: "ملف كامل يمكن أن ينقذ حياة في حالة حرجة.",
+    healthTip5: "أضف علاجاتك الحالية لرعاية سريعة.",
 
     // Dossier & Urgence (Profile menu)
     medicalDossier: "الملف الطبي",
@@ -761,6 +781,16 @@ export const translations = {
     navQrShort: "QR",
     navScanShort: "Scan",
     navProfileShort: "Profile",
+    // Stat chips
+    statProfile: "Profile",
+    statQrActive: "QR active",
+    statSecure: "Secure",
+    // Health tips
+    healthTip1: "Remember to update your allergies regularly.",
+    healthTip2: "Share your QR with loved ones in case of emergency.",
+    healthTip3: "Make sure your emergency contact is always reachable.",
+    healthTip4: "A complete profile can save lives in critical situations.",
+    healthTip5: "Add your current treatments for quick care.",
 
     // Dossier & Urgence (Profile menu)
     medicalDossier: "Medical Record",

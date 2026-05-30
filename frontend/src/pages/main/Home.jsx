@@ -132,19 +132,13 @@ function CompletenessRing({ percent }) {
 }
 
 /* ─── Health tips ─── */
-const HEALTH_TIPS = [
-  "Pensez à mettre à jour vos allergies régulièrement.",
-  "Partagez votre QR avec vos proches en cas d'urgence.",
-  "Vérifiez que votre contact d'urgence est toujours joignable.",
-  "Un profil complet peut sauver des vies en situation critique.",
-  "Ajoutez vos traitements en cours pour une prise en charge rapide.",
-];
+const HEALTH_TIP_KEYS = ["healthTip1", "healthTip2", "healthTip3", "healthTip4", "healthTip5"];
 
 export default function Home() {
   const navigate = useNavigate();
   const { appState } = useContext(AppContext);
   const { user, logout } = useAuth();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const profileName = firstName(user?.fullName);
 
   const [showContacts, setShowContacts] = useState(false);
@@ -177,10 +171,11 @@ export default function Home() {
 
   // Daily tip (based on day of year)
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-  const dailyTip = HEALTH_TIPS[dayOfYear % HEALTH_TIPS.length];
+  const dailyTip = t[HEALTH_TIP_KEYS[dayOfYear % HEALTH_TIP_KEYS.length]];
 
   // Today's date formatted
-  const today = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-GB" : "fr-FR";
+  const today = new Date().toLocaleDateString(dateLocale, { weekday: "long", day: "numeric", month: "long" });
 
   const quickActions = [
     {
@@ -279,7 +274,7 @@ export default function Home() {
             <div className="home-greeting-card-content">
               <span className="home-greeting-date">{today}</span>
               <h1 className="home-greeting">{t.homeGreeting}, {profileName} 👋</h1>
-              <p className="home-greeting-sub">Vos données médicales à portée de main.</p>
+              <p className="home-greeting-sub">{t.homeSub}</p>
             </div>
             <div className="home-greeting-ring">
               <CompletenessRing percent={completenessPercent} />
@@ -331,7 +326,7 @@ export default function Home() {
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                 </svg>
               </span>
-              <span className="home-stat-chip-text">Profil {completenessPercent}%</span>
+              <span className="home-stat-chip-text">{t.statProfile} {completenessPercent}%</span>
             </div>
             <div className="home-stat-chip" onClick={() => navigate(ROUTES.qr)}>
               <span className="home-stat-chip-icon home-stat-chip-green">
@@ -339,7 +334,7 @@ export default function Home() {
                   <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" />
                 </svg>
               </span>
-              <span className="home-stat-chip-text">QR actif</span>
+              <span className="home-stat-chip-text">{t.statQrActive}</span>
             </div>
             <div className="home-stat-chip" onClick={() => navigate(ROUTES.dashboard)}>
               <span className="home-stat-chip-icon home-stat-chip-cyan">
@@ -347,7 +342,7 @@ export default function Home() {
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
               </span>
-              <span className="home-stat-chip-text">Sécurisé</span>
+              <span className="home-stat-chip-text">{t.statSecure}</span>
             </div>
           </section>
 
@@ -454,7 +449,7 @@ export default function Home() {
                     </div>
                     <div className="contacts-item-info">
                       <strong>{user.emergencyContact}</strong>
-                      <span>Contact d'urgence principal</span>
+                      <span>{t.mainContact}</span>
                     </div>
                   </div>
 
@@ -466,7 +461,7 @@ export default function Home() {
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                         </svg>
-                        Appeler maintenant
+                        {t.callNow}
                       </a>
                     ) : null;
                   })()}
@@ -474,15 +469,15 @@ export default function Home() {
               ) : (
                 <div className="contacts-empty">
                   <span>📞</span>
-                  <p>Aucun contact d'urgence enregistré.</p>
+                  <p>{t.noContact}</p>
                   <button type="button" className="contacts-add-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.editProfile); }}>
-                    Ajouter un contact
+                    {t.addContact}
                   </button>
                 </div>
               )}
 
               <button type="button" className="contacts-edit-btn" onClick={() => { setShowContacts(false); navigate(ROUTES.editProfile); }}>
-                Modifier les contacts
+                {t.editContacts}
               </button>
             </div>
           </div>
