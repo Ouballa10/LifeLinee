@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "../../utils/constants.js";
 import { classNames } from "../../utils/helpers.js";
+import { useLang } from "../../context/LanguageContext.jsx";
 
 function HomeIcon() {
   return (
@@ -73,17 +74,19 @@ function ProfileIcon() {
 }
 
 const navItems = [
-  { label: "Accueil", Icon: HomeIcon, to: ROUTES.home },
-  { label: "Bord", Icon: DashboardIcon, to: ROUTES.dashboard },
-  { label: "QR", Icon: QrIcon, to: ROUTES.qr },
-  { label: "Scan", Icon: ScanIcon, to: ROUTES.scanner },
-  { label: "Profil", Icon: ProfileIcon, to: ROUTES.profile },
+  { key: "navHomeShort", Icon: HomeIcon, to: ROUTES.home },
+  { key: "navDashShort", Icon: DashboardIcon, to: ROUTES.dashboard },
+  { key: "navQrShort", Icon: QrIcon, to: ROUTES.qr },
+  { key: "navScanShort", Icon: ScanIcon, to: ROUTES.scanner },
+  { key: "navProfileShort", Icon: ProfileIcon, to: ROUTES.profile },
 ];
 
 export default function BottomNav() {
+  const { t } = useLang();
+
   return (
     <nav className="bottom-nav" aria-label="Navigation principale">
-      {navItems.map(({ label, Icon, to }) => (
+      {navItems.map(({ key, Icon, to }) => (
         <NavLink
           key={to}
           to={to}
@@ -92,7 +95,7 @@ export default function BottomNav() {
           <span className="bottom-nav-icon" aria-hidden="true">
             <Icon />
           </span>
-          <span className="bottom-nav-label">{label}</span>
+          <span className="bottom-nav-label">{t[key]}</span>
         </NavLink>
       ))}
     </nav>

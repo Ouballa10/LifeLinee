@@ -5,6 +5,7 @@ import heroIllustration from "../assets/images/onboarding-hero.png";
 import lifelineLogo from "../assets/images/lifeline-logo.png";
 import onboardingPhoneIllustration from "../assets/images/onboarding-phone.png";
 import { ROUTES } from "../utils/constants.js";
+import { useLang } from "../context/LanguageContext.jsx";
 
 function FeatureIcon({ type }) {
   const icons = {
@@ -222,6 +223,7 @@ function FloatingElements() {
 
 export default function Splash() {
   const navigate = useNavigate();
+  const { t } = useLang();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState("next");
@@ -229,83 +231,82 @@ export default function Splash() {
   const slides = [
     {
       id: "intro",
-      eyebrow: "LifeLine",
+      eyebrow: t.splashEyebrow1,
       title: (
         <>
-          Vos informations médicales
+          {t.splashTitle1}
           <br />
-          <span className="onboarding-title-accent-red">en cas d'urgence</span>
+          <span className="onboarding-title-accent-red">{t.splashAccent1}</span>
         </>
       ),
-      description:
-        "Accédez rapidement à votre profil médical, votre QR et vos données essentielles en quelques secondes.",
-      cta: "Suivant",
+      description: t.splashDesc1,
+      cta: t.splashCta1,
       panelType: "hero",
       features: [
-        { title: "Toujours là", text: "Disponibles partout quand vous en avez besoin.", icon: "heart" },
-        { title: "Rapide", text: "Accédez à vos informations en un instant.", icon: "shield" },
-        { title: "Sécurisé", text: "Vos données sont protégées et privées.", icon: "lock" },
+        { title: t.splashFeature1Title, text: t.splashFeature1Text, icon: "heart" },
+        { title: t.splashFeature2Title, text: t.splashFeature2Text, icon: "shield" },
+        { title: t.splashFeature3Title, text: t.splashFeature3Text, icon: "lock" },
       ],
     },
     {
       id: "share",
-      eyebrow: "Urgence",
+      eyebrow: t.splashEyebrow2,
       title: (
         <>
-          Vos données,
+          {t.splashTitle2}
           <br />
-          <span className="onboarding-title-accent-red">sauvent des vies</span>
+          <span className="onboarding-title-accent-red">{t.splashAccent2}</span>
         </>
       ),
-      titleAccent: "sauvent des vies",
+      titleAccent: t.splashAccent2,
       description: (
         <>
-          Partagez les informations essentielles en{" "}
-          <span className="onboarding-copy-accent-blue">cas d'urgence</span> avec les secouristes pour une prise
-          en charge rapide et claire.
+          {t.splashDesc2Before}{" "}
+          <span className="onboarding-copy-accent-blue">{t.splashDesc2Accent}</span>{" "}
+          {t.splashDesc2After}
         </>
       ),
-      cta: "Suivant",
+      cta: t.splashCta2,
       panelType: "phone",
       features: [
-        { title: "Accessible", text: "Disponibles pour les secours au bon moment.", icon: "refresh" },
-        { title: "Confidentiel", text: "Les données restent privées et sécurisées.", icon: "lockRed" },
-        { title: "Instantané", text: "Des informations simples, lisibles et utiles.", icon: "bolt" },
+        { title: t.splashFeature4Title, text: t.splashFeature4Text, icon: "refresh" },
+        { title: t.splashFeature5Title, text: t.splashFeature5Text, icon: "lockRed" },
+        { title: t.splashFeature6Title, text: t.splashFeature6Text, icon: "bolt" },
       ],
     },
     {
       id: "control",
-      eyebrow: "Protection",
+      eyebrow: t.splashEyebrow3,
       title: (
         <>
-          Vous gardez
+          {t.splashTitle3}
           <br />
-          <span className="onboarding-title-accent-red">le contrôle</span>
+          <span className="onboarding-title-accent-red">{t.splashAccent3}</span>
         </>
       ),
-      titleAccent: "le contrôle",
+      titleAccent: t.splashAccent3,
       description: (
         <>
-          Gérez votre compte, décidez ce qui est visible et démarrez votre espace LifeLine{" "}
-          <span className="onboarding-copy-accent-blue">en toute confiance</span>.
+          {t.splashDesc3Before}{" "}
+          <span className="onboarding-copy-accent-blue">{t.splashDesc3Accent}</span>.
         </>
       ),
-      cta: "Commencer",
+      cta: t.splashCta3,
       panelType: "security",
       checklist: [
         {
-          title: "Modifier mes informations",
-          text: "Mettez à jour vos données quand vous le souhaitez",
+          title: t.splashCheck1Title,
+          text: t.splashCheck1Text,
           icon: "edit",
         },
         {
-          title: "Confidentialité",
-          text: "Vous décidez qui y a accès",
+          title: t.splashCheck2Title,
+          text: t.splashCheck2Text,
           icon: "users",
         },
         {
-          title: "Notifications",
-          text: "Restez informé à tout moment",
+          title: t.splashCheck3Title,
+          text: t.splashCheck3Text,
           icon: "bell",
         },
       ],
@@ -451,15 +452,15 @@ export default function Splash() {
 
             <div className={`onboarding-secondary-actions onboarding-secondary-actions-${slide.panelType}`}>
               <Link to={ROUTES.scanner} className="text-link">
-                Scanner un QR
+                {t.splashScanQr}
               </Link>
               {currentSlide === 2 ? (
                 <>
                 <Link to={ROUTES.login} className="text-link">
-                  Se connecter
+                  {t.splashSignIn}
                 </Link>
                 <Link to={ROUTES.register} className="text-link">
-                  Créer un compte
+                  {t.splashCreateAccount}
                 </Link>
                 </>
               ) : null}
@@ -473,7 +474,7 @@ export default function Splash() {
                 key={item.id}
                 type="button"
                 className={`splash-dot onboarding-dot ${index === currentSlide ? "is-active" : ""}`}
-                aria-label={`Aller à la page ${index + 1}`}
+                aria-label={`${t.splashDotLabel} ${index + 1}`}
                 onClick={() => {
                   const dir = index > currentSlide ? "next" : "prev";
                   goToSlide(index, dir);
