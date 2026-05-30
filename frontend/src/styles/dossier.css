@@ -400,20 +400,20 @@
 
 /* Dark mode contacts */
 .dark-mode .dossier-contact-row {
-  border-bottom-color: rgba(26, 58, 74, 0.6) !important;
+  border-bottom-color: rgba(30, 58, 95, 0.6) !important;
 }
 
 .dark-mode .dossier-contact-info strong {
-  color: #6aaa9e !important;
+  color: #7dd3fc !important;
 }
 
 .dark-mode .dossier-contact-info span {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-call-btn {
-  background: linear-gradient(135deg, #00c9a7, #00a88a) !important;
-  box-shadow: 0 3px 10px rgba(0, 200, 170, 0.3) !important;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  box-shadow: 0 3px 10px rgba(14, 165, 233, 0.3) !important;
 }
 
 .dark-mode .dossier-call-btn-blue {
@@ -439,29 +439,29 @@
    ═══════════════════════════════════════════════════════ */
 
 .dark-mode .dossier-title {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-subtitle {
-  color: #6aaa9e !important;
+  color: #7dd3fc !important;
 }
 
 .dark-mode .dossier-edit-btn {
-  background: linear-gradient(135deg, #00c9a7, #00a88a) !important;
-  box-shadow: 0 4px 14px rgba(0, 200, 170, 0.3) !important;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3) !important;
 }
 
 .dark-mode .dossier-section-icon {
-  background: linear-gradient(135deg, rgba(0, 200, 170, 0.15), rgba(0, 180, 200, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(56, 189, 248, 0.1)) !important;
 }
 
 .dark-mode .dossier-section-header h2 {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-card {
-  background: rgba(13, 31, 45, 0.85) !important;
-  border-color: rgba(26, 58, 74, 0.8) !important;
+  background: rgba(13, 27, 51, 0.85) !important;
+  border-color: rgba(30, 58, 95, 0.8) !important;
   backdrop-filter: blur(12px) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
 }
@@ -476,19 +476,19 @@
 }
 
 .dark-mode .dossier-row {
-  border-bottom-color: rgba(26, 58, 74, 0.6) !important;
+  border-bottom-color: rgba(30, 58, 95, 0.6) !important;
 }
 
 .dark-mode .dossier-row:hover {
-  background: rgba(0, 200, 170, 0.03) !important;
+  background: rgba(14, 165, 233, 0.03) !important;
 }
 
 .dark-mode .dossier-label {
-  color: #6aaa9e !important;
+  color: #7dd3fc !important;
 }
 
 .dark-mode .dossier-value {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-value-red {
@@ -498,55 +498,55 @@
 }
 
 .dark-mode .dossier-doc-group-title {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-doc-group-count {
-  background: rgba(0, 200, 170, 0.15) !important;
-  color: #00c9a7 !important;
+  background: rgba(14, 165, 233, 0.15) !important;
+  color: #0ea5e9 !important;
 }
 
 .dark-mode .dossier-doc-item {
-  background: rgba(13, 31, 45, 0.8) !important;
-  border-color: rgba(26, 58, 74, 0.7) !important;
+  background: rgba(13, 27, 51, 0.8) !important;
+  border-color: rgba(30, 58, 95, 0.7) !important;
 }
 
 .dark-mode .dossier-doc-item:hover {
-  border-color: #00c9a7 !important;
-  box-shadow: 0 4px 16px rgba(0, 200, 170, 0.12) !important;
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.12) !important;
 }
 
 .dark-mode .dossier-doc-icon {
-  background: linear-gradient(135deg, rgba(0, 200, 170, 0.12), rgba(0, 180, 200, 0.08)) !important;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(56, 189, 248, 0.08)) !important;
 }
 
 .dark-mode .dossier-doc-info strong {
-  color: #e6fff8 !important;
+  color: #f0f9ff !important;
 }
 
 .dark-mode .dossier-doc-info span {
-  color: #6aaa9e !important;
+  color: #7dd3fc !important;
 }
 
 .dark-mode .dossier-doc-open {
-  background: linear-gradient(135deg, #00c9a7, #00a88a) !important;
-  box-shadow: 0 2px 8px rgba(0, 200, 170, 0.3) !important;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
 }
 
 .dark-mode .dossier-empty {
-  background: rgba(13, 31, 45, 0.5) !important;
-  border-color: rgba(0, 200, 170, 0.2) !important;
+  background: rgba(13, 27, 51, 0.5) !important;
+  border-color: rgba(14, 165, 233, 0.2) !important;
 }
 
 .dark-mode .dossier-empty p {
-  color: #6aaa9e !important;
+  color: #7dd3fc !important;
 }
 
 .dark-mode .dossier-add-doc-btn {
-  background: linear-gradient(135deg, #00c9a7, #00a88a) !important;
-  box-shadow: 0 4px 12px rgba(0, 200, 170, 0.3) !important;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3) !important;
 }
 
 .dark-mode .dossier-footer p {
-  color: #4a7a6e !important;
+  color: #475569 !important;
 }

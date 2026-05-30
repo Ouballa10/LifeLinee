@@ -377,59 +377,59 @@
    ═══════════════════════════════════════════════════════ */
 
 .dark-mode .dash-progress-card {
-  background: linear-gradient(135deg, #0a1f2e 0%, #0d2438 50%, #0a2a30 100%);
-  border-color: #1a3a4a;
+  background: linear-gradient(135deg, #0a1a2e 0%, #0d2040 50%, #0a1e38 100%);
+  border-color: #1e3a5f;
   box-shadow: 0 4px 20px rgba(14, 165, 233, 0.08);
 }
 
-.dark-mode .dash-ring-svg circle:first-child { stroke: #1a3a4a; }
-.dark-mode .dash-ring-svg circle:last-child { stroke: #00e6c3; }
-.dark-mode .dash-ring-svg { filter: drop-shadow(0 0 12px rgba(0, 230, 195, 0.4)); }
-.dark-mode .dash-ring-pct { color: #00e6c3; }
-.dark-mode .dash-ring-label { color: #6aaa9e; }
-.dark-mode .dash-progress-info .dash-kicker { color: #00e6c3; }
-.dark-mode .dash-progress-info strong { color: #e6fff8; }
-.dark-mode .dash-progress-info p { color: #6aaa9e; }
+.dark-mode .dash-ring-svg circle:first-child { stroke: #1e3a5f; }
+.dark-mode .dash-ring-svg circle:last-child { stroke: #38bdf8; }
+.dark-mode .dash-ring-svg { filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4)); }
+.dark-mode .dash-ring-pct { color: #38bdf8; }
+.dark-mode .dash-ring-label { color: #7dd3fc; }
+.dark-mode .dash-progress-info .dash-kicker { color: #38bdf8; }
+.dark-mode .dash-progress-info strong { color: #f0f9ff; }
+.dark-mode .dash-progress-info p { color: #7dd3fc; }
 .dark-mode .dash-complete-btn {
   background: #0ea5e9;
-  color: #0a1f2e;
+  color: #0a1a2e;
   box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
 }
 .dark-mode .dash-complete-btn:hover {
-  background: #00e6c3;
-  box-shadow: 0 6px 22px rgba(0, 230, 195, 0.4);
+  background: #38bdf8;
+  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.4);
 }
 
 .dark-mode .dash-stat-card {
-  background: #0d1f2d;
-  border-color: #1a3a4a;
+  background: #0d1b33;
+  border-color: #1e3a5f;
 }
 .dark-mode .dash-stat-card:hover {
   border-color: #0ea5e9;
   box-shadow: 0 6px 16px rgba(14, 165, 233, 0.15);
 }
-.dark-mode .dash-stat-icon { background: #0a2a30; }
-.dark-mode .dash-stat-card strong { color: #e6fff8; }
-.dark-mode .dash-stat-card > span:last-child { color: #6aaa9e; }
+.dark-mode .dash-stat-icon { background: #0c2744; }
+.dark-mode .dash-stat-card strong { color: #f0f9ff; }
+.dark-mode .dash-stat-card > span:last-child { color: #7dd3fc; }
 
 .dark-mode .dash-log-item {
-  background: #0d1f2d;
-  border-color: #1a3a4a;
+  background: #0d1b33;
+  border-color: #1e3a5f;
 }
-.dark-mode .dash-log-avatar { background: #0a2a30; }
-.dark-mode .dash-log-info strong { color: #e6fff8; }
-.dark-mode .dash-log-info span { color: #6aaa9e; }
-.dark-mode .dash-log-badge { background: #0a2a30; color: #00e6c3; }
+.dark-mode .dash-log-avatar { background: #0c2744; }
+.dark-mode .dash-log-info strong { color: #f0f9ff; }
+.dark-mode .dash-log-info span { color: #7dd3fc; }
+.dark-mode .dash-log-badge { background: #0c2744; color: #38bdf8; }
 
 .dark-mode .dash-logs-empty {
-  background: #0d1f2d;
-  border-color: #1a3a4a;
+  background: #0d1b33;
+  border-color: #1e3a5f;
 }
-.dark-mode .dash-logs-empty p { color: #6aaa9e; }
+.dark-mode .dash-logs-empty p { color: #7dd3fc; }
 
 .dark-mode .dash-shortcut-item {
-  background: #0d1f2d;
-  border-color: #1a3a4a;
+  background: #0d1b33;
+  border-color: #1e3a5f;
 }
 .dark-mode .dash-shortcut-item:hover {
   border-color: #0ea5e9;
@@ -442,19 +442,19 @@
   background: linear-gradient(135deg, #3a1a2d, #4a1e3a);
 }
 .dark-mode .dash-shortcut-item:nth-child(3) .dash-shortcut-icon {
-  background: linear-gradient(135deg, #0a2a30, #0d3a3a);
+  background: linear-gradient(135deg, #0c2744, #1a2d4a);
 }
-.dark-mode .dash-shortcut-item strong { color: #e6fff8; }
-.dark-mode .dash-shortcut-item small { color: #6aaa9e; }
+.dark-mode .dash-shortcut-item strong { color: #f0f9ff; }
+.dark-mode .dash-shortcut-item small { color: #7dd3fc; }
 
 .dark-mode .dash-update-row {
-  background: #0d1f2d;
-  border-color: #1a3a4a;
+  background: #0d1b33;
+  border-color: #1e3a5f;
 }
 .dark-mode .dash-update-row:hover { border-color: #0ea5e9; }
-.dark-mode .dash-update-icon { background: #0a2a30; }
-.dark-mode .dash-update-info strong { color: #e6fff8; }
-.dark-mode .dash-update-info span { color: #6aaa9e; }
+.dark-mode .dash-update-icon { background: #0c2744; }
+.dark-mode .dash-update-info strong { color: #f0f9ff; }
+.dark-mode .dash-update-info span { color: #7dd3fc; }
 
 /* ─── Responsive ─── */
 @media (max-width: 380px) {
