@@ -1,0 +1,259 @@
+/* ===================================================================
+ * EMERGENCY PAGE — PREMIUM OVERRIDES
+ * Modern glassmorphism, premium shadows, refined typography.
+ * Keeps red/urgency theme but makes it look professional.
+ * =================================================================== */
+
+/* ─── Screen Background ─── */
+.emer-screen {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(211, 47, 47, 0.06), transparent 50%),
+    linear-gradient(180deg, #f8f9fb 0%, #f0f2f5 100%) !important;
+}
+
+/* ─── Card ─── */
+.emer-card {
+  border-radius: 24px !important;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(211, 47, 47, 0.04) !important;
+  overflow: hidden;
+}
+
+/* ─── Header ─── */
+.emer-header {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%) !important;
+  padding: 28px 20px 32px !important;
+}
+
+.emer-header-badge {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 999px !important;
+  padding: 5px 12px !important;
+  font-size: 9px !important;
+  letter-spacing: 1px !important;
+}
+
+.emer-header-photo {
+  border: 3px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.emer-header-name {
+  font-size: 22px !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* ─── Body ─── */
+.emer-body {
+  padding: 18px !important;
+  gap: 16px !important;
+}
+
+/* ─── Sections ─── */
+.emer-section {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.04) !important;
+  border-radius: 16px !important;
+  padding: 18px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+}
+
+.emer-section-title {
+  color: #b91c1c !important;
+  font-size: 11px !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(211, 47, 47, 0.08);
+}
+
+.emer-section-title-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(211, 47, 47, 0.08);
+  color: #dc2626;
+}
+
+/* ─── Vital Rows ─── */
+.emer-vital-row {
+  padding: 11px 12px !important;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  transition: background 150ms ease;
+}
+
+.emer-vital-row:hover {
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.emer-vital-icon {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+  color: #dc2626;
+}
+
+.emer-vital-row-alert {
+  background: linear-gradient(135deg, #fef2f2, #fff1f2) !important;
+  border: 1px solid rgba(220, 38, 38, 0.1);
+  border-radius: 10px !important;
+}
+
+/* ─── Big Call Button ─── */
+.emer-big-call-btn {
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  box-shadow:
+    0 12px 32px rgba(220, 38, 38, 0.3),
+    0 4px 12px rgba(185, 28, 28, 0.2) !important;
+  transition: all 200ms ease !important;
+}
+
+.emer-big-call-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 40px rgba(220, 38, 38, 0.35),
+    0 6px 16px rgba(185, 28, 28, 0.25) !important;
+}
+
+.emer-big-call-icon {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 14px !important;
+}
+
+/* ─── Secondary Call ─── */
+.emer-secondary-call-btn {
+  border-radius: 12px !important;
+  border: 1.5px solid rgba(220, 38, 38, 0.15) !important;
+  background: rgba(254, 242, 242, 0.8) !important;
+  transition: all 200ms ease !important;
+}
+
+.emer-secondary-call-btn:hover {
+  background: #fef2f2 !important;
+  border-color: rgba(220, 38, 38, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* ─── Contact Cards ─── */
+.emer-contact-call-card {
+  border-radius: 14px !important;
+  border: 1px solid rgba(0, 0, 0, 0.04) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+  transition: all 200ms ease !important;
+}
+
+.emer-contact-call-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+}
+
+.emer-contact-call-avatar {
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+  color: #dc2626;
+}
+
+.emer-contact-call-avatar-blue {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+  color: #2563eb;
+}
+
+.emer-contact-call-phone {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  color: #dc2626 !important;
+  font-weight: 700;
+  font-size: 0.72rem;
+  border: 1px solid rgba(220, 38, 38, 0.12);
+}
+
+.emer-contact-call-phone-blue {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+  color: #2563eb !important;
+  border-color: rgba(37, 99, 235, 0.12) !important;
+}
+
+/* ─── Emergency Box (112) ─── */
+.emer-emergency-box {
+  border-radius: 16px !important;
+  border: 2px solid rgba(220, 38, 38, 0.2) !important;
+  background: linear-gradient(135deg, #fff, #fef2f2) !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.06) !important;
+}
+
+.emer-emergency-box-call {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+  padding: 12px 16px !important;
+}
+
+.emer-emergency-box-call strong {
+  color: #ffffff !important;
+}
+
+.emer-emergency-box-call span {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.emer-emergency-box-call svg {
+  stroke: #ffffff;
+}
+
+/* ─── Return Button ─── */
+.emer-return-btn {
+  display: block !important;
+  text-align: center !important;
+  padding: 14px 20px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4) !important;
+  border: none !important;
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3) !important;
+  color: #ffffff !important;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: all 200ms ease !important;
+}
+
+.emer-return-btn:hover {
+  box-shadow: 0 10px 24px rgba(14, 165, 233, 0.4) !important;
+  transform: translateY(-2px);
+  color: #ffffff !important;
+}
+
+/* ─── Footer ─── */
+.emer-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.04) !important;
+  padding: 16px !important;
+}
+
+/* ─── Visibility Notice ─── */
+.emer-visibility-notice {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border: 1px solid rgba(245, 158, 11, 0.15) !important;
+}
+
+.emer-visibility-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #d97706;
+}

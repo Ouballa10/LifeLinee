@@ -590,22 +590,22 @@ export default function EditProfile() {
                 <div className="edit-fields">
                   <div className="edit-contact-group">
                     <strong className="edit-contact-group-title">Contact principal</strong>
-                    <Input label="Nom du contact" name="emergencyContactName" value={form.emergencyContactName || ""} onChange={handleChange} placeholder="Ex: Sofia Ghazali" />
-                    <Input label="Numéro du contact" name="emergencyContactPhone" type="tel" inputMode="tel" value={form.emergencyContactPhone || ""} onChange={handleChange} placeholder="0612345678" minLength={8} maxLength={15} />
+                    <Input label="Nom du contact" name="emergencyContactName" value={form.emergencyContactName || ""} onChange={handleChange} placeholder="Ex: Rania" />
+                    <Input label="Numéro du contact" name="emergencyContactPhone" type="tel" inputMode="tel" value={form.emergencyContactPhone || ""} onChange={handleChange} placeholder="06XXXXXXXX" minLength={8} maxLength={15} />
                     <Input label="Relation" name="emergencyContactRelation" value={form.emergencyContactRelation || ""} onChange={handleChange} placeholder="Ex: Mère, Frère, Ami..." />
                   </div>
 
                   <div className="edit-contact-group">
                     <strong className="edit-contact-group-title">Contact secondaire</strong>
-                    <Input label="Nom du contact" name="secondaryContactName" value={form.secondaryContactName || ""} onChange={handleChange} placeholder="Ex: Ahmed Ouballa" />
-                    <Input label="Numéro du contact" name="secondaryContactPhone" type="tel" inputMode="tel" value={form.secondaryContactPhone || ""} onChange={handleChange} placeholder="0622334455" minLength={8} maxLength={15} />
+                    <Input label="Nom du contact" name="secondaryContactName" value={form.secondaryContactName || ""} onChange={handleChange} placeholder="Ex: Abdelmounaim" />
+                    <Input label="Numéro du contact" name="secondaryContactPhone" type="tel" inputMode="tel" value={form.secondaryContactPhone || ""} onChange={handleChange} placeholder="06XXXXXXXX" minLength={8} maxLength={15} />
                     <Input label="Relation" name="secondaryContactRelation" value={form.secondaryContactRelation || ""} onChange={handleChange} placeholder="Ex: Père, Sœur, Collègue..." />
                   </div>
 
                   <div className="edit-contact-group">
                     <strong className="edit-contact-group-title">Médecin référent</strong>
-                    <Input label="Nom du médecin" name="doctorName" value={form.doctorName} onChange={handleChange} placeholder="Dr. Mohammed Alami" />
-                    <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="0522123456" minLength={8} maxLength={15} />
+                    <Input label="Nom du médecin" name="doctorName" value={form.doctorName} onChange={handleChange} placeholder="Dr. ..." />
+                    <Input label="Numéro du médecin" name="doctorPhone" type="tel" inputMode="tel" value={form.doctorPhone} onChange={handleChange} placeholder="05XXXXXXXX" minLength={8} maxLength={15} />
                   </div>
                 </div>
 

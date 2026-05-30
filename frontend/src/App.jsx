@@ -23,6 +23,7 @@ import "./styles/splash-premium.css";
 import "./styles/home-premium.css";
 import "./styles/dashboard-premium.css";
 import "./styles/edit-premium.css";
+import "./styles/emergency-premium.css";
 
 function OfflineNotice() {
   const [isOffline, setIsOffline] = useState(() =>

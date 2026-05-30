@@ -137,7 +137,9 @@ export default function Emergency() {
           {/* Visibility level indicator */}
           {visibility !== 'full' && (
             <div className="emer-visibility-notice">
-              <span className="emer-visibility-icon">🔒</span>
+              <span className="emer-visibility-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+              </span>
               <span>
                 {visibility === 'minimal' && "Mode minimal — Seuls le nom et le groupe sanguin sont visibles."}
                 {visibility === 'contact' && "Mode contact — Seuls les contacts d'urgence sont visibles."}
@@ -172,30 +174,42 @@ export default function Emergency() {
           {/* ═══ INFORMATIONS VITALES ═══ */}
           <div className="emer-section">
             <div className="emer-section-title">
-              <span className="emer-section-title-icon">❤️</span>
+              <span className="emer-section-title-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12h4l3-6 4 12 3-6h4" />
+                </svg>
+              </span>
               INFORMATIONS VITALES
             </div>
             <div className="emer-vital-row">
-              <span className="emer-vital-icon">🩸</span>
+              <span className="emer-vital-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-6 7.5-6 12a6 6 0 0 0 12 0c0-4.5-6-12-6-12z" /></svg>
+              </span>
               <span className="emer-vital-label">Groupe sanguin</span>
               <strong className="emer-vital-value emer-vital-value-red">{profile.bloodType || "—"}</strong>
             </div>
             <div className="emer-vital-row">
-              <span className="emer-vital-icon">⚠️</span>
+              <span className="emer-vital-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+              </span>
               <span className="emer-vital-label">Allergies</span>
               <span className={`emer-vital-value ${!formatList(profile.allergies) ? "emer-vital-value-muted" : "emer-vital-value-red"}`}>
                 {formatList(profile.allergies) || "Aucune connue"}
               </span>
             </div>
             <div className="emer-vital-row">
-              <span className="emer-vital-icon">💜</span>
+              <span className="emer-vital-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12h4l3-6 4 12 3-6h4" /></svg>
+              </span>
               <span className="emer-vital-label">Maladies chroniques</span>
               <span className={`emer-vital-value ${!formatList(profile.chronicDiseases) ? "emer-vital-value-muted" : ""}`}>
                 {formatList(profile.chronicDiseases) || "Aucune connue"}
               </span>
             </div>
             <div className="emer-vital-row">
-              <span className="emer-vital-icon">💊</span>
+              <span className="emer-vital-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M10.5 1.5l-8 8a5 5 0 0 0 7 7l8-8a5 5 0 0 0-7-7z" /></svg>
+              </span>
               <span className="emer-vital-label">Médicaments en cours</span>
               <span className={`emer-vital-value ${!formatList(profile.medications) ? "emer-vital-value-muted" : ""}`}>
                 {formatList(profile.medications) || "Aucun"}
@@ -203,14 +217,18 @@ export default function Emergency() {
             </div>
             {(weight || height) && (
               <div className="emer-vital-row">
-                <span className="emer-vital-icon">📏</span>
+                <span className="emer-vital-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="12" y1="2" x2="12" y2="22" /><line x1="2" y1="12" x2="6" y2="12" /><line x1="18" y1="12" x2="22" y2="12" /></svg>
+                </span>
                 <span className="emer-vital-label">Poids / Taille</span>
                 <span className="emer-vital-value">{weight ? `${weight} kg` : "—"} / {height ? `${height} cm` : "—"}</span>
               </div>
             )}
             {profile.criticalInstructions && (
               <div className="emer-vital-row emer-vital-row-alert">
-                <span className="emer-vital-icon">🚨</span>
+                <span className="emer-vital-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                </span>
                 <span className="emer-vital-label">Consignes critiques</span>
                 <span className="emer-vital-value emer-vital-value-red">{profile.criticalInstructions}</span>
               </div>
@@ -221,12 +239,16 @@ export default function Emergency() {
           {contactPhone && (
             <div className="emer-section">
               <div className="emer-section-title">
-                <span className="emer-section-title-icon">📞</span>
+                <span className="emer-section-title-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                </span>
                 CONTACT D'URGENCE PRINCIPAL
               </div>
               <a href={`tel:${cleanPhoneForTel(contactPhone)}`} className="emer-contact-call-card">
                 <div className="emer-contact-call-left">
-                  <div className="emer-contact-call-avatar">👤</div>
+                  <div className="emer-contact-call-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M5 20a7 7 0 0 1 14 0" /></svg>
+                  </div>
                   <div className="emer-contact-call-info">
                     <strong>{contactName || "Contact"}</strong>
                     <span>Contact principal</span>
@@ -246,13 +268,17 @@ export default function Emergency() {
           {(secondaryContact || doctorPhone) && (
             <div className="emer-section">
               <div className="emer-section-title">
-                <span className="emer-section-title-icon">👥</span>
+                <span className="emer-section-title-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                </span>
                 AUTRES CONTACTS D'URGENCE
               </div>
               {secPhone && (
                 <a href={`tel:${secPhone}`} className="emer-contact-call-card">
                   <div className="emer-contact-call-left">
-                    <div className="emer-contact-call-avatar">👤</div>
+                    <div className="emer-contact-call-avatar">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M5 20a7 7 0 0 1 14 0" /></svg>
+                    </div>
                     <div className="emer-contact-call-info">
                       <strong>{secName || "Contact secondaire"}</strong>
                       <span>Contact secondaire</span>
@@ -269,7 +295,9 @@ export default function Emergency() {
               {doctorPhone && (
                 <a href={`tel:${cleanPhoneForTel(doctorPhone)}`} className="emer-contact-call-card emer-contact-call-card-blue">
                   <div className="emer-contact-call-left">
-                    <div className="emer-contact-call-avatar emer-contact-call-avatar-blue">👨‍⚕️</div>
+                    <div className="emer-contact-call-avatar emer-contact-call-avatar-blue">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M2 12h20" /></svg>
+                    </div>
                     <div className="emer-contact-call-info">
                       <strong>{doctorName || "Médecin"}</strong>
                       <span>Médecin référent</span>
@@ -289,7 +317,7 @@ export default function Emergency() {
           {/* ═══ IMPORTANT ═══ */}
           <div className="emer-emergency-box">
             <div className="emer-emergency-box-left">
-              <strong className="emer-emergency-box-title">⚠️ IMPORTANT</strong>
+              <strong className="emer-emergency-box-title">IMPORTANT</strong>
               <p>En cas d'urgence, contactez immédiatement le service médical et le contact d'urgence.</p>
             </div>
             <a href="tel:112" className="emer-emergency-box-call">
@@ -306,7 +334,7 @@ export default function Emergency() {
 
         {/* ═══ FOOTER ═══ */}
         <div className="emer-footer">
-          <p>🩺 Informations fournies par le titulaire du profil LifeLine</p>
+          <p>Informations fournies par le titulaire du profil LifeLine</p>
           <p>Dernière mise à jour : {now}</p>
         </div>
       </div>
