@@ -19,7 +19,7 @@ export const translations = {
 
     // Home
     homeGreeting: "Bonjour",
-    homeSub: "Prenez soin de vous, vos informations peuvent sauver des vies.",
+    homeSub: "Prenez soin de vous. Vos informations peuvent sauver une vie.",
     heroTitle: "Votre santé, notre priorité",
     heroSub: "Gardez vos informations médicales à portée de main en cas d'urgence.",
     showMyQr: "Afficher mon QR",
@@ -329,7 +329,7 @@ export const translations = {
     logoutSub: "قم بتسجيل الخروج من حسابك",
 
     homeGreeting: "مرحبا",
-    homeSub: "اعتنِ بنفسك، معلوماتك يمكن أن تنقذ حياة.",
+    homeSub: "اعتنِ بنفسك. معلوماتك يمكن أن تنقذ حياة.",
     heroTitle: "صحتك، أولويتنا",
     heroSub: "احتفظ بمعلوماتك الطبية في متناول يدك في حالة الطوارئ.",
     showMyQr: "عرض رمز QR",
@@ -628,7 +628,7 @@ export const translations = {
     logoutSub: "Sign out of your account",
 
     homeGreeting: "Hello",
-    homeSub: "Take care of yourself, your information can save lives.",
+    homeSub: "Take care of yourself. Your information can save a life.",
     heroTitle: "Your health, our priority",
     heroSub: "Keep your medical information at hand in case of emergency.",
     showMyQr: "Show my QR",
