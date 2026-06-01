@@ -2,7 +2,8 @@
 
 LifeLine is a mobile-first emergency medical web app with a React + Vite frontend, Firebase Auth, an Express API that can run on Vercel, and Supabase PostgreSQL for persistent medical profiles.
 
-## Structure
+## Structure de project
+
 
 ```text
 LifeLine/
