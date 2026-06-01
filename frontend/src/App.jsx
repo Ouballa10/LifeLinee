@@ -19,6 +19,11 @@ import "./styles/dark-mode.css";
 import "./styles/luxury.css";
 import "./styles/home-luxury.css";
 import "./styles/pwa.css";
+import "./styles/splash-premium.css";
+import "./styles/home-premium.css";
+import "./styles/dashboard-premium.css";
+import "./styles/edit-premium.css";
+import "./styles/emergency-premium.css";
 
 function OfflineNotice() {
   const [isOffline, setIsOffline] = useState(() =>

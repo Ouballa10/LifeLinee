@@ -222,7 +222,7 @@
   margin: 0 0 8px;
   font-size: 1.85rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a5fb4 0%, #2980d9 50%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -337,14 +337,38 @@
 
 .login-forgot-link {
   font-size: 0.82rem;
-  color: #4a8eef;
+  color: #0ea5e9;
   text-decoration: none;
   font-weight: 500;
   transition: color 200ms ease;
 }
 
 .login-forgot-link:hover {
-  color: #2d6fd4;
+  color: #0284c7;
+}
+
+/* ===== SCAN QR LINK ===== */
+
+.login-scan-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(6, 182, 212, 0.2);
+  background: linear-gradient(135deg, #ecfeff, #cffafe);
+  color: #0891b2;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.login-scan-link:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.15);
 }
 
 /* ===== REMEMBER ME ===== */
@@ -399,19 +423,19 @@
   min-height: 52px;
   border: none;
   border-radius: 26px;
-  background: linear-gradient(135deg, #3a7bd5 0%, #2563b0 50%, #1d4f99 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #06b6d4 100%);
   color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(37, 99, 176, 0.3);
+  box-shadow: 0 12px 28px rgba(14, 165, 233, 0.3);
   transition: transform 200ms ease, box-shadow 200ms ease;
   margin-top: 4px;
 }
 
 .login-submit-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 16px 34px rgba(37, 99, 176, 0.38);
+  box-shadow: 0 16px 34px rgba(14, 165, 233, 0.38);
 }
 
 .login-submit-btn:active:not(:disabled) {
@@ -440,14 +464,14 @@
 }
 
 .login-create-link {
-  color: #4a8eef;
+  color: #0ea5e9;
   text-decoration: none;
   font-weight: 600;
   transition: color 200ms ease;
 }
 
 .login-create-link:hover {
-  color: #2d6fd4;
+  color: #0284c7;
 }
 
 /* ===== DIVIDER ===== */
