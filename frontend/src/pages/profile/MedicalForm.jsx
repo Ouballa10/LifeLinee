@@ -4,7 +4,7 @@ import BottomNav from "../../components/layout/BottomNav.jsx";
 import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { ROUTES } from "../../utils/constants.js";
 
 function buildMedicalForm(user) {

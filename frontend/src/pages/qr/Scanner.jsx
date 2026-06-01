@@ -5,7 +5,7 @@ import BottomNav from "../../components/layout/BottomNav.jsx";
 import AppMenu from "../../components/layout/AppMenu.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
 import { useLang } from "../../context/LanguageContext.jsx";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { useAuth } from "../../hooks/useAuth.js";
 import { parseEmergencyQrNavigation } from "../../services/qrService.js";
 import { apiRequest } from "../../services/api.js";

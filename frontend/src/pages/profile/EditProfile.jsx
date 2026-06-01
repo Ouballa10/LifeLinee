@@ -5,7 +5,7 @@ import Input from "../../components/ui/Input.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { apiRequest } from "../../services/api.js";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { BLOOD_GROUPS, ROUTES } from "../../utils/constants.js";
 
 const SECTIONS = [

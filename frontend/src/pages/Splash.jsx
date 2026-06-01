@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import onboardingControlIllustration from "../assets/images/onboarding-control-real.png.jpeg";
-import heroIllustration from "../assets/images/onboarding-hero.png";
-import lifelineLogo from "../assets/images/lifeline-logo.png";
-import onboardingPhoneIllustration from "../assets/images/onboarding-phone.png";
+import onboardingControlIllustration from "../assets/images/onboarding-control-real.png.webp";
+import heroIllustration from "../assets/images/onboarding-hero.webp";
+import lifelineLogo from "../assets/images/lifeline-logo.webp";
+import onboardingPhoneIllustration from "../assets/images/onboarding-phone.webp";
 import { ROUTES } from "../utils/constants.js";
 import { useLang } from "../context/LanguageContext.jsx";
 

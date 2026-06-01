@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/ui/Loader.jsx";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
-import loginBg from "../../assets/images/login-bg.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
+import loginBg from "../../assets/images/login-bg.webp";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useNetworkStatus } from "../../hooks/useNetworkStatus.js";
 import { isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
-import "../../styles/login.css";
 
 export default function Login() {
   const navigate = useNavigate();

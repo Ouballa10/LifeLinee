@@ -19,6 +19,7 @@ import "./styles/dark-mode.css";
 import "./styles/luxury.css";
 import "./styles/home-luxury.css";
 import "./styles/pwa.css";
+import "./styles/login.css";
 import "./styles/splash-premium.css";
 import "./styles/home-premium.css";
 import "./styles/dashboard-premium.css";

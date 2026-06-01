@@ -5,7 +5,7 @@ import AppMenu from "../../components/layout/AppMenu.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { ROUTES } from "../../utils/constants.js";
 import { formatList, getInitials } from "../../utils/helpers.js";
 

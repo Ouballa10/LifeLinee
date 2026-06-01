@@ -5,7 +5,7 @@ import AppMenu from "../../components/layout/AppMenu.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { ROUTES } from "../../utils/constants.js";
 import { firstName, formatList } from "../../utils/helpers.js";
 import { buildEmergencyUrl, generateQRCodeImage } from "../../services/qrService.js";

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.js";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import { ROUTES } from "../../utils/constants.js";
 import { getInitials } from "../../utils/helpers.js";

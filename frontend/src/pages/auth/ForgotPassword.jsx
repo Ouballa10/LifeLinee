@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { auth, isFirebaseConfigured } from "../../services/firebase.js";
 import { ROUTES } from "../../utils/constants.js";
-import "../../styles/login.css";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

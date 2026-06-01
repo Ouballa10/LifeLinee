@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/layout/BottomNav.jsx";
 import Loader from "../../components/ui/Loader.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
-import lifelineLogo from "../../assets/images/lifeline-logo.png";
+import lifelineLogo from "../../assets/images/lifeline-logo.webp";
 import { useLang } from "../../context/LanguageContext.jsx";
 import { ROUTES } from "../../utils/constants.js";
 import {
