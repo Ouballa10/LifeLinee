@@ -227,16 +227,19 @@ export default function Emergency() {
                 <span className="emer-vital-value">{weight ? `${weight} kg` : "—"} / {height ? `${height} cm` : "—"}</span>
               </div>
             )}
-            {profile.criticalInstructions && (
-              <div className="emer-vital-row emer-vital-row-alert">
-                <span className="emer-vital-icon">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
-                </span>
-                <span className="emer-vital-label">{t.emerCriticalInstructions}</span>
-                <span className="emer-vital-value emer-vital-value-red">{profile.criticalInstructions}</span>
-              </div>
-            )}
           </div>
+
+          {profile.criticalInstructions && (
+            <div className="emer-critical-card">
+              <div className="emer-critical-card-header">
+                <span className="emer-critical-card-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                </span>
+                <span>{t.emerCriticalInstructions}</span>
+              </div>
+              <p className="emer-critical-card-text">{profile.criticalInstructions}</p>
+            </div>
+          )}
 
           {/* ═══ CONTACT D'URGENCE PRINCIPAL ═══ */}
           {contactPhone && (

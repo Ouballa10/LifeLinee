@@ -799,3 +799,47 @@
   font-size: 1.2rem;
   flex-shrink: 0;
 }
+
+
+/* ─── Critical Instructions Card ─── */
+.emer-critical-card {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fef2f2, #fff1f2);
+  border: 2px solid rgba(220, 38, 38, 0.25);
+  overflow: hidden;
+}
+
+.emer-critical-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #dc2626;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(220, 38, 38, 0.12);
+}
+
+.emer-critical-card-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.emer-critical-card-text {
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #b91c1c;
+  line-height: 1.6;
+  text-align: center;
+}
