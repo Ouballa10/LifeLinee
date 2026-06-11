@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LifeLine — Présentation PFE</title>
+<style>
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:      #dc2626;
+    --red-light:#fef2f2;
+    --red-dark: #991b1b;
+    --blue:     #1e3a8a;
+    --blue-mid: #2563eb;
+    --blue-light:#dbeafe;
+    --navy:     #0f172a;
+    --slate:    #1e293b;
+    --gray:     #64748b;
+    --light:    #f8fafc;
+    --white:    #ffffff;
+    --radius:   16px;
+    --shadow:   0 25px 60px rgba(0,0,0,.18);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #050d1a;
+    overflow: hidden;
+  }
+
+  /* ─── Slideshow Container ─── */
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ─── Individual Slide ─── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 64px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all .55s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.prev {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  /* ─── Backgrounds ─── */
+  .bg-navy   { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+  .bg-red    { background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #dc2626 100%); }
+  .bg-blue   { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); }
+  .bg-dark   { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+  .bg-slate  { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+  .bg-teal   { background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%); }
+  .bg-purple { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%); }
+
+  /* Noise overlay */
+  .slide::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+  }
+  .slide > * { position: relative; z-index: 1; }
+
+  /* ─── Typography ─── */
+  .slide-num {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 13px;
+    color: rgba(255,255,255,.35);
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+  h1.slide-title {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  h2.slide-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -.5px;
+  }
+  .accent { color: var(--red); }
+  .accent-blue { color: #60a5fa; }
+  .subtitle {
+    font-size: clamp(.95rem, 1.8vw, 1.2rem);
+    color: rgba(255,255,255,.65);
+    line-height: 1.7;
+    max-width: 680px;
+  }
+
+  /* ─── Divider ─── */
+  .divider {
+    width: 56px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--red);
+    margin: 20px 0;
+  }
+
+  /* ─── Badge ─── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(220,38,38,.15);
+    border: 1px solid rgba(220,38,38,.35);
+    color: #fca5a5;
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+  .badge-blue {
+    background: rgba(37,99,235,.15);
+    border: 1px solid rgba(37,99,235,.35);
+    color: #93c5fd;
+  }
+
+  /* ─── Cards Grid ─── */
+  .cards-grid {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 32px;
+  }
+  .cards-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    backdrop-filter: blur(12px);
+    transition: transform .2s, border-color .2s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(220,38,38,.4);
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(220,38,38,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 20px;
+  }
+  .card-icon.blue { background: rgba(37,99,235,.2); }
+  .card-icon.green { background: rgba(16,185,129,.2); }
+  .card-icon.yellow { background: rgba(245,158,11,.2); }
+  .card-icon.purple { background: rgba(139,92,246,.2); }
+  .card h3 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .card p {
+    font-size: .82rem;
+    color: rgba(255,255,255,.55);
+    line-height: 1.5;
+  }
+
+  /* ─── Two-column layout ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+  }
+  .col-left { display: flex; flex-direction: column; gap: 16px; }
+  .col-right { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ─── Cover Slide ─── */
+  .cover-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .logo-ring {
+    width: 100px;
+    height: 100px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--red) 0%, #ef4444 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 60px rgba(220,38,38,.5);
+    margin-bottom: 8px;
+    animation: pulse-ring 3s infinite;
+  }
+  @keyframes pulse-ring {
+    0%,100% { box-shadow: 0 0 40px rgba(220,38,38,.4); }
+    50%      { box-shadow: 0 0 80px rgba(220,38,38,.7); }
+  }
+
+  /* ─── Word Map / Tag Cloud ─── */
+  .wordmap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    max-width: 900px;
+    margin-top: 28px;
+  }
+  .word-tag {
+    border-radius: 100px;
+    font-weight: 700;
+    padding: 8px 22px;
+    border: 2px solid;
+    transition: transform .15s;
+    cursor: default;
+    white-space: nowrap;
+  }
+  .word-tag:hover { transform: scale(1.08); }
+  .wt-xl { font-size: 1.5rem; }
+  .wt-lg { font-size: 1.15rem; }
+  .wt-md { font-size: .95rem; }
+  .wt-sm { font-size: .8rem; }
+  .wt-red    { color: #fca5a5; border-color: rgba(220,38,38,.5); background: rgba(220,38,38,.12); }
+  .wt-blue   { color: #93c5fd; border-color: rgba(37,99,235,.5);  background: rgba(37,99,235,.12); }
+  .wt-green  { color: #6ee7b7; border-color: rgba(16,185,129,.5); background: rgba(16,185,129,.1); }
+  .wt-yellow { color: #fde68a; border-color: rgba(245,158,11,.5); background: rgba(245,158,11,.1); }
+  .wt-purple { color: #c4b5fd; border-color: rgba(139,92,246,.5); background: rgba(139,92,246,.1); }
+  .wt-white  { color: #e2e8f0; border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.07); }
+
+  /* ─── Timeline / Steps ─── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 700px;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .tl-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .tl-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .tl-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(220,38,38,.2);
+    border: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fca5a5;
+    flex-shrink: 0;
+  }
+  .tl-connector {
+    width: 2px;
+    flex: 1;
+    min-height: 20px;
+    background: rgba(220,38,38,.25);
+    margin: 4px 0;
+  }
+  .tl-content {
+    padding-bottom: 24px;
+    flex: 1;
+  }
+  .tl-content h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .tl-content p {
+    font-size: .85rem;
+    color: rgba(255,255,255,.55);
+    line-height: 1.55;
+  }
+
+  /* ─── Architecture Diagram ─── */
+  .arch-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 860px;
+    margin-top: 20px;
+  }
+  .arch-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  .arch-box {
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 120px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(8px);
+  }
+  .arch-box .arch-icon { font-size: 22px; margin-bottom: 4px; }
+  .arch-box .arch-label {
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: .5px;
+  }
+  .arch-box .arch-sub {
+    font-size: .7rem;
+    color: rgba(255,255,255,.45);
+  }
+  .arch-red    { background: rgba(220,38,38,.15); border-color: rgba(220,38,38,.3); }
+  .arch-blue   { background: rgba(37,99,235,.15); border-color: rgba(37,99,235,.3); }
+  .arch-green  { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.3); }
+  .arch-yellow { background: rgba(245,158,11,.15); border-color: rgba(245,158,11,.3); }
+  .arch-purple { background: rgba(139,92,246,.15); border-color: rgba(139,92,246,.3); }
+  .arch-arrow {
+    text-align: center;
+    color: rgba(255,255,255,.3);
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ─── MVC Layers ─── */
+  .mvc-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    margin-top: 20px;
+  }
+  .mvc-layer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-radius: 14px;
+    padding: 18px 24px;
+    border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(8px);
+    transition: transform .2s;
+  }
+  .mvc-layer:hover { transform: translateX(8px); }
+  .mvc-icon { font-size: 26px; width: 48px; text-align: center; flex-shrink: 0; }
+  .mvc-info h3 { font-size: 1rem; font-weight: 700; color: var(--white); }
+  .mvc-info p  { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 2px; }
+  .mvc-files {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+  .tag {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: .73rem;
+    color: rgba(255,255,255,.6);
+    font-family: 'Consolas', monospace;
+  }
+
+  /* ─── Prob section ─── */
+  .problem-box {
+    background: rgba(220,38,38,.08);
+    border: 1px solid rgba(220,38,38,.25);
+    border-left: 4px solid var(--red);
+    border-radius: 14px;
+    padding: 24px 28px;
+    max-width: 740px;
+    margin-top: 24px;
+  }
+  .problem-box p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,.8);
+    line-height: 1.75;
+    font-style: italic;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+  }
+  .stat-box {
+    flex: 1;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: .8rem;
+    color: rgba(255,255,255,.5);
+    line-height: 1.4;
+  }
+
+  /* ─── Sommaire ─── */
+  .sommaire-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 680px;
+    margin-top: 16px;
+  }
+  .sommaire-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 14px 20px;
+    transition: border-color .2s, background .2s;
+    cursor: default;
+  }
+  .sommaire-item:hover {
+    background: rgba(220,38,38,.08);
+    border-color: rgba(220,38,38,.3);
+  }
+  .sommaire-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(220,38,38,.2);
+    border: 1px solid rgba(220,38,38,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .82rem;
+    font-weight: 800;
+    color: #fca5a5;
+    flex-shrink: 0;
+  }
+  .sommaire-text {
+    font-size: .95rem;
+    font-weight: 600;
+    color: rgba(255,255,255,.8);
+  }
+  .sommaire-icon { margin-left: auto; font-size: 18px; opacity: .5; }
+
+  /* ─── Demo Slide ─── */
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 860px;
+    margin-top: 24px;
+  }
+  .demo-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .demo-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(220,38,38,.4);
+  }
+  .demo-screen {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: rgba(255,255,255,.03);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .demo-info {
+    padding: 12px 14px;
+  }
+  .demo-info h3 {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .demo-info p {
+    font-size: .76rem;
+    color: rgba(255,255,255,.45);
+    line-height: 1.45;
+  }
+
+  /* ─── Navigation ─── */
+  .nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(15,23,42,.8);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 100px;
+    padding: 10px 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    z-index: 100;
+  }
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all .2s;
+  }
+  .nav-btn-prev { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); }
+  .nav-btn-next { background: var(--red); color: white; }
+  .nav-btn:hover { transform: scale(1.1); }
+  .nav-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all .2s;
+  }
+  .dot.active {
+    width: 28px;
+    border-radius: 4px;
+    background: var(--red);
+  }
+  .dot:hover { background: rgba(255,255,255,.5); }
+
+  /* ─── Keyboard hint ─── */
+  .key-hint {
+    position: fixed;
+    top: 24px;
+    left: 32px;
+    display: flex;
+    gap: 8px;
+    opacity: .4;
+    z-index: 100;
+  }
+  .key {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: white;
+    font-family: monospace;
+  }
+
+  /* ─── UML image wrapper ─── */
+  .uml-wrap {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    max-height: 340px;
+    max-width: 100%;
+  }
+  .uml-wrap img {
+    max-height: 320px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  /* ─── Flow diagram ─── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 24px;
+    max-width: 960px;
+  }
+  .flow-box {
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-box .flow-icon { font-size: 24px; }
+  .flow-box .flow-label { font-size: .78rem; font-weight: 700; color: white; margin-top: 4px; }
+  .flow-box .flow-sub   { font-size: .68rem; color: rgba(255,255,255,.5); margin-top: 2px; }
+  .flow-arrow { color: rgba(255,255,255,.3); font-size: 20px; }
+
+  /* ─── Conclusion ─── */
+  .conclusion-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 680px;
+    margin-top: 24px;
+    width: 100%;
+  }
+  .conc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .conc-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .conc-text h3 { font-size: .95rem; font-weight: 700; color: white; margin-bottom: 3px; }
+  .conc-text p  { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.5; }
+
+  /* Stack pills */
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 820px;
+    justify-content: center;
+  }
+  .stack-pill {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: rgba(255,255,255,.75);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stack-pill span { font-size: 16px; }
+</style>
+</head>
+<body>
+
+<div class="key-hint">
+  <span class="key">←</span>
+  <span class="key">→</span>
+  <span class="key">Space</span>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════════
+       SLIDE 0 — COVER
+  ══════════════════════════════════════ -->
+  <div class="slide bg-navy active" id="slide-0">
+    <span class="slide-num">01 / 09</span>
+    <div class="cover-content">
+      <div class="logo-ring">
+        <svg width="54" height="54" viewBox="0 0 48 48" fill="none">
+          <path d="M24 8L36 13V22C36 31 30 37.5 24 41C18 37.5 12 31 12 22V13L24 8Z"
+                stroke="white" stroke-width="2.5" stroke-linejoin="round" fill="rgba(255,255,255,.1)"/>
+          <path d="M18 24h4l2-4 2.5 8 2.5-5h3" stroke="white" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="badge">🩺 Projet de Fin d'Études — 2025/2026</div>
+
+      <h1 class="slide-title" style="font-size:clamp(3rem,7vw,5.5rem); text-align:center">
+        Life<span class="accent">Line</span>
+      </h1>
+
+      <p class="subtitle" style="text-align:center; max-width:560px; font-size:1.15rem">
+        Application web médicale d'urgence — Mobile First<br>
+        <span style="color:rgba(255,255,255,.4); font-size:.95rem">
+          React · Express.js · Firebase · Supabase · PostgreSQL
+        </span>
+      </p>
+
+      <div class="divider" style="margin:8px auto"></div>
+
+      <p style="color:rgba(255,255,255,.4); font-size:.9rem; text-align:center">
+        Réalisé par <strong style="color:rgba(255,255,255,.75)">Abdelmounaim Ouballa</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 1 — SOMMAIRE
+  ══════════════════════════════════════ -->
+  <div class="slide bg-slate" id="slide-1">
+    <span class="slide-num">02 / 09</span>
+    <div class="eyebrow">Plan</div>
+    <h2 class="slide-title">Sommaire</h2>
+    <div class="divider"></div>
+
+    <div class="sommaire-list">
+      <div class="sommaire-item">
+        <div class="sommaire-num">01</div>
+        <div class="sommaire-text">Introduction — Présentation du projet</div>
+        <div class="sommaire-icon">📖</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">02</div>
+        <div class="sommaire-text">Problématique</div>
+        <div class="sommaire-icon">❓</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">03</div>
+        <div class="sommaire-text">Word Map — Technologies & concepts clés</div>
+        <div class="sommaire-icon">🗺️</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">04</div>
+        <div class="sommaire-text">Méthodologie utilisée</div>
+        <div class="sommaire-icon">⚙️</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">05</div>
+        <div class="sommaire-text">Conception — 3 Diagrammes UML</div>
+        <div class="sommaire-icon">📐</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">06</div>
+        <div class="sommaire-text">Architecture Backend MVC</div>
+        <div class="sommaire-icon">🏗️</div>
+      </div>
+      <div class="sommaire-item">
+        <div class="sommaire-num">07</div>
+        <div class="sommaire-text">Démonstration</div>
+        <div class="sommaire-icon">🎬</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 2 — INTRODUCTION
+  ══════════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-2">
+    <span class="slide-num">03 / 09</span>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="eyebrow">Introduction</div>
+        <h2 class="slide-title">C'est quoi <span class="accent">LifeLine</span> ?</h2>
+        <div class="divider"></div>
+        <p class="subtitle">
+          Une application web <strong style="color:white">mobile-first</strong> qui permet à tout
+          utilisateur d'enregistrer ses informations médicales et de générer un
+          <strong style="color:white">QR code personnel</strong>. En cas d'urgence, ce code est
+          scanné pour afficher une fiche médicale instantanément — sans application, sans compte.
+        </p>
+        <div style="display:flex; gap:10px; margin-top:8px; flex-wrap:wrap">
+          <span class="badge">🔴 Urgence médicale</span>
+          <span class="badge badge-blue">📱 PWA Mobile-first</span>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="card" style="gap:10px">
+          <div class="card-icon">👤</div>
+          <h3>Utilisateur</h3>
+          <p>Crée un compte, complète son profil médical, génère et partage son QR code.</p>
+        </div>
+        <div class="card" style="gap:10px">
+          <div class="card-icon blue">🚑</div>
+          <h3>Secouriste</h3>
+          <p>Scanne le QR code et accède à la fiche médicale publique — sans avoir de compte.</p>
+        </div>
+        <div class="card" style="gap:10px">
+          <div class="card-icon green">🔒</div>
+          <h3>Sécurité</h3>
+          <p>Données privées protégées par Firebase Auth + Supabase RLS. Seules les infos nécessaires sont exposées.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 3 — PROBLÉMATIQUE
+  ══════════════════════════════════════ -->
+  <div class="slide bg-red" id="slide-3">
+    <span class="slide-num">04 / 09</span>
+    <div class="eyebrow" style="color:#fca5a5">Problématique</div>
+    <h2 class="slide-title" style="text-align:center">Le problème <span style="color:#fde68a">réel</span></h2>
+    <div class="divider" style="margin:16px auto; background:#fca5a5"></div>
+
+    <div class="problem-box" style="background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.2)">
+      <p style="color:rgba(255,255,255,.9); text-align:center; font-size:1.15rem">
+        « Comment permettre un accès <strong>rapide, simple et sécurisé</strong> aux informations
+        médicales essentielles d'une personne <strong>inconsciente ou incapable de communiquer</strong>
+        lors d'une urgence ? »
+      </p>
+    </div>
+
+    <div class="stat-row" style="max-width:720px; width:100%">
+      <div class="stat-box" style="background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.15)">
+        <div class="stat-num" style="color:#fde68a">⏱️</div>
+        <div class="stat-label" style="color:rgba(255,255,255,.7)">Chaque seconde compte lors d'une urgence médicale</div>
+      </div>
+      <div class="stat-box" style="background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.15)">
+        <div class="stat-num" style="color:#6ee7b7">🚫</div>
+        <div class="stat-label" style="color:rgba(255,255,255,.7)">Les infos médicales ne sont pas toujours disponibles sur place</div>
+      </div>
+      <div class="stat-box" style="background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.15)">
+        <div class="stat-num" style="color:#93c5fd">📲</div>
+        <div class="stat-label" style="color:rgba(255,255,255,.7)">Un QR code suffit — aucune installation requise pour le secouriste</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 4 — WORD MAP
+  ══════════════════════════════════════ -->
+  <div class="slide bg-navy" id="slide-4">
+    <span class="slide-num">05 / 09</span>
+    <div class="eyebrow">Écosystème</div>
+    <h2 class="slide-title">Word Map du <span class="accent">Projet</span></h2>
+    <div class="divider"></div>
+
+    <div class="wordmap">
+      <span class="word-tag wt-xl wt-red">LifeLine</span>
+
+      <span class="word-tag wt-lg wt-blue">React.js</span>
+      <span class="word-tag wt-lg wt-yellow">Firebase</span>
+      <span class="word-tag wt-lg wt-green">Supabase</span>
+      <span class="word-tag wt-lg wt-purple">Express.js</span>
+
+      <span class="word-tag wt-md wt-white">QR Code</span>
+      <span class="word-tag wt-md wt-blue">Vite</span>
+      <span class="word-tag wt-md wt-green">PostgreSQL</span>
+      <span class="word-tag wt-md wt-red">Urgence</span>
+      <span class="word-tag wt-md wt-yellow">Auth</span>
+      <span class="word-tag wt-md wt-purple">PWA</span>
+      <span class="word-tag wt-md wt-white">Node.js</span>
+
+      <span class="word-tag wt-sm wt-blue">REST API</span>
+      <span class="word-tag wt-sm wt-green">RLS</span>
+      <span class="word-tag wt-sm wt-white">Mobile-first</span>
+      <span class="word-tag wt-sm wt-red">Profil médical</span>
+      <span class="word-tag wt-sm wt-yellow">JWT / ID Token</span>
+      <span class="word-tag wt-sm wt-purple">Vercel</span>
+      <span class="word-tag wt-sm wt-white">Scanner</span>
+      <span class="word-tag wt-sm wt-green">CORS</span>
+      <span class="word-tag wt-sm wt-blue">React Router</span>
+      <span class="word-tag wt-sm wt-red">Groupe sanguin</span>
+      <span class="word-tag wt-sm wt-white">Contact urgence</span>
+      <span class="word-tag wt-sm wt-yellow">UUID</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 5 — MÉTHODOLOGIE
+  ══════════════════════════════════════ -->
+  <div class="slide bg-slate" id="slide-5">
+    <span class="slide-num">06 / 09</span>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="eyebrow">Approche</div>
+        <h2 class="slide-title">Méthodologie <span class="accent">utilisée</span></h2>
+        <div class="divider"></div>
+        <p class="subtitle">
+          Le projet suit une approche <strong style="color:white">agile itérative</strong> — analyse
+          des besoins, conception UML, développement par fonctionnalité, tests et déploiement continu.
+        </p>
+
+        <div class="stack-row" style="justify-content:flex-start; margin-top:16px">
+          <span class="stack-pill"><span>📋</span> Cahier des charges</span>
+          <span class="stack-pill"><span>📐</span> UML</span>
+          <span class="stack-pill"><span>🔁</span> Itératif</span>
+          <span class="stack-pill"><span>🧪</span> Tests fonctionnels</span>
+          <span class="stack-pill"><span>🚀</span> Vercel Deploy</span>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot">1</div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <h3>Analyse & Cahier des charges</h3>
+              <p>Identification des acteurs, besoins fonctionnels et non-fonctionnels.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot">2</div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <h3>Conception UML</h3>
+              <p>Diagrammes de cas d'utilisation, classes et séquence.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot">3</div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <h3>Développement Frontend + Backend</h3>
+              <p>React/Vite pour l'UI, Express.js pour l'API REST, Supabase pour la BDD.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot">4</div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <h3>Tests & Validation</h3>
+              <p>Tests fonctionnels manuels sur mobile et desktop.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot">5</div>
+            </div>
+            <div class="tl-content">
+              <h3>Déploiement Vercel</h3>
+              <p>Frontend + API serverless déployés sur Vercel avec variables d'environnement sécurisées.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 6 — CONCEPTION / DIAGRAMMES
+  ══════════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-6">
+    <span class="slide-num">07 / 09</span>
+    <div class="eyebrow">UML</div>
+    <h2 class="slide-title">Conception — <span class="accent">3 Diagrammes</span></h2>
+    <div class="divider"></div>
+
+    <div class="cards-grid cards-grid-3" style="margin-top:24px; max-width:1000px">
+
+      <!-- Usecase -->
+      <div class="card" style="display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; align-items:center; gap:10px">
+          <div class="card-icon blue" style="margin-bottom:0">👥</div>
+          <h3 style="margin:0">Cas d'utilisation</h3>
+        </div>
+        <div class="uml-wrap" style="max-height:220px; background:#1e2a3a; padding:6px">
+          <img src="uml/usecase.png" alt="Diagramme de cas d'utilisation LifeLine"
+               onerror="this.parentElement.innerHTML='<div style=\'padding:24px; text-align:center; color:rgba(255,255,255,.4); font-size:.8rem\'>📄 usecase.png<br><small>docs/uml/usecase.png</small></div>'" />
+        </div>
+        <p style="font-size:.78rem; color:rgba(255,255,255,.45)">
+          2 acteurs : <strong style="color:white">Utilisateur</strong> &
+          <strong style="color:white">Secouriste</strong> — 17 cas d'utilisation
+        </p>
+      </div>
+
+      <!-- Classes -->
+      <div class="card" style="display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; align-items:center; gap:10px">
+          <div class="card-icon" style="margin-bottom:0">🗂️</div>
+          <h3 style="margin:0">Diagramme de classes</h3>
+        </div>
+        <div class="uml-wrap" style="max-height:220px; background:#1e2a3a; padding:6px">
+          <img src="uml/class.png" alt="Diagramme de classes LifeLine"
+               onerror="this.parentElement.innerHTML='<div style=\'padding:24px; text-align:center; color:rgba(255,255,255,.4); font-size:.8rem\'>📄 class.png<br><small>docs/uml/class.png</small></div>'" />
+        </div>
+        <p style="font-size:.78rem; color:rgba(255,255,255,.45)">
+          4 classes : <strong style="color:white">Utilisateur · ProfilMedical · DocumentMedical · JournalUrgence</strong>
+        </p>
+      </div>
+
+      <!-- Sequence -->
+      <div class="card" style="display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; align-items:center; gap:10px">
+          <div class="card-icon yellow" style="margin-bottom:0">🔄</div>
+          <h3 style="margin:0">Diagramme de séquence</h3>
+        </div>
+        <div class="uml-wrap" style="max-height:220px; background:#1e2a3a; padding:6px">
+          <img src="uml/sequence.png" alt="Diagramme de séquence LifeLine"
+               onerror="this.parentElement.innerHTML='<div style=\'padding:24px; text-align:center; color:rgba(255,255,255,.4); font-size:.8rem\'>📄 sequence.png<br><small>docs/uml/sequence.png</small></div>'" />
+        </div>
+        <p style="font-size:.78rem; color:rgba(255,255,255,.45)">
+          Flux : <strong style="color:white">Login Firebase → Sync Backend → Profil Supabase → QR → Urgence</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 7 — ARCHITECTURE BACKEND MVC
+  ══════════════════════════════════════ -->
+  <div class="slide bg-purple" id="slide-7">
+    <span class="slide-num">08 / 09</span>
+    <div class="two-col" style="gap:36px">
+      <div class="col-left">
+        <div class="eyebrow">Backend</div>
+        <h2 class="slide-title">Architecture <span class="accent">MVC</span></h2>
+        <div class="divider"></div>
+        <p class="subtitle">
+          Le backend Express.js suit un pattern <strong style="color:white">MVC strict</strong> —
+          séparation claire entre la logique métier, l'accès aux données et la couche de présentation.
+        </p>
+
+        <div class="arch-diagram" style="margin-top:16px">
+          <div class="arch-row">
+            <div class="arch-box arch-red" style="min-width:160px">
+              <div class="arch-icon">📱</div>
+              <div class="arch-label">Frontend React</div>
+              <div class="arch-sub">Vite · React Router</div>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ HTTPS / REST</div>
+          <div class="arch-row" style="gap:12px">
+            <div class="arch-box arch-yellow">
+              <div class="arch-icon">🔑</div>
+              <div class="arch-label">Firebase Auth</div>
+              <div class="arch-sub">ID Token</div>
+            </div>
+            <div class="arch-box arch-blue">
+              <div class="arch-icon">⚙️</div>
+              <div class="arch-label">Express API</div>
+              <div class="arch-sub">MVC · REST</div>
+            </div>
+          </div>
+          <div class="arch-arrow">↕ Service Role Key</div>
+          <div class="arch-row">
+            <div class="arch-box arch-green" style="min-width:160px">
+              <div class="arch-icon">🗄️</div>
+              <div class="arch-label">Supabase / PostgreSQL</div>
+              <div class="arch-sub">RLS · UUID · pgcrypto</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <div class="mvc-stack">
+          <div class="mvc-layer" style="background:rgba(220,38,38,.12); border-color:rgba(220,38,38,.25)">
+            <div class="mvc-icon">🛣️</div>
+            <div class="mvc-info">
+              <h3>Routes</h3>
+              <p>Définition des endpoints REST</p>
+            </div>
+            <div class="mvc-files">
+              <span class="tag">authRoutes</span>
+              <span class="tag">userRoutes</span>
+              <span class="tag">qrRoutes</span>
+              <span class="tag">emergencyRoutes</span>
+            </div>
+          </div>
+
+          <div class="mvc-layer" style="background:rgba(37,99,235,.12); border-color:rgba(37,99,235,.25)">
+            <div class="mvc-icon">🎮</div>
+            <div class="mvc-info">
+              <h3>Controllers</h3>
+              <p>Logique de traitement des requêtes</p>
+            </div>
+            <div class="mvc-files">
+              <span class="tag">authController</span>
+              <span class="tag">userController</span>
+              <span class="tag">qrController</span>
+              <span class="tag">emergencyController</span>
+            </div>
+          </div>
+
+          <div class="mvc-layer" style="background:rgba(16,185,129,.12); border-color:rgba(16,185,129,.25)">
+            <div class="mvc-icon">🗄️</div>
+            <div class="mvc-info">
+              <h3>Models</h3>
+              <p>Accès aux données Supabase</p>
+            </div>
+            <div class="mvc-files">
+              <span class="tag">User</span>
+              <span class="tag">MedicalProfile</span>
+              <span class="tag">EmergencyLog</span>
+            </div>
+          </div>
+
+          <div class="mvc-layer" style="background:rgba(245,158,11,.12); border-color:rgba(245,158,11,.25)">
+            <div class="mvc-icon">🛡️</div>
+            <div class="mvc-info">
+              <h3>Middlewares</h3>
+              <p>Auth · DB check · Error handler</p>
+            </div>
+            <div class="mvc-files">
+              <span class="tag">authMiddleware</span>
+              <span class="tag">databaseMiddleware</span>
+              <span class="tag">errorMiddleware</span>
+            </div>
+          </div>
+
+          <div class="mvc-layer" style="background:rgba(139,92,246,.12); border-color:rgba(139,92,246,.25)">
+            <div class="mvc-icon">⚙️</div>
+            <div class="mvc-info">
+              <h3>Services & Utils</h3>
+              <p>Firebase verify · QR · Email · Validators</p>
+            </div>
+            <div class="mvc-files">
+              <span class="tag">firebaseAuthService</span>
+              <span class="tag">qrService</span>
+              <span class="tag">profileService</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 8 — DÉMONSTRATION
+  ══════════════════════════════════════ -->
+  <div class="slide bg-teal" id="slide-8">
+    <span class="slide-num">09 / 09</span>
+    <div class="eyebrow" style="color:#6ee7b7">Démonstration</div>
+    <h2 class="slide-title">Parcours <span style="color:#fde68a">utilisateur</span></h2>
+    <div class="divider" style="background:#6ee7b7"></div>
+
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(220,38,38,.1)">🏠</div>
+        <div class="demo-info">
+          <h3>1. Splash / Onboarding</h3>
+          <p>3 slides animés présentant les fonctionnalités de l'app</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(37,99,235,.1)">🔐</div>
+        <div class="demo-info">
+          <h3>2. Authentification</h3>
+          <p>Login / Register via Firebase Auth — Email ou Google</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(16,185,129,.1)">📊</div>
+        <div class="demo-info">
+          <h3>3. Dashboard</h3>
+          <p>Taux de complétude du dossier médical en temps réel</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(245,158,11,.1)">🩺</div>
+        <div class="demo-info">
+          <h3>4. Profil médical</h3>
+          <p>Allergies · Maladies · Médicaments · Contact d'urgence</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(139,92,246,.1)">📲</div>
+        <div class="demo-info">
+          <h3>5. QR Code</h3>
+          <p>Génération, téléchargement et partage du QR personnel</p>
+        </div>
+      </div>
+      <div class="demo-card">
+        <div class="demo-screen" style="background:rgba(220,38,38,.15)">🚨</div>
+        <div class="demo-info">
+          <h3>6. Fiche d'urgence</h3>
+          <p>Page publique accessible sans compte — bouton d'appel direct</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; display:flex; align-items:center; gap:12px; background:rgba(0,0,0,.2); border-radius:12px; padding:14px 22px; border:1px solid rgba(255,255,255,.1)">
+      <span style="font-size:28px">🎬</span>
+      <div>
+        <p style="color:white; font-weight:700; font-size:.95rem">Vidéo de démonstration</p>
+        <p style="color:rgba(255,255,255,.5); font-size:.82rem">Parcours complet — Inscription → Profil → QR → Scan → Fiche urgence</p>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:8px">
+        <span class="badge badge-blue">📱 Mobile</span>
+        <span class="badge">🖥️ Desktop</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ─── Navigation ─── -->
+<div class="nav">
+  <button class="nav-btn nav-btn-prev" id="btnPrev" onclick="changeSlide(-1)" disabled>
+    ←
+  </button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn nav-btn-next" id="btnNext" onclick="changeSlide(1)">
+    →
+  </button>
+</div>
+
+<script>
+  const TOTAL = 9;
+  let current = 0;
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsEl = document.getElementById('dots');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+
+  // Build dots
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('prev');
+
+    setTimeout(() => {
+      slides[current].classList.remove('prev');
+      current = n;
+      slides[current].classList.add('active');
+      updateUI();
+    }, 10);
+
+    current = n;
+
+    // Update dots
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === n);
+    });
+
+    btnPrev.disabled = n === 0;
+    btnNext.disabled = n === TOTAL - 1;
+  }
+
+  function updateUI() {
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === TOTAL - 1;
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next < 0 || next >= TOTAL) return;
+    goTo(next);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+    if (e.key === 'ArrowLeft')                   { e.preventDefault(); changeSlide(-1); }
+  });
+
+  // Touch/swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend',   e => {
+    const diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+</script>
+</body>
+</html>
